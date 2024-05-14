@@ -1,0 +1,105 @@
+@startuml ufam-explore-ER
+hide circle
+skinparam linetype polyline
+
+entity "Usuario" {
+   * id: string <<generated>>
+   --
+   * perfilId : string <<FK>>
+   * nome: text
+   * username: text
+   * email: text
+   * senha: text
+   * data_cadastro: date
+   * funcao: text
+   * foto_de_perfil?: text
+   * descricao?: text
+   * cnpj?: text
+}
+
+entity "Evento" {
+   * id: text <<generated>>
+   --
+   * postagem_id: text <<FK>>
+   * titulo: text
+   * descricao: text
+   * localizacao: text
+   * imagem?: text
+   * data: date
+}
+
+entity "Postagem" {
+   * id: text <<generated>>
+   --
+   * user_id: text <<FK>>
+   * tag_id: text <<FK>>
+   * titulo: text
+   * descricao: text
+   * data_postagem: date
+   * imagem: text
+   * data_evento: date
+}
+
+entity "Tag" {
+   * id: text <<generated>>
+   --
+   * nome: text
+}
+
+entity "Comentario" {
+   * id: text <<generated>>
+   --
+   * user_id: text <<FK>>
+   * postagem_id: text <<FK>>
+   * descricao: text
+   * data: date
+}
+
+entity "Upvote" {
+   * id: text <<generated>>
+   --
+   * user_id: text <<FK>>
+   * postagem_id: text <<FK>>
+   * quantidade: int
+   * data: date
+}
+
+entity "Downvote" {
+   * id: text <<generated>>
+   --
+   * user_id: text <<FK>>
+   * postagem_id: text <<FK>>
+   * quantidade: int
+   * data: date
+}
+
+entity "Salvo" {
+   * id: text <<generated>>
+   --
+   * user_id: text <<FK>>
+   * postagem_id: text <<FK>>
+   * data: date
+}
+
+entity "Perfil" {
+   * id: text <<generated>>
+   --
+   * nome: text
+}
+
+Usuario ||--o{ Postagem : "cria"
+Usuario ||--o{ Comentario : "escreve"
+Usuario }|--o{ Upvote : "dá"
+Usuario }|--o{ Downvote : "dá"
+Usuario }|--o{ Salvo : "salva"
+Usuario ||--|| Perfil : "tem"
+
+Salvo }o--o{ Postagem : "é salvo"
+Postagem }o--|{ Tag : "tem"
+Postagem ||--o{ Comentario : "tem"
+Postagem ||--o{ Upvote : "recebe"
+Postagem ||--o{ Downvote : "recebe"
+Comentario ||--|{ Comentario : "responde"
+Postagem }|--o{ Evento : "gera"
+
+@enduml

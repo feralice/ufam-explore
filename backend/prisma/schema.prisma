@@ -1,38 +1,131 @@
-generator client {
-  provider = "prisma-client-js"
-}
-
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
-model User {
-  id            String      @id @default(uuid())
-  nome          String
-  username      String      @unique
-  email         String      @unique
-  senha         String
-  tipoUsuario   TipoUsuario @relation(fields: [tipoUsuarioId], references: [id])
-  funcao        Funcao      @relation(fields: [funcaoId], references: [id])
-  fotoDePerfil  String
-  biografia     String
-  createdAt     DateTime    @default(now())
-  updatedAt     DateTime    @updatedAt
-  tipoUsuarioId String
-  funcaoId      String
+generator client {
+  provider = "prisma-client-js"
 }
 
-model TipoUsuario {
-  id   String @id @default(uuid())
-  nome String
-  User User[]
+model Usuario {
+  id             String       @id @default(uuid())
+  perfilId       String
+  nome           String
+  username       String
+  email          String
+  senha          String
+  data_cadastro  DateTime
+  funcao         String
+  foto_de_perfil String?
+  descricao      String?
+  cnpj           String?
+  perfil         Perfil       @relation(fields: [perfilId], references: [id])
+  postagens      Postagem[]
+  comentarios    Comentario[]
+  upvotes        Upvote[]
+  downvotes      Downvote[]
+  salvos         Salvo[]
+
+  @@index([perfilId])
 }
 
-model Funcao {
-  id   String @id @default(uuid())
-  nome String
-  User User[]
+model Evento {
+  id          String   @id @default(uuid())
+  postagemId  String
+  titulo      String
+  descricao   String
+  localizacao String
+  imagem      String?
+  data        DateTime
+  postagem    Postagem @relation(fields: [postagemId], references: [id])
+
+  @@index([postagemId])
 }
 
+model Postagem {
+  id            String       @id @default(uuid())
+  userId        String
+  tagId         String
+  titulo        String
+  descricao     String
+  data_postagem DateTime
+  data_evento   DateTime?
+  imagem        String?
+  data          DateTime
+  usuario       Usuario      @relation(fields: [userId], references: [id])
+  tag           Tag          @relation(fields: [tagId], references: [id])
+  comentarios   Comentario[]
+  upvotes       Upvote[]
+  downvotes     Downvote[]
+  salvos        Salvo[]
+  eventos       Evento[]
 
+  @@index([userId])
+  @@index([tagId])
+}
+
+model Tag {
+  id        String     @id @default(uuid())
+  nome      String
+  postagens Postagem[]
+}
+
+model Comentario {
+  id          String       @id @default(uuid())
+  userId      String
+  postagemId  String
+  descricao   String
+  data        DateTime
+  usuario     Usuario      @relation(fields: [userId], references: [id])
+  postagem    Postagem     @relation(fields: [postagemId], references: [id])
+  respostas   Comentario?  @relation("ComentarioRespostas", fields: [respostaId], references: [id])
+  respostaId  String?
+  comentarios Comentario[] @relation("ComentarioRespostas")
+
+  @@index([userId])
+  @@index([postagemId])
+}
+
+model Upvote {
+  id         String   @id @default(uuid())
+  userId     String
+  postagemId String
+  quantidade Int
+  data       DateTime
+  usuario    Usuario  @relation(fields: [userId], references: [id])
+  postagem   Postagem @relation(fields: [postagemId], references: [id])
+
+  @@index([userId])
+  @@index([postagemId])
+}
+
+model Downvote {
+  id         String   @id @default(uuid())
+  userId     String
+  postagemId String
+  quantidade Int
+  data       DateTime
+  usuario    Usuario  @relation(fields: [userId], references: [id])
+  postagem   Postagem @relation(fields: [postagemId], references: [id])
+
+  @@index([userId])
+  @@index([postagemId])
+}
+
+model Salvo {
+  id         String   @id @default(uuid())
+  userId     String
+  postagemId String
+  data       DateTime
+  usuario    Usuario  @relation(fields: [userId], references: [id])
+  postagem   Postagem @relation(fields: [postagemId], references: [id])
+
+  @@index([userId])
+  @@index([postagemId])
+}
+
+model Perfil {
+  id       String    @id @default(uuid())
+  nome     String
+  usuarios Usuario[]
+}

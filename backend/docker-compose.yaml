@@ -5,11 +5,11 @@ services:
     image: postgres:latest
     container_name: ufam-explore
     environment:
-      POSTGRES_DB: ufam-explore
-      POSTGRES_USER: ufam-explore
-      POSTGRES_PASSWORD: ufam-explore
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
     ports:
-      - "5432:5432"
+      - '5432:5432'
     networks:
       - pg-network
     volumes:
@@ -19,10 +19,10 @@ services:
     image: dpage/pgadmin4:latest
     container_name: pg-admin
     environment:
-      PGADMIN_DEFAULT_EMAIL: fernandaalice2003@gmail.com
-      PGADMIN_DEFAULT_PASSWORD: Faod318n
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD}
     ports:
-      - "5050:80"
+      - '5050:80'
     networks:
       - pg-network
 
