@@ -20,6 +20,7 @@ export const BottomNavigation = () => {
         component={FeedScreen}
         options={{
           tabBarLabel: "Pesquisa",
+
           tabBarIcon: () => (
             <MaterialCommunityIcons name="text-search" size={26} />
           ),
