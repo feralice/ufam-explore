@@ -12,13 +12,13 @@ model Usuario {
   perfilId       String
   nome           String
   username       String
-  email          String
+  email          String       @unique
   senha          String
   data_cadastro  DateTime
   funcao         String
   foto_de_perfil String?
   descricao      String?
-  cnpj           String?
+  cnpj           String?      @unique
   perfil         Perfil       @relation(fields: [perfilId], references: [id])
   postagens      Postagem[]
   comentarios    Comentario[]
@@ -126,6 +126,6 @@ model Salvo {
 
 model Perfil {
   id       String    @id @default(uuid())
-  nome     String
+  nome     String    @unique
   usuarios Usuario[]
 }
