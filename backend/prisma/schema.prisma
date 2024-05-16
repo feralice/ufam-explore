@@ -8,120 +8,139 @@ generator client {
 }
 
 model Usuario {
-  id             String       @id @default(uuid())
-  perfilId       String
-  nome           String
-  username       String
-  email          String       @unique
-  senha          String
-  data_cadastro  DateTime
-  funcao         String
-  foto_de_perfil String?
-  descricao      String?
-  cnpj           String?      @unique
-  perfil         Perfil       @relation(fields: [perfilId], references: [id])
-  postagens      Postagem[]
-  comentarios    Comentario[]
-  upvotes        Upvote[]
-  downvotes      Downvote[]
-  salvos         Salvo[]
+  id           String   @id @default(uuid())
+  perfilId     String
+  nome         String
+  username     String
+  email        String   @unique
+  senha        String
+  dataCadastro DateTime
+  funcao       String
+  fotoPerfil   String?
+  biografia    String?
+  cnpj         String?  @unique
 
-  @@index([perfilId])
+  perfil      Perfil       @relation(fields: [perfilId], references: [id])
+  postagens   Postagem[]
+  comentarios Comentario[]
+  upvotes     Upvote[]
+  downvotes   Downvote[]
+  salvos      Salvar[]
 }
 
-model Evento {
-  id          String   @id @default(uuid())
-  postagemId  String
-  titulo      String
-  descricao   String
-  localizacao String
-  imagem      String?
-  data        DateTime
-  postagem    Postagem @relation(fields: [postagemId], references: [id])
+model Curso {
+  id     String @id @default(uuid())
+  nome   String
+  area   Area   @relation(fields: [areaId], references: [id])
+  areaId String
 
-  @@index([postagemId])
+  postagens        Postagem[]
+  cursosEmPostagem CursosEmPostagem[]
 }
 
-model Postagem {
-  id            String       @id @default(uuid())
-  userId        String
-  tagId         String
-  titulo        String
-  descricao     String
-  data_postagem DateTime
-  data_evento   DateTime?
-  imagem        String?
-  data          DateTime
-  usuario       Usuario      @relation(fields: [userId], references: [id])
-  tag           Tag          @relation(fields: [tagId], references: [id])
-  comentarios   Comentario[]
-  upvotes       Upvote[]
-  downvotes     Downvote[]
-  salvos        Salvo[]
-  eventos       Evento[]
-
-  @@index([userId])
-  @@index([tagId])
+model Area {
+  id     String  @id @default(uuid())
+  nome   String
+  cursos Curso[]
 }
 
 model Tag {
-  id        String     @id @default(uuid())
-  nome      String
+  id   String @id @default(uuid())
+  nome String
+
+  postagens      Postagem[]
+  tagsEmPostagem TagsEmPostagem[]
+
+  @@unique([nome])
+}
+
+model Evento {
+  id    String   @id @default(uuid())
+  data  DateTime
+  local String
+  texto String?
+
   postagens Postagem[]
 }
 
-model Comentario {
-  id          String       @id @default(uuid())
-  userId      String
-  postagemId  String
-  descricao   String
-  data        DateTime
-  usuario     Usuario      @relation(fields: [userId], references: [id])
-  postagem    Postagem     @relation(fields: [postagemId], references: [id])
-  respostas   Comentario?  @relation("ComentarioRespostas", fields: [respostaId], references: [id])
-  respostaId  String?
-  comentarios Comentario[] @relation("ComentarioRespostas")
+model Postagem {
+  id        String   @id @default(uuid())
+  titulo    String
+  texto     String
+  data      DateTime
+  usuarioId String
+  eventoId  String?
 
-  @@index([userId])
-  @@index([postagemId])
+  usuario Usuario @relation(fields: [usuarioId], references: [id])
+  evento  Evento? @relation(fields: [eventoId], references: [id])
+
+  comentarios      Comentario[]
+  upvotes          Upvote[]
+  downvotes        Downvote[]
+  salvos           Salvar[]
+  tags             Tag[]
+  cursos           Curso[]
+  tagsEmPostagem   TagsEmPostagem[]
+  cursosEmPostagem CursosEmPostagem[]
+}
+
+model Comentario {
+  id         String   @id @default(uuid())
+  data       DateTime
+  conteudo   String
+  usuarioId  String
+  postagemId String
+
+  usuario  Usuario  @relation(fields: [usuarioId], references: [id])
+  postagem Postagem @relation(fields: [postagemId], references: [id])
 }
 
 model Upvote {
   id         String   @id @default(uuid())
-  userId     String
+  usuarioId  String
   postagemId String
-  quantidade Int
   data       DateTime
-  usuario    Usuario  @relation(fields: [userId], references: [id])
-  postagem   Postagem @relation(fields: [postagemId], references: [id])
 
-  @@index([userId])
-  @@index([postagemId])
+  usuario  Usuario  @relation(fields: [usuarioId], references: [id])
+  postagem Postagem @relation(fields: [postagemId], references: [id])
 }
 
 model Downvote {
   id         String   @id @default(uuid())
-  userId     String
+  usuarioId  String
   postagemId String
-  quantidade Int
   data       DateTime
-  usuario    Usuario  @relation(fields: [userId], references: [id])
-  postagem   Postagem @relation(fields: [postagemId], references: [id])
 
-  @@index([userId])
-  @@index([postagemId])
+  usuario  Usuario  @relation(fields: [usuarioId], references: [id])
+  postagem Postagem @relation(fields: [postagemId], references: [id])
 }
 
-model Salvo {
+model Salvar {
   id         String   @id @default(uuid())
-  userId     String
+  usuarioId  String
   postagemId String
   data       DateTime
-  usuario    Usuario  @relation(fields: [userId], references: [id])
-  postagem   Postagem @relation(fields: [postagemId], references: [id])
 
-  @@index([userId])
-  @@index([postagemId])
+  usuario  Usuario  @relation(fields: [usuarioId], references: [id])
+  postagem Postagem @relation(fields: [postagemId], references: [id])
+}
+
+model TagsEmPostagem {
+  id         String @id @default(uuid())
+  tagId      String
+  postagemId String
+
+  tag      Tag      @relation(fields: [tagId], references: [id])
+  postagem Postagem @relation(fields: [postagemId], references: [id])
+}
+
+model CursosEmPostagem {
+  id         String @id @default(uuid())
+  cursoId    String
+  postagemId String
+
+  curso    Curso    @relation(fields: [cursoId], references: [id])
+  postagem Postagem @relation(fields: [postagemId], references: [id])
 }
 
 model Perfil {
