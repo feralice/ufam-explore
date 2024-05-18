@@ -8,11 +8,17 @@ import {
   Post,
   UnauthorizedException,
 } from '@nestjs/common';
-import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import {
+  ApiBearerAuth,
+  ApiOperation,
+  ApiResponse,
+  ApiTags,
+} from '@nestjs/swagger';
 import { CreateProfileDto } from './dto/create-profile-request';
 import { CreateProfileResponse } from './dto/create-profile-response';
 import { ProfileService } from './profile.service';
 
+@ApiBearerAuth()
 @Controller('profile')
 @ApiTags('Profile')
 export class ProfileController {
@@ -40,7 +46,9 @@ export class ProfileController {
     description: 'Perfil já existe',
     type: ConflictException,
   })
-  create(@Body() createProfile: CreateProfileDto) {
+  create(
+    @Body() createProfile: CreateProfileDto,
+  ): Promise<CreateProfileResponse> {
     return this.profileService.create(createProfile);
   }
 
@@ -50,7 +58,7 @@ export class ProfileController {
     status: HttpStatus.OK,
     type: CreateProfileResponse,
   })
-  findAll() {
+  findAll(): Promise<CreateProfileResponse[]> {
     return this.profileService.findAll();
   }
 }

@@ -9,5 +9,5 @@ export class CreateProfileDto {
     description: 'Nome do perfil',
     example: 'Empresa',
   })
-  name: string;
+  nome: string;
 }

@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/config/prisma/prisma.service';
-import { CreateProfileDto } from '../dto/create-profile-request';
+import { CreateProfileDto } from './dto/create-profile-request';
 
 @Injectable()
 export class ProfileRepository {
@@ -9,7 +9,7 @@ export class ProfileRepository {
   async create(profileData: CreateProfileDto) {
     return this.prisma.perfil.create({
       data: {
-        nome: profileData.name,
+        nome: profileData.nome,
       },
     });
   }

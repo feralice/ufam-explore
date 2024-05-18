@@ -8,17 +8,18 @@ generator client {
 }
 
 model Usuario {
-  id           String   @id @default(uuid())
-  perfilId     String
-  nome         String
-  username     String
-  email        String   @unique
-  senha        String
-  dataCadastro DateTime
-  funcao       String
-  fotoPerfil   String?
-  biografia    String?
-  cnpj         String?  @unique
+  id         String   @id @default(uuid())
+  perfilId   Int
+  nome       String
+  username   String
+  email      String   @unique
+  senha      String
+  funcao     String
+  fotoPerfil String?
+  biografia  String?
+  cnpj       String?  @unique
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
 
   perfil      Perfil       @relation(fields: [perfilId], references: [id])
   postagens   Postagem[]
@@ -144,7 +145,7 @@ model CursosEmPostagem {
 }
 
 model Perfil {
-  id       String    @id @default(uuid())
+  id       Int       @id @default(autoincrement())
   nome     String    @unique
   usuarios Usuario[]
 }
