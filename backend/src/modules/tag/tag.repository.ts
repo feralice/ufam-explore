@@ -16,4 +16,25 @@ export class TagRepository {
   async findAll() {
     return this.prisma.tag.findMany();
   }
+
+  async findByName(nome: string) {
+    return this.prisma.tag.findFirst({
+      where: {
+        nome,
+      },
+    });
+  }
+
+  async findIdsByName(tags: string[]) {
+    return this.prisma.tag.findMany({
+      where: {
+        nome: {
+          in: tags,
+        },
+      },
+      select: {
+        id: true,
+      },
+    });
+  }
 }

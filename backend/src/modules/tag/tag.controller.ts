@@ -22,7 +22,7 @@ export class TagController {
     description: 'The tag has been successfully created',
     type: CreateTagResponseDto,
   })
-  async create(@Param('nome') nome: string): Promise<Tag> {
+  async create(@Param('nome') nome: string): Promise<CreateTagResponseDto> {
     return this.tagService.create(nome);
   }
 
@@ -35,4 +35,14 @@ export class TagController {
   findAll(): Promise<Tag[]> {
     return this.tagService.findAll();
   }
+
+  @Get('by-name/:nome')
+   @ApiOperation({ summary: 'Get tag by name' })
+   @ApiResponse({
+     status: HttpStatus.OK,
+     description: 'Tag by name',
+   })
+   findByName(@Param('nome') nome: string): Promise<CreateTagResponseDto> {
+     return this.tagService.findByName(nome);
+   }
 }

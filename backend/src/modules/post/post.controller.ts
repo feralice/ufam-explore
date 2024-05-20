@@ -1,15 +1,14 @@
+import { Body, Controller, HttpStatus, Post } from '@nestjs/common';
 import {
-  Body,
-  Controller,
-  Delete,
-  Get,
-  Param,
-  Patch,
-  Post,
-} from '@nestjs/common';
-import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
-import { CreatePostDto } from './dto/create-post.dto';
-import { UpdatePostDto } from './dto/update-post.dto';
+  ApiBearerAuth,
+  ApiOperation,
+  ApiResponse,
+  ApiTags,
+} from '@nestjs/swagger';
+import { Public } from 'src/decorators/auth.decorator';
+import { UserId } from 'src/decorators/user-id.decorator';
+import { CreatePostResponse } from './dto/create/create-post-response.dto';
+import { CreatePostDto } from './dto/create/create-post.-request.dto';
 import { PostService } from './post.service';
 
 @ApiBearerAuth()
@@ -18,28 +17,18 @@ import { PostService } from './post.service';
 export class PostController {
   constructor(private readonly postService: PostService) {}
 
+  @Public()
   @Post()
-  create(@Body() createPostDto: CreatePostDto) {
-    return this.postService.create(createPostDto);
-  }
-
-  @Get()
-  findAll() {
-    return this.postService.findAll();
-  }
-
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.postService.findOne(+id);
-  }
-
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updatePostDto: UpdatePostDto) {
-    return this.postService.update(+id, updatePostDto);
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.postService.remove(+id);
+  @ApiOperation({ summary: 'Create a post' })
+  @ApiResponse({
+    status: HttpStatus.CREATED,
+    description: 'The post has been successfully created',
+    type: CreatePostResponse,
+  })
+  create(
+    @UserId() userId: string,
+    @Body() createPostDto: CreatePostDto,
+  ): Promise<CreatePostResponse> {
+    return this.postService.create(userId, createPostDto);
   }
 }

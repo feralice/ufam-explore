@@ -10,6 +10,7 @@ import { ProfileController } from './modules/profile/profile.controller';
 import { ProfileModule } from './modules/profile/profile.module';
 import { TagModule } from './modules/tag/tag.module';
 import { UserModule } from './modules/user/user.module';
+import { EventModule } from './modules/event/event.module';
 
 @Module({
   controllers: [ProfileController],
@@ -21,6 +22,7 @@ import { UserModule } from './modules/user/user.module';
     JwtModule,
     PostModule,
     TagModule,
+    EventModule,
   ],
   providers: [
     { provide: APP_GUARD, useClass: RolesGuard },

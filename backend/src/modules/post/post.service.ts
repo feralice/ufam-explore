@@ -1,26 +1,36 @@
+// post.service.ts
 import { Injectable } from '@nestjs/common';
-import { CreatePostDto } from './dto/create-post.dto';
-import { UpdatePostDto } from './dto/update-post.dto';
+import { TagRepository } from '../tag/tag.repository';
+import { CreatePostResponse } from './dto/create/create-post-response.dto';
+import { CreatePostDto } from './dto/create/create-post.-request.dto';
+import { PostRepository } from './post.repository';
 
 @Injectable()
 export class PostService {
-  create(createPostDto: CreatePostDto) {
-    return 'This action adds a new post';
-  }
+  constructor(
+    private readonly postRepository: PostRepository,
+    private readonly tagRepository: TagRepository,
+  ) {}
 
-  findAll() {
-    return `This action returns all post`;
-  }
+  async create(
+    usuarioId: string,
+    data: CreatePostDto,
+  ): Promise<CreatePostResponse> {
+    try {
+      const post = await this.postRepository.create(usuarioId, data);
+      const tagsIds = await this.tagRepository.findIdsByName(data.tags);
 
-  findOne(id: number) {
-    return `This action returns a #${id} post`;
-  }
+      await this.postRepository.associateTagsWithPosts(
+        post.id,
+        tagsIds.map((tag) => tag.id),
+      );
+      //TODO:: Depois fazer o mesmo para cursos quando for configurado o modulo dele
+      //await this.postRepository.associateCoursesWithPosts(post.id, data.cursos);
 
-  update(id: number, updatePostDto: UpdatePostDto) {
-    return `This action updates a #${id} post`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} post`;
+      return post;
+    } catch (error) {
+      console.error(error);
+      throw new Error('Error creating post');
+    }
   }
 }
