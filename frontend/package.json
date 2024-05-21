@@ -24,7 +24,8 @@
     "react-native-paper": "^5.12.3",
     "react-native-web": "~0.19.10",
     "react-redux": "^9.1.2",
-    "redux": "^5.0.1"
+    "redux": "^5.0.1",
+    "start": "^5.1.0"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",
