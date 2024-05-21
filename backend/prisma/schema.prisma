@@ -68,7 +68,7 @@ model Postagem {
   id        String   @id @default(uuid())
   titulo    String
   texto     String
-  imagem    String?
+  imagemUrl String?
   usuarioId String
   eventoId  String?
   createdAt DateTime @default(now())

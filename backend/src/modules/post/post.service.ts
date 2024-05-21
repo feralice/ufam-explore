@@ -1,5 +1,5 @@
-// post.service.ts
 import { Injectable } from '@nestjs/common';
+import { CloudinaryService } from 'src/adapters/cloudinary/cloudinary.service';
 import { TagRepository } from '../tag/tag.repository';
 import { CreatePostResponse } from './dto/create/create-post-response.dto';
 import { CreatePostDto } from './dto/create/create-post.-request.dto';
@@ -10,20 +10,25 @@ export class PostService {
   constructor(
     private readonly postRepository: PostRepository,
     private readonly tagRepository: TagRepository,
+    private readonly cloudinaryService: CloudinaryService,
   ) {}
 
   async create(
     usuarioId: string,
     data: CreatePostDto,
+    file?: Express.Multer.File,
   ): Promise<CreatePostResponse> {
     try {
-      const post = await this.postRepository.create(usuarioId, data);
-      const tagsIds = await this.tagRepository.findIdsByName(data.tags);
+      const photoInCloudinary = await this.uploadFileToCloudinary(file);
 
-      await this.postRepository.associateTagsWithPosts(
-        post.id,
-        tagsIds.map((tag) => tag.id),
+      const post = await this.postRepository.create(
+        usuarioId,
+        data,
+        photoInCloudinary.url,
       );
+
+      await this.associateTagsWithPost(post.id, data.tags);
+
       //TODO:: Depois fazer o mesmo para cursos quando for configurado o modulo dele
       //await this.postRepository.associateCoursesWithPosts(post.id, data.cursos);
 
@@ -32,5 +37,24 @@ export class PostService {
       console.error(error);
       throw new Error('Error creating post');
     }
+  }
+
+  private async uploadFileToCloudinary(file: Express.Multer.File) {
+    let imageUpload;
+    if (file) {
+      imageUpload = await this.cloudinaryService.uploadFile(file);
+    } else {
+      console.error('No file provided');
+    }
+
+    return imageUpload;
+  }
+
+  private async associateTagsWithPost(postId: string, tags: string[]) {
+    const tagsIds = await this.tagRepository.findIdsByName(tags);
+    await this.postRepository.associateTagsWithPosts(
+      postId,
+      tagsIds.map((tag) => tag.id),
+    );
   }
 }

@@ -30,6 +30,4 @@ export class CreatePostResponse {
     required: false,
   })
   tags?: CreateTagResponseDto[];
-
-
 }

@@ -1,4 +1,12 @@
-import { Body, Controller, HttpStatus, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  HttpStatus,
+  Post,
+  UploadedFile,
+  UseInterceptors,
+} from '@nestjs/common';
+import { FileInterceptor } from '@nestjs/platform-express';
 import {
   ApiBearerAuth,
   ApiOperation,
@@ -13,22 +21,24 @@ import { PostService } from './post.service';
 
 @ApiBearerAuth()
 @ApiTags('Post')
-@Controller('post')
+@Controller()
+@Public()
 export class PostController {
   constructor(private readonly postService: PostService) {}
 
-  @Public()
-  @Post()
+  @Post('/create-post')
+  @UseInterceptors(FileInterceptor('file'))
   @ApiOperation({ summary: 'Create a post' })
   @ApiResponse({
     status: HttpStatus.CREATED,
     description: 'The post has been successfully created',
     type: CreatePostResponse,
   })
-  create(
+  async create(
     @UserId() userId: string,
     @Body() createPostDto: CreatePostDto,
+    @UploadedFile() file?: Express.Multer.File,
   ): Promise<CreatePostResponse> {
-    return this.postService.create(userId, createPostDto);
+    return await this.postService.create(userId, createPostDto, file);
   }
 }

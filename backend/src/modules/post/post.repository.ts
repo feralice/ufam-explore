@@ -6,13 +6,14 @@ import { CreatePostDto } from './dto/create/create-post.-request.dto';
 export class PostRepository {
   constructor(private readonly prisma: PrismaService) {}
 
-  async create(usuarioId: string, data: CreatePostDto) {
+  async create(usuarioId: string, data: CreatePostDto, imagemUrl?: string) {
     const { titulo, texto, eventoId, tags, cursos } = data;
 
     return await this.prisma.postagem.create({
       data: {
-        titulo,
+        titulo: titulo,
         texto,
+        imagemUrl,
         usuario: { connect: { id: usuarioId } },
         evento: eventoId ? { connect: { id: eventoId } } : undefined,
         tags: tags
