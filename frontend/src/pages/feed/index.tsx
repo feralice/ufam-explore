@@ -1,6 +1,5 @@
 import { ScreenHeight } from "@rneui/base";
 import React from "react";
-
 import {
   Text,
   View,
@@ -9,43 +8,53 @@ import {
   Image,
   TouchableOpacity,
 } from "react-native";
-import { styles } from "./styles";
+import { styles } from "../../components/cards/styles";
 import Icon from "react-native-vector-icons/Ionicons";
 import { Ionicons } from "@expo/vector-icons";
+import { PostCard } from "../../components/cards/index";
 
 export const FeedScreen = () => {
   return (
-    <View style={styles.cardContainer}>
-      <View style={styles.userInfo}>
-        <Image
-          style={styles.imagePerfil}
-          source={require("../../../../frontend/img_test.jpg")}
-        />
-        <Text> @NICK NAME </Text>
-      </View>
-
-      <Image
-        style={styles.imageStyle}
-        source={require("../../../../frontend/img_test.jpg")}
-      />
-
-      <View style={styles.interaction}>
-        <TouchableOpacity style={styles.icon}>
-          <Ionicons name="chatbubbles-outline" size={25}></Ionicons>
+    <View style={ButtonStyles.ButtonContainer}>
+      <View style={ButtonStyles.Background}>
+        <TouchableOpacity style={ButtonStyles.Border}>
+          <Text style={ButtonStyles.texto}> pedding</Text>
         </TouchableOpacity>
-
-        <TouchableOpacity style={styles.icon}>
-          <Ionicons name="arrow-up-outline" size={25}></Ionicons>
-          <Text> 2</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.icon}>
-          <Ionicons name="arrow-down-outline" size={25}></Ionicons>
-          <Text> 3</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.icon}>
-          <Ionicons name="bookmark-outline" size={25}></Ionicons>
+        <TouchableOpacity style={ButtonStyles.Border}>
+          <Text style={ButtonStyles.texto}> pedding </Text>
         </TouchableOpacity>
       </View>
     </View>
   );
 };
+
+const ButtonStyles = StyleSheet.create({
+  ButtonContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  Background: {
+    width: "90%",
+    height: 55,
+    borderWidth: 0.5,
+    borderRadius: 15,
+    flexDirection: "row",
+    alignItems: "center",
+    paddingLeft: 5,
+    paddingRight: 5,
+  },
+  Border: {
+    width: "50%",
+    height: "96%",
+    backgroundColor: "blue",
+    borderRadius: 15,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  texto: {
+    color: "#fff",
+    fontSize: 18,
+    fontWeight: "700",
+  },
+});

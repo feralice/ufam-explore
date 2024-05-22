@@ -59,4 +59,9 @@ export const styles = StyleSheet.create({
     borderRadius: 5,
     padding: "auto",
   },
+
+  container: {
+    flexDirection: "row",
+    justifyContent: "center",
+  },
 });
