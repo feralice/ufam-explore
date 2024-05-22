@@ -63,5 +63,6 @@ export const styles = StyleSheet.create({
   container: {
     flexDirection: "row",
     justifyContent: "center",
+    marginTop: -35,
   },
 });
