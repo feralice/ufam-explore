@@ -1,7 +1,9 @@
 import {
   Body,
   Controller,
+  Get,
   HttpStatus,
+  Param,
   Post,
   UploadedFile,
   UseInterceptors,
@@ -40,5 +42,16 @@ export class PostController {
     @UploadedFile() file?: Express.Multer.File,
   ): Promise<CreatePostResponse> {
     return await this.postService.create(userId, createPostDto, file);
+  }
+
+  @Get(':postId/upvotes/count')
+  @ApiOperation({ summary: 'Get upvotes count of a post' })
+  @ApiResponse({
+    status: HttpStatus.OK,
+    description: 'Upvotes count retrieved successfully',
+  })
+  @ApiResponse({ status: HttpStatus.NOT_FOUND, description: 'Post not found' })
+  async getUpvotesCount(@Param('postId') postId: string): Promise<number> {
+    return this.postService.getUpvotesInAPost(postId);
   }
 }

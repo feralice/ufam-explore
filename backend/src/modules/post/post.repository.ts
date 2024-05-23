@@ -58,4 +58,17 @@ export class PostRepository {
       );
     }
   }
+
+  async getPostById(postId: string) {
+    return await this.prisma.postagem.findUnique({
+      where: { id: postId },
+      include: {
+        usuario: true,
+        tags: true,
+        cursos: true,
+      },
+    });
+  }
+
+  
 }

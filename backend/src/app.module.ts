@@ -12,6 +12,7 @@ import { ProfileController } from './modules/profile/profile.controller';
 import { ProfileModule } from './modules/profile/profile.module';
 import { TagModule } from './modules/tag/tag.module';
 import { UserModule } from './modules/user/user.module';
+import { VotesModule } from './modules/votes/votes.module';
 
 @Module({
   controllers: [ProfileController],
@@ -25,6 +26,7 @@ import { UserModule } from './modules/user/user.module';
     TagModule,
     EventModule,
     CloudinaryModule,
+    VotesModule,
   ],
   providers: [
     { provide: APP_GUARD, useClass: RolesGuard },

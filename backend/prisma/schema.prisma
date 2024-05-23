@@ -99,10 +99,11 @@ model Comentario {
 }
 
 model Upvote {
-  id         String   @id @default(uuid())
-  usuarioId  String
-  postagemId String
-  data       DateTime
+  id                String   @id @default(uuid())
+  usuarioId         String
+  postagemId        String
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
 
   usuario  Usuario  @relation(fields: [usuarioId], references: [id])
   postagem Postagem @relation(fields: [postagemId], references: [id])
@@ -112,7 +113,8 @@ model Downvote {
   id         String   @id @default(uuid())
   usuarioId  String
   postagemId String
-  data       DateTime
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
 
   usuario  Usuario  @relation(fields: [usuarioId], references: [id])
   postagem Postagem @relation(fields: [postagemId], references: [id])
