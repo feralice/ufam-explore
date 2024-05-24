@@ -3,7 +3,9 @@ import { FAB } from "react-native-paper";
 import { BottomSelection } from "../../components/botton-selection";
 import { PostCard } from "../../components/cards/index";
 import { feedStyles } from "./styles";
-import { PublicacaoCard } from "../../components/publicacao/index";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+
+const Tab = createBottomTabNavigator();
 
 const logoPhoto = require("../../assets/UfamExplore.png");
 
@@ -27,7 +29,6 @@ export const FeedScreen = () => {
           </View>
         </View>
       </ScrollView>
-
       <View style={feedStyles.fabContainer}>
         <FAB
           style={feedStyles.fab}

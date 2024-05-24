@@ -1,5 +1,12 @@
 import React from "react";
-import { View, TextInput, Image, Button, Text } from "react-native";
+import {
+  View,
+  TextInput,
+  Image,
+  Button,
+  Text,
+  TouchableOpacity,
+} from "react-native";
 import AntDesign from "@expo/vector-icons/AntDesign";
 import styles from "./styles";
 
@@ -27,11 +34,21 @@ export const PublicacaoCard = () => {
         />
 
         <View style={styles.Icones}>
-          <AntDesign name="bars" size={24} color="darkblue" />
-          <AntDesign name="team" size={24} color="darkblue" />
-          <AntDesign name="calendar" size={24} color="darkblue" />
-          <AntDesign name="pushpino" size={24} color="darkblue" />
-          <AntDesign name="smileo" size={24} color="darkblue" />
+          <TouchableOpacity>
+            <AntDesign name="bars" size={24} color="darkblue" />
+          </TouchableOpacity>
+          <TouchableOpacity>
+            <AntDesign name="team" size={24} color="darkblue" />
+          </TouchableOpacity>
+          <TouchableOpacity>
+            <AntDesign name="calendar" size={24} color="darkblue" />
+          </TouchableOpacity>
+          <TouchableOpacity>
+            <AntDesign name="pushpino" size={24} color="darkblue" />
+          </TouchableOpacity>
+          <TouchableOpacity>
+            <AntDesign name="smileo" size={24} color="darkblue" />
+          </TouchableOpacity>
         </View>
       </View>
 
