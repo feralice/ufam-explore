@@ -4,7 +4,7 @@ import { BottomSelection } from "../../components/botton-selection";
 import { PostCard } from "../../components/cards/index";
 import { feedStyles } from "./styles";
 
-const logoPhoto = require("../../../assets/UfamExplore.svg");
+const logoPhoto = require("../../assets/UfamExplore.png");
 
 export const FeedScreen = () => {
   return (
