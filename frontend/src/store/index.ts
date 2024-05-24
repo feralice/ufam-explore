@@ -1,8 +1,12 @@
 import { configureStore } from "@reduxjs/toolkit";
-import { profileSlice } from "./profile";
+import { eventSlice } from "./event";
+import { postSlice } from "./post";
+import { userSlice } from "./user";
 
 export const store = configureStore({
   reducer: {
-    profile: profileSlice.reducer,
+    post: postSlice.reducer,
+    event: eventSlice.reducer,
+    user: userSlice.reducer,
   },
 });
