@@ -1,6 +1,7 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import { FeedScreen } from "../../pages/feed";
+import { PostScreen } from "../../pages/postagem";
 
 const Tab = createBottomTabNavigator();
 
@@ -13,7 +14,7 @@ export const BottomNavigation = () => {
     >
       <Tab.Screen
         name="Home"
-        component={FeedScreen}
+        component={PostScreen}
         options={{
           tabBarLabel: "Home",
           tabBarIcon: () => <MaterialCommunityIcons name="home" size={26} />,

@@ -24,7 +24,6 @@ export const FeedScreen = () => {
             <PostCard></PostCard>
             <PostCard></PostCard>
             <PostCard></PostCard>
-            <PublicacaoCard></PublicacaoCard>
           </View>
         </View>
       </ScrollView>

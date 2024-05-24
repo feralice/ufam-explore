@@ -7,7 +7,7 @@ const proporcao = 0.08;
 export const styles = StyleSheet.create({
   cardContainer: {
     width: deviceWidth * (0.8 + proporcao),
-    backgroundColor: "#f3f9ff",
+    backgroundColor: "#FFF",
     height: 250,
     borderRadius: radius,
     shadowColor: "#000",
@@ -64,6 +64,7 @@ export const styles = StyleSheet.create({
   container: {
     flexDirection: "row",
     justifyContent: "center",
+    color: "white",
   },
 
   alignItems: {
