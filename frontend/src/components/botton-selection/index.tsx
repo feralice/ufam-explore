@@ -1,9 +1,8 @@
-import { Image, Text, TouchableOpacity, View } from "react-native";
-import Ionicons from "react-native-vector-icons/Ionicons";
-import { ButtonStyles } from "./styles";
 import { useState } from "react";
+import { Text, TouchableOpacity, View } from "react-native";
+import { ButtonStyles } from "./styles";
 
-export const Botton_navigation = () => {
+export const BottomSelection = () => {
   const [selectedTab, setSelectedTab] = useState(0);
   const styles = ButtonStyles(selectedTab);
   return (

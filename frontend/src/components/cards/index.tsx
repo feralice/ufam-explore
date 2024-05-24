@@ -13,7 +13,9 @@ export const PostCard = () => {
           <Text>@nickname</Text>
         </View>
 
-        <Image style={styles.imageStyle} source={profileImage} />
+        <View style={styles.alignItems}>
+          <Image style={styles.imageStyle} source={profileImage} />
+        </View>
 
         <View style={styles.interaction}>
           <TouchableOpacity style={styles.icon}>

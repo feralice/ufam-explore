@@ -1,34 +1,34 @@
-import { StyleSheet, Dimensions, TouchableOpacity } from "react-native";
+import { StyleSheet } from "react-native";
+import { deviceWidth } from "../../utils/get-device-width";
 
-const deviceWidth = Math.round(Dimensions.get("window").width);
 const radius = 20;
 const proporcao = 0.08;
 
 export const styles = StyleSheet.create({
-  // area para estyle do card
   cardContainer: {
     width: deviceWidth * (0.8 + proporcao),
     backgroundColor: "#f3f9ff",
-    height: 220,
+    height: 250,
     borderRadius: radius,
     shadowColor: "#000",
     shadowOffset: {
       width: 5,
       height: 5,
     },
-    shadowOpacity: 0.9,
+    shadowOpacity: 0.3,
     shadowRadius: 10,
-    elevation: 40,
+    borderColor: "darkblue",
+    borderWidth: 1,
     margin: deviceWidth * 0.06,
   },
 
   imageStyle: {
-    height: 120,
-    width: deviceWidth * (0.78 + proporcao),
+    height: 140,
+    width: "100%",
     borderRadius: radius,
     opacity: 0.9,
-    marginLeft: 5,
-    justifyContent: "flex-start",
+    justifyContent: "center",
+    alignSelf: "center",
   },
 
   imagePerfil: {
@@ -42,15 +42,16 @@ export const styles = StyleSheet.create({
   userInfo: {
     flexDirection: "row",
     justifyContent: "flex-start",
+    alignItems: "center",
+    gap: 10,
     padding: 15,
   },
 
   interaction: {
     flexDirection: "row",
-    justifyContent: "space-evenly",
+    justifyContent: "space-around",
     borderRadius: 5,
-    padding: "auto",
-    paddingTop: 7,
+    padding: 10,
   },
 
   icon: {
@@ -63,6 +64,9 @@ export const styles = StyleSheet.create({
   container: {
     flexDirection: "row",
     justifyContent: "center",
-    marginTop: -35,
+  },
+
+  alignItems: {
+    paddingHorizontal: 10,
   },
 });

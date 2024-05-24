@@ -6,7 +6,11 @@ const Tab = createBottomTabNavigator();
 
 export const BottomNavigation = () => {
   return (
-    <Tab.Navigator>
+    <Tab.Navigator
+      screenOptions={{
+        headerShown: false,
+      }}
+    >
       <Tab.Screen
         name="Home"
         component={FeedScreen}

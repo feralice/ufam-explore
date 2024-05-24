@@ -1,19 +1,20 @@
-import { StyleSheet, Dimensions, TouchableOpacity } from "react-native";
+import { StyleSheet } from "react-native";
 
 export const ButtonStyles = (selectedTab: number) =>
   StyleSheet.create({
     ButtonContainer: {
+      display: "flex",
       flex: 1,
       justifyContent: "center",
       alignItems: "center",
-      marginTop: 50,
+      paddingTop: 30,
       color: "cadetblue",
     },
     Background: {
       width: "90%",
-      height: 55,
-      borderWidth: 0.5,
-      borderRadius: 15,
+      height: 45,
+      justifyContent: "center",
+      borderRadius: 30,
       flexDirection: "row",
       alignItems: "center",
       paddingLeft: 5,
@@ -23,17 +24,21 @@ export const ButtonStyles = (selectedTab: number) =>
       width: "50%",
       height: "96%",
       backgroundColor: selectedTab == 0 ? "darkblue" : "cornflowerblue",
-      borderRadius: 15,
+      borderRadius: 30,
       justifyContent: "center",
       alignItems: "center",
+      borderTopRightRadius: 0,
+      borderBottomRightRadius: 0,
     },
     BorderRight: {
       width: "50%",
       height: "96%",
       backgroundColor: selectedTab == 1 ? "darkblue" : "cornflowerblue",
-      borderRadius: 15,
+      borderRadius: 30,
       justifyContent: "center",
       alignItems: "center",
+      borderTopLeftRadius: 0,
+      borderBottomLeftRadius: 0,
     },
     textoEsquerda: {
       color: selectedTab == 0 ? "#fff" : "#000",
