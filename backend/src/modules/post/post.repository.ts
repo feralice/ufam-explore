@@ -69,6 +69,4 @@ export class PostRepository {
       },
     });
   }
-
-  
 }

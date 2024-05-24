@@ -21,8 +21,6 @@ export class AuthService {
   async login(email: string, password: string): Promise<LoginResponse> {
     const user = await this.userService.getUserByEmail(email);
 
-    
-
     if (!user) {
       throw new NotFoundException(
         `Usuário não encontrado pelo email: ${email}`,
@@ -35,7 +33,10 @@ export class AuthService {
       throw new UnauthorizedException('A senha é inválida');
     }
 
-    const accessToken = this.jwtService.sign({ ...new LoginPayload(user) });
+    const accessToken = this.jwtService.sign({
+      ...new LoginPayload(user),
+      timestamp: Date.now(),
+    });
 
     return {
       accessToken,

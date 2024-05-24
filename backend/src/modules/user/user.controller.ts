@@ -14,6 +14,7 @@ import {
   ApiTags,
 } from '@nestjs/swagger';
 import { Usuario } from '@prisma/client';
+import { Public } from 'src/decorators/auth.decorator';
 import { CreateUserDto } from './dto/create/create-user.dto';
 import { UpdateUserDto } from './dto/update/update-user.dto';
 import { UserService } from './user.service';
@@ -24,6 +25,7 @@ import { UserService } from './user.service';
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
+  @Public()
   @Post('/create')
   @ApiOperation({ summary: 'Create a new user' })
   @ApiResponse({

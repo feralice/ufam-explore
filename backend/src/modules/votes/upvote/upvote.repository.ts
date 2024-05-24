@@ -15,7 +15,7 @@ export class UpvoteRepository {
     });
   }
 
-  async verifyIfUserAlreadyUpvotedPost(userId: string, postId: string) {
+  async verifyIfUserAlreadyUpvotedPost(userId: string, postId: string):Promise<UpvoteResponseDto> {
     return await this.prisma.upvote.findFirst({
       where: {
         usuarioId: userId,
