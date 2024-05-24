@@ -3,6 +3,7 @@ import { FAB } from "react-native-paper";
 import { BottomSelection } from "../../components/botton-selection";
 import { PostCard } from "../../components/cards/index";
 import { feedStyles } from "./styles";
+import { PublicacaoCard } from "../../components/publicacao/index";
 
 const logoPhoto = require("../../assets/UfamExplore.png");
 
@@ -23,6 +24,7 @@ export const FeedScreen = () => {
             <PostCard></PostCard>
             <PostCard></PostCard>
             <PostCard></PostCard>
+            <PublicacaoCard></PublicacaoCard>
           </View>
         </View>
       </ScrollView>

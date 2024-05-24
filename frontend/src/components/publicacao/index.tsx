@@ -1,28 +1,25 @@
-import React from 'react';
-import { View, TextInput, Image, Button, Text } from 'react-native';
-import AntDesign from '@expo/vector-icons/AntDesign';
-import styles from './styles';
+import React from "react";
+import { View, TextInput, Image, Button, Text } from "react-native";
+import AntDesign from "@expo/vector-icons/AntDesign";
+import styles from "./styles";
 
-const PublicacaoCard = () => {
+export const PublicacaoCard = () => {
+  const img = require("../../assets/img_test.jpg");
   return (
     <View style={styles.container}>
       <View style={styles.card}>
         <View style={styles.Perfil}>
-        <Image
-          source={require('./assets/imagem-fundo.jpg')}
-          style={styles.imagePerfil}
-        />
-        <Text> @nickname</Text>
-        <AntDesign name="ellipsis1" size={24} color="darkblue"  style={{ marginLeft: 150 }}/>
+          <Image source={img} style={styles.imagePerfil} />
+          <Text> @nickname</Text>
+          <AntDesign
+            name="ellipsis1"
+            size={24}
+            color="darkblue"
+            style={{ marginLeft: 150 }}
+          />
         </View>
-        <Image
-          source={require('./assets/imagem-fundo.jpg')}
-          style={styles.imagem}
-        />
-        <TextInput
-          placeholder="Título..."
-          style={styles.input}
-        />
+        <Image source={img} style={styles.imagem} />
+        <TextInput placeholder="Título..." style={styles.input} />
         <TextInput
           placeholder="Digite seu texto..."
           multiline
@@ -35,15 +32,11 @@ const PublicacaoCard = () => {
           <AntDesign name="calendar" size={24} color="darkblue" />
           <AntDesign name="pushpino" size={24} color="darkblue" />
           <AntDesign name="smileo" size={24} color="darkblue" />
-        </View> 
+        </View>
       </View>
 
-      <Button
-      title="Publicar"
-      color='darkblue'
-    />
+      <Button title="Publicar" color="darkblue" />
     </View>
-    
   );
 };
 
