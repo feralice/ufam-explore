@@ -1,9 +1,10 @@
-export type Tag = {
+export interface Tag {
   id: string;
   nome: string;
-};
+}
 
-export type PostType = {
+export interface IPost {
+  id: string;
   titulo: string;
   texto: string;
   imagemUrl?: string;
@@ -11,8 +12,20 @@ export type PostType = {
   tags?: Tag[];
   upvote: number;
   downvote: number;
-};
+  usuario: {
+    id: string;
+    username: string;
+  };
+}
 
-export type PostInitialStateType = {
-  post: PostType;
-};
+export interface IPostRequest {
+  titulo: string;
+  texto: string;
+  imagemUrl?: string;
+  eventoId?: string;
+}
+
+export interface PostInitialStateType {
+  post: IPostRequest;
+  posts: IPost[];
+}

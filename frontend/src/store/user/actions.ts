@@ -1,11 +1,11 @@
 import { userSlice } from ".";
 import { store } from "..";
-import { ProfileType, UserType } from "./types";
+import { IProfile, IUser } from "./types";
 
-export const setProfile = (profile: ProfileType) => {
+export const setProfile = (profile: IProfile) => {
   store.dispatch(userSlice.actions.setProfile(profile));
 };
 
-export const setUser = (user: UserType) => {
+export const setUser = (user: IUser) => {
   store.dispatch(userSlice.actions.setUser(user));
 };

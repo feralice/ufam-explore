@@ -24,6 +24,13 @@ export class CreatePostResponse {
   eventoId?: string;
 
   @ApiProperty({
+    type: String,
+    description: 'URL da imagem do post',
+    example: 'http://www.exemplo.com/imagem.jpg',
+  })
+  imagemUrl?: string;
+
+  @ApiProperty({
     type: [CreateTagResponseDto],
     description: 'Tags associadas ao post',
     example: ['Tag1', 'Tag2'],

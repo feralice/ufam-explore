@@ -1,3 +1,4 @@
+// styles.ts
 import { StyleSheet } from "react-native";
 import { deviceWidth } from "../../utils/get-device-width";
 
@@ -8,7 +9,6 @@ export const styles = StyleSheet.create({
   cardContainer: {
     width: deviceWidth * (0.8 + proporcao),
     backgroundColor: "#FFF",
-    height: 250,
     borderRadius: radius,
     shadowColor: "#000",
     shadowOffset: {
@@ -20,6 +20,7 @@ export const styles = StyleSheet.create({
     borderColor: "darkblue",
     borderWidth: 1,
     margin: deviceWidth * 0.06,
+    padding: 10,
   },
 
   imageStyle: {
@@ -52,6 +53,7 @@ export const styles = StyleSheet.create({
     justifyContent: "space-around",
     borderRadius: 5,
     padding: 10,
+    
   },
 
   icon: {
@@ -69,5 +71,15 @@ export const styles = StyleSheet.create({
 
   alignItems: {
     paddingHorizontal: 10,
+  },
+
+  title: {
+    fontSize: 18,
+    fontWeight: "bold",
+    marginBottom: 5,
+  },
+
+  text: {
+    fontSize: 14,
   },
 });

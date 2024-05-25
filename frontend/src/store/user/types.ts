@@ -1,7 +1,7 @@
-export type ProfileType = {
+export interface IProfile {
   id: string;
   nome: Profiles;
-};
+}
 
 export enum Profiles {
   INTERNO = "INTERNO",
@@ -9,7 +9,7 @@ export enum Profiles {
   EMPRESA = "EMPRESA",
 }
 
-export type UserType = {
+export interface IUser {
   perfilId: number;
   nome: string;
   username: string;
@@ -19,9 +19,9 @@ export type UserType = {
   fotoPerfil?: string;
   biografia?: string;
   cnpj?: string;
-};
+}
 
 export type UserInitialStateType = {
-  profile: ProfileType;
-  user: UserType;
+  profile: IProfile;
+  user: IUser;
 };

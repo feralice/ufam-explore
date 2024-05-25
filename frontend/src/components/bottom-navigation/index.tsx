@@ -14,7 +14,7 @@ export const BottomNavigation = () => {
     >
       <Tab.Screen
         name="Home"
-        component={PostScreen}
+        component={FeedScreen}
         options={{
           tabBarLabel: "Home",
           tabBarIcon: () => <MaterialCommunityIcons name="home" size={26} />,
@@ -22,7 +22,7 @@ export const BottomNavigation = () => {
       />
       <Tab.Screen
         name="Settings"
-        component={FeedScreen}
+        component={PostScreen}
         options={{
           tabBarLabel: "Pesquisa",
 

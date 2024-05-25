@@ -69,4 +69,14 @@ export class PostRepository {
       },
     });
   }
+
+  async getAllPosts() {
+    return await this.prisma.postagem.findMany({
+      include: {
+        usuario: true,
+        tags: true,
+        cursos: true,
+      },
+    });
+  }
 }

@@ -96,4 +96,8 @@ export class PostService {
       throw new Error('Error uploading file to Cloudinary');
     }
   }
+
+  async getAllPosts() {
+    return this.postRepository.getAllPosts();
+  }
 }

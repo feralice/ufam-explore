@@ -1,15 +1,29 @@
+import { useEffect } from "react";
 import { Image, ScrollView, View } from "react-native";
 import { FAB } from "react-native-paper";
+import { useSelector } from "react-redux";
 import { BottomSelection } from "../../components/botton-selection";
 import { PostCard } from "../../components/cards/index";
+import { getAllPosts } from "../../services/api";
+import { IStore } from "../../store";
+import { setAllPosts } from "../../store/post/actions";
+import { IPost } from "../../store/post/types";
 import { feedStyles } from "./styles";
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-
-const Tab = createBottomTabNavigator();
 
 const logoPhoto = require("../../assets/UfamExplore.png");
 
 export const FeedScreen = () => {
+  const post = useSelector((store: IStore) => store.post.posts);
+
+  const fetchAllPosts = async () => {
+    const response = await getAllPosts();
+    setAllPosts(response.data);
+  };
+
+  useEffect(() => {
+    fetchAllPosts();
+  }, []);
+
   return (
     <View style={{ flex: 1 }}>
       <ScrollView>
@@ -23,21 +37,14 @@ export const FeedScreen = () => {
           </View>
 
           <View>
-            <PostCard></PostCard>
-            <PostCard></PostCard>
-            <PostCard></PostCard>
+            {post.map((post: IPost) => (
+              <PostCard key={post.id} post={post} />
+            ))}
           </View>
         </View>
       </ScrollView>
       <View style={feedStyles.fabContainer}>
-        <FAB
-          style={feedStyles.fab}
-          icon="pencil"
-          color="white"
-          onPress={() =>
-            console.log("Colocar a navegação pra pagina de fazer postagem")
-          }
-        />
+        <FAB style={feedStyles.fab} icon="pencil" color="white" />
       </View>
     </View>
   );

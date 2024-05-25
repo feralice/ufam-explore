@@ -1,15 +1,20 @@
 import { postSlice } from ".";
 import { store } from "..";
-import { PostType } from "./types";
+import { IPost, IPostRequest } from "./types";
 
-export const setPostData = (post: PostType) => {
+export const setPostData = (post: IPostRequest) => {
   store.dispatch(postSlice.actions.setPostData(post));
 };
 
-export const setUpvote = (upvote: number) => {
-  store.dispatch(postSlice.actions.setUpvote(upvote));
+export const setAllPosts = (posts: IPost[]) => {
+  store.dispatch(postSlice.actions.setAllPosts(posts));
 };
 
-export const setDownvote = (downvote: number) => {
-  store.dispatch(postSlice.actions.setDownvote(downvote));
-};
+
+//export const setUpvote = (upvote: number) => {
+// store.dispatch(postSlice.actions.setUpvote(upvote));
+//};
+
+//export const setDownvote = (downvote: number) => {
+// store.dispatch(postSlice.actions.setDownvote(downvote));
+//};

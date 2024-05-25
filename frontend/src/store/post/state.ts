@@ -6,8 +6,6 @@ export const PostInitialState: PostInitialStateType = {
     texto: "",
     imagemUrl: "",
     eventoId: "",
-    tags: [],
-    upvote: 0,
-    downvote: 0,
   },
+  posts: [],
 };

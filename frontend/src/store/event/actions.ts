@@ -1,7 +1,7 @@
 import { eventSlice } from ".";
 import { store } from "..";
-import { EventType } from "./types";
+import { IEvent } from "./types";
 
-export const setEventData = (eventData: EventType) => {
+export const setEventData = (eventData: IEvent) => {
   store.dispatch(eventSlice.actions.setEventData(eventData));
 };

@@ -5,7 +5,7 @@ import { LoginResponse } from './dto/login-response.dto';
 import { LoginDto } from './dto/login.dto';
 import { Public } from 'src/decorators/auth.decorator';
 
-@Controller('auth')
+@Controller()
 @ApiTags('Auth')
 @Public()
 export class AuthController {
