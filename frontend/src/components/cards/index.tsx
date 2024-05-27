@@ -1,7 +1,6 @@
-// PostCard.tsx
+import { Ionicons } from "@expo/vector-icons"; // Importar Ionicons do expo
 import React from "react";
 import { Image, Text, TouchableOpacity, View } from "react-native";
-import Ionicons from "react-native-vector-icons/Ionicons";
 import { styles } from "./styles";
 import { PostCardProps } from "./types";
 

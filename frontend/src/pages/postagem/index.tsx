@@ -1,18 +1,14 @@
 import AntDesign from "@expo/vector-icons/AntDesign";
+import { useNavigation } from "@react-navigation/native";
 import { useForm } from "react-hook-form";
-import {
-  Button,
-  Image,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  View,
-} from "react-native";
+import { Image, Text, TouchableOpacity, View } from "react-native";
+import { CustomInput } from "../../components/inputs";
 import { createPost } from "../../services/api";
 import { setPostData } from "../../store/post/actions";
 import { PostInitialState } from "../../store/post/state";
 import { IPostRequest } from "../../store/post/types";
 import styles from "./style";
+import { FeedScreenNavigationProp } from "./type";
 
 const img = require("../../assets/img_test.jpg");
 
@@ -23,6 +19,7 @@ export const PostScreen = () => {
       texto: PostInitialState.post.texto,
     },
   });
+  const navigation = useNavigation<FeedScreenNavigationProp>();
 
   const handleClick = handleSubmit(async (data) => {
     setPostData(data);
@@ -34,11 +31,16 @@ export const PostScreen = () => {
       console.log(error);
     }
   });
-
   return (
     <View style={styles.container}>
+      <TouchableOpacity
+        onPress={() => navigation.goBack()}
+        style={styles.backButton}
+      >
+        <AntDesign name="arrowleft" size={24} color="black" />
+      </TouchableOpacity>
       <View style={styles.card}>
-        <View style={styles.Perfil}>
+        <View style={styles.perfil}>
           <Image source={img} style={styles.imagePerfil} />
           <Text> @nickname</Text>
           <AntDesign
@@ -49,19 +51,17 @@ export const PostScreen = () => {
           />
         </View>
         <Image source={img} style={styles.imagem} />
-        <TextInput
+        <CustomInput
           placeholder="Título..."
-          style={styles.input}
           onChangeText={(text) => setValue("titulo", text)}
         />
-        <TextInput
+        <CustomInput
           placeholder="Digite seu texto..."
           multiline
-          style={[styles.input, styles.textArea]}
+          height={200}
           onChangeText={(text) => setValue("texto", text)}
         />
-
-        <View style={styles.Icones}>
+        <View style={styles.icones}>
           <TouchableOpacity>
             <AntDesign name="bars" size={24} color="darkblue" />
           </TouchableOpacity>
@@ -80,7 +80,9 @@ export const PostScreen = () => {
         </View>
       </View>
 
-      <Button title="Publicar" color="darkblue" onPress={handleClick} />
+      <TouchableOpacity style={styles.publicarButton} onPress={handleClick}>
+        <Text style={styles.publicarButtonText}>Publicar</Text>
+      </TouchableOpacity>
     </View>
   );
 };

@@ -1,11 +1,10 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
-import { FeedScreen } from "../../pages/feed";
-import { PostScreen } from "../../pages/postagem";
+import { StackNavigator } from "./stack.routes";
 
 const Tab = createBottomTabNavigator();
 
-export const BottomNavigation = () => {
+export const TabNavigator = () => {
   return (
     <Tab.Navigator
       screenOptions={{
@@ -14,7 +13,7 @@ export const BottomNavigation = () => {
     >
       <Tab.Screen
         name="Home"
-        component={FeedScreen}
+        component={StackNavigator}
         options={{
           tabBarLabel: "Home",
           tabBarIcon: () => <MaterialCommunityIcons name="home" size={26} />,
@@ -22,10 +21,9 @@ export const BottomNavigation = () => {
       />
       <Tab.Screen
         name="Settings"
-        component={PostScreen}
+        component={StackNavigator}
         options={{
           tabBarLabel: "Pesquisa",
-
           tabBarIcon: () => (
             <MaterialCommunityIcons name="text-search" size={26} />
           ),
@@ -33,7 +31,7 @@ export const BottomNavigation = () => {
       />
       <Tab.Screen
         name="Profile"
-        component={FeedScreen}
+        component={StackNavigator}
         options={{
           tabBarLabel: "Perfil",
           tabBarIcon: () => <MaterialCommunityIcons name="account" size={26} />,
