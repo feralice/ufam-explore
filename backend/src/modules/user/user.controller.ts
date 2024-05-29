@@ -1,20 +1,20 @@
 import {
-    Body,
-    Controller,
-    Get,
-    HttpStatus,
-    Param,
-    Patch,
-    Post,
+  Body,
+  Controller,
+  Get,
+  HttpStatus,
+  Param,
+  Patch,
+  Post,
 } from '@nestjs/common';
 import {
-    ApiBearerAuth,
-    ApiOperation,
-    ApiResponse,
-    ApiTags,
+  ApiBearerAuth,
+  ApiOperation,
+  ApiResponse,
+  ApiTags,
 } from '@nestjs/swagger';
 import { Usuario } from '@prisma/client';
-import { Public } from '../../decorators/auth.decorator';
+import { Public } from '../../decorators/Login.decorator';
 import { CreateUserDto } from './dto/create/create-user.dto';
 import { UpdateUserDto } from './dto/update/update-user.dto';
 import { UserService } from './user.service';
