@@ -15,6 +15,7 @@ import {
   ApiResponse,
   ApiTags,
 } from '@nestjs/swagger';
+import { Public } from '../../decorators/auth.decorator';
 import { CreatePostResponse } from './dto/create/create-post-response.dto';
 import { CreatePostDto } from './dto/create/create-post.-request.dto';
 import { GetVotesInAPostResponseDto } from './dto/get-votes/get-votes-response.dto';
@@ -36,22 +37,9 @@ export class PostController {
   })
   async create(
     @Body() createPostDto: CreatePostDto,
-    @Body('userId') userId: string,
+    @Body('userId') userId: '1151183c-0355-43a2-91d0-f9f3453faf27',
     @UploadedFile() file?: Express.Multer.File,
   ): Promise<CreatePostResponse> {
-    if (!userId) {
-      userId =
-        process.env.NODE_ENV === 'development'
-          ? '085869df-c30c-4418-b203-b8f96b775684'
-          : null;
-    }
-    if (!createPostDto.eventoId) {
-      createPostDto.eventoId =
-        process.env.NODE_ENV === 'development'
-          ? '977b0882-3b18-4cf3-b768-2709582bdb22'
-          : null;
-    }
-
     return await this.postService.create(userId, createPostDto, file);
   }
 
@@ -91,6 +79,7 @@ export class PostController {
     return this.postService.getVotesInAPost(postId);
   }
 
+  @Public()
   @Get('/all-posts')
   async getAllPosts() {
     return this.postService.getAllPosts();
