@@ -9,19 +9,14 @@ import {
   UseInterceptors,
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
-import {
-  ApiBearerAuth,
-  ApiOperation,
-  ApiResponse,
-  ApiTags,
-} from '@nestjs/swagger';
+import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { Public } from '../../decorators/auth.decorator';
 import { CreatePostResponse } from './dto/create/create-post-response.dto';
 import { CreatePostDto } from './dto/create/create-post.-request.dto';
 import { GetVotesInAPostResponseDto } from './dto/get-votes/get-votes-response.dto';
 import { PostService } from './post.service';
 
-@ApiBearerAuth()
+@Public()
 @ApiTags('Post')
 @Controller()
 export class PostController {
