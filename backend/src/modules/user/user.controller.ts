@@ -1,17 +1,17 @@
 import {
-  Body,
-  Controller,
-  Get,
-  HttpStatus,
-  Param,
-  Patch,
-  Post,
+    Body,
+    Controller,
+    Get,
+    HttpStatus,
+    Param,
+    Patch,
+    Post,
 } from '@nestjs/common';
 import {
-  ApiBearerAuth,
-  ApiOperation,
-  ApiResponse,
-  ApiTags,
+    ApiBearerAuth,
+    ApiOperation,
+    ApiResponse,
+    ApiTags,
 } from '@nestjs/swagger';
 import { Usuario } from '@prisma/client';
 import { Public } from '../../decorators/auth.decorator';
