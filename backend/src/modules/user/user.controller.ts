@@ -14,7 +14,7 @@ import {
   ApiTags,
 } from '@nestjs/swagger';
 import { Usuario } from '@prisma/client';
-import { Public } from 'src/decorators/auth.decorator';
+import { Public } from 'src/decorators/AuthDecoratorTemp';
 import { CreateUserDto } from './dto/create/create-user.dto';
 import { UpdateUserDto } from './dto/update/update-user.dto';
 import { UserService } from './user.service';

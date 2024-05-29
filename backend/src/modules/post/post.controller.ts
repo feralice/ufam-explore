@@ -10,7 +10,7 @@ import {
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
-import { Public } from 'src/decorators/auth.decorator';
+import { Public } from 'src/decorators/AuthDecoratorTemp';
 import { CreatePostResponse } from './dto/create/create-post-response.dto';
 import { CreatePostDto } from './dto/create/create-post.-request.dto';
 import { GetVotesInAPostResponseDto } from './dto/get-votes/get-votes-response.dto';
