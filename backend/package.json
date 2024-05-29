@@ -7,7 +7,7 @@
   "license": "UNLICENSED",
   "scripts": {
     "build": "nest build",
-    "vercel-build": "dotenv -e env/prod.env -- npx prisma migrate deploy && npm run prisma:generate && npm run build",
+    "vercel-build": "dotenv -e env/prod.env --  npm run prisma:generate && npm run build",
     "vercel-build-dev": "dotenv -e env/dev.env -- npx prisma migrate dev && npm run prisma:generate && npm run build",
     "prisma:generate": "prisma generate",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
