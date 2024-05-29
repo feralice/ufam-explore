@@ -6,9 +6,9 @@
     "android": "npx expo start --android",
     "ios": "npx expo start --ios",
     "web": "npx expo start --web",
-    "start": "env-cmd -f ./env/.env.local npx expo start",
-    "start:dev": "env-cmd -f ./env/.env.development npx expo start",
-    "start:prod": "env-cmd -f ./env/.env.production npx expo start"
+    "start": "env-cmd -f ./env/local.env npx expo start",
+    "start:dev": "env-cmd -f ./env/dev.env npx expo start",
+    "start:prod": "env-cmd -f ./env/prod.env npx expo start"
   },
   "dependencies": {
     "@expo/metro-runtime": "~3.2.1",
