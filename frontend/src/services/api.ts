@@ -12,11 +12,9 @@ export const login = async (
 };
 
 export const createPost = async (
-  userId: string,
   body: ICreatePostRequest
 ): Promise<AxiosResponse<IPostRequest>> => {
   const formData = new FormData();
-  formData.append("userId", userId);
   formData.append("titulo", body.titulo);
   formData.append("texto", body.texto);
 

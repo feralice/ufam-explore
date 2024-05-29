@@ -1,6 +1,7 @@
+// tab.routes.ts
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
-import { StackNavigator } from "./stack.routes";
+import { HomeStackNavigator } from "./stack/stackHome.routes";
 
 const Tab = createBottomTabNavigator();
 
@@ -13,7 +14,7 @@ export const TabNavigator = () => {
     >
       <Tab.Screen
         name="Home"
-        component={StackNavigator}
+        component={HomeStackNavigator}
         options={{
           tabBarLabel: "Home",
           tabBarIcon: () => <MaterialCommunityIcons name="home" size={26} />,
@@ -21,7 +22,7 @@ export const TabNavigator = () => {
       />
       <Tab.Screen
         name="Settings"
-        component={StackNavigator}
+        component={HomeStackNavigator}
         options={{
           tabBarLabel: "Pesquisa",
           tabBarIcon: () => (
@@ -31,7 +32,7 @@ export const TabNavigator = () => {
       />
       <Tab.Screen
         name="Profile"
-        component={StackNavigator}
+        component={HomeStackNavigator}
         options={{
           tabBarLabel: "Perfil",
           tabBarIcon: () => <MaterialCommunityIcons name="account" size={26} />,

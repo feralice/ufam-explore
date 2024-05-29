@@ -3,7 +3,6 @@ import { APP_GUARD } from '@nestjs/core';
 import { JwtModule } from '@nestjs/jwt';
 import { CloudinaryModule } from './adapters/cloudinary/cloudinary.module';
 import { PrismaModule } from './config/prisma/prisma.module';
-import { AuthGuard } from './guard/auth.guard';
 import { RolesGuard } from './guard/types.guard';
 import { AuthModule } from './modules/auth/auth.module';
 import { EventModule } from './modules/event/event.module';
@@ -30,10 +29,11 @@ import { VotesModule } from './modules/votes/votes.module';
   ],
   providers: [
     { provide: APP_GUARD, useClass: RolesGuard },
-    {
-      provide: APP_GUARD,
-      useClass: AuthGuard,
-    },
+    //TODO: Desfazer isso aqui quando o login e cadastro estiverem prontos
+    //{
+    //provide: APP_GUARD,
+    //useClass: AuthGuard,
+    //},
   ],
 })
 export class AppModule {}

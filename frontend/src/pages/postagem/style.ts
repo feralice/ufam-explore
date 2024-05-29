@@ -1,4 +1,5 @@
 import { StyleSheet } from "react-native";
+import { deviceWidth } from "../../utils/get-device-width";
 
 const styles = StyleSheet.create({
   container: {
@@ -6,13 +7,13 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: "#FFFFFF",
-    paddingTop: 50,
-    gap: 10,
+    paddingTop: 70,
+    paddingHorizontal: 20,
   },
   backButton: {
     position: "absolute",
-    top: 50,
-    left: 30,
+    top: 40,
+    left: 20,
   },
   card: {
     backgroundColor: "white",
@@ -20,7 +21,9 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: "darkblue",
     padding: 10,
-    margin: 10,
+    marginVertical: 10,
+    width: "100%",
+    alignItems: "center",
   },
   input: {
     backgroundColor: "rgba(0, 0, 139, 0.2)",
@@ -28,43 +31,47 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: "darkblue",
     padding: 10,
-    margin: 15,
+    marginVertical: 10,
     color: "darkblue",
+    width: "100%",
   },
   textArea: {
     height: 200,
   },
   imagem: {
-    width: 300,
-    height: 200,
+    width: "100%",
+    height: (deviceWidth * 2) / 3,
     borderRadius: 10,
-    margin: 15,
+    marginVertical: 10,
   },
   icones: {
     flexDirection: "row",
     justifyContent: "space-between",
     paddingHorizontal: 20,
     marginTop: 10,
+    width: "100%",
   },
   perfil: {
     flexDirection: "row",
-    justifyContent: "flex-start",
-    padding: 15,
+    alignItems: "center",
+    padding: 10,
+    width: "100%",
   },
   imagePerfil: {
-    display: "flex",
-    alignItems: "center",
     borderRadius: 50,
     width: 30,
     height: 30,
+    marginRight: 10,
   },
   publicarButton: {
     backgroundColor: "darkblue",
     borderRadius: 25,
     paddingVertical: 10,
     paddingHorizontal: 20,
-    width: 150,
+    width: "60%",
     marginTop: 20,
+    alignSelf: "center",
+    marginBottom: 30,
   },
   publicarButtonText: {
     color: "white",

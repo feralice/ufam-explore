@@ -9,14 +9,18 @@ import {
   UseInterceptors,
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
-import { Public } from '../../decorators/auth.decorator';
+import {
+  ApiBearerAuth,
+  ApiOperation,
+  ApiResponse,
+  ApiTags,
+} from '@nestjs/swagger';
 import { CreatePostResponse } from './dto/create/create-post-response.dto';
 import { CreatePostDto } from './dto/create/create-post.-request.dto';
 import { GetVotesInAPostResponseDto } from './dto/get-votes/get-votes-response.dto';
 import { PostService } from './post.service';
 
-@Public()
+@ApiBearerAuth()
 @ApiTags('Post')
 @Controller()
 export class PostController {
@@ -31,10 +35,23 @@ export class PostController {
     type: CreatePostResponse,
   })
   async create(
-    @Body('userId') userId: string,
     @Body() createPostDto: CreatePostDto,
+    @Body('userId') userId: string,
     @UploadedFile() file?: Express.Multer.File,
   ): Promise<CreatePostResponse> {
+    if (!userId) {
+      userId =
+        process.env.NODE_ENV === 'development'
+          ? '085869df-c30c-4418-b203-b8f96b775684'
+          : null;
+    }
+    if (!createPostDto.eventoId) {
+      createPostDto.eventoId =
+        process.env.NODE_ENV === 'development'
+          ? '977b0882-3b18-4cf3-b768-2709582bdb22'
+          : null;
+    }
+
     return await this.postService.create(userId, createPostDto, file);
   }
 

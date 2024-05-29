@@ -22,8 +22,12 @@ export const FeedScreen = () => {
   const navigation = useNavigation<FeedScreenNavigationProp>();
 
   const fetchAllPosts = async () => {
-    const response = await getAllPosts();
-    setAllPosts(response.data);
+    try {
+      const response = await getAllPosts();
+      setAllPosts(response.data);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   useEffect(() => {
