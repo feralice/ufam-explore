@@ -1,6 +1,6 @@
 import { Controller, HttpStatus, Param, Post } from '@nestjs/common';
 import { ApiBearerAuth, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
-import { UserId } from 'src/decorators/user-id.decorator';
+import { UserId } from '../../decorators/user-id.decorator';
 import { DownvoteService } from './downvote/downvote.service';
 import { UpvoteResponseDto } from './upvote/dto/upvote-response.dto';
 import { UpvoteService } from './upvote/upvote.service';

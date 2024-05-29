@@ -1,6 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { Usuario } from '@prisma/client';
-import { encryptPassword } from 'src/utils/encrypted-password';
+import { encryptPassword } from '../../utils/encrypted-password';
 import { CreateUserDto } from './dto/create/create-user.dto';
 import { UpdateUserDto } from './dto/update/update-user.dto';
 import { UserRepository } from './user.repository';

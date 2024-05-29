@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import { CloudinaryModule } from 'src/adapters/cloudinary/cloudinary.module';
+import { CloudinaryModule } from '../../adapters/cloudinary/cloudinary.module';
 import { TagModule } from '../tag/tag.module';
 import { DownvoteRepository } from '../votes/downvote/downvote.repository';
 import { UpvoteRepository } from '../votes/upvote/upvote.repository';

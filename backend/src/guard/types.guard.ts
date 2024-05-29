@@ -6,7 +6,7 @@ import {
 } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import { JwtService } from '@nestjs/jwt';
-import { ROLES_KEY } from '../decorators/Types.decorator';
+import { ROLES_KEY } from '../decorators/roles.decorator';
 import { LoginPayload } from '../modules/auth/dto/login-payload.dto';
 import { UserType } from '../modules/user/enum/user.-types.enum';
 

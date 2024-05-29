@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { CloudinaryService } from 'src/adapters/cloudinary/cloudinary.service';
+import { CloudinaryService } from '../../adapters/cloudinary/cloudinary.service';
 import { TagRepository } from '../tag/tag.repository';
 import { DownvoteRepository } from '../votes/downvote/downvote.repository';
 import { UpvoteRepository } from '../votes/upvote/upvote.repository';

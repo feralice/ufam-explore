@@ -4,7 +4,7 @@ import {
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
-import { PostRepository } from 'src/modules/post/post.repository';
+import { PostRepository } from '../../../modules/post/post.repository';
 import { DownvoteRepository } from './downvote.repository';
 import { DownvoteResponseDto } from './dto/downvote-response.dto';
 
