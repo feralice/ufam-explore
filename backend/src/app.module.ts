@@ -4,7 +4,7 @@ import { JwtModule } from '@nestjs/jwt';
 import { CloudinaryModule } from './adapters/cloudinary/cloudinary.module';
 import { PrismaModule } from './config/prisma/prisma.module';
 import { AuthGuard } from './guard/auth.guard';
-import { RolesGuard } from './guard/roles.guard';
+import { RolesGuard } from './guard/types.guard';
 import { AuthModule } from './modules/auth/auth.module';
 import { EventModule } from './modules/event/event.module';
 import { PostModule } from './modules/post/post.module';
