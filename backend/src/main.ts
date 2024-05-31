@@ -12,18 +12,14 @@ async function bootstrap() {
         'Documentação da API do projeto Ufam Explore, aplicação desenvolvida para a disciplina de Prática em engenharia de software na UFAM',
       )
       .setVersion('1.0')
-      .addBearerAuth()
       .build();
 
     const document = SwaggerModule.createDocument(app, config);
     SwaggerModule.setup('api', app, document);
   }
 
-  app.enableCors({
-    origin: 'http://localhost:8081',
-  });
-
   await app.listen(process.env.PORT || 3000);
+  console.log(`Application is running on: ${await app.getUrl()}`);
 }
 
 bootstrap();
