@@ -1,9 +1,15 @@
-import { Controller, HttpStatus, Param, Post } from '@nestjs/common';
-import { ApiBearerAuth, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { Body, Controller, Get, HttpStatus, Param, Post, Query } from '@nestjs/common';
+import {
+  ApiBearerAuth,
+  ApiOperation,
+  ApiResponse,
+  ApiTags,
+} from '@nestjs/swagger';
 import { UserId } from '../../decorators/user-id.decorator';
 import { DownvoteService } from './downvote/downvote.service';
 import { UpvoteResponseDto } from './upvote/dto/upvote-response.dto';
 import { UpvoteService } from './upvote/upvote.service';
+import { DownvoteResponseDto } from './downvote/dto/downvote-response.dto';
 
 @ApiBearerAuth()
 @ApiTags('Post')
@@ -25,9 +31,9 @@ export class VotesController {
     description: 'Post already upvoted',
   })
   @ApiResponse({ status: HttpStatus.NOT_FOUND, description: 'Post not found' })
-  upvotePost(
-    @UserId() userId: string,
+  async upvotePost(
     @Param('postId') postId: string,
+    @Body('userId') userId: string,
   ): Promise<UpvoteResponseDto> {
     return this.upvoteService.upvotePost(userId, postId);
   }
@@ -43,10 +49,28 @@ export class VotesController {
     description: 'Post already downvoted',
   })
   @ApiResponse({ status: HttpStatus.NOT_FOUND, description: 'Post not found' })
-  downvotePost(
+  async downvotePost(
+    @Query('userId') userId: string,
+    @Param('postId') postId: string,
+  ): Promise<DownvoteResponseDto> {
+    return this.downvoteService.downvotePost(userId, postId);
+  }
+
+  @Get(':postId/votes')
+  @ApiOperation({ summary: 'Get votes in a post' })
+  @ApiResponse({
+    status: HttpStatus.OK,
+    description: 'Votes retrieved successfully',
+  })
+  async getVotesInPost(
     @UserId() userId: string,
     @Param('postId') postId: string,
-  ): Promise<UpvoteResponseDto> {
-    return this.downvoteService.downvotePost(userId, postId);
+  ) {
+    const upvotes = await this.upvoteService.getUpvotesInAPost(userId, postId);
+    const downvotes = await this.downvoteService.getDownvotesInAPost(
+      userId,
+      postId,
+    );
+    return Object.assign({}, upvotes, downvotes);
   }
 }

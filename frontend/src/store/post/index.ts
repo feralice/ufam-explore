@@ -1,6 +1,7 @@
-import { PayloadAction, createSlice } from "@reduxjs/toolkit";
+// reducer.ts
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { PostInitialState } from "./state";
-import { IPost, IPostRequest } from "./types";
+import { IDownvote, IPost, IPostRequest, IUpvote } from "./types";
 
 export const postSlice = createSlice({
   name: "post",
@@ -14,14 +15,15 @@ export const postSlice = createSlice({
       state.posts = action.payload;
       return state;
     },
+    setDownvote: (state, action: PayloadAction<IDownvote>) => {
+      const { postId, quantidade } = action.payload;
+      state.downvotes[postId] = quantidade;
+      return state;
+    },
+    setUpvote: (state, action: PayloadAction<IUpvote>) => {
+      const { postId, quantidade } = action.payload;
+      state.upvotes[postId] = quantidade;
+      return state;
+    },
   },
-  //setUpvote: (state, action: PayloadAction<number>) => {
-  //state.post.upvote = action.payload;
-  // return state;
-
-  // setDownvote: (state, action: PayloadAction<number>) => {
-  // state.post.downvote = action.payload;
-  //return state;
-  //},
-  //},
 });

@@ -25,7 +25,21 @@ export interface IPostRequest {
   eventoId?: string;
 }
 
+export interface IDownvote {
+  postId: string;
+  userId: string;
+  quantidade: number;
+}
+
+export interface IUpvote {
+  postId: string;
+  userId: string;
+  quantidade: number;
+}
+
 export interface PostInitialStateType {
+  downvotes: Record<string, number>;
+  upvotes: Record<string, number>;
   post: IPostRequest;
   posts: IPost[];
 }

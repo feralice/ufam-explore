@@ -12,9 +12,11 @@ export const login = async (
 };
 
 export const createPost = async (
+  userId: string,
   body: ICreatePostRequest
 ): Promise<AxiosResponse<IPostRequest>> => {
   const formData = new FormData();
+  formData.append("userId", userId);
   formData.append("titulo", body.titulo);
   formData.append("texto", body.texto);
 
@@ -28,5 +30,20 @@ export const createPost = async (
 
 export const getAllPosts = async () => {
   const response = await api.get("/all-posts");
+  return response;
+};
+
+export const postUpvoteByPostId = async (postId: string) => {
+  const response = await api.post(`${postId}/upvote`);
+  return response;
+};
+
+export const postDownvoteByPostId = async (postId: string) => {
+  const response = await api.post(`${postId}/downvote`);
+  return response;
+};
+
+export const getVotesInAPost = async (postId: string) => {
+  const response = await api.get(`${postId}/votes/count`);
   return response;
 };

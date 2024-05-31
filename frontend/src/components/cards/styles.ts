@@ -1,4 +1,3 @@
-// styles.ts
 import { StyleSheet } from "react-native";
 import { deviceWidth } from "../../utils/get-device-width";
 
@@ -10,13 +9,6 @@ export const styles = StyleSheet.create({
     width: deviceWidth * (0.8 + proporcao),
     backgroundColor: "#FFF",
     borderRadius: radius,
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 5,
-      height: 5,
-    },
-    shadowOpacity: 0.3,
-    shadowRadius: 10,
     borderColor: "darkblue",
     borderWidth: 1,
     margin: deviceWidth * 0.06,
@@ -53,7 +45,6 @@ export const styles = StyleSheet.create({
     justifyContent: "space-around",
     borderRadius: 5,
     padding: 10,
-    
   },
 
   icon: {

@@ -1,7 +1,7 @@
 import AntDesign from "@expo/vector-icons/AntDesign";
 import { useNavigation } from "@react-navigation/native";
 import { useForm } from "react-hook-form";
-import { Image, ScrollView, Text, TouchableOpacity, View } from "react-native";
+import { Image, Pressable, ScrollView, Text, View } from "react-native";
 import { CustomInput } from "../../components/inputs";
 import { createPost } from "../../services/api";
 import { setPostData } from "../../store/post/actions";
@@ -22,9 +22,11 @@ export const CreatePostScreen = () => {
   const navigation = useNavigation<FeedScreenNavigationProp>();
 
   const handleClick = handleSubmit(async (data) => {
+    //TODO: Remover depois isso aqui apos o login, está mockado para melhor desenvolvimento
+    const userId = "1151183c-0355-43a2-91d0-f9f3453faf27";
     setPostData(data);
     try {
-      const resposta = await createPost(data);
+      const resposta = await createPost(userId, data);
       console.log(resposta.data);
     } catch (error) {
       console.log(error);
@@ -34,12 +36,12 @@ export const CreatePostScreen = () => {
   return (
     <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
       <View style={styles.container}>
-        <TouchableOpacity
+        <Pressable
           onPress={() => navigation.goBack()}
           style={styles.backButton}
         >
           <AntDesign name="arrowleft" size={24} color="black" />
-        </TouchableOpacity>
+        </Pressable>
         <View style={styles.card}>
           <View style={styles.perfil}>
             <Image source={img} style={styles.imagePerfil} />
@@ -65,27 +67,27 @@ export const CreatePostScreen = () => {
             onChangeText={(text) => setValue("texto", text)}
           />
           <View style={styles.icones}>
-            <TouchableOpacity>
+            <Pressable>
               <AntDesign name="bars" size={24} color="darkblue" />
-            </TouchableOpacity>
-            <TouchableOpacity>
+            </Pressable>
+            <Pressable>
               <AntDesign name="team" size={24} color="darkblue" />
-            </TouchableOpacity>
-            <TouchableOpacity>
+            </Pressable>
+            <Pressable>
               <AntDesign name="calendar" size={24} color="darkblue" />
-            </TouchableOpacity>
-            <TouchableOpacity>
+            </Pressable>
+            <Pressable>
               <AntDesign name="pushpino" size={24} color="darkblue" />
-            </TouchableOpacity>
-            <TouchableOpacity>
+            </Pressable>
+            <Pressable>
               <AntDesign name="smileo" size={24} color="darkblue" />
-            </TouchableOpacity>
+            </Pressable>
           </View>
         </View>
 
-        <TouchableOpacity style={styles.publicarButton} onPress={handleClick}>
+        <Pressable style={styles.publicarButton} onPress={handleClick}>
           <Text style={styles.publicarButtonText}>Publicar</Text>
-        </TouchableOpacity>
+        </Pressable>
       </View>
     </ScrollView>
   );

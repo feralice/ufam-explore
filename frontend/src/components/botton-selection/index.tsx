@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Text, TouchableOpacity, View } from "react-native";
+import { Pressable, Text, View } from "react-native";
 import { ButtonStyles } from "./styles";
 
 export const BottomSelection = () => {
@@ -8,22 +8,22 @@ export const BottomSelection = () => {
   return (
     <View style={styles.ButtonContainer}>
       <View style={styles.Background}>
-        <TouchableOpacity
+        <Pressable
           style={styles.BorderLeft}
           onPress={() => {
             setSelectedTab(0);
           }}
         >
           <Text style={styles.textoEsquerda}> Geral</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
+        </Pressable>
+        <Pressable
           style={styles.BorderRight}
           onPress={() => {
             setSelectedTab(1);
           }}
         >
           <Text style={styles.textoDireita}> Curso </Text>
-        </TouchableOpacity>
+        </Pressable>
       </View>
     </View>
   );

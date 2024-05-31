@@ -8,4 +8,6 @@ export const PostInitialState: PostInitialStateType = {
     eventoId: "",
   },
   posts: [],
+  downvotes: {},
+  upvotes: {},
 };
