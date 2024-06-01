@@ -1,10 +1,10 @@
+import { PostRepository } from '@modules/post/domain/repositories/post.repository';
 import {
   BadRequestException,
   HttpStatus,
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
-import { PostRepository } from '../../../modules/post/post.repository';
 import { UpvoteResponseDto } from './dto/upvote-response.dto';
 import { UpvoteRepository } from './upvote.repository';
 

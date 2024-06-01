@@ -1,14 +1,14 @@
+import { checkPasswordMatch } from '@common/utils/check-password-match';
+import { LoginPayload } from '@modules/auth/dto/login-payload.dto';
+import { LoginResponse } from '@modules/auth/dto/login-response.dto';
+import { UserService } from '@modules/user/user.service';
 import {
   Injectable,
   NotFoundException,
   UnauthorizedException,
 } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import { PrismaService } from '../../config/prisma/prisma.service';
-import { checkPasswordMatch } from '../../utils/check-password-match';
-import { UserService } from '../user/user.service';
-import { LoginPayload } from './dto/login-payload.dto';
-import { LoginResponse } from './dto/login-response.dto';
+import { PrismaService } from '@prisma/prisma.service';
 
 @Injectable()
 export class AuthService {

@@ -1,5 +1,5 @@
+import { CreateTagResponseDto } from '@modules/tag/dto/create-tag-response.dto';
 import { ApiProperty } from '@nestjs/swagger';
-import { CreateTagResponseDto } from '../../../tag/dto/create-tag-response.dto';
 
 export class CreatePostResponse {
   @ApiProperty({

@@ -1,6 +1,6 @@
+import { PostRepository } from '@modules/post/domain/repositories/post.repository';
 import { Module } from '@nestjs/common';
 import { PostModule } from '../post/post.module';
-import { PostRepository } from '../post/post.repository';
 import { DownvoteRepository } from './downvote/downvote.repository';
 import { DownvoteService } from './downvote/downvote.service';
 import { UpvoteRepository } from './upvote/upvote.repository';
