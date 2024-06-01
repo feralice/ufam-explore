@@ -14,14 +14,18 @@ export class UpvoteRepository {
       },
     });
   }
-
-  async verifyIfUserAlreadyUpvotedPost(userId: string, postId: string):Promise<UpvoteResponseDto> {
-    return await this.prisma.upvote.findFirst({
+  async verifyIfUserAlreadyUpvotedPost(
+    postId: string,
+    userId: string,
+  ): Promise<boolean> {
+    const upvote = await this.prisma.upvote.findFirst({
       where: {
-        usuarioId: userId,
         postagemId: postId,
+        usuarioId: userId,
       },
     });
+
+    return !!upvote;
   }
 
   async getUpvotesCount(postId: string): Promise<number> {
@@ -29,5 +33,14 @@ export class UpvoteRepository {
       where: { postagemId: postId },
     });
     return upvotesCount;
+  }
+
+  async deleteUpvote(userId: string, postId: string): Promise<void> {
+    await this.prisma.upvote.deleteMany({
+      where: {
+        postagemId: postId,
+        usuarioId: userId,
+      },
+    });
   }
 }

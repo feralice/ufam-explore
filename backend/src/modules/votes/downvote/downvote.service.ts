@@ -21,10 +21,23 @@ export class DownvoteService {
   ): Promise<DownvoteResponseDto> {
     try {
       await this.verifyIfPostExists(postId);
-      await this.ensureUserHasNotDownvoted(userId, postId);
 
       return await this.downvoteRepository.downvotePost(userId, postId);
     } catch (error) {
+      this.handleUpvoteError(error);
+    }
+  }
+
+  async getDownvotesInAPost(postId: string) {
+    return await this.downvoteRepository.getDownvotesCount(postId);
+  }
+
+  async deleteDownvote(userId: string, postId: string) {
+    try {
+      await this.verifyIfPostExists(postId);
+      await this.downvoteRepository.deleteDownvote(userId, postId);
+    } catch (error) {
+      console.error(error);
       this.handleUpvoteError(error);
     }
   }
@@ -37,19 +50,20 @@ export class DownvoteService {
   }
 
   private async ensureUserHasNotDownvoted(userId: string, postId: string) {
-    const alreadyUpvoted =
+    const alreadyDownvoted =
       await this.downvoteRepository.verifyIfUserAlreadyDownvotedPost(
         userId,
         postId,
       );
-    if (alreadyUpvoted) {
-      throw new BadRequestException('Post already upvoted');
+    if (alreadyDownvoted) {
+      throw new BadRequestException('Post already downvote');
     }
   }
 
   private handleUpvoteError(error: any) {
+    console.error(error);
     if (error.response?.statusCode !== HttpStatus.BAD_REQUEST) {
-      throw new BadRequestException('Error upvoting post');
+      throw new BadRequestException('Error downvote post');
     }
     throw error;
   }

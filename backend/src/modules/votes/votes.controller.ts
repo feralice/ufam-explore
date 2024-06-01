@@ -1,15 +1,23 @@
-import { Body, Controller, Get, HttpStatus, Param, Post, Query } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  HttpStatus,
+  Param,
+  Post,
+} from '@nestjs/common';
 import {
   ApiBearerAuth,
   ApiOperation,
   ApiResponse,
   ApiTags,
 } from '@nestjs/swagger';
-import { UserId } from '../../decorators/user-id.decorator';
 import { DownvoteService } from './downvote/downvote.service';
+import { DownvoteResponseDto } from './downvote/dto/downvote-response.dto';
+import { GetVotesInAPostResponseDto } from './dto/get-votes-response.dto';
 import { UpvoteResponseDto } from './upvote/dto/upvote-response.dto';
 import { UpvoteService } from './upvote/upvote.service';
-import { DownvoteResponseDto } from './downvote/dto/downvote-response.dto';
 
 @ApiBearerAuth()
 @ApiTags('Post')
@@ -50,27 +58,78 @@ export class VotesController {
   })
   @ApiResponse({ status: HttpStatus.NOT_FOUND, description: 'Post not found' })
   async downvotePost(
-    @Query('userId') userId: string,
+    @Body('userId') userId: string,
     @Param('postId') postId: string,
   ): Promise<DownvoteResponseDto> {
     return this.downvoteService.downvotePost(userId, postId);
   }
 
-  @Get(':postId/votes')
-  @ApiOperation({ summary: 'Get votes in a post' })
+  @Get(':postId/upvotes/count')
+  @ApiOperation({ summary: 'Get upvotes count of a post' })
   @ApiResponse({
     status: HttpStatus.OK,
-    description: 'Votes retrieved successfully',
+    description: 'Upvotes count retrieved successfully',
   })
-  async getVotesInPost(
-    @UserId() userId: string,
+  @ApiResponse({ status: HttpStatus.NOT_FOUND, description: 'Post not found' })
+  async getUpvotesCount(@Param('postId') postId: string): Promise<number> {
+    return this.upvoteService.getUpvotesInAPost(postId);
+  }
+
+  @Get(':postId/downvotes/count')
+  @ApiOperation({ summary: 'Get downvotes count of a post' })
+  @ApiResponse({
+    status: HttpStatus.OK,
+    description: 'Downvotes count retrieved successfully',
+  })
+  @ApiResponse({ status: HttpStatus.NOT_FOUND, description: 'Post not found' })
+  async getDownvotesCount(@Param('postId') postId: string): Promise<number> {
+    return this.downvoteService.getDownvotesInAPost(postId);
+  }
+
+  @Get(':postId/votes/count')
+  @ApiOperation({ summary: 'Get votes count of a post' })
+  @ApiResponse({
+    status: HttpStatus.OK,
+    description: 'Votes count retrieved successfully',
+    type: GetVotesInAPostResponseDto,
+  })
+  @ApiResponse({ status: HttpStatus.NOT_FOUND, description: 'Post not found' })
+  async getVotesCount(
     @Param('postId') postId: string,
-  ) {
-    const upvotes = await this.upvoteService.getUpvotesInAPost(userId, postId);
-    const downvotes = await this.downvoteService.getDownvotesInAPost(
-      userId,
-      postId,
-    );
-    return Object.assign({}, upvotes, downvotes);
+  ): Promise<GetVotesInAPostResponseDto> {
+    const upvotes = await this.upvoteService.getUpvotesInAPost(postId);
+    const downvotes = await this.downvoteService.getDownvotesInAPost(postId);
+
+    return { upvotes, downvotes };
+  }
+
+  @Delete(':postId/upvote')
+  @ApiOperation({ summary: 'Remove upvote from a post' })
+  @ApiResponse({
+    status: HttpStatus.OK,
+    description: 'Upvote removed successfully',
+  })
+  @ApiResponse({ status: HttpStatus.NOT_FOUND, description: 'Post not found' })
+  async removeUpvote(
+    @Param('postId') postId: string,
+    @Body('userId') userId: string,
+  ): Promise<HttpStatus> {
+    await this.upvoteService.deleteUpvote(userId, postId);
+    return HttpStatus.OK;
+  }
+
+  @Delete(':postId/downvote')
+  @ApiOperation({ summary: 'Remove downvote from a post' })
+  @ApiResponse({
+    status: HttpStatus.OK,
+    description: 'Downvote removed successfully',
+  })
+  @ApiResponse({ status: HttpStatus.NOT_FOUND, description: 'Post not found' })
+  async removeDownvote(
+    @Param('postId') postId: string,
+    @Body('userId') userId: string,
+  ): Promise<HttpStatus> {
+    await this.downvoteService.deleteDownvote(userId, postId);
+    return HttpStatus.OK;
   }
 }

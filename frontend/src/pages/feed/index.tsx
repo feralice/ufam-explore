@@ -1,11 +1,11 @@
 import { useNavigation } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
-import { useEffect } from "react";
-import { Image, ScrollView, View } from "react-native";
+import { useCallback, useEffect } from "react";
+import { FlatList, Image, ListRenderItem, View } from "react-native";
 import { FAB } from "react-native-paper";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { BottomSelection } from "../../components/botton-selection";
-import { PostCard } from "../../components/cards/index";
+import { PostCard } from "../../components/postCard";
 import { RootStackParamList } from "../../routes/types";
 import { getAllPosts } from "../../services/api";
 import { IStore } from "../../store";
@@ -18,41 +18,49 @@ const logoPhoto = require("../../assets/UfamExplore.png");
 type FeedScreenNavigationProp = StackNavigationProp<RootStackParamList, "Home">;
 
 export const FeedScreen = () => {
-  const post = useSelector((store: IStore) => store.post.posts);
+  const posts = useSelector((store: IStore) => store.post.posts);
   const navigation = useNavigation<FeedScreenNavigationProp>();
 
-  const fetchAllPosts = async () => {
+  const fetchAllPosts = useCallback(async () => {
     try {
-      const response = await getAllPosts();
-      setAllPosts(response.data);
+      //TODO: mudar o id quando login for feito
+      const response = await getAllPosts(
+        "1151183c-0355-43a2-91d0-f9f3453faf27"
+      );
+      setAllPosts(response.data); 
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
-  };
+  }, []);
 
   useEffect(() => {
     fetchAllPosts();
-  }, []);
+    const intervalId = setInterval(fetchAllPosts, 30000);
+    return () => clearInterval(intervalId);
+  }, [fetchAllPosts]);
+
+  const renderPost: ListRenderItem<IPost> = useCallback(
+    ({ item }) => <PostCard key={item.id} post={item} />,
+    []
+  );
 
   return (
     <View style={{ flex: 1 }}>
-      <ScrollView>
-        <View>
-          <View style={feedStyles.container}>
-            <Image source={logoPhoto}></Image>
-          </View>
-
-          <View style={feedStyles.bottomSelectionContainer}>
-            <BottomSelection />
-          </View>
-
-          <View>
-            {post.map((post: IPost) => (
-              <PostCard key={post.id} post={post} />
-            ))}
-          </View>
-        </View>
-      </ScrollView>
+      <FlatList
+        ListHeaderComponent={
+          <>
+            <View style={feedStyles.container}>
+              <Image source={logoPhoto} />
+            </View>
+            <View style={feedStyles.bottomSelectionContainer}>
+              <BottomSelection />
+            </View>
+          </>
+        }
+        data={posts}
+        renderItem={renderPost}
+        keyExtractor={(item) => item.id}
+      />
       <View style={feedStyles.fabContainer}>
         <FAB
           style={feedStyles.fab}

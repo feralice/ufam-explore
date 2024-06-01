@@ -13,6 +13,12 @@ export const postSlice = createSlice({
     },
     setAllPosts: (state, action: PayloadAction<IPost[]>) => {
       state.posts = action.payload;
+      action.payload.forEach((post) => {
+        state.upvotes[post.id] = post.upvotes;
+        state.downvotes[post.id] = post.downvotes;
+        state.userUpvoted[post.id] = post.userUpvoted;
+        state.userDownvoted[post.id] = post.userDownvoted;
+      });
       return state;
     },
     setDownvote: (state, action: PayloadAction<IDownvote>) => {

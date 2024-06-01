@@ -18,3 +18,16 @@ export interface ICreatePostRequest {
   tags?: string[];
 }
 
+export interface IDownvoteResponse {
+  id: string;
+  usuarioId: string;
+  postagemId: string;
+}
+
+export interface IUpvoteResponse {
+  id: string;
+  usuarioId: string;
+  postagemId: string;
+}
+
+

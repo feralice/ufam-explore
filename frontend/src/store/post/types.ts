@@ -10,8 +10,10 @@ export interface IPost {
   imagemUrl?: string;
   eventoId?: string;
   tags?: Tag[];
-  upvote: number;
-  downvote: number;
+  upvotes: number;
+  downvotes: number;
+  userUpvoted: boolean;
+  userDownvoted: boolean;
   usuario: {
     id: string;
     username: string;
@@ -42,4 +44,6 @@ export interface PostInitialStateType {
   upvotes: Record<string, number>;
   post: IPostRequest;
   posts: IPost[];
+  userUpvoted: Record<string, boolean>;
+  userDownvoted: Record<string, boolean>;
 }

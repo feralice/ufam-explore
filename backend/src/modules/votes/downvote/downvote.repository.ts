@@ -21,13 +21,14 @@ export class DownvoteRepository {
   async verifyIfUserAlreadyDownvotedPost(
     userId: string,
     postId: string,
-  ): Promise<DownvoteResponseDto> {
-    return await this.prisma.downvote.findFirst({
+  ): Promise<boolean> {
+    const downvote = await this.prisma.downvote.findFirst({
       where: {
         usuarioId: userId,
         postagemId: postId,
       },
     });
+    return !!downvote;
   }
 
   async getDownvotesCount(postId: string): Promise<number> {
@@ -35,5 +36,14 @@ export class DownvoteRepository {
       where: { postagemId: postId },
     });
     return downvote;
+  }
+
+  async deleteDownvote(userId: string, postId: string) {
+    await this.prisma.downvote.deleteMany({
+      where: {
+        postagemId: postId,
+        usuarioId: userId,
+      },
+    });
   }
 }

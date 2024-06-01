@@ -18,7 +18,6 @@ export class UpvoteService {
   async upvotePost(userId: string, postId: string): Promise<UpvoteResponseDto> {
     try {
       await this.verifyIfPostExists(postId);
-      await this.ensureUserHasNotUpvoted(userId, postId);
 
       return await this.upvoteRepository.upvotePost(userId, postId);
     } catch (error) {
@@ -30,6 +29,19 @@ export class UpvoteService {
     const post = await this.postRepository.getPostById(postId);
     if (!post) {
       throw new NotFoundException('Post not found');
+    }
+  }
+
+  async getUpvotesInAPost(postId: string) {
+    return await this.upvoteRepository.getUpvotesCount(postId);
+  }
+
+  async deleteUpvote(userId: string, postId: string) {
+    try {
+      await this.verifyIfPostExists(postId);
+      await this.upvoteRepository.deleteUpvote(userId, postId);
+    } catch (error) {
+      this.handleUpvoteError(error);
     }
   }
 

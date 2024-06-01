@@ -2,10 +2,10 @@ import { Injectable } from '@nestjs/common';
 import { CloudinaryService } from '../../adapters/cloudinary/cloudinary.service';
 import { TagRepository } from '../tag/tag.repository';
 import { DownvoteRepository } from '../votes/downvote/downvote.repository';
+import { GetVotesInAPostResponseDto } from '../votes/dto/get-votes-response.dto';
 import { UpvoteRepository } from '../votes/upvote/upvote.repository';
 import { CreatePostResponse } from './dto/create/create-post-response.dto';
 import { CreatePostDto } from './dto/create/create-post.-request.dto';
-import { GetVotesInAPostResponseDto } from './dto/get-votes/get-votes-response.dto';
 import { PostRepository } from './post.repository';
 
 @Injectable()
@@ -97,7 +97,45 @@ export class PostService {
     }
   }
 
-  async getAllPosts() {
-    return this.postRepository.getAllPosts();
+  async getAllPosts(userId: string) {
+    try {
+      const posts = await this.postRepository.getAllPosts();
+      const postsWithVotes = await Promise.all(
+        posts.map(async (post) => {
+          const upvotes = await this.upvoteRepository.getUpvotesCount(post.id);
+
+          const downvotes = await this.downvoteRepository.getDownvotesCount(
+            post.id,
+          );
+
+          const userUpvoted =
+            await this.upvoteRepository.verifyIfUserAlreadyUpvotedPost(
+              post.id,
+              userId,
+            );
+
+          const userDownvoted =
+            await this.downvoteRepository.verifyIfUserAlreadyDownvotedPost(
+              post.id,
+              userId,
+            );
+
+          console.log('userUpvoted', userUpvoted);
+          console.log('userDownvoted', userDownvoted);
+
+          return {
+            ...post,
+            upvotes,
+            downvotes,
+            userUpvoted,
+            userDownvoted,
+          };
+        }),
+      );
+
+      return postsWithVotes;
+    } catch (error) {
+      throw new Error('Error getting posts');
+    }
   }
 }
