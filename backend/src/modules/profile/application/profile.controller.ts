@@ -1,3 +1,6 @@
+import { CreateProfileResponse } from '@modules/profile/application/dto/create-profile-response';
+import { CreateProfileService } from '@modules/profile/application/use-cases/create-profile.service';
+import { GetAllProfilesService } from '@modules/profile/application/use-cases/find-all.service';
 import {
   Body,
   ConflictException,
@@ -15,14 +18,15 @@ import {
   ApiTags,
 } from '@nestjs/swagger';
 import { CreateProfileDto } from './dto/create-profile-request';
-import { CreateProfileResponse } from './dto/create-profile-response';
-import { ProfileService } from './profile.service';
 
 @ApiBearerAuth()
 @Controller('profile')
 @ApiTags('Profile')
 export class ProfileController {
-  constructor(private readonly profileService: ProfileService) {}
+  constructor(
+    private readonly createProfile: CreateProfileService,
+    private readonly getAllProfiles: GetAllProfilesService,
+  ) {}
 
   @Post()
   @ApiOperation({ summary: 'Cria um novo perfil' })
@@ -49,7 +53,7 @@ export class ProfileController {
   create(
     @Body() createProfile: CreateProfileDto,
   ): Promise<CreateProfileResponse> {
-    return this.profileService.create(createProfile);
+    return this.createProfile.execute(createProfile);
   }
 
   @Get()
@@ -59,6 +63,6 @@ export class ProfileController {
     type: CreateProfileResponse,
   })
   findAll(): Promise<CreateProfileResponse[]> {
-    return this.profileService.findAll();
+    return this.getAllProfiles.execute();
   }
 }

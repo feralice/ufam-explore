@@ -1,5 +1,5 @@
+import { CreateProfileDto } from '@modules/profile/application/dto/create-profile-request';
 import { Injectable } from '@nestjs/common';
-import { CreateProfileDto } from './dto/create-profile-request';
 import { PrismaService } from '@prisma/prisma.service';
 
 @Injectable()

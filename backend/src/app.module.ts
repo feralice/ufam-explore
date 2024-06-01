@@ -2,7 +2,6 @@ import { CloudinaryModule } from '@adapters/cloudinary/cloudinary.module';
 import { AuthModule } from '@modules/auth/auth.module';
 import { EventModule } from '@modules/event/event.module';
 import { PostModule } from '@modules/post/post.module';
-import { ProfileController } from '@modules/profile/profile.controller';
 import { ProfileModule } from '@modules/profile/profile.module';
 import { TagModule } from '@modules/tag/tag.module';
 import { UserModule } from '@modules/user/user.module';
@@ -12,7 +11,7 @@ import { JwtModule } from '@nestjs/jwt';
 import { PrismaModule } from '@prisma/prisma.module';
 
 @Module({
-  controllers: [ProfileController],
+  controllers: [],
   imports: [
     UserModule,
     ProfileModule,

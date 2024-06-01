@@ -1,11 +1,12 @@
+import { ProfileController } from '@modules/profile/application/profile.controller';
+import { CreateProfileService } from '@modules/profile/application/use-cases/create-profile.service';
+import { GetAllProfilesService } from '@modules/profile/application/use-cases/find-all.service';
+import { ProfileRepository } from '@modules/profile/domain/repositories/profile.repository';
 import { Module } from '@nestjs/common';
-import { ProfileController } from './profile.controller';
-import { ProfileRepository } from './profile.repository';
-import { ProfileService } from './profile.service';
 
 @Module({
   controllers: [ProfileController],
-  providers: [ProfileService, ProfileRepository],
-  exports: [ProfileService],
+  providers: [CreateProfileService, GetAllProfilesService, ProfileRepository],
+  exports: [GetAllProfilesService, CreateProfileService, ProfileRepository],
 })
 export class ProfileModule {}
