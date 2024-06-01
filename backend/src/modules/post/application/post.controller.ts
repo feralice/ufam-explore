@@ -10,12 +10,17 @@ import {
   Get,
   HttpStatus,
   Param,
+  Patch,
   Post,
+  Put,
   UploadedFile,
   UseInterceptors,
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { Postagem } from '@prisma/client';
+import { EditPostDto } from './dto/edit/edit-post.dto';
+import { EditPostUseCase } from './use-cases/edit-post.service';
 
 @Public()
 @ApiTags('Post')
@@ -25,6 +30,7 @@ export class PostController {
     private readonly createPostUseCase: CreatePostUseCase,
     private readonly getAllPostsUseCase: GetAllPostsUseCase,
     private readonly getVotesUseCase: GetVotesUseCase,
+    private readonly editPostUseCase: EditPostUseCase,
   ) {}
 
   @Post('/create-post')
@@ -85,5 +91,24 @@ export class PostController {
   })
   async getVotes(@Param('id') postId: string) {
     return this.getVotesUseCase.getVotesInAPost(postId);
+  }
+
+  @Public()
+  @Patch('edit/:postId')
+  @ApiOperation({ summary: 'Update a post' })
+  @ApiResponse({
+    status: HttpStatus.OK,
+    description: 'The post has been successfully updated',
+    type: EditPostDto,
+  })
+  async update(
+    @Param('postId') postId: string,
+    @Body() updatePostDto: EditPostDto,
+    @UploadedFile() file?: Express.Multer.File,
+  ): Promise<Postagem> {
+    console.log('file', file);
+    console.log('updatePostDto', updatePostDto);
+    
+    return await this.editPostUseCase.execute(postId, updatePostDto, file);
   }
 }
