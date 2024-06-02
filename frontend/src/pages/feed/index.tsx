@@ -1,3 +1,4 @@
+<<<<<<< Updated upstream
 import { useNavigation } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { useCallback, useEffect } from "react";
@@ -14,6 +15,24 @@ import { IPost } from "../../store/post/types";
 import { feedStyles } from "./styles";
 
 const logoPhoto = require("../../assets/UfamExplore.png");
+=======
+import { ScreenHeight } from "@rneui/base";
+import React from "react";
+import {
+  Text,
+  View,
+  StyleSheet,
+  Dimensions,
+  Image,
+  TouchableOpacity,
+} from "react-native";
+import { styles } from "../../components/cards/styles";
+import Icon from "react-native-vector-icons/Ionicons";
+import { Ionicons } from "@expo/vector-icons";
+import { PostCard } from "../../components/cards/index";
+import { Botton_navigation } from "../../components/botton-selection";
+import { PublicacaoCard } from "../../components/publicacao";
+>>>>>>> Stashed changes
 
 type FeedScreenNavigationProp = StackNavigationProp<RootStackParamList, "Home">;
 
@@ -45,6 +64,7 @@ export const FeedScreen = () => {
   );
 
   return (
+<<<<<<< Updated upstream
     <View style={{ flex: 1 }}>
       <FlatList
         ListHeaderComponent={
@@ -68,6 +88,18 @@ export const FeedScreen = () => {
           color="white"
           onPress={() => navigation.navigate("Post")}
         />
+=======
+    <View>
+      <View style={{ alignItems: "center", paddingTop: 10 }}>
+        <Image source={require("../../../assets/tituloufam.png")}></Image>
+      </View>
+
+      <View style={{ padding: 30, marginTop: -40 }}>
+        <Botton_navigation></Botton_navigation>
+      </View>
+      <View style={{ marginTop: 20 }}>
+        <PublicacaoCard></PublicacaoCard>
+>>>>>>> Stashed changes
       </View>
     </View>
   );
