@@ -10,6 +10,7 @@ import { IPostRequest } from "../../store/post/types";
 import styles from "./style";
 import { FeedScreenNavigationProp } from "./type";
 import PopupMenu from "../../components/opcoes";
+import {useState} from 'react';
 
 const img = require("../../assets/img_test.jpg");
 
@@ -49,6 +50,7 @@ export const CreatePostScreen = () => {
             <Text>@nickname</Text>
             <PopupMenu/>
           </View>
+          //vai ficar a imagem
           <Image source={img} style={styles.imagem} />
           <CustomInput
             placeholder="Título..."
