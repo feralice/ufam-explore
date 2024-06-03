@@ -9,6 +9,7 @@ import { PostInitialState } from "../../store/post/state";
 import { IPostRequest } from "../../store/post/types";
 import styles from "./style";
 import { FeedScreenNavigationProp } from "./type";
+import PopupMenu from "../../components/opcoes";
 
 const img = require("../../assets/img_test.jpg");
 
@@ -46,12 +47,7 @@ export const CreatePostScreen = () => {
           <View style={styles.perfil}>
             <Image source={img} style={styles.imagePerfil} />
             <Text>@nickname</Text>
-            <AntDesign
-              name="ellipsis1"
-              size={24}
-              color="darkblue"
-              style={{ marginLeft: "auto" }}
-            />
+            <PopupMenu/>
           </View>
           <Image source={img} style={styles.imagem} />
           <CustomInput
