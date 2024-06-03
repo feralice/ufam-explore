@@ -9,7 +9,6 @@
     "target": "ES2021",
     "sourceMap": true,
     "outDir": "./dist",
-    "baseUrl": ".",
     "incremental": true,
     "skipLibCheck": true,
     "strictNullChecks": false,
@@ -18,12 +17,17 @@
     "forceConsistentCasingInFileNames": true,
     "noFallthroughCasesInSwitch": false,
     "paths": {
-      "@modules/*": ["src/modules/*"],
-      "@common/*": ["src/common/*"],
-      "@prisma/*": ["src/prisma/*"],
-      "@adapters/*": ["src/adapters/*"]
+      "@modules/*": ["./modules/*"],
+      "@common/*": ["./common/*"],
+      "@prisma/*": ["./prisma/*"],
+      "@adapters/*": ["./adapters/*"]
     }
   },
-  "include": ["src/**/*"],
+  "include": [
+    "./modules/**/*",
+    "./common/**/*",
+    "./prisma/**/*",
+    "./adapters/**/*"
+  ],
   "exclude": ["node_modules"]
 }
