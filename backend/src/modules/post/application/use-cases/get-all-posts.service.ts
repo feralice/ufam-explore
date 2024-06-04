@@ -1,7 +1,7 @@
-import { PostRepository } from '@modules/post/domain/repositories/post.repository';
-import { DownvoteRepository } from '@modules/votes/downvote/downvote.repository';
-import { UpvoteRepository } from '@modules/votes/upvote/upvote.repository';
 import { Injectable } from '@nestjs/common';
+import { DownvoteRepository } from '../../../../modules/votes/downvote/downvote.repository';
+import { UpvoteRepository } from '../../../../modules/votes/upvote/upvote.repository';
+import { PostRepository } from '../../domain/repositories/post.repository';
 
 @Injectable()
 export class GetAllPostsUseCase {

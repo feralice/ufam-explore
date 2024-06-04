@@ -1,6 +1,6 @@
-import { DeletePostResponseDto } from '@modules/post/application/dto/delete/delete-post-response.dto';
-import { PostRepository } from '@modules/post/domain/repositories/post.repository';
 import { Injectable, NotFoundException } from '@nestjs/common';
+import { PostRepository } from '../../domain/repositories/post.repository';
+import { DeletePostResponseDto } from '../dto/delete/delete-post-response.dto';
 
 @Injectable()
 export class DeletePostUseCase {
