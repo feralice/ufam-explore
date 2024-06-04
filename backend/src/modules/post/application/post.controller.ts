@@ -7,19 +7,21 @@ import { GetVotesUseCase } from '@modules/post/application/use-cases/get-votes-i
 import {
   Body,
   Controller,
+  Delete,
   Get,
   HttpStatus,
   Param,
   Patch,
   Post,
-  Put,
   UploadedFile,
   UseInterceptors,
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { Postagem } from '@prisma/client';
+import { DeletePostResponseDto } from './dto/delete/delete-post-response.dto';
 import { EditPostDto } from './dto/edit/edit-post.dto';
+import { DeletePostUseCase } from './use-cases/delete-post.service';
 import { EditPostUseCase } from './use-cases/edit-post.service';
 
 @Public()
@@ -31,6 +33,7 @@ export class PostController {
     private readonly getAllPostsUseCase: GetAllPostsUseCase,
     private readonly getVotesUseCase: GetVotesUseCase,
     private readonly editPostUseCase: EditPostUseCase,
+    private readonly deletePostUseCase: DeletePostUseCase,
   ) {}
 
   @Post('/create-post')
@@ -108,7 +111,25 @@ export class PostController {
   ): Promise<Postagem> {
     console.log('file', file);
     console.log('updatePostDto', updatePostDto);
-    
+
     return await this.editPostUseCase.execute(postId, updatePostDto, file);
+  }
+
+  @Public()
+  @Delete('delete/:postId')
+  @ApiOperation({ summary: 'Delete a post' })
+  @ApiResponse({
+    status: HttpStatus.OK,
+    description: 'The post has been successfully deleted',
+    type: DeletePostResponseDto,
+  })
+  @ApiResponse({
+    status: HttpStatus.NOT_FOUND,
+    description: 'Post not found or not authorized to delete',
+  })
+  async delete(
+    @Param('postId') postId: string,
+  ): Promise<DeletePostResponseDto> {
+    return await this.deletePostUseCase.execute(postId);
   }
 }

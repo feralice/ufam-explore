@@ -127,4 +127,12 @@ export class PostRepository {
       },
     });
   }
+
+  async deletePost(postId: string) {
+    return await this.prisma.postagem.delete({
+      where: {
+        id: postId,
+      },
+    });
+  }
 }
