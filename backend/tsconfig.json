@@ -21,7 +21,7 @@
       "@modules/*": ["./modules/*"],
       "@common/*": ["./common/*"],
       "@prisma/*": ["./prisma/*"],
-      "@adapters/*": ["./adapters/*"]
+      "@adapters/*": ["adapters/*"]
     }
   },
   "include": ["src/**/*"],
