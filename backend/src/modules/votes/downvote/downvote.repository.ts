@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
+import { PrismaService } from '../../../prisma/prisma.service';
 import { DownvoteResponseDto } from './dto/downvote-response.dto';
-import { PrismaService } from '@prisma/prisma.service';
 
 @Injectable()
 export class DownvoteRepository {

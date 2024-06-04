@@ -14,10 +14,10 @@ import {
   ApiTags,
 } from '@nestjs/swagger';
 import { Usuario } from '@prisma/client';
+import { Public } from '../../common/decorators/auth.decorator';
 import { CreateUserDto } from './dto/create/create-user.dto';
 import { UpdateUserDto } from './dto/update/update-user.dto';
 import { UserService } from './user.service';
-import { Public } from '@common/decorators/auth.decorator';
 
 @ApiBearerAuth()
 @ApiTags('User')

@@ -1,9 +1,3 @@
-import { Public } from '@common/decorators/auth.decorator';
-import { CreatePostResponse } from '@modules/post/application/dto/create/create-post-response.dto';
-import { CreatePostDto } from '@modules/post/application/dto/create/create-post.-request.dto';
-import { CreatePostUseCase } from '@modules/post/application/use-cases/create-post.service';
-import { GetAllPostsUseCase } from '@modules/post/application/use-cases/get-all-posts.service';
-import { GetVotesUseCase } from '@modules/post/application/use-cases/get-votes-in-a-post.service';
 import {
   Body,
   Controller,
@@ -19,10 +13,16 @@ import {
 import { FileInterceptor } from '@nestjs/platform-express';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { Postagem } from '@prisma/client';
+import { Public } from '../../../common/decorators/auth.decorator';
+import { CreatePostResponse } from './dto/create/create-post-response.dto';
+import { CreatePostDto } from './dto/create/create-post.-request.dto';
 import { DeletePostResponseDto } from './dto/delete/delete-post-response.dto';
 import { EditPostDto } from './dto/edit/edit-post.dto';
+import { CreatePostUseCase } from './use-cases/create-post.service';
 import { DeletePostUseCase } from './use-cases/delete-post.service';
 import { EditPostUseCase } from './use-cases/edit-post.service';
+import { GetAllPostsUseCase } from './use-cases/get-all-posts.service';
+import { GetVotesUseCase } from './use-cases/get-votes-in-a-post.service';
 
 @Public()
 @ApiTags('Post')

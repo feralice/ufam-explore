@@ -1,10 +1,10 @@
-import { CloudinaryService } from '@adapters/cloudinary/cloudinary.service';
-import { CreatePostDto } from '@modules/post/application/dto/create/create-post.-request.dto';
-import { PostRepository } from '@modules/post/domain/repositories/post.repository';
-import { uploadFileToCloudinary } from '@modules/post/infrastructure/update-photo-in-cloudinary';
-import { TagRepository } from '@modules/tag/tag.repository';
 import { Injectable } from '@nestjs/common';
-import { CreatePostResponse } from '@modules/post/application/dto/create/create-post-response.dto';
+import { CloudinaryService } from 'src/adapters/cloudinary/cloudinary.service';
+import { TagRepository } from 'src/modules/tag/tag.repository';
+import { PostRepository } from '../../domain/repositories/post.repository';
+import { uploadFileToCloudinary } from '../../infrastructure/update-photo-in-cloudinary';
+import { CreatePostResponse } from '../dto/create/create-post-response.dto';
+import { CreatePostDto } from '../dto/create/create-post.-request.dto';
 
 @Injectable()
 export class CreatePostUseCase {

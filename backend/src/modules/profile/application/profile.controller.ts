@@ -1,6 +1,3 @@
-import { CreateProfileResponse } from '@modules/profile/application/dto/create-profile-response';
-import { CreateProfileService } from '@modules/profile/application/use-cases/create-profile.service';
-import { GetAllProfilesService } from '@modules/profile/application/use-cases/find-all.service';
 import {
   Body,
   ConflictException,
@@ -18,6 +15,9 @@ import {
   ApiTags,
 } from '@nestjs/swagger';
 import { CreateProfileDto } from './dto/create-profile-request';
+import { CreateProfileResponse } from './dto/create-profile-response';
+import { CreateProfileService } from './use-cases/create-profile.service';
+import { GetAllProfilesService } from './use-cases/find-all.service';
 
 @ApiBearerAuth()
 @Controller('profile')
