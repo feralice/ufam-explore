@@ -1,9 +1,9 @@
-import { CreatePostDto } from '@modules/post/application/dto/create/create-post.-request.dto';
-import { EditPostDto } from '@modules/post/application/dto/edit/edit-post.dto';
-import { TagRepository } from '@modules/tag/tag.repository';
 import { Injectable } from '@nestjs/common';
 import { Postagem } from '@prisma/client';
-import { PrismaService } from '@prisma/prisma.service';
+import { TagRepository } from '../../../../modules/tag/tag.repository';
+import { PrismaService } from '../../../../prisma/prisma.service';
+import { CreatePostDto } from '../../application/dto/create/create-post.-request.dto';
+import { EditPostDto } from '../../application/dto/edit/edit-post.dto';
 
 @Injectable()
 export class PostRepository {
@@ -124,6 +124,14 @@ export class PostRepository {
       include: {
         tags: true,
         cursos: true,
+      },
+    });
+  }
+
+  async deletePost(postId: string) {
+    return await this.prisma.postagem.delete({
+      where: {
+        id: postId,
       },
     });
   }

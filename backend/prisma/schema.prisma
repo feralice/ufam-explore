@@ -74,7 +74,7 @@ model Postagem {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  usuario Usuario @relation(fields: [usuarioId], references: [id])
+  usuario Usuario @relation(fields: [usuarioId], references: [id], onDelete: Cascade)
   evento  Evento? @relation(fields: [eventoId], references: [id])
 
   comentarios      Comentario[]
@@ -94,8 +94,8 @@ model Comentario {
   usuarioId  String
   postagemId String
 
-  usuario  Usuario  @relation(fields: [usuarioId], references: [id])
-  postagem Postagem @relation(fields: [postagemId], references: [id])
+  usuario  Usuario  @relation(fields: [usuarioId], references: [id], onDelete: Cascade)
+  postagem Postagem @relation(fields: [postagemId], references: [id], onDelete: Cascade)
 }
 
 model Upvote {
@@ -105,8 +105,8 @@ model Upvote {
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
 
-  usuario  Usuario  @relation(fields: [usuarioId], references: [id])
-  postagem Postagem @relation(fields: [postagemId], references: [id])
+  usuario  Usuario  @relation(fields: [usuarioId], references: [id], onDelete: Cascade)
+  postagem Postagem @relation(fields: [postagemId], references: [id], onDelete: Cascade)
 }
 
 model Downvote {
@@ -116,8 +116,8 @@ model Downvote {
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
 
-  usuario  Usuario  @relation(fields: [usuarioId], references: [id])
-  postagem Postagem @relation(fields: [postagemId], references: [id])
+  usuario  Usuario  @relation(fields: [usuarioId], references: [id], onDelete: Cascade)
+  postagem Postagem @relation(fields: [postagemId], references: [id], onDelete: Cascade)
 }
 
 model Salvar {
@@ -126,8 +126,8 @@ model Salvar {
   postagemId String
   data       DateTime
 
-  usuario  Usuario  @relation(fields: [usuarioId], references: [id])
-  postagem Postagem @relation(fields: [postagemId], references: [id])
+  usuario  Usuario  @relation(fields: [usuarioId], references: [id], onDelete: Cascade)
+  postagem Postagem @relation(fields: [postagemId], references: [id], onDelete: Cascade)
 }
 
 model TagsEmPostagem {
@@ -135,8 +135,8 @@ model TagsEmPostagem {
   tagId      String
   postagemId String
 
-  tag      Tag      @relation(fields: [tagId], references: [id])
-  postagem Postagem @relation(fields: [postagemId], references: [id])
+  tag      Tag      @relation(fields: [tagId], references: [id], onDelete: Cascade)
+  postagem Postagem @relation(fields: [postagemId], references: [id], onDelete: Cascade)
 }
 
 model CursosEmPostagem {
@@ -144,8 +144,8 @@ model CursosEmPostagem {
   cursoId    String
   postagemId String
 
-  curso    Curso    @relation(fields: [cursoId], references: [id])
-  postagem Postagem @relation(fields: [postagemId], references: [id])
+  curso    Curso    @relation(fields: [cursoId], references: [id], onDelete: Cascade)
+  postagem Postagem @relation(fields: [postagemId], references: [id], onDelete: Cascade)
 }
 
 model Perfil {

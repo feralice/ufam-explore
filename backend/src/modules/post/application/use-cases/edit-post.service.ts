@@ -1,8 +1,8 @@
-import { CloudinaryService } from '@adapters/cloudinary/cloudinary.service';
-import { PostRepository } from '@modules/post/domain/repositories/post.repository';
-import { uploadFileToCloudinary } from '@modules/post/infrastructure/update-photo-in-cloudinary';
-import { EditPostDto } from '../dto/edit/edit-post.dto';
 import { Injectable } from '@nestjs/common';
+import { CloudinaryService } from '../../../../adapters/cloudinary/cloudinary.service';
+import { PostRepository } from '../../domain/repositories/post.repository';
+import { uploadFileToCloudinary } from '../../infrastructure/update-photo-in-cloudinary';
+import { EditPostDto } from '../dto/edit/edit-post.dto';
 
 @Injectable()
 export class EditPostUseCase {

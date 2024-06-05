@@ -1,26 +1,28 @@
-import { Public } from '@common/decorators/auth.decorator';
-import { CreatePostResponse } from '@modules/post/application/dto/create/create-post-response.dto';
-import { CreatePostDto } from '@modules/post/application/dto/create/create-post.-request.dto';
-import { CreatePostUseCase } from '@modules/post/application/use-cases/create-post.service';
-import { GetAllPostsUseCase } from '@modules/post/application/use-cases/get-all-posts.service';
-import { GetVotesUseCase } from '@modules/post/application/use-cases/get-votes-in-a-post.service';
 import {
   Body,
   Controller,
+  Delete,
   Get,
   HttpStatus,
   Param,
   Patch,
   Post,
-  Put,
   UploadedFile,
   UseInterceptors,
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { Postagem } from '@prisma/client';
+import { Public } from '../../../common/decorators/auth.decorator';
+import { CreatePostResponse } from './dto/create/create-post-response.dto';
+import { CreatePostDto } from './dto/create/create-post.-request.dto';
+import { DeletePostResponseDto } from './dto/delete/delete-post-response.dto';
 import { EditPostDto } from './dto/edit/edit-post.dto';
+import { CreatePostUseCase } from './use-cases/create-post.service';
+import { DeletePostUseCase } from './use-cases/delete-post.service';
 import { EditPostUseCase } from './use-cases/edit-post.service';
+import { GetAllPostsUseCase } from './use-cases/get-all-posts.service';
+import { GetVotesUseCase } from './use-cases/get-votes-in-a-post.service';
 
 @Public()
 @ApiTags('Post')
@@ -31,6 +33,7 @@ export class PostController {
     private readonly getAllPostsUseCase: GetAllPostsUseCase,
     private readonly getVotesUseCase: GetVotesUseCase,
     private readonly editPostUseCase: EditPostUseCase,
+    private readonly deletePostUseCase: DeletePostUseCase,
   ) {}
 
   @Post('/create-post')
@@ -108,7 +111,25 @@ export class PostController {
   ): Promise<Postagem> {
     console.log('file', file);
     console.log('updatePostDto', updatePostDto);
-    
+
     return await this.editPostUseCase.execute(postId, updatePostDto, file);
+  }
+
+  @Public()
+  @Delete('delete/:postId')
+  @ApiOperation({ summary: 'Delete a post' })
+  @ApiResponse({
+    status: HttpStatus.OK,
+    description: 'The post has been successfully deleted',
+    type: DeletePostResponseDto,
+  })
+  @ApiResponse({
+    status: HttpStatus.NOT_FOUND,
+    description: 'Post not found or not authorized to delete',
+  })
+  async delete(
+    @Param('postId') postId: string,
+  ): Promise<DeletePostResponseDto> {
+    return await this.deletePostUseCase.execute(postId);
   }
 }

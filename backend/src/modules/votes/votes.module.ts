@@ -1,7 +1,7 @@
-import { PostRepository } from '@modules/post/domain/repositories/post.repository';
-import { TagModule } from '@modules/tag/tag.module';
 import { Module } from '@nestjs/common';
+import { PostRepository } from '../post/domain/repositories/post.repository';
 import { PostModule } from '../post/post.module';
+import { TagModule } from '../tag/tag.module';
 import { DownvoteRepository } from './downvote/downvote.repository';
 import { DownvoteService } from './downvote/downvote.service';
 import { UpvoteRepository } from './upvote/upvote.repository';

@@ -1,5 +1,5 @@
-import { ProfileRepository } from '@modules/profile/domain/repositories/profile.repository';
 import { Injectable } from '@nestjs/common';
+import { ProfileRepository } from '../../domain/repositories/profile.repository';
 
 @Injectable()
 export class GetAllProfilesService {

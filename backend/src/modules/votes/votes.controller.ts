@@ -7,19 +7,15 @@ import {
   Param,
   Post,
 } from '@nestjs/common';
-import {
-  ApiBearerAuth,
-  ApiOperation,
-  ApiResponse,
-  ApiTags,
-} from '@nestjs/swagger';
+import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { Public } from '../../common/decorators/auth.decorator';
 import { DownvoteService } from './downvote/downvote.service';
 import { DownvoteResponseDto } from './downvote/dto/downvote-response.dto';
 import { GetVotesInAPostResponseDto } from './dto/get-votes-response.dto';
 import { UpvoteResponseDto } from './upvote/dto/upvote-response.dto';
 import { UpvoteService } from './upvote/upvote.service';
 
-@ApiBearerAuth()
+@Public()
 @ApiTags('Post')
 @Controller()
 export class VotesController {

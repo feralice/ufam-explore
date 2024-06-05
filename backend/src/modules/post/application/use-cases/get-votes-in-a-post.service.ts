@@ -1,7 +1,7 @@
-import { DownvoteRepository } from '@modules/votes/downvote/downvote.repository';
-import { GetVotesInAPostResponseDto } from '@modules/votes/dto/get-votes-response.dto';
-import { UpvoteRepository } from '@modules/votes/upvote/upvote.repository';
 import { Injectable } from '@nestjs/common';
+import { DownvoteRepository } from '../../../../modules/votes/downvote/downvote.repository';
+import { GetVotesInAPostResponseDto } from '../../../../modules/votes/dto/get-votes-response.dto';
+import { UpvoteRepository } from '../../../../modules/votes/upvote/upvote.repository';
 
 @Injectable()
 export class GetVotesUseCase {
