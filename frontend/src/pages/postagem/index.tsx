@@ -47,7 +47,7 @@ export const CreatePostScreen = () => {
           <View style={styles.perfil}>
             <Image source={img} style={styles.imagePerfil} />
             <Text>@nickname</Text>
-            <PopupMenu/>
+            <PopupMenu />
           </View>
           <Image source={img} style={styles.imagem} />
           <CustomInput
