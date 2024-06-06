@@ -30,8 +30,8 @@ export class GetAllPostsUseCase {
 
           const userDownvoted =
             await this.downvoteRepository.verifyIfUserAlreadyDownvotedPost(
-              post.id,
               userId,
+              post.id,
             );
 
           return {
