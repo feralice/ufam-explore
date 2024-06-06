@@ -1,8 +1,8 @@
 import { createStackNavigator } from "@react-navigation/stack";
+import { CreatePostScreen } from "../../pages/create-post";
+import { PostScreenExtend } from "../../pages/extend_post";
 import { FeedScreen } from "../../pages/feed";
-import { CreatePostScreen } from "../../pages/postagem";
 import { RootStackParamList } from "../types";
-import { PostScreenExtend } from "../../pages/Extend_Post";
 
 const HomeStack = createStackNavigator<RootStackParamList>();
 

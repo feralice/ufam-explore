@@ -13,6 +13,8 @@ export const styles = StyleSheet.create({
     borderWidth: 1,
     margin: deviceWidth * 0.06,
     padding: 10,
+    maxHeight: 360,
+    overflow: "hidden",
   },
 
   imageStyle: {
@@ -62,6 +64,7 @@ export const styles = StyleSheet.create({
 
   alignItems: {
     paddingHorizontal: 10,
+    paddingBottom: 10,
   },
 
   title: {
@@ -72,5 +75,6 @@ export const styles = StyleSheet.create({
 
   text: {
     fontSize: 14,
+    paddingBottom: 10,
   },
 });

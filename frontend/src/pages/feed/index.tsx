@@ -3,9 +3,9 @@ import { StackNavigationProp } from "@react-navigation/stack";
 import { useCallback, useEffect } from "react";
 import { FlatList, Image, ListRenderItem, View } from "react-native";
 import { FAB } from "react-native-paper";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { BottomSelection } from "../../components/botton-selection";
-import { PostCard } from "../../components/postCard";
+import { PostCard } from "../../components/post-card";
 import { RootStackParamList } from "../../routes/types";
 import { getAllPosts } from "../../services/api";
 import { IStore } from "../../store";
@@ -27,7 +27,7 @@ export const FeedScreen = () => {
       const response = await getAllPosts(
         "1151183c-0355-43a2-91d0-f9f3453faf27"
       );
-      setAllPosts(response.data); 
+      setAllPosts(response.data);
     } catch (error) {
       console.error(error);
     }

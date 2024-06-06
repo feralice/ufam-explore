@@ -1,7 +1,15 @@
 import AntDesign from "@expo/vector-icons/AntDesign";
 import { useNavigation } from "@react-navigation/native";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { Image, Pressable, ScrollView, Text, View } from "react-native";
+import {
+  ActivityIndicator,
+  Image,
+  Pressable,
+  ScrollView,
+  Text,
+  View,
+} from "react-native";
 import { CustomInput } from "../../components/inputs";
 import { createPost } from "../../services/api";
 import { setPostData } from "../../store/post/actions";
@@ -9,8 +17,6 @@ import { PostInitialState } from "../../store/post/state";
 import { IPostRequest } from "../../store/post/types";
 import styles from "./style";
 import { FeedScreenNavigationProp } from "./type";
-import PopupMenu from "../../components/opcoes";
-import {useState} from 'react';
 
 const img = require("../../assets/img_test.jpg");
 
@@ -21,17 +27,22 @@ export const CreatePostScreen = () => {
       texto: PostInitialState.post.texto,
     },
   });
+  const [loading, setLoading] = useState(false);
   const navigation = useNavigation<FeedScreenNavigationProp>();
 
   const handleClick = handleSubmit(async (data) => {
     //TODO: Remover depois isso aqui apos o login, está mockado para melhor desenvolvimento
     const userId = "1151183c-0355-43a2-91d0-f9f3453faf27";
     setPostData(data);
+    setLoading(true);
     try {
       const resposta = await createPost(userId, data);
       console.log(resposta.data);
+      setLoading(false);
+      navigation.goBack();
     } catch (error) {
       console.log(error);
+      setLoading(false);
     }
   });
 
@@ -48,9 +59,7 @@ export const CreatePostScreen = () => {
           <View style={styles.perfil}>
             <Image source={img} style={styles.imagePerfil} />
             <Text>@nickname</Text>
-            <PopupMenu />
           </View>
-          //vai ficar a imagem
           <Image source={img} style={styles.imagem} />
           <CustomInput
             placeholder="Título..."
@@ -83,8 +92,16 @@ export const CreatePostScreen = () => {
           </View>
         </View>
 
-        <Pressable style={styles.publicarButton} onPress={handleClick}>
-          <Text style={styles.publicarButtonText}>Publicar</Text>
+        <Pressable
+          style={styles.publicarButton}
+          onPress={handleClick}
+          disabled={loading}
+        >
+          {loading ? (
+            <ActivityIndicator size="small" color="#fff" />
+          ) : (
+            <Text style={styles.publicarButtonText}>Publicar</Text>
+          )}
         </Pressable>
       </View>
     </ScrollView>

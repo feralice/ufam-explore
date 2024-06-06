@@ -1,5 +1,6 @@
 import { useRef, useState } from "react";
 import { useSelector } from "react-redux";
+import { PostCardProps } from "../../components/post-card/types";
 import {
   postDownvoteByPostId,
   postUpvoteByPostId,
@@ -8,7 +9,6 @@ import {
 } from "../../services/api";
 import { IStore } from "../../store";
 import { setDownvote, setUpvote } from "../../store/post/actions";
-import { PostCardProps } from "./types";
 
 export const useVoteHandlers = (post: PostCardProps["post"]) => {
   // TODO: usar o userId do usuário logado quando implementar autenticação no front

@@ -1,16 +1,20 @@
 import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
-import React from "react";
-import { Image, Pressable, Text, View } from "react-native";
-import { styles } from "./styles";
-import { PostCardProps } from "./types";
-import { useVoteHandlers } from "./useVoteHandlers";
-import { FeedScreenNavigationProp } from "../../pages/postagem/type";
-import { useNavigation } from "@react-navigation/native";
+import AntDesign from "@expo/vector-icons/AntDesign";
+import { useNavigation, useRoute } from "@react-navigation/native";
+import { Image, Pressable, ScrollView, Text, View } from "react-native";
+import PopupMenu from "../../components/popup-menu";
+import { useVoteHandlers } from "../../utils/votes/useVoteHandlers";
+import { styles } from "./style";
+import { PostDetailsScreenRouteProp } from "./types";
 
-const profileImage = require("../../assets/img_test.jpg");
+//TODO: mudar imagem quando colocar imagem em um post for realizado
+const img = require("../../assets/img_test.jpg");
 
-export const PostCard: React.FC<PostCardProps> = ({ post }) => {
-  const navigation = useNavigation<FeedScreenNavigationProp>();
+export const PostScreenExtend = () => {
+  const route = useRoute<PostDetailsScreenRouteProp>();
+  const { post } = route.params;
+  const navigation = useNavigation();
+
   const {
     handleUpvote,
     handleDownvote,
@@ -21,14 +25,20 @@ export const PostCard: React.FC<PostCardProps> = ({ post }) => {
   } = useVoteHandlers(post);
 
   return (
-    <Pressable onPress={() => navigation.navigate("ExtendPost", { post })}>
+    <ScrollView>
       <View style={styles.container}>
+        <Pressable
+          onPress={() => navigation.goBack()}
+          style={styles.backButton}
+        >
+          <AntDesign name="arrowleft" size={24} color="black" />
+        </Pressable>
         <View style={styles.cardContainer}>
           <View style={styles.userInfo}>
-            <Image style={styles.imagePerfil} source={profileImage} />
+            <Image style={styles.imagePerfil} source={img} />
             <Text>@{post.usuario.username}</Text>
+            <PopupMenu />
           </View>
-
           <View style={styles.alignItems}>
             {post.imagemUrl ? (
               <Image
@@ -38,11 +48,9 @@ export const PostCard: React.FC<PostCardProps> = ({ post }) => {
             ) : (
               <>
                 <Text style={styles.title}>{post.titulo}</Text>
-                <Text style={styles.text}>{post.texto}</Text>
               </>
             )}
           </View>
-
           <View style={styles.interaction}>
             <Pressable style={styles.icon}>
               <Ionicons name="chatbubbles-outline" size={25} />
@@ -65,13 +73,15 @@ export const PostCard: React.FC<PostCardProps> = ({ post }) => {
               />
               <Text>{currentDownvote}</Text>
             </Pressable>
-
             <Pressable style={styles.icon}>
               <Ionicons name="bookmark-outline" size={25} />
             </Pressable>
           </View>
+          <ScrollView>
+            <Text style={styles.text}>{post.texto}</Text>
+          </ScrollView>
         </View>
       </View>
-    </Pressable>
+    </ScrollView>
   );
 };
