@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { CloudinaryService } from '../../../../adapters/cloudinary/cloudinary.service';
-import { TagRepository } from '../../../../modules/tag/tag.repository';
+import { TagRepository } from '../../../../modules/tag/domain/tag.repository';
 import { PostRepository } from '../../domain/repositories/post.repository';
 import { uploadFileToCloudinary } from '../../infrastructure/update-photo-in-cloudinary';
 import { CreatePostResponse } from '../dto/create/create-post-response.dto';

@@ -1,10 +1,20 @@
 import { Module } from '@nestjs/common';
-import { TagController } from './tag.controller';
-import { TagRepository } from './tag.repository';
-import { TagService } from './tag.service';
+import { PrismaService } from '../../prisma/prisma.service';
+import { TagController } from './application/tag.controller';
+import { CreateTagService } from './application/use-cases/create-tag/create-tag.service';
+import { FindAllTagsService } from './application/use-cases/find-all/find-all.service';
+import { FindTagByNameService } from './application/use-cases/find-by-name/find-by-name.service';
+import { TagRepository } from './domain/tag.repository';
 @Module({
   controllers: [TagController],
-  providers: [TagService, TagRepository],
-  exports: [TagService, TagRepository],
+  providers: [
+    CreateTagService,
+    TagRepository,
+    CreateTagService,
+    FindAllTagsService,
+    FindTagByNameService,
+    PrismaService,
+  ],
+  exports: [CreateTagService, TagRepository],
 })
 export class TagModule {}

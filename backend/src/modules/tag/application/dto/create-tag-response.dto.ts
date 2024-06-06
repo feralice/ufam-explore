@@ -7,7 +7,7 @@ export class CreateTagResponseDto {
     example: '1',
   })
   id: string;
-  
+
   @ApiProperty({
     type: String,
     description: 'Nome da tag',

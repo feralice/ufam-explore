@@ -1,9 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { Postagem } from '@prisma/client';
-import { TagRepository } from '../../../../modules/tag/tag.repository';
 import { PrismaService } from '../../../../prisma/prisma.service';
 import { CreatePostDto } from '../../application/dto/create/create-post.-request.dto';
 import { EditPostDto } from '../../application/dto/edit/edit-post.dto';
+import { TagRepository } from '../../../../modules/tag/domain/tag.repository';
 
 @Injectable()
 export class PostRepository {

@@ -7,13 +7,19 @@ import {
 } from '@nestjs/swagger';
 import { Tag } from '@prisma/client';
 import { CreateTagResponseDto } from './dto/create-tag-response.dto';
-import { TagService } from './tag.service';
+import { CreateTagService } from './use-cases/create-tag/create-tag.service';
+import { FindAllTagsService } from './use-cases/find-all/find-all.service';
+import { FindTagByNameService } from './use-cases/find-by-name/find-by-name.service';
 
 @ApiBearerAuth()
 @ApiTags('Tag')
 @Controller('tag')
 export class TagController {
-  constructor(private readonly tagService: TagService) {}
+  constructor(
+    private readonly createTagService: CreateTagService,
+    private readonly findAllTagsService: FindAllTagsService,
+    private readonly findTagByNameService: FindTagByNameService,
+  ) {}
 
   @Post(':nome')
   @ApiOperation({ summary: 'Create a tag' })
@@ -23,7 +29,7 @@ export class TagController {
     type: CreateTagResponseDto,
   })
   async create(@Param('nome') nome: string): Promise<CreateTagResponseDto> {
-    return this.tagService.create(nome);
+    return this.createTagService.create(nome);
   }
 
   @Get('all')
@@ -33,16 +39,16 @@ export class TagController {
     description: 'All tags',
   })
   findAll(): Promise<Tag[]> {
-    return this.tagService.findAll();
+    return this.findAllTagsService.findAll();
   }
 
   @Get('by-name/:nome')
-   @ApiOperation({ summary: 'Get tag by name' })
-   @ApiResponse({
-     status: HttpStatus.OK,
-     description: 'Tag by name',
-   })
-   findByName(@Param('nome') nome: string): Promise<CreateTagResponseDto> {
-     return this.tagService.findByName(nome);
-   }
+  @ApiOperation({ summary: 'Get tag by name' })
+  @ApiResponse({
+    status: HttpStatus.OK,
+    description: 'Tag by name',
+  })
+  findByName(@Param('nome') nome: string): Promise<CreateTagResponseDto> {
+    return this.findTagByNameService.findByName(nome);
+  }
 }
