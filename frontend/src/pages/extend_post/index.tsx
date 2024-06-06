@@ -5,6 +5,8 @@ import { Image, Pressable, ScrollView, Text, View } from "react-native";
 import { useVoteHandlers } from "../../utils/votes/useVoteHandlers";
 import { styles } from "./style";
 import { PostDetailsScreenRouteProp } from "./types";
+import PopupMenu from "../../components/popup-menu";
+
 const img = require("../../assets/img_test.jpg");
 
 export const PostScreenExtend = () => {
@@ -34,8 +36,9 @@ export const PostScreenExtend = () => {
           <View style={styles.userInfo}>
             <Image style={styles.imagePerfil} source={img} />
             <Text>@{post.usuario.username}</Text>
-          </View>
+            <PopupMenu />
 
+          </View>
           <View style={styles.alignItems}>
             {post.imagemUrl ? (
               <Image
@@ -48,7 +51,6 @@ export const PostScreenExtend = () => {
               </>
             )}
           </View>
-
           <View style={styles.interaction}>
             <Pressable style={styles.icon}>
               <Ionicons name="chatbubbles-outline" size={25} />
