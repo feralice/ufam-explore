@@ -9,19 +9,22 @@ import {
 } from "react-native";
 import { styles } from "./styles";
 import { Option } from "./types";
+import { FeedScreenNavigationProp } from "../../pages/create-post/type";
+import { useNavigation } from "@react-navigation/native";
 
 const PopupMenu = () => {
   const [visible, setVisible] = useState(false);
+  const navigation = useNavigation<FeedScreenNavigationProp>();
   const options: Option[] = [
     {
       title: "Adicionar ao calendário",
       icon: "calendar",
-      action: () => alert("adicionando calendario"),
+      action: () => alert("calendario"),
     },
     {
       title: "Editar post",
       icon: "edit",
-      action: () => alert("editando post"),
+      action: () => navigation.navigate("EditPost"),
     },
     {
       title: "Salvar post",
