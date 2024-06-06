@@ -21,9 +21,9 @@ export const PostCard: React.FC<PostCardProps> = ({ post }) => {
   } = useVoteHandlers(post);
 
   return (
-    <Pressable onPress={() => navigation.navigate("ExtendPost", { post })}>
-      <View style={styles.container}>
-        <View style={styles.cardContainer}>
+    <View style={styles.container}>
+      <View style={styles.cardContainer}>
+        <Pressable onPress={() => navigation.navigate("ExtendPost", { post })}>
           <View style={styles.userInfo}>
             <Image style={styles.imagePerfil} source={profileImage} />
             <Text>@{post.usuario.username}</Text>
@@ -72,8 +72,8 @@ export const PostCard: React.FC<PostCardProps> = ({ post }) => {
               <Ionicons name="bookmark-outline" size={25} />
             </Pressable>
           </View>
-        </View>
+        </Pressable>
       </View>
-    </Pressable>
+    </View>
   );
 };
