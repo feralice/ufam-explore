@@ -5,6 +5,10 @@ const radius = 20;
 const proporcao = 0.08;
 
 export const styles = StyleSheet.create({
+  scrollViewContainer: {
+    flexGrow: 1,
+    backgroundColor: "#white",
+  },
   cardContainer: {
     width: deviceWidth * (0.8 + proporcao),
     backgroundColor: "#FFF",
@@ -14,7 +18,6 @@ export const styles = StyleSheet.create({
     margin: deviceWidth * 0.06,
     padding: 10,
   },
-
   imageStyle: {
     height: 140,
     width: "100%",
@@ -23,7 +26,6 @@ export const styles = StyleSheet.create({
     justifyContent: "center",
     alignSelf: "center",
   },
-
   imagePerfil: {
     display: "flex",
     alignItems: "center",
@@ -31,7 +33,6 @@ export const styles = StyleSheet.create({
     width: 30,
     height: 30,
   },
-
   userInfo: {
     flexDirection: "row",
     justifyContent: "flex-start",
@@ -39,21 +40,18 @@ export const styles = StyleSheet.create({
     gap: 10,
     padding: 15,
   },
-
   interaction: {
     flexDirection: "row",
     justifyContent: "space-around",
     borderRadius: 5,
     padding: 10,
   },
-
   icon: {
     flexDirection: "row",
     justifyContent: "center",
     borderRadius: 5,
     padding: "auto",
   },
-
   container: {
     flex: 1,
     justifyContent: "space-between",
@@ -62,20 +60,16 @@ export const styles = StyleSheet.create({
     paddingTop: 50,
     paddingHorizontal: 20,
   },
-
   alignItems: {
     paddingHorizontal: 10,
   },
-
   title: {
     fontSize: 18,
     fontWeight: "bold",
     marginBottom: 5,
   },
-
   text: {
     fontSize: 14,
-
     padding: 10,
     borderRadius: 10,
     paddingHorizontal: 15,

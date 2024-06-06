@@ -2,12 +2,9 @@ import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 import AntDesign from "@expo/vector-icons/AntDesign";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { Image, Pressable, ScrollView, Text, View } from "react-native";
-import PopupMenu from "../../components/popup-menu";
 import { useVoteHandlers } from "../../utils/votes/useVoteHandlers";
 import { styles } from "./style";
 import { PostDetailsScreenRouteProp } from "./types";
-
-//TODO: mudar imagem quando colocar imagem em um post for realizado
 const img = require("../../assets/img_test.jpg");
 
 export const PostScreenExtend = () => {
@@ -25,7 +22,7 @@ export const PostScreenExtend = () => {
   } = useVoteHandlers(post);
 
   return (
-    <ScrollView>
+    <ScrollView contentContainerStyle={styles.scrollViewContainer}>
       <View style={styles.container}>
         <Pressable
           onPress={() => navigation.goBack()}
@@ -37,8 +34,8 @@ export const PostScreenExtend = () => {
           <View style={styles.userInfo}>
             <Image style={styles.imagePerfil} source={img} />
             <Text>@{post.usuario.username}</Text>
-            <PopupMenu />
           </View>
+
           <View style={styles.alignItems}>
             {post.imagemUrl ? (
               <Image
@@ -51,6 +48,7 @@ export const PostScreenExtend = () => {
               </>
             )}
           </View>
+
           <View style={styles.interaction}>
             <Pressable style={styles.icon}>
               <Ionicons name="chatbubbles-outline" size={25} />
@@ -73,6 +71,7 @@ export const PostScreenExtend = () => {
               />
               <Text>{currentDownvote}</Text>
             </Pressable>
+
             <Pressable style={styles.icon}>
               <Ionicons name="bookmark-outline" size={25} />
             </Pressable>
