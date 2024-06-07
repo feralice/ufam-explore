@@ -6,6 +6,7 @@ import { FeedScreenNavigationProp } from "../../pages/create-post/type";
 import { useVoteHandlers } from "../../utils/votes/useVoteHandlers";
 import { styles } from "./styles";
 import { PostCardProps } from "./types";
+import { setEditingPost } from "../../store/post/actions";
 
 const profileImage = require("../../assets/img_test.jpg");
 
@@ -20,10 +21,14 @@ export const PostCard: React.FC<PostCardProps> = ({ post }) => {
     currentDownvote,
   } = useVoteHandlers(post);
 
+  const handleClick = () => {
+    navigation.navigate("ExtendPost", { post });
+    setEditingPost(post);
+  };
   return (
     <View style={styles.container}>
       <View style={styles.cardContainer}>
-        <Pressable onPress={() => navigation.navigate("ExtendPost", { post })}>
+        <Pressable onPress={handleClick}>
           <View style={styles.userInfo}>
             <Image style={styles.imagePerfil} source={profileImage} />
             <Text>@{post.usuario.username}</Text>

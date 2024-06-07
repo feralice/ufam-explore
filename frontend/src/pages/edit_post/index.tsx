@@ -11,6 +11,8 @@ import {
 } from "react-native";
 import { CustomInput } from "../../components/inputs";
 import { FeedScreenNavigationProp } from "../create-post/type";
+import { useSelector } from "react-redux";
+import { IStore } from "../../store";
 import styles from "./style";
 
 const img = require("../../assets/img_test.jpg");
@@ -18,6 +20,11 @@ const img = require("../../assets/img_test.jpg");
 export const EditPostScreen = () => {
   const [loading, setLoading] = useState(false);
   const navigation = useNavigation<FeedScreenNavigationProp>();
+  const post = useSelector((state: IStore) => state.post.editingPost);
+
+  const [value, setValue] = useState(post?.titulo);
+  const [valor, setValor] = useState(post?.texto); //talvez tenha erro aqui
+
   return (
     <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
       <View style={styles.container}>
@@ -30,20 +37,22 @@ export const EditPostScreen = () => {
         <View style={styles.card}>
           <View style={styles.perfil}>
             <Image source={img} style={styles.imagePerfil} />
-            <Text>@nickname</Text>
+            <Text>@{post?.usuario.username}</Text>
           </View>
           <Image source={img} style={styles.imagem} />
           <CustomInput
             placeholder="Título..."
             style={styles.input}
-            //onChangeText={(text) => setValue("titulo", text)}
+            onChangeText={(text) => setValue(text)}
+            value={value}
           />
           <CustomInput
             placeholder="Digite seu texto..."
             multiline
             height={200}
             style={[styles.input, styles.textArea]}
-            //onChangeText={(text) => setValue("texto", text)}
+            onChangeText={(text) => setValor(text)}
+            value={valor}
           />
           <View style={styles.icones}>
             <Pressable>
