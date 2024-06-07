@@ -1,8 +1,8 @@
 import { createStackNavigator } from "@react-navigation/stack";
 import { AddTagScreen } from "../../pages/add-tags";
 import { CreatePostScreen } from "../../pages/create-post";
-import { EditPostScreen } from "../../pages/edit_post";
-import { PostScreenExtend } from "../../pages/extend_post";
+import { EditPostScreen } from "../../pages/edit-post";
+import { PostScreenExtend } from "../../pages/extend-post";
 import { FeedScreen } from "../../pages/feed";
 import { RootStackParamList } from "../types";
 

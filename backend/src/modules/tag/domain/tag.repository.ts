@@ -54,6 +54,27 @@ export class TagRepository {
     });
   }
 
+  async findByNames(names: string[]) {
+    return this.prisma.tag.findMany({
+      where: {
+        nome: {
+          in: names,
+        },
+      },
+    });
+  }
+
+  async createMany(names: string[]) {
+    const createdTags = [];
+    for (const name of names) {
+      const tag = await this.prisma.tag.create({
+        data: { nome: name },
+      });
+      createdTags.push(tag);
+    }
+    return createdTags;
+  }
+
   async getTagsByCurso() {
     return this.prisma.curso.findMany({
       include: {

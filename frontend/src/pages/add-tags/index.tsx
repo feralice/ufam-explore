@@ -1,6 +1,6 @@
 import { AntDesign } from "@expo/vector-icons";
-import { useNavigation } from "@react-navigation/native";
-import { useEffect, useState } from "react";
+import { useFocusEffect, useNavigation } from "@react-navigation/native";
+import React, { useEffect, useState } from "react";
 import {
   ActivityIndicator,
   Pressable,
@@ -12,29 +12,42 @@ import {
 } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import FooterWithModals from "../../components/fotter-bottoms";
-import { getAllTags as fetchAllTags } from "../../services/api";
+import TagList from "../../components/tags";
+import { getAllTags } from "../../services/api";
 import { IStore } from "../../store";
 import { setAllTags, setTagsForNewPost } from "../../store/post/actions";
-import { Tag } from "../../store/post/types";
 import { FeedScreenNavigationProp } from "../create-post/type";
 import { styles } from "./styles";
 
 export const AddTagScreen = () => {
-  const [tags, setTags] = useState<string[]>([]);
+  const [localTags, setLocalTags] = useState<string[]>([]);
   const [text, setText] = useState<string>("");
   const [editIndex, setEditIndex] = useState<number | null>(null);
   const [warning, setWarning] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
 
   const navigation = useNavigation<FeedScreenNavigationProp>();
-  const dispatch = useDispatch();
   const allTags = useSelector((state: IStore) => state.post.tags);
+  const tagsForNewPost = useSelector(
+    (state: IStore) => state.post.tagsForNewPost
+  );
+  const dispatch = useDispatch();
+
+  useFocusEffect(
+    React.useCallback(() => {
+      const combinedTags = new Set([
+        ...tagsForNewPost.map((tag) => tag.nome),
+        ...localTags,
+      ]);
+      setLocalTags([...combinedTags]);
+    }, [tagsForNewPost])
+  );
 
   useEffect(() => {
     const loadTags = async () => {
       setLoading(true);
       try {
-        const response = await fetchAllTags();
+        const response = await getAllTags();
         setAllTags(response.data);
       } catch (error) {
         console.error("Failed to fetch tags:", error);
@@ -42,21 +55,21 @@ export const AddTagScreen = () => {
       setLoading(false);
     };
     loadTags();
-  }, []);
+  }, [dispatch]);
 
   const addTag = () => {
     if (text.trim() !== "") {
-      if (tags.includes(text.trim())) {
+      if (localTags.includes(text.trim())) {
         setWarning("Você já adicionou essa tag.");
         setTimeout(() => setWarning(""), 3000);
       } else {
         if (editIndex !== null) {
-          const newTags = [...tags];
+          const newTags = [...localTags];
           newTags[editIndex] = text.trim();
-          setTags(newTags);
+          setLocalTags(newTags);
           setEditIndex(null);
         } else {
-          setTags([...tags, text.trim()]);
+          setLocalTags([...localTags, text.trim()]);
         }
         setText("");
       }
@@ -64,23 +77,26 @@ export const AddTagScreen = () => {
   };
 
   const removeTag = (index: number) => {
-    const newTags = [...tags];
+    const newTags = [...localTags];
     newTags.splice(index, 1);
-    setTags(newTags);
+    setLocalTags(newTags);
   };
 
   const editTag = (index: number) => {
-    const tagToEdit = tags[index];
+    const tagToEdit = localTags[index];
     setText(tagToEdit);
     setEditIndex(index);
   };
 
   const saveTags = () => {
-    const selectedTags = tags
-      .map((tagName) => {
-        return allTags.find((t) => t.nome === tagName);
-      })
-      .filter((tag): tag is Tag => Boolean(tag));
+    const selectedTags = localTags.map((tagName) => {
+      const existingTag = allTags.find((t) => t.nome === tagName);
+      if (existingTag) {
+        return existingTag;
+      } else {
+        return { id: Date.now().toString(), nome: tagName };
+      }
+    });
 
     setTagsForNewPost(selectedTags);
     navigation.goBack();
@@ -110,51 +126,28 @@ export const AddTagScreen = () => {
         </View>
         <Text style={styles.warning}>{warning}</Text>
         <Text style={styles.subheader}>Tags adicionadas</Text>
-        <View style={styles.tagContainer}>
-          {tags.map((tag, index) => (
-            <View key={index} style={styles.tagWrapper}>
-              <TouchableOpacity
-                onPress={() => editTag(index)}
-                style={[styles.tag, styles.selectedTag]}
-              >
-                <AntDesign name="tag" size={14} color="white" />
-                <Text style={styles.tagText}>{tag}</Text>
-                <TouchableOpacity
-                  onPress={() => removeTag(index)}
-                  style={styles.removeButton}
-                >
-                  <Text style={styles.removeButtonText}>X</Text>
-                </TouchableOpacity>
-              </TouchableOpacity>
-            </View>
-          ))}
-        </View>
+        <TagList
+          tags={localTags}
+          onEdit={editTag}
+          onRemove={removeTag}
+          selected
+        />
         {loading ? (
           <ActivityIndicator size="large" color="#0000ff" />
         ) : (
           <>
             <Text style={styles.subheader}>Tags disponíveis</Text>
-            <View style={styles.tagContainer}>
-              {allTags.map((tag, index) => (
-                <View key={index} style={styles.tagWrapper}>
-                  <TouchableOpacity
-                    style={styles.tag}
-                    onPress={() => {
-                      if (!tags.includes(tag.nome)) {
-                        setTags([...tags, tag.nome]);
-                      } else {
-                        setWarning("Você já adicionou essa tag.");
-                        setTimeout(() => setWarning(""), 3000);
-                      }
-                    }}
-                  >
-                    <AntDesign name="tag" size={14} color="white" />
-                    <Text style={styles.tagText}>{tag.nome}</Text>
-                    <Text style={styles.addButtonText}>+</Text>
-                  </TouchableOpacity>
-                </View>
-              ))}
-            </View>
+            <TagList
+              tags={allTags.map((tag) => tag.nome)}
+              onAdd={(tag) => {
+                if (!localTags.includes(tag)) {
+                  setLocalTags([...localTags, tag]);
+                } else {
+                  setWarning("Você já adicionou essa tag.");
+                  setTimeout(() => setWarning(""), 3000);
+                }
+              }}
+            />
           </>
         )}
       </ScrollView>
@@ -165,3 +158,5 @@ export const AddTagScreen = () => {
     </View>
   );
 };
+
+export default AddTagScreen;
