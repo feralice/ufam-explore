@@ -1,7 +1,6 @@
-// reducer.ts
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { PostInitialState } from "./state";
-import { IDownvote, IPost, IPostRequest, IUpvote } from "./types";
+import { IDownvote, IPost, IPostRequest, IUpvote, Tag } from "./types";
 
 export const postSlice = createSlice({
   name: "post",
@@ -31,5 +30,43 @@ export const postSlice = createSlice({
       state.upvotes[postId] = quantidade;
       return state;
     },
+    setTag: (state, action: PayloadAction<{ postId: string; tag: Tag }>) => {
+      const { postId, tag } = action.payload;
+      const post = state.posts.find((post) => post.id === postId);
+      if (post) {
+        post.tags ? post.tags.push(tag) : (post.tags = [tag]);
+      }
+    },
+    removeTag: (
+      state,
+      action: PayloadAction<{ postId: string; tagId: string }>
+    ) => {
+      const { postId, tagId } = action.payload;
+      const post = state.posts.find((post) => post.id === postId);
+      if (post && post.tags) {
+        post.tags = post.tags.filter((tag) => tag.id !== tagId);
+      }
+    },
+    setAllTags: (state, action: PayloadAction<Tag[]>) => {
+      state.tags = action.payload;
+    },
+    setEditingPost: (state, action: PayloadAction<IPost>) => {
+      state.editingPost = action.payload;
+    },
+    clearEditingPost: (state) => {
+      state.editingPost = null;
+    },
   },
 });
+
+export const {
+  setPostData,
+  setAllPosts,
+  setDownvote,
+  setUpvote,
+  setTag,
+  removeTag,
+  setAllTags,
+} = postSlice.actions;
+
+export default postSlice.reducer;
