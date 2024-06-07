@@ -7,3 +7,4 @@ export type PostForm = {
 };
 
 export type FeedScreenNavigationProp = StackNavigationProp<RootStackParamList, "Home">;
+

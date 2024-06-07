@@ -12,6 +12,7 @@ export const feedStyles = StyleSheet.create({
     bottom: 16,
     right: 16,
   },
+
   fab: {
     position: "absolute",
     right: 0,

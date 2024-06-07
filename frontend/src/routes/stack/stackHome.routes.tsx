@@ -1,9 +1,10 @@
 import { createStackNavigator } from "@react-navigation/stack";
+import { AddTagScreen } from "../../pages/add-tags";
 import { CreatePostScreen } from "../../pages/create-post";
+import { EditPostScreen } from "../../pages/edit_post";
 import { PostScreenExtend } from "../../pages/extend_post";
 import { FeedScreen } from "../../pages/feed";
 import { RootStackParamList } from "../types";
-import { EditPostScreen } from "../../pages/edit_post";
 
 const HomeStack = createStackNavigator<RootStackParamList>();
 
@@ -14,6 +15,7 @@ export const HomeStackNavigator = () => {
       <HomeStack.Screen name="Post" component={CreatePostScreen} />
       <HomeStack.Screen name="ExtendPost" component={PostScreenExtend} />
       <HomeStack.Screen name="EditPost" component={EditPostScreen} />
+      <HomeStack.Screen name="AddTag" component={AddTagScreen} />
     </HomeStack.Navigator>
   );
 };

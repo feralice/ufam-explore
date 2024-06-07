@@ -35,6 +35,12 @@ export const postSlice = createSlice({
       const post = state.posts.find((post) => post.id === postId);
       if (post) {
         post.tags ? post.tags.push(tag) : (post.tags = [tag]);
+      } else {
+        if (state.tagsForNewPost) {
+          state.tagsForNewPost.push(tag);
+        } else {
+          state.tagsForNewPost = [tag];
+        }
       }
     },
     removeTag: (
@@ -56,17 +62,11 @@ export const postSlice = createSlice({
     clearEditingPost: (state) => {
       state.editingPost = null;
     },
+    setTagsForNewPost: (state, action: PayloadAction<Tag[]>) => {
+      state.tagsForNewPost = action.payload;
+    },
   },
 });
 
-export const {
-  setPostData,
-  setAllPosts,
-  setDownvote,
-  setUpvote,
-  setTag,
-  removeTag,
-  setAllTags,
-} = postSlice.actions;
 
 export default postSlice.reducer;

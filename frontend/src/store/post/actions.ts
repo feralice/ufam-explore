@@ -37,3 +37,7 @@ export const setEditingPost = (post: IPost) => {
 export const clearEditingPost = () => {
   store.dispatch(postSlice.actions.clearEditingPost());
 };
+
+export const setTagsForNewPost = (tags: Tag[]) => {
+  store.dispatch(postSlice.actions.setTagsForNewPost(tags));
+};

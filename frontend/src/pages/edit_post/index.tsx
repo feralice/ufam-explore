@@ -1,7 +1,6 @@
 import AntDesign from "@expo/vector-icons/AntDesign";
 import { useNavigation } from "@react-navigation/native";
 import { useState } from "react";
-import { useForm } from "react-hook-form";
 import {
   ActivityIndicator,
   Image,
@@ -11,12 +10,8 @@ import {
   View,
 } from "react-native";
 import { CustomInput } from "../../components/inputs";
-import { createPost } from "../../services/api";
-import { setPostData } from "../../store/post/actions";
-import { PostInitialState } from "../../store/post/state";
-import { IPostRequest } from "../../store/post/types";
-import styles from "./style";
 import { FeedScreenNavigationProp } from "../create-post/type";
+import styles from "./style";
 
 const img = require("../../assets/img_test.jpg");
 

@@ -1,11 +1,12 @@
 import { AxiosResponse } from "axios";
-import { IPostRequest } from "../store/post/types";
+import { Tag } from "../store/post/types";
 import { api } from "./config";
 import {
   ICreatePostRequest,
   IDownvoteResponse,
   ILoginRequest,
   ILoginResponse,
+  ITagResponse,
   IUpvoteResponse,
 } from "./types";
 
@@ -19,21 +20,31 @@ export const login = async (
 
 export const createPost = async (
   userId: string,
-  body: ICreatePostRequest
-): Promise<AxiosResponse<IPostRequest>> => {
+  body: ICreatePostRequest,
+  file?: File
+): Promise<AxiosResponse<ICreatePostRequest>> => {
   const formData = new FormData();
   formData.append("userId", userId);
   formData.append("titulo", body.titulo);
   formData.append("texto", body.texto);
+  if (body.eventoId) {
+    formData.append("eventoId", body.eventoId);
+  }
+  if (body.tags) {
+    body.tags.forEach((tag) => formData.append("tags[]", tag.nome));
+  }
+  if (file) {
+    formData.append("file", file);
+  }
 
   const response = await api.post("/create-post", formData, {
     headers: {
       "Content-Type": "multipart/form-data",
     },
   });
+
   return response;
 };
-
 export const getAllPosts = async (userId: string) => {
   const response = await api.get(`/all-posts/${userId}`);
   return response;
@@ -72,5 +83,24 @@ export const removeDownvoteByPostId = async (
   postId: string
 ): Promise<AxiosResponse<void>> => {
   const response = await api.delete(`${postId}/downvote`, { data: { userId } });
+  return response;
+};
+
+export const postTagByName = async (
+  tagName: string
+): Promise<AxiosResponse<ITagResponse>> => {
+  const response = await api.get<ITagResponse>(`/tag/${tagName}`);
+  return response;
+};
+
+export const getAllTags = async (): Promise<AxiosResponse<Tag[]>> => {
+  const response = await api.get("/tag/all");
+  return response;
+};
+
+export const getTagByName = async (
+  tagName: string
+): Promise<AxiosResponse<ITagResponse>> => {
+  const response = await api.get(`/tag/tag-by-name/${tagName}`);
   return response;
 };

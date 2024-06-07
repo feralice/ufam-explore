@@ -1,5 +1,6 @@
 import AntDesign from "@expo/vector-icons/AntDesign";
 import { useNavigation } from "@react-navigation/native";
+import * as ImagePicker from "expo-image-picker";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import {
@@ -8,22 +9,21 @@ import {
   Pressable,
   ScrollView,
   Text,
+  TouchableOpacity,
   View,
-  TouchableOpacity
 } from "react-native";
+import { useSelector } from "react-redux";
 import { CustomInput } from "../../components/inputs";
 import { createPost } from "../../services/api";
-import { setPostData } from "../../store/post/actions";
+import { IStore } from "../../store";
+import { setPostData, setTagsForNewPost } from "../../store/post/actions";
 import { PostInitialState } from "../../store/post/state";
-import { IPostRequest } from "../../store/post/types";
+import { IPostRequest, Tag } from "../../store/post/types";
 import styles from "./style";
 import { FeedScreenNavigationProp } from "./type";
-import * as ImagePicker from 'expo-image-picker';
-
 
 const img = require("../../assets/adicionar_foto.png");
 const img_perfil = require("../../assets/img_test.jpg");
-
 
 export const CreatePostScreen = () => {
   const { setValue, handleSubmit } = useForm<IPostRequest>({
@@ -34,16 +34,21 @@ export const CreatePostScreen = () => {
   });
   const [loading, setLoading] = useState(false);
   const navigation = useNavigation<FeedScreenNavigationProp>();
+  const tagsForNewPost = useSelector(
+    (state: IStore) => state.post.tagsForNewPost
+  );
 
   const handleClick = handleSubmit(async (data) => {
-    //TODO: Remover depois isso aqui apos o login, está mockado para melhor desenvolvimento
     const userId = "1151183c-0355-43a2-91d0-f9f3453faf27";
-    setPostData(data);
+    const postData = { ...data, tags: tagsForNewPost };
+
+    setPostData(postData);
+    console.log("postData", postData);
     setLoading(true);
     try {
-      const resposta = await createPost(userId, data);
-      console.log(resposta.data);
+      await createPost(userId, postData); // Ajuste aqui para lidar com file sendo null
       setLoading(false);
+      setTagsForNewPost([]);
       navigation.goBack();
     } catch (error) {
       console.log(error);
@@ -51,18 +56,17 @@ export const CreatePostScreen = () => {
     }
   });
 
-  const [image, setImage] = useState(img)
+  const [image, setImage] = useState(img);
 
   const handleImagePicker = async () => {
-    const result =  await ImagePicker.launchImageLibraryAsync({
+    const result = await ImagePicker.launchImageLibraryAsync({
       aspect: [4, 4],
       allowsEditing: true,
       base64: true,
       quality: 1,
     });
 
-
-    if(!result.canceled){
+    if (!result.canceled) {
       setImage(result.assets[0].uri);
     }
   };
@@ -81,10 +85,10 @@ export const CreatePostScreen = () => {
             <Image source={img_perfil} style={styles.imagePerfil} />
             <Text>@nickname</Text>
           </View>
-          
+
           <TouchableOpacity onPress={handleImagePicker}>
             <Image
-              source={typeof image === 'string' ? { uri: image } : image}
+              source={typeof image === "string" ? { uri: image } : image}
               style={{ width: 300, height: 200 }}
             />
           </TouchableOpacity>
@@ -101,21 +105,25 @@ export const CreatePostScreen = () => {
             onChangeText={(text) => setValue("texto", text)}
           />
           <View style={styles.icones}>
-            <Pressable>
-              <AntDesign name="bars" size={24} color="darkblue" />
+            <Pressable
+              style={styles.iconeWrapper}
+              onPress={() => navigation.navigate("AddTag")}
+            >
+              <AntDesign name="tag" size={24} color="darkblue" />
+              <Text style={styles.iconeText}>Adicionar tag</Text>
             </Pressable>
-            <Pressable>
-              <AntDesign name="team" size={24} color="darkblue" />
-            </Pressable>
-            <Pressable>
+            <Pressable style={styles.iconeWrapper}>
               <AntDesign name="calendar" size={24} color="darkblue" />
+              <Text style={styles.iconeText}>Adicionar evento</Text>
             </Pressable>
-            <Pressable>
-              <AntDesign name="pushpino" size={24} color="darkblue" />
-            </Pressable>
-            <Pressable>
-              <AntDesign name="smileo" size={24} color="darkblue" />
-            </Pressable>
+          </View>
+          <View style={styles.tagContainer}>
+            {tagsForNewPost.map((tag: Tag) => (
+              <View key={tag.id} style={styles.tagWrapper}>
+                <AntDesign name="tag" size={14} color="white" />
+                <Text style={styles.tagText}>{tag.nome}</Text>
+              </View>
+            ))}
           </View>
         </View>
 

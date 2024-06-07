@@ -40,7 +40,7 @@ const styles = StyleSheet.create({
   },
   imagem: {
     width: "100%",
-    height: (deviceWidth * 2) / 3,
+    height: (deviceWidth * 2) / 4,
     borderRadius: 10,
     marginVertical: 10,
   },
@@ -50,6 +50,14 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     marginTop: 10,
     width: "100%",
+  },
+  iconeWrapper: {
+    alignItems: "center",
+  },
+  iconeText: {
+    marginTop: 5,
+    color: "darkblue",
+    fontSize: 12,
   },
   perfil: {
     flexDirection: "row",
@@ -78,6 +86,25 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: "600",
     textAlign: "center",
+  },
+  tagContainer: {
+    flexDirection: "row",
+    flexWrap: "wrap",
+    marginTop: 10,
+    width: "100%",
+    justifyContent: "center",
+  },
+  tagWrapper: {
+    backgroundColor: "rgba(0, 0, 139, 0.2)",
+    borderRadius: 5,
+    borderWidth: 1,
+    borderColor: "darkblue",
+    padding: 5,
+    margin: 5,
+  },
+  tagText: {
+    color: "darkblue",
+    fontSize: 14,
   },
 });
 

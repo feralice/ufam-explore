@@ -5,4 +5,5 @@ export type RootStackParamList = {
   Post: undefined;
   ExtendPost: { post: IPost };
   EditPost: undefined;
+  AddTag: undefined;
 };

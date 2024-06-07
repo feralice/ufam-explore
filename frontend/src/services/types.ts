@@ -1,3 +1,5 @@
+import { Tag } from "../store/post/types";
+
 export interface ILoginRequest {
   email: string;
   password: string;
@@ -15,7 +17,7 @@ export interface ICreatePostRequest {
   titulo: string;
   texto: string;
   eventoId?: string;
-  tags?: string[];
+  tags?: Tag[];
 }
 
 export interface IDownvoteResponse {
@@ -30,4 +32,7 @@ export interface IUpvoteResponse {
   postagemId: string;
 }
 
-
+export interface ITagResponse {
+  id: string;
+  nome: string;
+}
