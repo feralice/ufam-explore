@@ -9,6 +9,7 @@ import {
   ScrollView,
   Text,
   View,
+  TouchableOpacity
 } from "react-native";
 import { CustomInput } from "../../components/inputs";
 import { createPost } from "../../services/api";
@@ -17,8 +18,12 @@ import { PostInitialState } from "../../store/post/state";
 import { IPostRequest } from "../../store/post/types";
 import styles from "./style";
 import { FeedScreenNavigationProp } from "./type";
+import * as ImagePicker from 'expo-image-picker';
 
-const img = require("../../assets/img_test.jpg");
+
+const img = require("../../assets/adicionar_foto.png");
+const img_perfil = require("../../assets/img_test.jpg");
+
 
 export const CreatePostScreen = () => {
   const { setValue, handleSubmit } = useForm<IPostRequest>({
@@ -46,6 +51,22 @@ export const CreatePostScreen = () => {
     }
   });
 
+  const [image, setImage] = useState(img)
+
+  const handleImagePicker = async () => {
+    const result =  await ImagePicker.launchImageLibraryAsync({
+      aspect: [4, 4],
+      allowsEditing: true,
+      base64: true,
+      quality: 1,
+    });
+
+
+    if(!result.canceled){
+      setImage(result.assets[0].uri);
+    }
+  };
+
   return (
     <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
       <View style={styles.container}>
@@ -57,10 +78,16 @@ export const CreatePostScreen = () => {
         </Pressable>
         <View style={styles.card}>
           <View style={styles.perfil}>
-            <Image source={img} style={styles.imagePerfil} />
+            <Image source={img_perfil} style={styles.imagePerfil} />
             <Text>@nickname</Text>
           </View>
-          <Image source={img} style={styles.imagem} />
+          
+          <TouchableOpacity onPress={handleImagePicker}>
+            <Image
+              source={typeof image === 'string' ? { uri: image } : image}
+              style={{ width: 300, height: 200 }}
+            />
+          </TouchableOpacity>
           <CustomInput
             placeholder="Título..."
             style={styles.input}
