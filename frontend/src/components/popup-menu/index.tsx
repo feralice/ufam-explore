@@ -6,6 +6,7 @@ import {
   Text,
   TouchableOpacity,
   View,
+  Pressable,
 } from "react-native";
 import { styles } from "./styles";
 import { Option } from "./types";
@@ -34,12 +35,45 @@ const PopupMenu = () => {
     {
       title: "Excluir post",
       icon: "delete",
-      action: () => alert("Excluindo post"),
+      action: () => {
+        setModalVisible(true);
+      },
     },
   ];
+  const [modalVisible, setModalVisible] = useState(false);
 
   return (
     <View style={styles.popupContainer}>
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={() => {
+          setModalVisible(!modalVisible);
+        }}
+      >
+        <View style={styles.centeredView}>
+          <View style={styles.modalView}>
+            <Text style={styles.modalText}>
+              Você tem certeza que deseja apagar o post?
+            </Text>
+            <View style={styles.containerButton}>
+              <Pressable
+                style={[styles.button, styles.buttonClose]}
+                onPress={() => setModalVisible(!modalVisible)}
+              >
+                <Text style={styles.textStyle}>Sim</Text>
+              </Pressable>
+              <Pressable
+                style={[styles.button, styles.buttonClose]}
+                onPress={() => setModalVisible(!modalVisible)}
+              >
+                <Text style={styles.textStyle}>Não</Text>
+              </Pressable>
+            </View>
+          </View>
+        </View>
+      </Modal>
       <TouchableOpacity onPress={() => setVisible(true)}>
         <AntDesign name="ellipsis1" size={24} color="darkblue" />
       </TouchableOpacity>
