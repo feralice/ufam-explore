@@ -1,7 +1,13 @@
 import { StyleSheet } from "react-native";
 import { deviceWidth } from "../../utils/get-device-width";
 
-const styles = StyleSheet.create({
+const radius = 20;
+const proporcao = 0.08;
+
+export const styles = StyleSheet.create({
+  scrollview: {
+    flexGrow: 1,
+  },
   container: {
     flex: 1,
     justifyContent: "center",
@@ -24,6 +30,10 @@ const styles = StyleSheet.create({
     marginVertical: 10,
     width: "100%",
     alignItems: "center",
+  },
+  inputContainer: {
+    width: "100%",
+    marginBottom: 10,
   },
   input: {
     backgroundColor: "rgba(0, 0, 139, 0.2)",
@@ -151,6 +161,10 @@ const styles = StyleSheet.create({
   containerButton: {
     flexDirection: "row-reverse",
     justifyContent: "flex-start",
+  },
+  errorText: {
+    color: "red",
+    fontSize: 12,
   },
 });
 

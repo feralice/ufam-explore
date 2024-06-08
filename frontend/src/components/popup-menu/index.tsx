@@ -1,17 +1,17 @@
 import AntDesign from "@expo/vector-icons/AntDesign";
+import { useNavigation } from "@react-navigation/native";
 import { useState } from "react";
 import {
   Modal,
+  Pressable,
   SafeAreaView,
   Text,
   TouchableOpacity,
   View,
-  Pressable,
 } from "react-native";
+import { FeedScreenNavigationProp } from "../../pages/create-post/type";
 import { styles } from "./styles";
 import { Option } from "./types";
-import { FeedScreenNavigationProp } from "../../pages/create-post/type";
-import { useNavigation } from "@react-navigation/native";
 
 const PopupMenu = () => {
   const [visible, setVisible] = useState(false);
@@ -25,7 +25,10 @@ const PopupMenu = () => {
     {
       title: "Editar post",
       icon: "edit",
-      action: () => navigation.navigate("EditPost"),
+      action: () => {
+        setVisible(false);
+        navigation.navigate("EditPost");
+      },
     },
     {
       title: "Salvar post",

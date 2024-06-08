@@ -35,7 +35,7 @@ export const FeedScreen = () => {
 
   useEffect(() => {
     fetchAllPosts();
-    const intervalId = setInterval(fetchAllPosts, 30000);
+    const intervalId = setInterval(fetchAllPosts, 1800000);
     return () => clearInterval(intervalId);
   }, [fetchAllPosts]);
 

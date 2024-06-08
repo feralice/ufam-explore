@@ -16,27 +16,34 @@ export class EditPostUseCase {
     data: EditPostDto,
     file?: Express.Multer.File,
   ): Promise<any> {
-    console.log(data);
-
     try {
-      const photoUrlInCloudinary = await uploadFileToCloudinary(
-        this.cloudinaryService,
-        file,
-      );
-      console.log(photoUrlInCloudinary);
-
-      const post = await this.postRepository.editPostById(
-        postId,
-        data,
-        photoUrlInCloudinary,
-      );
-
-      await this.postRepository.associateTagsWithPosts(post.id, data.tags);
-
+      const photoUrlInCloudinary = await this.handleFileUpload(postId, file);
+      const post = await this.updatePost(postId, data, photoUrlInCloudinary);
+      console.log('Post updated successfully', post.tags);
       return post;
     } catch (error) {
       console.error(error);
       throw new Error('Error editing post');
     }
+  }
+
+  private async handleFileUpload(
+    postId: string,
+    file?: Express.Multer.File,
+  ): Promise<string> {
+    if (!file) {
+      const existingPost = await this.postRepository.getPhotoByPostId(postId);
+      return existingPost?.imagemUrl || '';
+    }
+    return await uploadFileToCloudinary(this.cloudinaryService, file);
+  }
+
+  private async updatePost(
+    postId: string,
+    data: EditPostDto,
+    photoUrl: string,
+  ): Promise<any> {
+    const post = await this.postRepository.editPostById(postId, data, photoUrl);
+    return post;
   }
 }

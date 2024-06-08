@@ -41,20 +41,17 @@ export const PostCard = ({ post }: PostCardProps) => {
                 style={styles.imageStyle}
                 source={{ uri: post.imagemUrl }}
               />
-            ) : (
-              <>
-                <Text style={styles.title}>{post.titulo}</Text>
-                <Text style={styles.text} numberOfLines={5}>
-                  {post.texto}
-                </Text>
-                {post.tags && post.tags.length > 0 && (
-                  <View style={styles.tagsContainer}>
-                    {post.tags.map((tag) => (
-                      <HashtagInPost key={tag.id} name={tag.nome} />
-                    ))}
-                  </View>
-                )}
-              </>
+            ) : null}
+            <Text style={styles.title}>{post.titulo}</Text>
+            <Text style={styles.text} numberOfLines={5}>
+              {post.texto}
+            </Text>
+            {post.tags && post.tags.length > 0 && (
+              <View style={styles.tagsContainer}>
+                {post.tags.map((tag) => (
+                  <HashtagInPost key={tag.id} name={tag.nome} />
+                ))}
+              </View>
             )}
           </View>
 

@@ -15,7 +15,6 @@ export class DeletePostUseCase {
           'Post not found or not authorized to delete',
         );
       }
-      console.log(`Successfully deleted post with id: ${postId}`);
       return new DeletePostResponseDto('Post deleted successfully');
     } catch (error) {
       console.error('Error deleting post:', error);

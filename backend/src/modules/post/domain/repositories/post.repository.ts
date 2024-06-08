@@ -1,16 +1,12 @@
 import { Injectable } from '@nestjs/common';
 import { Postagem } from '@prisma/client';
-import { TagRepository } from '../../../../modules/tag/domain/tag.repository';
 import { PrismaService } from '../../../../prisma/prisma.service';
 import { CreatePostDto } from '../../application/dto/create/create-post.-request.dto';
 import { EditPostDto } from '../../application/dto/edit/edit-post.dto';
 
 @Injectable()
 export class PostRepository {
-  constructor(
-    private readonly prisma: PrismaService,
-    private readonly tagRepository: TagRepository,
-  ) {}
+  constructor(private readonly prisma: PrismaService) {}
 
   async create(
     usuarioId: string,
@@ -38,7 +34,6 @@ export class PostRepository {
       },
     });
   }
-
   async associateTagsWithPosts(postagemId: string, tags: string[]) {
     if (tags && tags.length) {
       await Promise.all(
@@ -68,7 +63,7 @@ export class PostRepository {
       );
     }
   }
-
+  
   async getPostById(postId: string) {
     return await this.prisma.postagem.findUnique({
       where: { id: postId },
@@ -91,7 +86,7 @@ export class PostRepository {
   }
 
   async editPostById(postId: string, data: EditPostDto, imagemUrl?: string) {
-    const { titulo, texto, eventoId, tags, cursos } = data;
+    const { titulo, texto } = data;
 
     const post = await this.getPostById(postId);
 
@@ -99,27 +94,12 @@ export class PostRepository {
       throw new Error('Post not found');
     }
 
-    const disconnectTags = post?.tags.map((tag) => ({ id: tag.id })) || [];
-    // const disconnectCursos = post?.cursos.map((curso) => ({ id: curso.id })) || [];
-
-    const tagIds = await this.tagRepository.findIdsByName(tags);
-    console.log('Tag IDs:', tagIds);
-
     return await this.prisma.postagem.update({
       where: { id: postId },
       data: {
         titulo,
         texto,
         imagemUrl,
-        evento: eventoId ? { connect: { id: eventoId } } : { disconnect: true },
-        tags: {
-          disconnect: disconnectTags,
-          connect: tagIds.map((tag) => ({ id: tag.id })),
-        },
-        // cursos: {
-        //   disconnect: disconnectCursos,
-        //   connect: cursoIds.map((curso) => ({ id: curso.id })),
-        // },
       },
       include: {
         tags: true,
@@ -132,6 +112,15 @@ export class PostRepository {
     return await this.prisma.postagem.delete({
       where: {
         id: postId,
+      },
+    });
+  }
+
+  async getPhotoByPostId(postId: string) {
+    return await this.prisma.postagem.findUnique({
+      where: { id: postId },
+      select: {
+        imagemUrl: true,
       },
     });
   }

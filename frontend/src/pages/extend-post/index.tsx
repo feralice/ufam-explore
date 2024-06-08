@@ -1,19 +1,49 @@
 import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 import AntDesign from "@expo/vector-icons/AntDesign";
-import { useNavigation, useRoute } from "@react-navigation/native";
+import { useFocusEffect, useNavigation } from "@react-navigation/native";
+import { useCallback } from "react";
 import { Image, Pressable, ScrollView, Text, View } from "react-native";
+import { useDispatch, useSelector } from "react-redux";
 import { HashtagInPost } from "../../components/hashtags";
 import PopupMenu from "../../components/popup-menu";
+import { getPostById } from "../../services/api";
+import { IStore } from "../../store";
+import { setEditingPost } from "../../store/post/actions";
 import { useVoteHandlers } from "../../utils/votes/useVoteHandlers";
 import { styles } from "./style";
-import { PostDetailsScreenRouteProp } from "./types";
 
 const img = require("../../assets/img_test.jpg");
 
 export const PostScreenExtend = () => {
-  const route = useRoute<PostDetailsScreenRouteProp>();
-  const { post } = route.params;
   const navigation = useNavigation();
+  const dispatch = useDispatch();
+  const currentPost = useSelector((state: IStore) => state.post.editingPost);
+
+  const fetchPost = async (postId: string) => {
+    try {
+      const newPost = await getPostById(postId);
+      setEditingPost(newPost.data);
+    } catch (error) {
+      console.error("Failed to fetch post:", error);
+    }
+  };
+
+  useFocusEffect(
+    useCallback(() => {
+      const postId = currentPost?.id;
+      if (postId) {
+        fetchPost(postId);
+      }
+    }, [currentPost?.id])
+  );
+
+  if (!currentPost) {
+    return (
+      <View style={styles.container}>
+        <Text>Carregando...</Text>
+      </View>
+    );
+  }
 
   const {
     handleUpvote,
@@ -22,7 +52,7 @@ export const PostScreenExtend = () => {
     downvoted,
     currentUpvote,
     currentDownvote,
-  } = useVoteHandlers(post);
+  } = useVoteHandlers(currentPost);
 
   return (
     <ScrollView contentContainerStyle={styles.scrollViewContainer}>
@@ -36,18 +66,17 @@ export const PostScreenExtend = () => {
         <View style={styles.cardContainer}>
           <View style={styles.userInfo}>
             <Image style={styles.imagePerfil} source={img} />
-            <Text>@{post.usuario.username}</Text>
+            <Text>@{currentPost.usuario.username}</Text>
             <PopupMenu />
           </View>
           <View style={styles.alignItems}>
-            {post.imagemUrl ? (
+            {currentPost.imagemUrl ? (
               <Image
                 style={styles.imageStyle}
-                source={{ uri: post.imagemUrl }}
+                source={{ uri: currentPost.imagemUrl }}
               />
-            ) : (
-              <Text style={styles.title}>{post.titulo}</Text>
-            )}
+            ) : null}
+            <Text style={styles.title}>{currentPost.titulo}</Text>
           </View>
           <View style={styles.interaction}>
             <Pressable style={styles.icon}>
@@ -77,10 +106,10 @@ export const PostScreenExtend = () => {
             </Pressable>
           </View>
           <ScrollView>
-            <Text style={styles.text}>{post.texto}</Text>
-            {post.tags && post.tags.length > 0 && (
+            <Text style={styles.text}>{currentPost.texto}</Text>
+            {currentPost.tags && currentPost.tags.length > 0 && (
               <View style={styles.tagsContainer}>
-                {post.tags.map((tag) => (
+                {currentPost.tags.map((tag) => (
                   <HashtagInPost key={tag.id} name={tag.nome} />
                 ))}
               </View>

@@ -13,7 +13,7 @@ export const styles = StyleSheet.create({
     borderWidth: 1,
     margin: deviceWidth * 0.06,
     padding: 10,
-    maxHeight: 360,
+    maxHeight: 450,
     overflow: "hidden",
   },
 
@@ -23,6 +23,7 @@ export const styles = StyleSheet.create({
     borderRadius: radius,
     opacity: 0.9,
     justifyContent: "center",
+    paddingBottom: 10,
     alignSelf: "center",
   },
 
@@ -71,6 +72,9 @@ export const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: "bold",
     marginBottom: 5,
+    paddingTop: 10,
+    maxHeight: 70,
+    overflow: "hidden",
   },
 
   text: {

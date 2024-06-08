@@ -36,3 +36,8 @@ export interface ITagResponse {
   id: string;
   nome: string;
 }
+
+export interface IEditPostRequest {
+  titulo: string;
+  texto: string;
+}

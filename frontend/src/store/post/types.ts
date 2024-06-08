@@ -47,6 +47,6 @@ export interface PostInitialStateType {
   userUpvoted: Record<string, boolean>;
   userDownvoted: Record<string, boolean>;
   tags: Tag[];
-  tagsForNewPost: Tag[]; // Adicionando tagsForNewPost aqui
+  tagsForNewPost: Tag[];
   editingPost: IPost | null;
 }

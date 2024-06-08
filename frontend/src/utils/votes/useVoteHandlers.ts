@@ -11,7 +11,6 @@ import { IStore } from "../../store";
 import { setDownvote, setUpvote } from "../../store/post/actions";
 
 export const useVoteHandlers = (post: PostCardProps["post"]) => {
-  // TODO: usar o userId do usuário logado quando implementar autenticação no front
   const userId = "1151183c-0355-43a2-91d0-f9f3453faf27";
   const upvotes = useSelector((store: IStore) => store.post.upvotes);
   const downvotes = useSelector((store: IStore) => store.post.downvotes);
@@ -58,7 +57,6 @@ export const useVoteHandlers = (post: PostCardProps["post"]) => {
       }
     } catch (error) {
       console.error("Failed to update upvotes", error);
-      // Revert the optimistic update on failure
       setUpvoted(!newUpvoted);
       setDownvoted(newDownvoted);
       setUpvote({ postId: post.id, userId, quantidade: currentUpvote });
@@ -99,7 +97,6 @@ export const useVoteHandlers = (post: PostCardProps["post"]) => {
       }
     } catch (error) {
       console.error("Failed to update downvotes", error);
-      // Revert the optimistic update on failure
       setDownvoted(!newDownvoted);
       setUpvoted(newUpvoted);
       setDownvote({ postId: post.id, userId, quantidade: currentDownvote });

@@ -1,37 +1,43 @@
 import AntDesign from "@expo/vector-icons/AntDesign";
+import { yupResolver } from "@hookform/resolvers/yup";
 import { useNavigation } from "@react-navigation/native";
 import * as ImagePicker from "expo-image-picker";
 import { useState } from "react";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import {
   ActivityIndicator,
   Image,
   Pressable,
   ScrollView,
   Text,
-  TouchableOpacity,
   View,
-  Modal,
 } from "react-native";
 import { useSelector } from "react-redux";
+
+import { ImagePickerComponent } from "../../components/image-picker";
 import { CustomInput } from "../../components/inputs";
 import { createPost } from "../../services/api";
 import { IStore } from "../../store";
-import { setPostData, setTagsForNewPost } from "../../store/post/actions";
+import { setTagsForNewPost } from "../../store/post/actions";
 import { PostInitialState } from "../../store/post/state";
 import { IPostRequest, Tag } from "../../store/post/types";
+import { createPostSchema } from "../../utils/schemas/create-post-schema";
 import styles from "./style";
 import { FeedScreenNavigationProp } from "./type";
 
-const img = require("../../assets/adicionar_foto.png");
 const img_perfil = require("../../assets/img_test.jpg");
 
 export const CreatePostScreen = () => {
-  const { setValue, handleSubmit } = useForm<IPostRequest>({
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<IPostRequest>({
     defaultValues: {
       titulo: PostInitialState.post.titulo,
       texto: PostInitialState.post.texto,
     },
+    resolver: yupResolver(createPostSchema),
   });
   const [loading, setLoading] = useState(false);
   const navigation = useNavigation<FeedScreenNavigationProp>();
@@ -39,17 +45,17 @@ export const CreatePostScreen = () => {
     (state: IStore) => state.post.tagsForNewPost
   );
 
+  const [image, setImage] = useState<string | any>(null);
+
   const handleClick = handleSubmit(async (data) => {
     const userId = "1151183c-0355-43a2-91d0-f9f3453faf27";
     const postData = { ...data, tags: tagsForNewPost };
 
-    setPostData(postData);
-    console.log("postData", postData);
     setLoading(true);
     try {
-      await createPost(userId, postData); // Ajuste aqui para lidar com file sendo null
+      await createPost(userId, postData, image);
       setLoading(false);
-      setTagsForNewPost([]); // Limpar as tags após a criação do post
+      setTagsForNewPost([]);
       navigation.goBack();
     } catch (error) {
       console.log(error);
@@ -57,14 +63,11 @@ export const CreatePostScreen = () => {
     }
   });
 
-  const [image, setImage] = useState(img);
-  const [modalVisible, setModalVisible] = useState(false);
-
   const handleImagePicker = async () => {
     const result = await ImagePicker.launchImageLibraryAsync({
-      aspect: [4, 4],
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: true,
-      base64: true,
+      aspect: [4, 4],
       quality: 1,
     });
 
@@ -74,38 +77,8 @@ export const CreatePostScreen = () => {
   };
 
   return (
-    <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
+    <ScrollView contentContainerStyle={styles.scrollview}>
       <View style={styles.container}>
-        <Modal
-          animationType="slide"
-          transparent={true}
-          visible={modalVisible}
-          onRequestClose={() => {
-            setModalVisible(!modalVisible);
-          }}
-        >
-          <View style={styles.centeredView}>
-            <View style={styles.modalView}>
-              <Text style={styles.modalText}>
-                Você tem certeza que deseja adicionar um evento?
-              </Text>
-              <View style={styles.containerButton}>
-                <Pressable
-                  style={[styles.button, styles.buttonClose]}
-                  onPress={() => setModalVisible(!modalVisible)}
-                >
-                  <Text style={styles.textStyle}>Sim</Text>
-                </Pressable>
-                <Pressable
-                  style={[styles.button, styles.buttonClose]}
-                  onPress={() => setModalVisible(!modalVisible)}
-                >
-                  <Text style={styles.textStyle}>Não</Text>
-                </Pressable>
-              </View>
-            </View>
-          </View>
-        </Modal>
         <Pressable
           onPress={() => {
             setTagsForNewPost([]);
@@ -121,38 +94,53 @@ export const CreatePostScreen = () => {
             <Text>@nickname</Text>
           </View>
 
-          <TouchableOpacity onPress={handleImagePicker}>
-            <Image
-              source={typeof image === "string" ? { uri: image } : image}
-              style={{ width: 300, height: 200 }}
-            />
-          </TouchableOpacity>
-          <CustomInput
-            placeholder="Título..."
-            style={styles.input}
-            onChangeText={(text) => setValue("titulo", text)}
+          <ImagePickerComponent image={image} onPress={handleImagePicker} />
+
+          <Controller
+            control={control}
+            name="titulo"
+            render={({ field: { onChange, onBlur, value } }) => (
+              <CustomInput
+                placeholder="Título..."
+                style={styles.input}
+                onChangeText={onChange}
+                onBlur={onBlur}
+                value={value}
+              />
+            )}
           />
-          <CustomInput
-            placeholder="Digite seu texto..."
-            multiline
-            height={200}
-            style={[styles.input, styles.textArea]}
-            onChangeText={(text) => setValue("texto", text)}
+          {errors.titulo && (
+            <Text style={styles.errorText}>{errors.titulo.message}</Text>
+          )}
+
+          <Controller
+            control={control}
+            name="texto"
+            render={({ field: { onChange, onBlur, value } }) => (
+              <CustomInput
+                placeholder="Digite seu texto..."
+                multiline
+                height={200}
+                style={[styles.input, styles.textArea]}
+                onChangeText={onChange}
+                onBlur={onBlur}
+                value={value}
+              />
+            )}
           />
+          {errors.texto && (
+            <Text style={styles.errorText}>{errors.texto.message}</Text>
+          )}
+
           <View style={styles.icones}>
             <Pressable
               style={styles.iconeWrapper}
               onPress={() => navigation.navigate("AddTag")}
             >
-              <AntDesign name="tag" size={24} color="darkblue" />
+              <AntDesign name="tago" size={24} color="darkblue" />
               <Text style={styles.iconeText}>Adicionar tag</Text>
             </Pressable>
-            <Pressable
-              style={styles.iconeWrapper}
-              onPress={() => {
-                setModalVisible(true);
-              }}
-            >
+            <Pressable style={styles.iconeWrapper}>
               <AntDesign name="calendar" size={24} color="darkblue" />
               <Text style={styles.iconeText}>Adicionar evento</Text>
             </Pressable>

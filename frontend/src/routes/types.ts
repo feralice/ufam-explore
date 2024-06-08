@@ -3,7 +3,7 @@ import { IPost } from "../store/post/types";
 export type RootStackParamList = {
   Home: undefined;
   Post: undefined;
-  ExtendPost: { post: IPost };
+  ExtendPost: undefined;
   EditPost: undefined;
   AddTag: undefined;
 };

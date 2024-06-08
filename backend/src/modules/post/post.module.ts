@@ -9,6 +9,7 @@ import { CreatePostUseCase } from './application/use-cases/create-post.service';
 import { DeletePostUseCase } from './application/use-cases/delete-post.service';
 import { EditPostUseCase } from './application/use-cases/edit-post.service';
 import { GetAllPostsUseCase } from './application/use-cases/get-all-posts.service';
+import { GetPostByIdService } from './application/use-cases/get-post-by-id.service';
 import { GetVotesUseCase } from './application/use-cases/get-votes-in-a-post.service';
 import { PostRepository } from './domain/repositories/post.repository';
 
@@ -24,6 +25,7 @@ import { PostRepository } from './domain/repositories/post.repository';
     DownvoteRepository,
     EditPostUseCase,
     DeletePostUseCase,
+    GetPostByIdService,
   ],
 })
 export class PostModule {}

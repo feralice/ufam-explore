@@ -22,6 +22,7 @@ import { CreatePostUseCase } from './use-cases/create-post.service';
 import { DeletePostUseCase } from './use-cases/delete-post.service';
 import { EditPostUseCase } from './use-cases/edit-post.service';
 import { GetAllPostsUseCase } from './use-cases/get-all-posts.service';
+import { GetPostByIdService } from './use-cases/get-post-by-id.service';
 import { GetVotesUseCase } from './use-cases/get-votes-in-a-post.service';
 
 @Public()
@@ -34,6 +35,7 @@ export class PostController {
     private readonly getVotesUseCase: GetVotesUseCase,
     private readonly editPostUseCase: EditPostUseCase,
     private readonly deletePostUseCase: DeletePostUseCase,
+    private readonly getPostByIdUseCase: GetPostByIdService,
   ) {}
 
   @Post('/create-post')
@@ -109,9 +111,6 @@ export class PostController {
     @Body() updatePostDto: EditPostDto,
     @UploadedFile() file?: Express.Multer.File,
   ): Promise<Postagem> {
-    console.log('file', file);
-    console.log('updatePostDto', updatePostDto);
-
     return await this.editPostUseCase.execute(postId, updatePostDto, file);
   }
 
@@ -131,5 +130,16 @@ export class PostController {
     @Param('postId') postId: string,
   ): Promise<DeletePostResponseDto> {
     return await this.deletePostUseCase.execute(postId);
+  }
+
+  @Public()
+  @Get('/post/:postId')
+  @ApiOperation({ summary: 'Get a post by id' })
+  @ApiResponse({
+    status: HttpStatus.OK,
+    description: 'Successfully retrieved post',
+  })
+  async getPostById(@Param('postId') postId: string): Promise<Postagem> {
+    return this.getPostByIdUseCase.execute(postId);
   }
 }
