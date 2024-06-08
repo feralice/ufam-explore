@@ -2,6 +2,8 @@ import AntDesign from "@expo/vector-icons/AntDesign";
 import { useNavigation } from "@react-navigation/native";
 import { useState } from "react";
 import {
+  ActivityIndicator,
+  Alert,
   Modal,
   Pressable,
   SafeAreaView,
@@ -9,13 +11,36 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
+import { useSelector } from "react-redux";
 import { FeedScreenNavigationProp } from "../../pages/create-post/type";
+import { deletePost } from "../../services/api";
+import { IStore } from "../../store";
 import { styles } from "./styles";
 import { Option } from "./types";
 
 const PopupMenu = () => {
   const [visible, setVisible] = useState(false);
+  const [modalVisible, setModalVisible] = useState(false);
+  const [loading, setLoading] = useState(false);
   const navigation = useNavigation<FeedScreenNavigationProp>();
+  const post = useSelector((state: IStore) => state.post.editingPost);
+
+  const handleDeletePost = async () => {
+    setLoading(true);
+    try {
+      const response = await deletePost(post?.id ?? "");
+      if (response.status === 200) {
+        Alert.alert("Sucesso", "Post excluído com sucesso");
+        navigation.navigate("Home");
+      }
+    } catch (error) {
+      Alert.alert("Erro", "Não foi possível excluir o post");
+    } finally {
+      setLoading(false);
+      setModalVisible(false);
+    }
+  };
+
   const options: Option[] = [
     {
       title: "Adicionar ao calendário",
@@ -43,7 +68,6 @@ const PopupMenu = () => {
       },
     },
   ];
-  const [modalVisible, setModalVisible] = useState(false);
 
   return (
     <View style={styles.popupContainer}>
@@ -52,7 +76,7 @@ const PopupMenu = () => {
         transparent={true}
         visible={modalVisible}
         onRequestClose={() => {
-          setModalVisible(!modalVisible);
+          setModalVisible(false);
         }}
       >
         <View style={styles.centeredView}>
@@ -63,13 +87,18 @@ const PopupMenu = () => {
             <View style={styles.containerButton}>
               <Pressable
                 style={[styles.button, styles.buttonClose]}
-                onPress={() => setModalVisible(!modalVisible)}
+                onPress={handleDeletePost}
+                disabled={loading}
               >
-                <Text style={styles.textStyle}>Sim</Text>
+                {loading ? (
+                  <ActivityIndicator size="small" color="#fff" />
+                ) : (
+                  <Text style={styles.textStyle}>Sim</Text>
+                )}
               </Pressable>
               <Pressable
                 style={[styles.button, styles.buttonClose]}
-                onPress={() => setModalVisible(!modalVisible)}
+                onPress={() => setModalVisible(false)}
               >
                 <Text style={styles.textStyle}>Não</Text>
               </Pressable>
@@ -84,7 +113,6 @@ const PopupMenu = () => {
       <Modal transparent visible={visible}>
         <TouchableOpacity style={{ flex: 1 }} onPress={() => setVisible(false)}>
           <SafeAreaView style={{ flex: 1 }} />
-
           <View style={styles.popup}>
             {options.map((op, i) => (
               <TouchableOpacity key={i} onPress={op.action}>

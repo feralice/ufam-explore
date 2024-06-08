@@ -8,7 +8,6 @@ export class DeletePostUseCase {
 
   async execute(postId: string): Promise<DeletePostResponseDto> {
     try {
-      console.log(`Attempting to delete post with id: ${postId}`);
       const post = await this.postRepository.deletePost(postId);
       if (!post) {
         throw new NotFoundException(

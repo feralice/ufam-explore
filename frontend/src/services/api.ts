@@ -125,3 +125,10 @@ export const getTagByName = async (
   const response = await api.get(`/tag/tag-by-name/${tagName}`);
   return response;
 };
+
+export const deletePost = async (
+  postId: string
+): Promise<AxiosResponse<void>> => {
+  const response = await api.delete(`/delete/${postId}`);
+  return response;
+};
