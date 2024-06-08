@@ -12,7 +12,7 @@ import {
 } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import FooterWithModals from "../../components/fotter-bottoms";
-import TagList from "../../components/tags";
+import TagList from "../../components/tags-select";
 import { getAllTags } from "../../services/api";
 import { IStore } from "../../store";
 import { setAllTags, setTagsForNewPost } from "../../store/post/actions";

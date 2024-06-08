@@ -15,54 +15,64 @@ export class CreatePostUseCase {
     private readonly tagRepository: TagRepository,
     private readonly userRepository: UserRepository,
   ) {}
+
   async execute(
     usuarioId: string,
     data: CreatePostDto,
     file?: Express.Multer.File,
   ): Promise<CreatePostResponse> {
-    try {
-      const userExists = await this.userRepository.getUserById(usuarioId);
-      if (!userExists) {
-        throw new NotFoundException(`User with ID ${usuarioId} not found`);
-      }
+    await this.validateUserExists(usuarioId);
 
-      const photoUrlInCloudinary = await uploadFileToCloudinary(
-        this.cloudinaryService,
-        file,
-      );
+    const photoUrlInCloudinary = file
+      ? await uploadFileToCloudinary(this.cloudinaryService, file)
+      : null;
 
-      const existingTags = await this.tagRepository.findByNames(data.tags);
-      const existingTagNames = existingTags.map((tag) => tag.nome);
-      const nonExistingTags = data.tags.filter(
-        (tag) => !existingTagNames.includes(tag),
-      );
+    const allTags = await this.processTags(data.tags);
 
-      let createdTags = [];
-      if (nonExistingTags.length > 0) {
-        createdTags = await this.tagRepository.createMany(nonExistingTags);
-      }
+    const post = await this.postRepository.create(
+      usuarioId,
+      data,
+      photoUrlInCloudinary,
+    );
 
-      const allTags = [...existingTags, ...createdTags];
-
-      const post = await this.postRepository.create(
-        usuarioId,
-        data,
-        photoUrlInCloudinary,
-      );
-
+    if (allTags.length > 0) {
       await this.associateTagsWithPost(
         post.id,
         allTags.map((tag) => tag.nome),
       );
+    }
 
-      return post;
-    } catch (error) {
-      console.error(error);
-      throw new Error('Error creating post');
+    return post;
+  }
+
+  private async validateUserExists(usuarioId: string): Promise<void> {
+    const userExists = await this.userRepository.getUserById(usuarioId);
+    if (!userExists) {
+      throw new NotFoundException(`User with ID ${usuarioId} not found`);
     }
   }
-  private async associateTagsWithPost(postId: string, tags: string[]) {
-    const tagsIds = await this.tagRepository.findIdsByName(tags);
+
+  private async processTags(tags?: string[]): Promise<any[]> {
+    if (!tags || !Array.isArray(tags) || tags.length === 0) {
+      return [];
+    }
+
+    const existingTags = await this.tagRepository.findByNames(tags);
+    const existingTagNames = existingTags.map((tag) => tag.nome);
+    const nonExistingTags = tags.filter(
+      (tag) => !existingTagNames.includes(tag),
+    );
+
+    const createdTags =
+      nonExistingTags.length > 0
+        ? await this.tagRepository.createMany(nonExistingTags)
+        : [];
+
+    return [...existingTags, ...createdTags];
+  }
+
+  private async associateTagsWithPost(postId: string, tagNames: string[]) {
+    const tagsIds = await this.tagRepository.findIdsByName(tagNames);
     await this.postRepository.associateTagsWithPosts(
       postId,
       tagsIds.map((tag) => tag.id),

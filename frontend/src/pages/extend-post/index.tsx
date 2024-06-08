@@ -2,10 +2,11 @@ import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 import AntDesign from "@expo/vector-icons/AntDesign";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { Image, Pressable, ScrollView, Text, View } from "react-native";
+import { HashtagInPost } from "../../components/hashtags";
+import PopupMenu from "../../components/popup-menu";
 import { useVoteHandlers } from "../../utils/votes/useVoteHandlers";
 import { styles } from "./style";
 import { PostDetailsScreenRouteProp } from "./types";
-import PopupMenu from "../../components/popup-menu";
 
 const img = require("../../assets/img_test.jpg");
 
@@ -37,7 +38,6 @@ export const PostScreenExtend = () => {
             <Image style={styles.imagePerfil} source={img} />
             <Text>@{post.usuario.username}</Text>
             <PopupMenu />
-
           </View>
           <View style={styles.alignItems}>
             {post.imagemUrl ? (
@@ -46,9 +46,7 @@ export const PostScreenExtend = () => {
                 source={{ uri: post.imagemUrl }}
               />
             ) : (
-              <>
-                <Text style={styles.title}>{post.titulo}</Text>
-              </>
+              <Text style={styles.title}>{post.titulo}</Text>
             )}
           </View>
           <View style={styles.interaction}>
@@ -80,6 +78,13 @@ export const PostScreenExtend = () => {
           </View>
           <ScrollView>
             <Text style={styles.text}>{post.texto}</Text>
+            {post.tags && post.tags.length > 0 && (
+              <View style={styles.tagsContainer}>
+                {post.tags.map((tag) => (
+                  <HashtagInPost key={tag.id} name={tag.nome} />
+                ))}
+              </View>
+            )}
           </ScrollView>
         </View>
       </View>

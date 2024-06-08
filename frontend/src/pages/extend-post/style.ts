@@ -79,4 +79,9 @@ export const styles = StyleSheet.create({
     top: 40,
     left: 20,
   },
+  tagsContainer: {
+    flexDirection: "row",
+    flexWrap: "wrap",
+    marginTop: 8,
+  },
 });

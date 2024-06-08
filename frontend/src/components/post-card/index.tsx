@@ -1,16 +1,16 @@
 import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
-import React from "react";
 import { Image, Pressable, Text, View } from "react-native";
 import { FeedScreenNavigationProp } from "../../pages/create-post/type";
+import { setEditingPost } from "../../store/post/actions";
 import { useVoteHandlers } from "../../utils/votes/useVoteHandlers";
+import { HashtagInPost } from "../hashtags";
 import { styles } from "./styles";
 import { PostCardProps } from "./types";
-import { setEditingPost } from "../../store/post/actions";
 
 const profileImage = require("../../assets/img_test.jpg");
 
-export const PostCard: React.FC<PostCardProps> = ({ post }) => {
+export const PostCard = ({ post }: PostCardProps) => {
   const navigation = useNavigation<FeedScreenNavigationProp>();
   const {
     handleUpvote,
@@ -25,6 +25,7 @@ export const PostCard: React.FC<PostCardProps> = ({ post }) => {
     navigation.navigate("ExtendPost", { post });
     setEditingPost(post);
   };
+
   return (
     <View style={styles.container}>
       <View style={styles.cardContainer}>
@@ -46,6 +47,13 @@ export const PostCard: React.FC<PostCardProps> = ({ post }) => {
                 <Text style={styles.text} numberOfLines={5}>
                   {post.texto}
                 </Text>
+                {post.tags && post.tags.length > 0 && (
+                  <View style={styles.tagsContainer}>
+                    {post.tags.map((tag) => (
+                      <HashtagInPost key={tag.id} name={tag.nome} />
+                    ))}
+                  </View>
+                )}
               </>
             )}
           </View>
