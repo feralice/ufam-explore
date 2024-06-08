@@ -8,6 +8,8 @@ import {
   ScrollView,
   Text,
   View,
+  Modal,
+  Alert,
 } from "react-native";
 import { CustomInput } from "../../components/inputs";
 import { FeedScreenNavigationProp } from "../create-post/type";
@@ -25,9 +27,41 @@ export const EditPostScreen = () => {
   const [value, setValue] = useState(post?.titulo);
   const [valor, setValor] = useState(post?.texto); //talvez tenha erro aqui
 
+  const [modalVisible, setModalVisible] = useState(false);
+
   return (
     <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
       <View style={styles.container}>
+        <Modal
+          animationType="slide"
+          transparent={true}
+          visible={modalVisible}
+          onRequestClose={() => {
+            setModalVisible(!modalVisible);
+          }}
+        >
+          <View style={styles.centeredView}>
+            <View style={styles.modalView}>
+              <Text style={styles.modalText}>
+                Você tem certeza que deseja fazer essas alterações?
+              </Text>
+              <View style={styles.containerButton}>
+                <Pressable
+                  style={[styles.button, styles.buttonClose]}
+                  onPress={() => setModalVisible(!modalVisible)}
+                >
+                  <Text style={styles.textStyle}>Sim</Text>
+                </Pressable>
+                <Pressable
+                  style={[styles.button, styles.buttonClose]}
+                  onPress={() => setModalVisible(!modalVisible)}
+                >
+                  <Text style={styles.textStyle}>Não</Text>
+                </Pressable>
+              </View>
+            </View>
+          </View>
+        </Modal>
         <Pressable
           onPress={() => navigation.goBack()}
           style={styles.backButton}
@@ -75,7 +109,7 @@ export const EditPostScreen = () => {
 
         <Pressable
           style={styles.EditButton}
-          // onPress={handleClick}
+          onPress={() => setModalVisible(true)}
           disabled={loading}
         >
           {loading ? (
