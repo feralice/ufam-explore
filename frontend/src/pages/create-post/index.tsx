@@ -11,6 +11,7 @@ import {
   Text,
   TouchableOpacity,
   View,
+  Modal,
 } from "react-native";
 import { useSelector } from "react-redux";
 import { CustomInput } from "../../components/inputs";
@@ -57,6 +58,7 @@ export const CreatePostScreen = () => {
   });
 
   const [image, setImage] = useState(img);
+  const [modalVisible, setModalVisible] = useState(false);
 
   const handleImagePicker = async () => {
     const result = await ImagePicker.launchImageLibraryAsync({
@@ -74,6 +76,36 @@ export const CreatePostScreen = () => {
   return (
     <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
       <View style={styles.container}>
+        <Modal
+          animationType="slide"
+          transparent={true}
+          visible={modalVisible}
+          onRequestClose={() => {
+            setModalVisible(!modalVisible);
+          }}
+        >
+          <View style={styles.centeredView}>
+            <View style={styles.modalView}>
+              <Text style={styles.modalText}>
+                Você tem certeza que deseja adicionar um evento?
+              </Text>
+              <View style={styles.containerButton}>
+                <Pressable
+                  style={[styles.button, styles.buttonClose]}
+                  onPress={() => setModalVisible(!modalVisible)}
+                >
+                  <Text style={styles.textStyle}>Sim</Text>
+                </Pressable>
+                <Pressable
+                  style={[styles.button, styles.buttonClose]}
+                  onPress={() => setModalVisible(!modalVisible)}
+                >
+                  <Text style={styles.textStyle}>Não</Text>
+                </Pressable>
+              </View>
+            </View>
+          </View>
+        </Modal>
         <Pressable
           onPress={() => {
             setTagsForNewPost([]);
@@ -115,7 +147,12 @@ export const CreatePostScreen = () => {
               <AntDesign name="tag" size={24} color="darkblue" />
               <Text style={styles.iconeText}>Adicionar tag</Text>
             </Pressable>
-            <Pressable style={styles.iconeWrapper}>
+            <Pressable
+              style={styles.iconeWrapper}
+              onPress={() => {
+                setModalVisible(true);
+              }}
+            >
               <AntDesign name="calendar" size={24} color="darkblue" />
               <Text style={styles.iconeText}>Adicionar evento</Text>
             </Pressable>
