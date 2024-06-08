@@ -48,7 +48,7 @@ export const CreatePostScreen = () => {
     try {
       await createPost(userId, postData); // Ajuste aqui para lidar com file sendo null
       setLoading(false);
-      setTagsForNewPost([]);
+      setTagsForNewPost([]); // Limpar as tags após a criação do post
       navigation.goBack();
     } catch (error) {
       console.log(error);
@@ -75,7 +75,10 @@ export const CreatePostScreen = () => {
     <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
       <View style={styles.container}>
         <Pressable
-          onPress={() => navigation.goBack()}
+          onPress={() => {
+            setTagsForNewPost([]);
+            navigation.goBack();
+          }}
           style={styles.backButton}
         >
           <AntDesign name="arrowleft" size={24} color="black" />

@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import { CloudinaryModule } from '../../adapters/cloudinary/cloudinary.module';
 import { TagModule } from '../tag/tag.module';
+import { UserModule } from '../user/user.module';
 import { DownvoteRepository } from '../votes/downvote/downvote.repository';
 import { UpvoteRepository } from '../votes/upvote/upvote.repository';
 import { PostController } from './application/post.controller';
@@ -12,7 +13,7 @@ import { GetVotesUseCase } from './application/use-cases/get-votes-in-a-post.ser
 import { PostRepository } from './domain/repositories/post.repository';
 
 @Module({
-  imports: [TagModule, CloudinaryModule],
+  imports: [TagModule, CloudinaryModule, UserModule],
   controllers: [PostController],
   providers: [
     PostRepository,

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Modal, Text, TouchableOpacity, View } from "react-native";
 import { styles } from "./styles";
 
@@ -7,21 +7,15 @@ interface FooterWithModalsProps {
   onSave: () => void;
 }
 
-const FooterWithModals: React.FC<FooterWithModalsProps> = ({
-  onCancel,
-  onSave,
-}) => {
+const FooterWithModals = ({ onCancel, onSave }: FooterWithModalsProps) => {
   const [modalVisible, setModalVisible] = useState(false);
-  const [modalAction, setModalAction] = useState<() => void>(() => {});
 
   const handleCancel = () => {
-    setModalAction(() => onCancel);
     setModalVisible(true);
   };
 
   const handleSave = () => {
-    setModalAction(() => onSave);
-    setModalVisible(true);
+    onSave();
   };
 
   return (
@@ -41,7 +35,7 @@ const FooterWithModals: React.FC<FooterWithModalsProps> = ({
       >
         <View style={styles.modalContainer}>
           <View style={styles.modalView}>
-            <Text style={styles.modalText}>Deseja cancelar edição?</Text>
+            <Text style={styles.modalText}>Deseja cancelar a edição?</Text>
             <View style={styles.modalButtonContainer}>
               <TouchableOpacity
                 style={[styles.modalButton, styles.modalButtonCancel]}
@@ -52,7 +46,7 @@ const FooterWithModals: React.FC<FooterWithModalsProps> = ({
               <TouchableOpacity
                 style={[styles.modalButton, styles.modalButtonConfirm]}
                 onPress={() => {
-                  modalAction();
+                  onCancel();
                   setModalVisible(false);
                 }}
               >
