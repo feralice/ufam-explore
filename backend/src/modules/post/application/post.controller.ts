@@ -100,6 +100,7 @@ export class PostController {
 
   @Public()
   @Patch('edit/:postId')
+  @UseInterceptors(FileInterceptor('file'))
   @ApiOperation({ summary: 'Update a post' })
   @ApiResponse({
     status: HttpStatus.OK,

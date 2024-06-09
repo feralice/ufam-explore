@@ -1,23 +1,26 @@
 {
   "expo": {
-    "name": "frontend",
-    "slug": "frontend",
+    "name": "MyApp",
+    "slug": "myapp",
     "version": "1.0.0",
-    "orientation": "portrait",
-    "userInterfaceStyle": "light",
-    "splash": {
-      "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
-    },
+    "assetBundlePatterns": ["**/*"],
     "ios": {
-      "supportsTablet": true
-    },
-    "android": {
-      "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
+      "supportsTablet": true,
+      "bundleIdentifier": "com.mycompany.myapp",
+      "buildNumber": "1.0.0",
+      "infoPlist": {
+        "NSCameraUsageDescription": "This app needs access to your camera.",
+        "NSPhotoLibraryUsageDescription": "This app needs access to your photos."
       }
     },
-    "web": {}
+    "android": {
+      "package": "com.mycompany.myapp",
+      "versionCode": 1,
+      "permissions": [
+        "CAMERA",
+        "READ_EXTERNAL_STORAGE",
+        "WRITE_EXTERNAL_STORAGE"
+      ]
+    }
   }
 }
