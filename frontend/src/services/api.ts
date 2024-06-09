@@ -1,4 +1,6 @@
 import { AxiosResponse } from "axios";
+import * as FileSystem from "react-native-fs";
+import * as Permissions from "react-native-permissions";
 import { IPost, Tag } from "../store/post/types";
 import { api } from "./config";
 import {
@@ -15,7 +17,6 @@ export const login = async (
   data: ILoginRequest
 ): Promise<AxiosResponse<ILoginResponse>> => {
   const response = await api.post<ILoginResponse>("/login", data);
-  //setToken(response.data.accessToken);
   return response;
 };
 
@@ -26,6 +27,27 @@ export const createPost = async (
 ): Promise<AxiosResponse<ICreatePostRequest>> => {
   const formData = new FormData();
 
+  // Request storage permission
+  const storagePermission = await Permissions.request(
+    Permissions.PERMISSIONS.ANDROID.READ_EXTERNAL_STORAGE
+  );
+
+  if (storagePermission !== Permissions.RESULTS.GRANTED) {
+    throw new Error("Storage permission denied");
+  }
+
+  // Handle file URI conversion and append to FormData
+  if (fileUri) {
+    const filePath = `${FileSystem.DocumentDirectoryPath}/photo.jpg`;
+    await FileSystem.downloadFile({
+      fromUrl: fileUri,
+      toFile: filePath,
+    }).promise;
+    const blob = await fetch(filePath).then((res) => res.blob());
+
+    formData.append("file", blob, "photo.jpg");
+  }
+
   formData.append("userId", userId);
   formData.append("titulo", body.titulo);
   formData.append("texto", body.texto);
@@ -35,15 +57,13 @@ export const createPost = async (
   if (body.tags) {
     body.tags.forEach((tag) => formData.append("tags[]", tag.nome));
   }
-  if (fileUri) {
-    const response = await fetch(fileUri);
-    const blob = await response.blob();
-    formData.append("file", blob, "photo.jpg");
-  }
 
   const response = await api.post("/create-post", formData, {
     headers: {
       "Content-Type": "multipart/form-data",
+    },
+    transformRequest: (data, headers) => {
+      return formData;
     },
   });
 
@@ -55,7 +75,6 @@ export const editPost = async (
   body: IEditPostRequest
 ): Promise<AxiosResponse<IPost>> => {
   const response = await api.patch(`/edit/${postId}`, body);
-
   return response;
 };
 
