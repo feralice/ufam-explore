@@ -20,4 +20,9 @@ export const feedStyles = StyleSheet.create({
     borderRadius: 50,
     backgroundColor: "darkblue",
   },
+  loadingContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
 });

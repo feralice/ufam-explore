@@ -1,4 +1,5 @@
 import { AxiosResponse } from "axios";
+import * as FileSystem from "expo-file-system";
 import { IPost, Tag } from "../store/post/types";
 import { api } from "./config";
 import {
@@ -34,15 +35,23 @@ export const createPost = async (
     body.tags.forEach((tag) => formData.append("tags[]", tag.nome));
   }
   if (fileUri) {
-    const response = await fetch(fileUri);
-    const blob = await response.blob();
-    formData.append("file", blob, "photo.jpg");
+    const fileInfo = await FileSystem.getInfoAsync(fileUri);
+    if (fileInfo.exists) {
+      const fileType = fileUri.substring(fileUri.lastIndexOf(".") + 1);
+      const fileBlob = {
+        uri: fileUri,
+        name: `photo.${fileType}`,
+        type: `image/${fileType}`,
+      };
+      formData.append("file", fileBlob as any);
+    }
   }
   const response = await api.post("/create-post", formData, {
     headers: {
       "Content-Type": "multipart/form-data",
     },
   });
+
   return response;
 };
 

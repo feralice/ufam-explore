@@ -59,7 +59,6 @@ export const CreatePostScreen = () => {
   });
 
   const handleImagePicker = async () => {
-    // Solicitar permissão
     const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
     if (status !== "granted") {
       alert(

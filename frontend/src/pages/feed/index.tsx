@@ -1,7 +1,13 @@
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { useCallback, useState } from "react";
-import { FlatList, Image, ListRenderItem, View } from "react-native";
+import {
+  ActivityIndicator,
+  FlatList,
+  Image,
+  ListRenderItem,
+  View,
+} from "react-native";
 import { FAB } from "react-native-paper";
 import { BottomSelection } from "../../components/botton-selection";
 import { PostCard } from "../../components/post-card";
@@ -16,6 +22,7 @@ type FeedScreenNavigationProp = StackNavigationProp<RootStackParamList, "Home">;
 
 export const FeedScreen = () => {
   const [posts, setPosts] = useState<IPost[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
   const navigation = useNavigation<FeedScreenNavigationProp>();
   const [intervalId, setIntervalId] = useState<NodeJS.Timeout | null>(null);
 
@@ -28,6 +35,8 @@ export const FeedScreen = () => {
       setPosts(response.data);
     } catch (error) {
       console.error(error);
+    } finally {
+      setLoading(false);
     }
   }, []);
 
@@ -47,6 +56,14 @@ export const FeedScreen = () => {
     ({ item }) => <PostCard key={item.id} post={item} />,
     []
   );
+
+  if (loading) {
+    return (
+      <View style={feedStyles.loadingContainer}>
+        <ActivityIndicator size="large" color="#0000ff" />
+      </View>
+    );
+  }
 
   return (
     <View style={{ flex: 1 }}>
