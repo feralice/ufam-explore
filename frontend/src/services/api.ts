@@ -23,7 +23,7 @@ export const createPost = async (
   body: ICreatePostRequest,
   fileUri?: string
 ): Promise<AxiosResponse<ICreatePostRequest>> => {
-  let formData = new FormData();
+  const formData = new FormData();
   formData.append("userId", userId);
   formData.append("titulo", body.titulo);
   formData.append("texto", body.texto);
@@ -38,11 +38,7 @@ export const createPost = async (
     const blob = await response.blob();
     formData.append("file", blob, "photo.jpg");
   }
-  const response = await api.post("/create-post", formData, {
-    headers: {
-      "Content-Type": "multipart/form-data",
-    },
-  });
+  const response = await api.post("/create-post", formData);
   return response;
 };
 

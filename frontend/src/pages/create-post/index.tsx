@@ -12,7 +12,7 @@ import {
   Text,
   View,
 } from "react-native";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 import { ImagePickerComponent } from "../../components/image-picker";
 import { CustomInput } from "../../components/inputs";
@@ -44,6 +44,7 @@ export const CreatePostScreen = () => {
   const tagsForNewPost = useSelector(
     (state: IStore) => state.post.tagsForNewPost
   );
+  const dispatch = useDispatch();
 
   const [image, setImage] = useState<string | any>(null);
 
@@ -64,6 +65,15 @@ export const CreatePostScreen = () => {
   });
 
   const handleImagePicker = async () => {
+    // Solicitar permissão
+    const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+    if (status !== "granted") {
+      alert(
+        "Desculpe, precisamos da permissão para acessar a galeria para que isso funcione!"
+      );
+      return;
+    }
+
     const result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: true,
