@@ -1,6 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { UserRepository } from 'src/modules/user/infrastructure/user.repository';
 import { CloudinaryService } from '../../../../adapters/cloudinary/cloudinary.service';
+import { UserRepository } from '../../../../modules/user/infrastructure/user.repository';
 import { TagRepository } from '../../../tag/infrastructure/tag.repository';
 import { CreatePostResponse } from '../../application/dto/create/create-post-response.dto';
 import { CreatePostDto } from '../../application/dto/create/create-post.-request.dto';
