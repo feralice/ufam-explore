@@ -38,7 +38,11 @@ export const createPost = async (
     const blob = await response.blob();
     formData.append("file", blob, "photo.jpg");
   }
-  const response = await api.post("/create-post", formData);
+  const response = await api.post("/create-post", formData, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+  });
   return response;
 };
 

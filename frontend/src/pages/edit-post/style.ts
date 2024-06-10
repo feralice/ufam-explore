@@ -1,7 +1,7 @@
 import { StyleSheet } from "react-native";
 import { deviceWidth } from "../../utils/get-device-width";
 
-const styles = StyleSheet.create({
+export const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: "center",
@@ -94,8 +94,7 @@ const styles = StyleSheet.create({
     shadowColor: "#000",
     shadowOffset: {
       width: 0,
-      height: 2,
-    },
+      height: 2 },
     shadowOpacity: 0.25,
     shadowRadius: 4,
     elevation: 5,
@@ -127,4 +126,3 @@ const styles = StyleSheet.create({
   },
 });
 
-export default styles;

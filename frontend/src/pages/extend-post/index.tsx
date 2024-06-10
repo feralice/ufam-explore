@@ -3,7 +3,7 @@ import AntDesign from "@expo/vector-icons/AntDesign";
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import { useCallback } from "react";
 import { Image, Pressable, ScrollView, Text, View } from "react-native";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { HashtagInPost } from "../../components/hashtags";
 import PopupMenu from "../../components/popup-menu";
 import { getPostById } from "../../services/api";
@@ -16,7 +16,6 @@ const img = require("../../assets/img_test.jpg");
 
 export const PostScreenExtend = () => {
   const navigation = useNavigation();
-  const dispatch = useDispatch();
   const currentPost = useSelector((state: IStore) => state.post.editingPost);
 
   const fetchPost = async (postId: string) => {

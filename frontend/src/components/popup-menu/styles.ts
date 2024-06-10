@@ -1,5 +1,6 @@
-import { StyleSheet } from "react-native";
-import { deviceWidth } from "../../utils/get-device-width";
+import { Dimensions, StyleSheet } from "react-native";
+
+const { width, height } = Dimensions.get("window");
 
 export const styles = StyleSheet.create({
   popupContainer: {
@@ -7,70 +8,31 @@ export const styles = StyleSheet.create({
     top: 0,
     right: 0,
   },
+  modalOverlay: {
+    flex: 1,
+  },
+  safeAreaView: {
+    flex: 1,
+  },
   popup: {
     borderRadius: 8,
     borderColor: "darkblue",
     borderWidth: 1,
-    backgroundColor: "rgba(255, 255, 255, 0.6)",
+    backgroundColor: "rgba(255, 255, 255, 0.8)",
     paddingHorizontal: 10,
     position: "absolute",
-    top: 30,
-    right: 10,
+    top: height * 0.12,
+    right: width * 0.08,
+    width: 200,
   },
   option: {
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    paddingVertical: 7,
+    paddingVertical: height * 0.01,
     borderBottomColor: "#ccc",
   },
-  texto: {
+  optionText: {
     color: "darkblue",
-  },
-  centeredView: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    marginTop: 22,
-  },
-  modalView: {
-    margin: 20,
-    backgroundColor: "white",
-    borderRadius: 20,
-    padding: 35,
-    alignItems: "center",
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
-    elevation: 5,
-  },
-  button: {
-    borderRadius: 25,
-    padding: 10,
-    elevation: 2,
-    width: deviceWidth * 0.4,
-  },
-  buttonOpen: {
-    backgroundColor: "#F194FF",
-  },
-  buttonClose: {
-    backgroundColor: "#2196F3",
-  },
-  textStyle: {
-    color: "white",
-    fontWeight: "bold",
-    textAlign: "center",
-  },
-  modalText: {
-    marginBottom: 15,
-    textAlign: "center",
-  },
-  containerButton: {
-    flexDirection: "row-reverse",
-    justifyContent: "flex-start",
   },
 });

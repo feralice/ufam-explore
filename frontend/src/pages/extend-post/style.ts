@@ -42,7 +42,7 @@ export const styles = StyleSheet.create({
   },
   interaction: {
     flexDirection: "row",
-    justifyContent: "space-around",
+    justifyContent: "space-between",
     borderRadius: 5,
     padding: 10,
   },
@@ -66,13 +66,13 @@ export const styles = StyleSheet.create({
   title: {
     fontSize: 18,
     fontWeight: "bold",
+    paddingTop: 10,
     marginBottom: 5,
   },
   text: {
     fontSize: 14,
     padding: 10,
     borderRadius: 10,
-    paddingHorizontal: 15,
   },
   backButton: {
     position: "absolute",
@@ -83,5 +83,6 @@ export const styles = StyleSheet.create({
     flexDirection: "row",
     flexWrap: "wrap",
     marginTop: 8,
+    paddingLeft: 10,
   },
 });

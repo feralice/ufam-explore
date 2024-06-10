@@ -1,21 +1,15 @@
 import AntDesign from "@expo/vector-icons/AntDesign";
 import { useNavigation } from "@react-navigation/native";
 import { useEffect, useState } from "react";
-import {
-  ActivityIndicator,
-  Image,
-  Modal,
-  Pressable,
-  ScrollView,
-  Text,
-  View,
-} from "react-native";
+import { Image, Pressable, ScrollView, Text, View } from "react-native";
 import { useSelector } from "react-redux";
+import { BlueButton } from "../../components/blue-button";
+import ConfirmationModal from "../../components/confirm-modal";
 import { CustomInput } from "../../components/inputs";
 import { editPost } from "../../services/api";
 import { IStore } from "../../store";
 import { FeedScreenNavigationProp } from "../create-post/type";
-import styles from "./style";
+import { styles } from "./style";
 
 const img = require("../../assets/img_test.jpg");
 
@@ -62,39 +56,13 @@ export const EditPostScreen = () => {
   return (
     <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
       <View style={styles.container}>
-        <Modal
-          animationType="slide"
-          transparent={true}
+        <ConfirmationModal
           visible={modalVisible}
-          onRequestClose={() => {
-            setModalVisible(!modalVisible);
-          }}
-        >
-          <View style={styles.centeredView}>
-            <View style={styles.modalView}>
-              <Text style={styles.modalText}>
-                Você tem certeza que deseja fazer essas alterações?
-              </Text>
-              <View style={styles.containerButton}>
-                <Pressable
-                  style={[styles.button, styles.buttonClose]}
-                  onPress={() => {
-                    setModalVisible(!modalVisible);
-                    handleClick();
-                  }}
-                >
-                  <Text style={styles.textStyle}>Sim</Text>
-                </Pressable>
-                <Pressable
-                  style={[styles.button, styles.buttonClose]}
-                  onPress={() => setModalVisible(!modalVisible)}
-                >
-                  <Text style={styles.textStyle}>Não</Text>
-                </Pressable>
-              </View>
-            </View>
-          </View>
-        </Modal>
+          onClose={() => setModalVisible(false)}
+          onConfirm={handleClick}
+          loading={loading}
+          text="Você tem certeza que deseja fazer essas alterações?"
+        />
         <Pressable
           onPress={() => navigation.goBack()}
           style={styles.backButton}
@@ -129,17 +97,11 @@ export const EditPostScreen = () => {
           </View>
         </View>
 
-        <Pressable
-          style={styles.EditButton}
+        <BlueButton
           onPress={() => setModalVisible(true)}
-          disabled={loading}
-        >
-          {loading ? (
-            <ActivityIndicator size="small" color="#fff" />
-          ) : (
-            <Text style={styles.publicarButtonText}>Salvar Edição</Text>
-          )}
-        </Pressable>
+          loading={loading}
+          text="Salvar Edição"
+        />
       </View>
     </ScrollView>
   );

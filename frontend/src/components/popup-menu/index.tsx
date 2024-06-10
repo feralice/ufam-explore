@@ -2,21 +2,23 @@ import AntDesign from "@expo/vector-icons/AntDesign";
 import { useNavigation } from "@react-navigation/native";
 import { useState } from "react";
 import {
-  ActivityIndicator,
   Alert,
+  Dimensions,
   Modal,
   Pressable,
   SafeAreaView,
   Text,
-  TouchableOpacity,
   View,
 } from "react-native";
 import { useSelector } from "react-redux";
 import { FeedScreenNavigationProp } from "../../pages/create-post/type";
 import { deletePost } from "../../services/api";
 import { IStore } from "../../store";
+import ConfirmationModal from "../confirm-modal";
 import { styles } from "./styles";
 import { Option } from "./types";
+
+const { width, height } = Dimensions.get("window");
 
 const PopupMenu = () => {
   const [visible, setVisible] = useState(false);
@@ -38,6 +40,7 @@ const PopupMenu = () => {
     } finally {
       setLoading(false);
       setModalVisible(false);
+      setVisible(false);
     }
   };
 
@@ -71,59 +74,34 @@ const PopupMenu = () => {
 
   return (
     <View style={styles.popupContainer}>
-      <Modal
-        animationType="slide"
-        transparent={true}
+      <ConfirmationModal
         visible={modalVisible}
-        onRequestClose={() => {
-          setModalVisible(false);
-        }}
-      >
-        <View style={styles.centeredView}>
-          <View style={styles.modalView}>
-            <Text style={styles.modalText}>
-              Você tem certeza que deseja apagar o post?
-            </Text>
-            <View style={styles.containerButton}>
-              <Pressable
-                style={[styles.button, styles.buttonClose]}
-                onPress={handleDeletePost}
-                disabled={loading}
-              >
-                {loading ? (
-                  <ActivityIndicator size="small" color="#fff" />
-                ) : (
-                  <Text style={styles.textStyle}>Sim</Text>
-                )}
-              </Pressable>
-              <Pressable
-                style={[styles.button, styles.buttonClose]}
-                onPress={() => setModalVisible(false)}
-              >
-                <Text style={styles.textStyle}>Não</Text>
-              </Pressable>
-            </View>
-          </View>
-        </View>
-      </Modal>
-      <TouchableOpacity onPress={() => setVisible(true)}>
+        onClose={() => setModalVisible(false)}
+        onConfirm={handleDeletePost}
+        text="Você tem certeza que deseja apagar o post?"
+        loading={loading}
+      />
+      <Pressable onPress={() => setVisible(!visible)}>
         <AntDesign name="ellipsis1" size={24} color="darkblue" />
-      </TouchableOpacity>
+      </Pressable>
 
       <Modal transparent visible={visible}>
-        <TouchableOpacity style={{ flex: 1 }} onPress={() => setVisible(false)}>
-          <SafeAreaView style={{ flex: 1 }} />
+        <Pressable
+          style={styles.modalOverlay}
+          onPress={() => setVisible(false)}
+        >
+          <SafeAreaView style={styles.safeAreaView} />
           <View style={styles.popup}>
             {options.map((op, i) => (
-              <TouchableOpacity key={i} onPress={op.action}>
+              <Pressable key={i} onPress={op.action}>
                 <View style={styles.option}>
                   <AntDesign name={op.icon} size={24} color="darkblue" />
-                  <Text>{op.title}</Text>
+                  <Text style={styles.optionText}>{op.title}</Text>
                 </View>
-              </TouchableOpacity>
+              </Pressable>
             ))}
           </View>
-        </TouchableOpacity>
+        </Pressable>
       </Modal>
     </View>
   );

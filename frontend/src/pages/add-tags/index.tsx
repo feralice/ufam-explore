@@ -7,10 +7,9 @@ import {
   ScrollView,
   Text,
   TextInput,
-  TouchableOpacity,
   View,
 } from "react-native";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import FooterWithModals from "../../components/fotter-bottoms";
 import TagList from "../../components/tags-select";
 import { getAllTags } from "../../services/api";
@@ -31,7 +30,6 @@ export const AddTagScreen = () => {
   const tagsForNewPost = useSelector(
     (state: IStore) => state.post.tagsForNewPost
   );
-  const dispatch = useDispatch();
 
   useFocusEffect(
     React.useCallback(() => {
@@ -55,7 +53,7 @@ export const AddTagScreen = () => {
       setLoading(false);
     };
     loadTags();
-  }, [dispatch]);
+  }, []);
 
   const addTag = () => {
     if (text.trim() !== "") {
@@ -120,9 +118,9 @@ export const AddTagScreen = () => {
             onChangeText={setText}
             onSubmitEditing={addTag}
           />
-          <TouchableOpacity style={styles.searchButton} onPress={addTag}>
+          <Pressable style={styles.searchButton} onPress={addTag}>
             <AntDesign name="search1" size={20} color="black" />
-          </TouchableOpacity>
+          </Pressable>
         </View>
         <Text style={styles.warning}>{warning}</Text>
         <Text style={styles.subheader}>Tags adicionadas</Text>

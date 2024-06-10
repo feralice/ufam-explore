@@ -4,16 +4,10 @@ import { useNavigation } from "@react-navigation/native";
 import * as ImagePicker from "expo-image-picker";
 import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
-import {
-  ActivityIndicator,
-  Image,
-  Pressable,
-  ScrollView,
-  Text,
-  View,
-} from "react-native";
-import { useDispatch, useSelector } from "react-redux";
+import { Alert, Image, Pressable, ScrollView, Text, View } from "react-native";
+import { useSelector } from "react-redux";
 
+import { BlueButton } from "../../components/blue-button";
 import { ImagePickerComponent } from "../../components/image-picker";
 import { CustomInput } from "../../components/inputs";
 import { createPost } from "../../services/api";
@@ -44,7 +38,6 @@ export const CreatePostScreen = () => {
   const tagsForNewPost = useSelector(
     (state: IStore) => state.post.tagsForNewPost
   );
-  const dispatch = useDispatch();
 
   const [image, setImage] = useState<string | any>(null);
 
@@ -55,11 +48,12 @@ export const CreatePostScreen = () => {
     setLoading(true);
     try {
       await createPost(userId, postData, image);
-      setLoading(false);
       setTagsForNewPost([]);
-      navigation.goBack();
+      navigation.navigate("Home");
     } catch (error) {
+      Alert.alert("Erro", "Não foi possível criar o post. Tente novamente.");
       console.log(error);
+    } finally {
       setLoading(false);
     }
   });
@@ -165,17 +159,7 @@ export const CreatePostScreen = () => {
           </View>
         </View>
 
-        <Pressable
-          style={styles.publicarButton}
-          onPress={handleClick}
-          disabled={loading}
-        >
-          {loading ? (
-            <ActivityIndicator size="small" color="#fff" />
-          ) : (
-            <Text style={styles.publicarButtonText}>Publicar</Text>
-          )}
-        </Pressable>
+        <BlueButton onPress={handleClick} loading={loading} text="Publicar" />
       </View>
     </ScrollView>
   );

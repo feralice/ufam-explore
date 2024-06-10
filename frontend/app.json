@@ -10,7 +10,11 @@
       "backgroundColor": "#ffffff"
     },
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "infoPlist": {
+        "NSCameraUsageDescription": "This app needs access to your camera.",
+        "NSPhotoLibraryUsageDescription": "This app needs access to your photos."
+      }
     },
     "android": {
       "adaptiveIcon": {
@@ -24,6 +28,8 @@
         "READ_EXTERNAL_STORAGE"
       ]
     },
-    "web": {}
+    "web": {
+      "favicon": "./assets/favicon.png"
+    }
   }
 }

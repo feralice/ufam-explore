@@ -1,5 +1,5 @@
 import { AntDesign } from "@expo/vector-icons";
-import { Text, TouchableOpacity, View } from "react-native";
+import { Pressable, Text, View } from "react-native";
 import { styles } from "./style";
 import { TagListProps } from "./types";
 
@@ -10,22 +10,22 @@ export const TagList = (props: TagListProps) => {
     <View style={styles.tagContainer}>
       {tags.map((tag, index) => (
         <View key={index} style={styles.tagWrapper}>
-          <TouchableOpacity
+          <Pressable
             onPress={() => (selected ? onEdit?.(index) : onAdd?.(tag))}
             style={[styles.tag, selected && styles.selectedTag]}
           >
             <AntDesign name="tag" size={14} color="white" />
             <Text style={styles.tagText}>{tag}</Text>
             {selected && (
-              <TouchableOpacity
+              <Pressable
                 onPress={() => onRemove?.(index)}
                 style={styles.removeButton}
               >
                 <Text style={styles.removeButtonText}>X</Text>
-              </TouchableOpacity>
+              </Pressable>
             )}
             {!selected && <Text style={styles.addButtonText}>+</Text>}
-          </TouchableOpacity>
+          </Pressable>
         </View>
       ))}
     </View>
