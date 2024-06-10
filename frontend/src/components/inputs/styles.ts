@@ -9,7 +9,7 @@ export const styles = StyleSheet.create({
     padding: 10,
     margin: 15,
     color: "darkblue",
-    
+
     borderBottomColor: "#000000",
   },
   textArea: {

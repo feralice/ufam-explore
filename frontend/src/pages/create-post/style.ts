@@ -1,8 +1,4 @@
 import { StyleSheet } from "react-native";
-import { deviceWidth } from "../../utils/get-device-width";
-
-const radius = 20;
-const proporcao = 0.08;
 
 export const styles = StyleSheet.create({
   scrollview: {
@@ -31,10 +27,6 @@ export const styles = StyleSheet.create({
     width: "100%",
     alignItems: "center",
   },
-  inputContainer: {
-    width: "100%",
-    marginBottom: 10,
-  },
   input: {
     backgroundColor: "rgba(0, 0, 139, 0.2)",
     borderRadius: 5,
@@ -47,12 +39,6 @@ export const styles = StyleSheet.create({
   },
   textArea: {
     height: 200,
-  },
-  imagem: {
-    width: "100%",
-    height: (deviceWidth * 2) / 4,
-    borderRadius: 10,
-    marginVertical: 10,
   },
   icones: {
     flexDirection: "row",
@@ -81,22 +67,6 @@ export const styles = StyleSheet.create({
     height: 30,
     marginRight: 10,
   },
-  publicarButton: {
-    backgroundColor: "darkblue",
-    borderRadius: 25,
-    paddingVertical: 10,
-    paddingHorizontal: 20,
-    width: "60%",
-    marginTop: 20,
-    alignSelf: "center",
-    marginBottom: 30,
-  },
-  publicarButtonText: {
-    color: "white",
-    fontSize: 16,
-    fontWeight: "600",
-    textAlign: "center",
-  },
   tagContainer: {
     flexDirection: "row",
     flexWrap: "wrap",
@@ -116,56 +86,9 @@ export const styles = StyleSheet.create({
     color: "darkblue",
     fontSize: 14,
   },
-  centeredView: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    marginTop: 22,
-  },
-  modalView: {
-    margin: 20,
-    backgroundColor: "white",
-    borderRadius: 20,
-    padding: 35,
-    alignItems: "center",
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
-    elevation: 5,
-  },
-  button: {
-    borderRadius: 25,
-    padding: 10,
-    elevation: 2,
-    width: deviceWidth * 0.4,
-  },
-  buttonOpen: {
-    backgroundColor: "#F194FF",
-  },
-  buttonClose: {
-    backgroundColor: "#2196F3",
-  },
-  textStyle: {
-    color: "white",
-    fontWeight: "bold",
-    textAlign: "center",
-  },
-  modalText: {
-    marginBottom: 15,
-    textAlign: "center",
-  },
-  containerButton: {
-    flexDirection: "row-reverse",
-    justifyContent: "flex-start",
-  },
   errorText: {
     color: "red",
     fontSize: 12,
   },
 });
 
-export default styles;

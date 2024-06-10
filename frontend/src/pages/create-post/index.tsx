@@ -16,7 +16,7 @@ import { setTagsForNewPost } from "../../store/post/actions";
 import { PostInitialState } from "../../store/post/state";
 import { IPostRequest, Tag } from "../../store/post/types";
 import { createPostSchema } from "../../utils/schemas/create-post-schema";
-import styles from "./style";
+import { styles } from "./style";
 import { FeedScreenNavigationProp } from "./type";
 
 const img_perfil = require("../../assets/img_test.jpg");
