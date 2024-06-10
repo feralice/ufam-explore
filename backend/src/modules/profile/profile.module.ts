@@ -1,8 +1,8 @@
 import { Module } from '@nestjs/common';
 import { ProfileController } from './application/profile.controller';
-import { CreateProfileService } from './application/use-cases/create-profile.service';
-import { GetAllProfilesService } from './application/use-cases/find-all.service';
-import { ProfileRepository } from './domain/repositories/profile.repository';
+import { CreateProfileService } from './domain/use-cases/create-profile.service';
+import { GetAllProfilesService } from './domain/use-cases/find-all.service';
+import { ProfileRepository } from './infrastructure/repositories/profile.repository';
 
 @Module({
   controllers: [ProfileController],

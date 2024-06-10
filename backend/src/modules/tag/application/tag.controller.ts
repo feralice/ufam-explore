@@ -6,13 +6,13 @@ import {
   ApiTags,
 } from '@nestjs/swagger';
 import { Tag } from '@prisma/client';
+import { CreateTagService } from '../domain/use-cases/create-tag.service';
+import { FindAllTagsService } from '../domain/use-cases/find-all.service';
+import { FindByAreaService } from '../domain/use-cases/find-by-area.service';
+import { FindByCourseService } from '../domain/use-cases/find-by-couse.service';
+import { FindTagByNameService } from '../domain/use-cases/find-by-name.service';
+import { FindOthersTagsService } from '../domain/use-cases/find-others-tags.service';
 import { CreateTagResponseDto } from './dto/create-tag-response.dto';
-import { CreateTagService } from './use-cases/create-tag.service';
-import { FindAllTagsService } from './use-cases/find-all.service';
-import { FindByAreaService } from './use-cases/find-by-area.service';
-import { FindByCourseService } from './use-cases/find-by-couse.service';
-import { FindTagByNameService } from './use-cases/find-by-name.service';
-import { FindOthersTagsService } from './use-cases/find-others-tags.service';
 
 @ApiBearerAuth()
 @ApiTags('Tag')

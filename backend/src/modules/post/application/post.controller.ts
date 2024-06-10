@@ -14,16 +14,16 @@ import { FileInterceptor } from '@nestjs/platform-express';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { Postagem } from '@prisma/client';
 import { Public } from '../../../common/decorators/auth.decorator';
+import { CreatePostUseCase } from '../domain/use-cases/create-post.service';
+import { DeletePostUseCase } from '../domain/use-cases/delete-post.service';
+import { EditPostUseCase } from '../domain/use-cases/edit-post.service';
+import { GetAllPostsUseCase } from '../domain/use-cases/get-all-posts.service';
+import { GetPostByIdService } from '../domain/use-cases/get-post-by-id.service';
+import { GetVotesUseCase } from '../domain/use-cases/get-votes-in-a-post.service';
 import { CreatePostResponse } from './dto/create/create-post-response.dto';
 import { CreatePostDto } from './dto/create/create-post.-request.dto';
 import { DeletePostResponseDto } from './dto/delete/delete-post-response.dto';
 import { EditPostDto } from './dto/edit/edit-post.dto';
-import { CreatePostUseCase } from './use-cases/create-post.service';
-import { DeletePostUseCase } from './use-cases/delete-post.service';
-import { EditPostUseCase } from './use-cases/edit-post.service';
-import { GetAllPostsUseCase } from './use-cases/get-all-posts.service';
-import { GetPostByIdService } from './use-cases/get-post-by-id.service';
-import { GetVotesUseCase } from './use-cases/get-votes-in-a-post.service';
 
 @Public()
 @ApiTags('Post')

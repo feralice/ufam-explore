@@ -14,11 +14,10 @@ import {
   ApiResponse,
   ApiTags,
 } from '@nestjs/swagger';
+import { CreateProfileService } from '../domain/use-cases/create-profile.service';
+import { GetAllProfilesService } from '../domain/use-cases/find-all.service';
 import { CreateProfileDto } from './dto/create-profile-request';
 import { CreateProfileResponse } from './dto/create-profile-response';
-import { CreateProfileService } from './use-cases/create-profile.service';
-import { GetAllProfilesService } from './use-cases/find-all.service';
-
 @ApiBearerAuth()
 @Controller('profile')
 @ApiTags('Profile')

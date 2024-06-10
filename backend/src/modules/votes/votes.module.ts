@@ -1,12 +1,12 @@
 import { Module } from '@nestjs/common';
-import { PostRepository } from '../post/domain/repositories/post.repository';
+import { PostRepository } from '../post/infrastructure/repositories/post.repository';
 import { PostModule } from '../post/post.module';
 import { TagModule } from '../tag/tag.module';
-import { DownvoteRepository } from './downvote/downvote.repository';
-import { DownvoteService } from './downvote/downvote.service';
-import { UpvoteRepository } from './upvote/upvote.repository';
-import { UpvoteService } from './upvote/upvote.service';
-import { VotesController } from './votes.controller';
+import { VotesController } from './application/votes.controller';
+import { DownvoteService } from './domain/downvote.service';
+import { UpvoteService } from './domain/upvote.service';
+import { DownvoteRepository } from './infrastructure/downvote.repository';
+import { UpvoteRepository } from './infrastructure/upvote.repository';
 
 @Module({
   imports: [PostModule, TagModule],
