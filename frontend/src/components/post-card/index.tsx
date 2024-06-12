@@ -1,8 +1,9 @@
 import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import { Image, Pressable, Text, View } from "react-native";
+import { useDispatch } from "react-redux";
 import { FeedScreenNavigationProp } from "../../pages/create-post/type";
-import { setEditingPost } from "../../store/post/actions";
+import { setCurrentPost } from "../../store/post/actions";
 import { useVoteHandlers } from "../../utils/votes/useVoteHandlers";
 import { HashtagInPost } from "../hashtags";
 import { styles } from "./styles";
@@ -22,8 +23,8 @@ export const PostCard = ({ post }: PostCardProps) => {
   } = useVoteHandlers(post);
 
   const handleClick = () => {
-    navigation.navigate("ExtendPost", { post });
-    setEditingPost(post);
+    setCurrentPost(post);
+    navigation.navigate("ExtendPost");
   };
 
   return (
@@ -32,7 +33,7 @@ export const PostCard = ({ post }: PostCardProps) => {
         <Pressable onPress={handleClick}>
           <View style={styles.userInfo}>
             <Image style={styles.imagePerfil} source={profileImage} />
-            <Text>@{post.usuario.username}</Text>
+            <Text>@{post.usuario?.username}</Text>
           </View>
 
           <View style={styles.alignItems}>

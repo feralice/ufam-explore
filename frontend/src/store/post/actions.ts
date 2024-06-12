@@ -30,12 +30,12 @@ export const removeTag = (postId: string, tagId: string) => {
   store.dispatch(postSlice.actions.removeTag({ postId, tagId }));
 };
 
-export const setEditingPost = (post: IPost) => {
-  store.dispatch(postSlice.actions.setEditingPost(post));
+export const setCurrentPost = (post: IPost) => {
+  store.dispatch(postSlice.actions.setCurrentPost(post));
 };
 
-export const clearEditingPost = () => {
-  store.dispatch(postSlice.actions.clearEditingPost());
+export const clearCurrentPost = () => {
+  store.dispatch(postSlice.actions.clearCurrentPost());
 };
 
 export const setTagsForNewPost = (tags: Tag[]) => {

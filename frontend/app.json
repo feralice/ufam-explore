@@ -24,7 +24,6 @@
         "READ_EXTERNAL_STORAGE"
       ]
     },
-    "web": {
-    }
+    "web": {}
   }
 }

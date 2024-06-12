@@ -19,7 +19,7 @@ export const styles = StyleSheet.create({
     padding: 10,
   },
   imageStyle: {
-    height: 140,
+    height: 250,
     width: "100%",
     borderRadius: radius,
     opacity: 0.9,

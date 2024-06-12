@@ -56,17 +56,16 @@ export const postSlice = createSlice({
     setAllTags: (state, action: PayloadAction<Tag[]>) => {
       state.tags = action.payload;
     },
-    setEditingPost: (state, action: PayloadAction<IPost>) => {
-      state.editingPost = action.payload;
+    setCurrentPost: (state, action: PayloadAction<IPost>) => {
+      state.currentPost = action.payload;
     },
-    clearEditingPost: (state) => {
-      state.editingPost = null;
+    clearCurrentPost: (state) => {
+      state.currentPost = null;
     },
     setTagsForNewPost: (state, action: PayloadAction<Tag[]>) => {
       state.tagsForNewPost = action.payload;
     },
   },
 });
-
 
 export default postSlice.reducer;

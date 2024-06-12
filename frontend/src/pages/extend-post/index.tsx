@@ -1,14 +1,16 @@
-import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
-import AntDesign from "@expo/vector-icons/AntDesign";
+import {
+  AntDesign,
+  Ionicons,
+  MaterialCommunityIcons,
+} from "@expo/vector-icons";
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import { useCallback } from "react";
 import { Image, Pressable, ScrollView, Text, View } from "react-native";
 import { useSelector } from "react-redux";
 import { HashtagInPost } from "../../components/hashtags";
 import PopupMenu from "../../components/popup-menu";
-import { getPostById } from "../../services/api";
 import { IStore } from "../../store";
-import { setEditingPost } from "../../store/post/actions";
+import { Tag } from "../../store/post/types";
 import { useVoteHandlers } from "../../utils/votes/useVoteHandlers";
 import { styles } from "./style";
 
@@ -16,24 +18,14 @@ const img = require("../../assets/img_test.jpg");
 
 export const PostScreenExtend = () => {
   const navigation = useNavigation();
-  const currentPost = useSelector((state: IStore) => state.post.editingPost);
-
-  const fetchPost = async (postId: string) => {
-    try {
-      const newPost = await getPostById(postId);
-      setEditingPost(newPost.data);
-    } catch (error) {
-      console.error("Failed to fetch post:", error);
-    }
-  };
+  const currentPost = useSelector((state: IStore) => state.post.currentPost);
 
   useFocusEffect(
     useCallback(() => {
-      const postId = currentPost?.id;
-      if (postId) {
-        fetchPost(postId);
+      if (!currentPost) {
+        navigation.goBack();
       }
-    }, [currentPost?.id])
+    }, [currentPost, navigation])
   );
 
   if (!currentPost) {
@@ -108,7 +100,7 @@ export const PostScreenExtend = () => {
             <Text style={styles.text}>{currentPost.texto}</Text>
             {currentPost.tags && currentPost.tags.length > 0 && (
               <View style={styles.tagsContainer}>
-                {currentPost.tags.map((tag) => (
+                {currentPost.tags.map((tag: Tag) => (
                   <HashtagInPost key={tag.id} name={tag.nome} />
                 ))}
               </View>

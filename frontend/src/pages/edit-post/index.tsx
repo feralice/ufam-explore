@@ -8,15 +8,17 @@ import ConfirmationModal from "../../components/confirm-modal";
 import { CustomInput } from "../../components/inputs";
 import { editPost } from "../../services/api";
 import { IStore } from "../../store";
+import { setCurrentPost } from "../../store/post/actions";
 import { FeedScreenNavigationProp } from "../create-post/type";
 import { styles } from "./style";
 
 const img = require("../../assets/img_test.jpg");
 
 export const EditPostScreen = () => {
-  const [loading, setLoading] = useState(false);
   const navigation = useNavigation<FeedScreenNavigationProp>();
-  const post = useSelector((state: IStore) => state.post.editingPost);
+
+  const [loading, setLoading] = useState(false);
+  const post = useSelector((state: IStore) => state.post.currentPost);
 
   const [title, setTitle] = useState("");
   const [text, setText] = useState("");
@@ -44,8 +46,12 @@ export const EditPostScreen = () => {
         titulo: title,
         texto: text,
       };
-      await editPost(post.id, updatePostDto);
-      navigation.goBack();
+      const response = await editPost(post.id, updatePostDto);
+      if (response.status === 200) {
+        const updatedPost = response.data;
+        setCurrentPost(updatedPost);
+        navigation.goBack();
+      }
     } catch (error) {
       console.log(error);
     } finally {
@@ -72,7 +78,7 @@ export const EditPostScreen = () => {
         <View style={styles.card}>
           <View style={styles.perfil}>
             <Image source={img} style={styles.imagePerfil} />
-            <Text>@{post.usuario.username}</Text>
+            <Text>@{post.usuario?.username}</Text>
           </View>
           {post.imagemUrl ? (
             <Image source={{ uri: post.imagemUrl }} style={styles.imagem} />

@@ -25,7 +25,7 @@ const PopupMenu = () => {
   const [modalVisible, setModalVisible] = useState(false);
   const [loading, setLoading] = useState(false);
   const navigation = useNavigation<FeedScreenNavigationProp>();
-  const post = useSelector((state: IStore) => state.post.editingPost);
+  const post = useSelector((state: IStore) => state.post.currentPost);
 
   const handleDeletePost = async () => {
     setLoading(true);

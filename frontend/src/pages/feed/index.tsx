@@ -13,6 +13,7 @@ import { BottomSelection } from "../../components/botton-selection";
 import { PostCard } from "../../components/post-card";
 import { RootStackParamList } from "../../routes/types";
 import { getAllPosts } from "../../services/api";
+import { setAllPosts } from "../../store/post/actions";
 import { IPost } from "../../store/post/types";
 import { feedStyles } from "./styles";
 
@@ -33,6 +34,7 @@ export const FeedScreen = () => {
         "1151183c-0355-43a2-91d0-f9f3453faf27"
       );
       setPosts(response.data);
+      setAllPosts(response.data);
     } catch (error) {
       console.error(error);
     } finally {

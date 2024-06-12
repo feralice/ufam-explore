@@ -12,5 +12,5 @@ export const PostInitialState: PostInitialStateType = {
   userDownvoted: {},
   tags: [],
   tagsForNewPost: [],
-  editingPost: null,
+  currentPost: null,
 };
