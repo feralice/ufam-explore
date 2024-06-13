@@ -23,12 +23,38 @@ export const postSlice = createSlice({
     setDownvote: (state, action: PayloadAction<IDownvote>) => {
       const { postId, quantidade } = action.payload;
       state.downvotes[postId] = quantidade;
-      return state;
     },
     setUpvote: (state, action: PayloadAction<IUpvote>) => {
       const { postId, quantidade } = action.payload;
       state.upvotes[postId] = quantidade;
-      return state;
+    },
+    setUserUpvoted: (
+      state,
+      action: PayloadAction<{
+        postId: string;
+        userId: string;
+        upvoted: boolean;
+      }>
+    ) => {
+      const { postId, upvoted } = action.payload;
+      state.userUpvoted[postId] = upvoted;
+    },
+    setUserDownvoted: (
+      state,
+      action: PayloadAction<{
+        postId: string;
+        userId: string;
+        downvoted: boolean;
+      }>
+    ) => {
+      const { postId, downvoted } = action.payload;
+      state.userDownvoted[postId] = downvoted;
+    },
+    setCurrentPost: (state, action: PayloadAction<IPost>) => {
+      state.currentPost = action.payload;
+    },
+    clearCurrentPost: (state) => {
+      state.currentPost = null;
     },
     setTag: (state, action: PayloadAction<{ postId: string; tag: Tag }>) => {
       const { postId, tag } = action.payload;
@@ -56,12 +82,7 @@ export const postSlice = createSlice({
     setAllTags: (state, action: PayloadAction<Tag[]>) => {
       state.tags = action.payload;
     },
-    setCurrentPost: (state, action: PayloadAction<IPost>) => {
-      state.currentPost = action.payload;
-    },
-    clearCurrentPost: (state) => {
-      state.currentPost = null;
-    },
+
     setTagsForNewPost: (state, action: PayloadAction<Tag[]>) => {
       state.tagsForNewPost = action.payload;
     },

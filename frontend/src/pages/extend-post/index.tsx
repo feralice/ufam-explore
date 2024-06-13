@@ -10,7 +10,6 @@ import { useSelector } from "react-redux";
 import { HashtagInPost } from "../../components/hashtags";
 import PopupMenu from "../../components/popup-menu";
 import { IStore } from "../../store";
-import { Tag } from "../../store/post/types";
 import { useVoteHandlers } from "../../utils/votes/useVoteHandlers";
 import { styles } from "./style";
 
@@ -43,7 +42,7 @@ export const PostScreenExtend = () => {
     downvoted,
     currentUpvote,
     currentDownvote,
-  } = useVoteHandlers(currentPost);
+  } = useVoteHandlers(currentPost.id);
 
   return (
     <ScrollView contentContainerStyle={styles.scrollViewContainer}>
@@ -100,7 +99,7 @@ export const PostScreenExtend = () => {
             <Text style={styles.text}>{currentPost.texto}</Text>
             {currentPost.tags && currentPost.tags.length > 0 && (
               <View style={styles.tagsContainer}>
-                {currentPost.tags.map((tag: Tag) => (
+                {currentPost.tags.map((tag) => (
                   <HashtagInPost key={tag.id} name={tag.nome} />
                 ))}
               </View>

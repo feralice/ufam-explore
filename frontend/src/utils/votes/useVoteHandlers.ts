@@ -1,7 +1,5 @@
-import { useFocusEffect } from "@react-navigation/native";
-import { useCallback, useRef, useState } from "react";
+import { useCallback, useRef } from "react";
 import { useSelector } from "react-redux";
-import { PostCardProps } from "../../components/post-card/types";
 import {
   postDownvoteByPostId,
   postUpvoteByPostId,
@@ -9,117 +7,164 @@ import {
   removeUpvoteByPostId,
 } from "../../services/api";
 import { IStore } from "../../store";
-import { setDownvote, setUpvote } from "../../store/post/actions";
+import {
+  updateCurrentPost,
+  updateDownvote,
+  updateUpvote,
+  updateUserDownvoted,
+  updateUserUpvoted,
+} from "../../store/post/actions";
 
-export const useVoteHandlers = (post: PostCardProps["post"]) => {
+export const useVoteHandlers = (postId: string) => {
   const userId = "1151183c-0355-43a2-91d0-f9f3453faf27";
+
   const upvotes = useSelector(
-    (store: IStore) => store.post.upvotes[post.id] || 0
+    (store: IStore) => store.post.upvotes[postId] || 0
   );
   const downvotes = useSelector(
-    (store: IStore) => store.post.downvotes[post.id] || 0
+    (store: IStore) => store.post.downvotes[postId] || 0
   );
-  const userUpvotedPosts = useSelector(
-    (store: IStore) => store.post.userUpvoted[post.id] || false
+  const userUpvoted = useSelector(
+    (store: IStore) => store.post.userUpvoted[postId] || false
   );
-  const userDownvotedPosts = useSelector(
-    (store: IStore) => store.post.userDownvoted[post.id] || false
+  const userDownvoted = useSelector(
+    (store: IStore) => store.post.userDownvoted[postId] || false
   );
-
-  const [upvoted, setUpvoted] = useState(userUpvotedPosts);
-  const [downvoted, setDownvoted] = useState(userDownvotedPosts);
+  const currentPost = useSelector((store: IStore) => store.post.currentPost);
 
   const votingRef = useRef(false);
 
-  // Sincronize o estado local quando a tela ganha foco
-  useFocusEffect(
-    useCallback(() => {
-      setUpvoted(userUpvotedPosts);
-      setDownvoted(userDownvotedPosts);
-    }, [userUpvotedPosts, userDownvotedPosts])
-  );
+  const updateCurrentPostVotes = (
+    newUpvotes: number,
+    newDownvotes: number,
+    upvoted: boolean,
+    downvoted: boolean
+  ) => {
+    if (currentPost && currentPost.id === postId) {
+      const updatedPost = {
+        ...currentPost,
+        upvotes: newUpvotes,
+        downvotes: newDownvotes,
+        userUpvoted: upvoted,
+        userDownvoted: downvoted,
+      };
+      updateCurrentPost(updatedPost);
+    }
+  };
 
-  const handleUpvote = async () => {
+  const handleUpvote = useCallback(async () => {
     if (votingRef.current) return;
     votingRef.current = true;
 
-    const newUpvoted = !upvoted;
+    const newUpvoted = !userUpvoted;
     const newDownvoted = false;
     const newUpvoteCount = newUpvoted ? upvotes + 1 : upvotes - 1;
-    const newDownvoteCount = downvoted ? downvotes - 1 : downvotes;
+    const newDownvoteCount = userDownvoted ? downvotes - 1 : downvotes;
 
-    setUpvoted(newUpvoted);
-    setDownvoted(newDownvoted);
-    setUpvote({ postId: post.id, userId, quantidade: newUpvoteCount });
-    if (downvoted) {
-      setDownvote({ postId: post.id, userId, quantidade: newDownvoteCount });
+    updateUpvote({ postId, userId, quantidade: newUpvoteCount });
+    updateUserUpvoted(postId, userId, newUpvoted);
+    if (userDownvoted) {
+      updateDownvote({ postId, userId, quantidade: newDownvoteCount });
+      updateUserDownvoted(postId, userId, newDownvoted);
     }
+
+    updateCurrentPostVotes(
+      newUpvoteCount,
+      newDownvoteCount,
+      newUpvoted,
+      newDownvoted
+    );
 
     try {
       if (newUpvoted) {
-        await postUpvoteByPostId(userId, post.id);
+        await postUpvoteByPostId(userId, postId);
       } else {
-        await removeUpvoteByPostId(userId, post.id);
+        await removeUpvoteByPostId(userId, postId);
       }
-      if (downvoted) {
-        await removeDownvoteByPostId(userId, post.id);
+      if (userDownvoted) {
+        await removeDownvoteByPostId(userId, postId);
       }
     } catch (error) {
       console.error("Failed to update upvotes", error);
-      setUpvoted(!newUpvoted);
-      setDownvoted(newDownvoted);
-      setUpvote({ postId: post.id, userId, quantidade: upvotes });
-      if (downvoted) {
-        setDownvote({ postId: post.id, userId, quantidade: downvotes });
+      updateUpvote({ postId, userId, quantidade: upvotes });
+      updateUserUpvoted(postId, userId, userUpvoted);
+      if (userDownvoted) {
+        updateDownvote({ postId, userId, quantidade: downvotes });
+        updateUserDownvoted(postId, userId, userDownvoted);
       }
+      updateCurrentPostVotes(upvotes, downvotes, userUpvoted, userDownvoted);
     } finally {
       votingRef.current = false;
     }
-  };
+  }, [
+    userUpvoted,
+    userDownvoted,
+    upvotes,
+    downvotes,
+    userId,
+    postId,
+    currentPost,
+  ]);
 
-  const handleDownvote = async () => {
+  const handleDownvote = useCallback(async () => {
     if (votingRef.current) return;
     votingRef.current = true;
 
-    const newDownvoted = !downvoted;
+    const newDownvoted = !userDownvoted;
     const newUpvoted = false;
     const newDownvoteCount = newDownvoted ? downvotes + 1 : downvotes - 1;
-    const newUpvoteCount = upvoted ? upvotes - 1 : upvotes;
+    const newUpvoteCount = userUpvoted ? upvotes - 1 : upvotes;
 
-    setDownvoted(newDownvoted);
-    setUpvoted(newUpvoted);
-    setDownvote({ postId: post.id, userId, quantidade: newDownvoteCount });
-    if (upvoted) {
-      setUpvote({ postId: post.id, userId, quantidade: newUpvoteCount });
+    updateDownvote({ postId, userId, quantidade: newDownvoteCount });
+    updateUserDownvoted(postId, userId, newDownvoted);
+    if (userUpvoted) {
+      updateUpvote({ postId, userId, quantidade: newUpvoteCount });
+      updateUserUpvoted(postId, userId, newUpvoted);
     }
+
+    updateCurrentPostVotes(
+      newUpvoteCount,
+      newDownvoteCount,
+      newUpvoted,
+      newDownvoted
+    );
 
     try {
       if (newDownvoted) {
-        await postDownvoteByPostId(userId, post.id);
+        await postDownvoteByPostId(userId, postId);
       } else {
-        await removeDownvoteByPostId(userId, post.id);
+        await removeDownvoteByPostId(userId, postId);
       }
-      if (upvoted) {
-        await removeUpvoteByPostId(userId, post.id);
+      if (userUpvoted) {
+        await removeUpvoteByPostId(userId, postId);
       }
     } catch (error) {
       console.error("Failed to update downvotes", error);
-      setDownvoted(!newDownvoted);
-      setUpvoted(newUpvoted);
-      setDownvote({ postId: post.id, userId, quantidade: downvotes });
-      if (upvoted) {
-        setUpvote({ postId: post.id, userId, quantidade: upvotes });
+      updateDownvote({ postId, userId, quantidade: downvotes });
+      updateUserDownvoted(postId, userId, userDownvoted);
+      if (userUpvoted) {
+        updateUpvote({ postId, userId, quantidade: upvotes });
+        updateUserUpvoted(postId, userId, userUpvoted);
       }
+      updateCurrentPostVotes(upvotes, downvotes, userUpvoted, userDownvoted);
     } finally {
       votingRef.current = false;
     }
-  };
+  }, [
+    userUpvoted,
+    userDownvoted,
+    upvotes,
+    downvotes,
+    userId,
+    postId,
+    currentPost,
+  ]);
 
   return {
     handleUpvote,
     handleDownvote,
-    upvoted,
-    downvoted,
+    upvoted: userUpvoted,
+    downvoted: userDownvoted,
     currentUpvote: upvotes,
     currentDownvote: downvotes,
   };

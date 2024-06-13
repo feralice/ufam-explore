@@ -1,9 +1,8 @@
 import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import { Image, Pressable, Text, View } from "react-native";
-import { useDispatch } from "react-redux";
 import { FeedScreenNavigationProp } from "../../pages/create-post/type";
-import { setCurrentPost } from "../../store/post/actions";
+import { updateCurrentPost } from "../../store/post/actions";
 import { useVoteHandlers } from "../../utils/votes/useVoteHandlers";
 import { HashtagInPost } from "../hashtags";
 import { styles } from "./styles";
@@ -20,10 +19,10 @@ export const PostCard = ({ post }: PostCardProps) => {
     downvoted,
     currentUpvote,
     currentDownvote,
-  } = useVoteHandlers(post);
+  } = useVoteHandlers(post.id);
 
   const handleClick = () => {
-    setCurrentPost(post);
+    updateCurrentPost(post);
     navigation.navigate("ExtendPost");
   };
 
