@@ -56,10 +56,12 @@ model Tag {
 }
 
 model Evento {
-  id    String   @id @default(uuid())
-  data  DateTime
-  local String
-  texto String?
+  id          String   @id @default(uuid())
+  dataInicio  DateTime
+  dataFinal   DateTime
+  localizacao String
+  titulo      String
+  descricao   String?
 
   postagens Postagem[]
 }

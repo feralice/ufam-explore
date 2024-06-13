@@ -7,12 +7,15 @@ export class EventService {
   constructor(private prisma: PrismaService) {}
 
   async createEvent(createEventDto: CreateEventDto) {
-    const { data, local, texto } = createEventDto;
+    const { dataInicio, dataFinal, localizacao, titulo, descricao } =
+      createEventDto;
     return this.prisma.evento.create({
       data: {
-        data: new Date(data),
-        local,
-        texto,
+        dataInicio: new Date(dataInicio),
+        dataFinal: new Date(dataFinal),
+        localizacao,
+        titulo,
+        descricao,
       },
     });
   }

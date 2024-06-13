@@ -11,26 +11,44 @@ export class CreateEventDto {
   @IsDateString()
   @ApiProperty({
     type: String,
-    description: 'Data do evento',
-    example: '2021-10-01T00:00:00.000Z',
+    description: 'Data e hora de início do evento',
+    example: '2021-10-01T09:00:00.000Z',
   })
-  data: string;
+  dataInicio: string;
+
+  @IsNotEmpty()
+  @IsDateString()
+  @ApiProperty({
+    type: String,
+    description: 'Data e hora de término do evento',
+    example: '2021-10-01T10:00:00.000Z',
+  })
+  dataFinal: string;
 
   @IsNotEmpty()
   @IsString()
   @ApiProperty({
     type: String,
-    description: 'Local do evento',
+    description: 'Localização do evento',
     example: 'São Paulo',
   })
-  local: string;
+  localizacao: string;
+
+  @IsNotEmpty()
+  @IsString()
+  @ApiProperty({
+    type: String,
+    description: 'Título do evento',
+    example: 'Reunião de Negócios',
+  })
+  titulo: string;
 
   @IsOptional()
   @IsString()
   @ApiProperty({
     type: String,
-    description: 'Texto do evento',
-    example: 'Evento de exemplo',
+    description: 'Descrição do evento',
+    example: 'Discussão sobre a proposta de parceria',
   })
-  texto?: string;
+  descricao?: string;
 }
