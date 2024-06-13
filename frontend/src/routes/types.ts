@@ -6,4 +6,5 @@ export type RootStackParamList = {
   ExtendPost: undefined;
   EditPost: undefined;
   AddTag: undefined;
+  CreateEvent: undefined;
 };

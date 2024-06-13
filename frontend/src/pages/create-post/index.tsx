@@ -143,7 +143,10 @@ export const CreatePostScreen = () => {
               <AntDesign name="tago" size={24} color="darkblue" />
               <Text style={styles.iconeText}>Adicionar tag</Text>
             </Pressable>
-            <Pressable style={styles.iconeWrapper}>
+            <Pressable
+              style={styles.iconeWrapper}
+              onPress={() => navigation.navigate("CreateEvent")}
+            >
               <AntDesign name="calendar" size={24} color="darkblue" />
               <Text style={styles.iconeText}>Adicionar evento</Text>
             </Pressable>
