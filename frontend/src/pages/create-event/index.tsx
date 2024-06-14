@@ -1,4 +1,4 @@
-import { FontAwesome, MaterialIcons } from "@expo/vector-icons";
+import { AntDesign, FontAwesome, MaterialIcons } from "@expo/vector-icons";
 import DateTimePicker, {
   DateTimePickerEvent,
 } from "@react-native-community/datetimepicker";
@@ -6,14 +6,20 @@ import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import {
   Alert,
+  Pressable,
   StyleSheet,
   Text,
   TextInput,
   TouchableOpacity,
   View,
+  Image,
 } from "react-native";
 import { BlueButton } from "../../components/blue-button";
+import { styles } from "./styles";
+import { FeedScreenNavigationProp } from "../create-post/type";
+import { useNavigation } from "@react-navigation/native";
 
+const lupa = require("../../assets/lupaf.png");
 type FormData = {
   titulo: string;
   localizacao: string;
@@ -63,6 +69,7 @@ const CreateEventScreen: React.FC = () => {
       Alert.alert("Erro", "Ocorreu um erro ao criar o evento.");
     }
   };
+  const navigation = useNavigation<FeedScreenNavigationProp>();
   {
     /* Se possivel mude o estilo e organização pro style.ts e acho que falta deixar mais claro no design que é a data de inicio e de fim, 
     e se possivel, tem como nos lugares que precisamos mandar os valores pro back colocar um  value={nome do atributo no banco?} pq me ajuda na integração 
@@ -71,8 +78,28 @@ falta colocar a seta pra voltar tb
   }
   return (
     <View style={styles.container}>
+      <Pressable
+        onPress={() => {
+          navigation.goBack();
+        }}
+        style={styles.backButton}
+      >
+        <AntDesign name="arrowleft" size={24} color="black" />
+      </Pressable>
+      <Image
+        style={{
+          alignContent: "center",
+          alignItems: "center",
+          marginHorizontal: "auto",
+          width: 100,
+          height: 100,
+        }}
+        source={lupa}
+      ></Image>
       <Text style={styles.title}>Criação de eventos</Text>
       <View style={styles.card}>
+        <Text style={styles.editText}>Data\Hora Inicial </Text>
+
         <View style={styles.row}>
           <FontAwesome name="calendar" size={24} color="black" />
           <Controller
@@ -107,7 +134,7 @@ falta colocar a seta pra voltar tb
             <Text style={styles.errorText}>{errors.dataInicio.message}</Text>
           )}
         </View>
-
+        <Text style={styles.editText}>Data\Hora final</Text>
         <View style={styles.row}>
           <FontAwesome name="calendar" size={24} color="black" />
           <Controller
@@ -227,62 +254,4 @@ falta colocar a seta pra voltar tb
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    padding: 20,
-    backgroundColor: "#f0f0f0",
-    paddingTop: 50,
-  },
-  title: {
-    fontSize: 24,
-    fontWeight: "bold",
-    marginBottom: 20,
-    color: "#003366",
-    textAlign: "center",
-  },
-  card: {
-    backgroundColor: "white",
-    borderRadius: 8,
-    padding: 15,
-    marginBottom: 20,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.2,
-    shadowRadius: 4,
-    elevation: 2,
-  },
-  row: {
-    flexDirection: "row",
-    alignItems: "center",
-    marginBottom: 15,
-  },
-  dateTimeContainer: {
-    flex: 1,
-    marginLeft: 10,
-    flexDirection: "row",
-    justifyContent: "space-between",
-  },
-  editContainer: {
-    flexDirection: "row",
-    marginLeft: 10,
-  },
-  editText: {
-    color: "#003366",
-    marginLeft: 10,
-  },
-  input: {
-    borderBottomWidth: 1,
-    borderBottomColor: "#ccc",
-    flex: 1,
-    marginLeft: 10,
-  },
-  errorText: {
-    color: "red",
-    fontSize: 12,
-    marginLeft: 10,
-  },
-});
-
 export default CreateEventScreen;
