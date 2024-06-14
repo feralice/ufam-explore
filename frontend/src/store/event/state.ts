@@ -1,7 +1,12 @@
-import { IEvent } from "./types";
+import { IEventState } from "./types";
 
-export const EventInitialState: IEvent = {
-  data: "",
-  local: "",
-  texto: "",
+const dataInicio = new Date();
+
+export const EventInitialState: IEventState = {
+  evento: {
+    dataInicio: dataInicio,
+    dataFinal: new Date(dataInicio.getDay() + 1),
+    localizacao: "",
+    titulo: "",
+  },
 };
