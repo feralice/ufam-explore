@@ -10,7 +10,6 @@ import {
   TextInput,
   TouchableOpacity,
 } from "react-native";
-
 import { styles } from "./styles";
 import { Ionicons } from "@expo/vector-icons";
 import { BlueButton } from "../../components/blue-button";
@@ -21,8 +20,13 @@ export const UserRegistration = () => {
   const [hidePassword, setHidePassword] = useState(true);
   const [name, setName] = useState("");
   const [userName, setUserName] = useState("");
+  const [email, setEmail] = useState("");
 
   const equalPassword = passwordValidation == password;
+  const [isFirstIcon, setIsFirstIcon] = useState(true);
+  const handleIconPress = () => {
+    setIsFirstIcon(!isFirstIcon);
+  };
 
   return (
     <ScrollView>
@@ -30,37 +34,34 @@ export const UserRegistration = () => {
         <Text style={[styles.textStyle, { marginTop: 20 }]}>Nome</Text>
         <View style={styles.boxInput}>
           <TextInput
-            style={{ padding: 10 }}
+            style={{ padding: 10, width: "100%" }}
             placeholder="Digite seu Nome"
-            value={userName}
+            value={name}
             onChangeText={setName}
-            maxLength={36}
           ></TextInput>
         </View>
         <Text style={styles.textStyle}>Nome do Usuário</Text>
         <View style={styles.boxInput}>
           <TextInput
-            style={{ padding: 10 }}
+            style={{ padding: 10, width: "100%" }}
             placeholder="Digite seu  Nome de Usuário"
-            value={name}
+            value={userName}
             onChangeText={setUserName}
-            maxLength={36}
           ></TextInput>
         </View>
         <Text style={styles.textStyle}>Email</Text>
         <View style={styles.boxInput}>
           <TextInput
-            style={{ padding: 10 }}
+            style={{ padding: 10, width: "100%" }}
             placeholder="Digite seu  email"
-            value={name}
-            onChangeText={setUserName}
-            maxLength={36}
+            value={email}
+            onChangeText={setEmail}
           ></TextInput>
         </View>
         <Text style={styles.textStyle}>Senha</Text>
         <View style={styles.boxInput}>
           <TextInput
-            style={{ padding: 10 }}
+            style={{ padding: 10, width: "80%" }}
             secureTextEntry={hidePassword}
             placeholder="Digite sua senha"
             value={password}
@@ -87,7 +88,7 @@ export const UserRegistration = () => {
           ]}
         >
           <TextInput
-            style={{ padding: 10 }}
+            style={{ padding: 10, width: "80%" }}
             secureTextEntry={hidePassword}
             placeholder="Digite sua senha"
             value={passwordValidation}
@@ -105,6 +106,32 @@ export const UserRegistration = () => {
             />
           </TouchableOpacity>
         </View>
+        <View
+          style={{
+            flexDirection: "row",
+            paddingTop: 30,
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
+          <TouchableOpacity
+            onPress={handleIconPress}
+            style={{ flexDirection: "column" }}
+          >
+            {isFirstIcon ? (
+              <Ionicons name="checkbox-outline" />
+            ) : (
+              <Ionicons name="checkbox" />
+            )}
+          </TouchableOpacity>
+          <Text>Concordo com os termos de uso</Text>
+        </View>
+        <BlueButton
+          onPress={function (): void {
+            throw new Error("Function not implemented.");
+          }}
+          text={"CRIAR CONTA"}
+        />
       </View>
     </ScrollView>
   );
