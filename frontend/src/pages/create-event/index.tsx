@@ -98,7 +98,7 @@ falta colocar a seta pra voltar tb
       ></Image>
       <Text style={styles.title}>Criação de eventos</Text>
       <View style={styles.card}>
-        <Text style={styles.editText}>Data\Hora Inicial </Text>
+        <Text style={styles.TextExplain}>Data\Hora Inicial </Text>
 
         <View style={styles.row}>
           <FontAwesome name="calendar" size={24} color="black" />
@@ -134,7 +134,7 @@ falta colocar a seta pra voltar tb
             <Text style={styles.errorText}>{errors.dataInicio.message}</Text>
           )}
         </View>
-        <Text style={styles.editText}>Data\Hora final</Text>
+        <Text style={styles.TextExplain}>Data\Hora final</Text>
         <View style={styles.row}>
           <FontAwesome name="calendar" size={24} color="black" />
           <Controller

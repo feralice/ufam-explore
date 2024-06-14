@@ -43,6 +43,11 @@ export const styles = StyleSheet.create({
     color: "#003366",
     marginLeft: 10,
   },
+  TextExplain: {
+    color: "#00333",
+    marginLeft: 10,
+    fontWeight: "bold",
+  },
   input: {
     borderBottomWidth: 1,
     borderBottomColor: "#ccc",
