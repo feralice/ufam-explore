@@ -22,8 +22,14 @@
         "CAMERA_ROLL",
         "WRITE_EXTERNAL_STORAGE",
         "READ_EXTERNAL_STORAGE"
-      ]
+      ],
+      "package": "com.feralice.frontend"
     },
-    "web": {}
+    "web": {},
+    "extra": {
+      "eas": {
+        "projectId": "a4ff6dcf-3395-4e48-9a65-1ae48e371b9e"
+      }
+    }
   }
 }
