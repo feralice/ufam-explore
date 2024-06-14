@@ -18,8 +18,9 @@ export const styles = StyleSheet.create({
   },
 
   imageStyle: {
-    height: 140,
+    height: "100%",
     width: "100%",
+    resizeMode: "cover",
     borderRadius: radius,
     opacity: 0.9,
     justifyContent: "center",
