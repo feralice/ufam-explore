@@ -95,9 +95,6 @@ export const UserRegistration = () => {
             onChangeText={setPasswordValidation}
             maxLength={16}
           ></TextInput>
-          {equalPassword ? null : (
-            <Text style={{ color: "red" }}>Senha diferente</Text>
-          )}
           <TouchableOpacity onPress={() => setHidePassword(!hidePassword)}>
             <Ionicons
               name={hidePassword ? "eye-off" : "eye"}
@@ -106,6 +103,18 @@ export const UserRegistration = () => {
             />
           </TouchableOpacity>
         </View>
+        {equalPassword ? null : (
+          <Text
+            style={{
+              color: "red",
+              alignItems: "center",
+              justifyContent: "center",
+              paddingLeft: 150,
+            }}
+          >
+            Senha diferente
+          </Text>
+        )}
         <View
           style={{
             flexDirection: "row",
@@ -119,9 +128,9 @@ export const UserRegistration = () => {
             style={{ flexDirection: "column" }}
           >
             {isFirstIcon ? (
-              <Ionicons name="checkbox-outline" />
+              <Ionicons style={styles.icon} name="checkbox-outline" />
             ) : (
-              <Ionicons name="checkbox" />
+              <Ionicons style={styles.icon} name="checkbox" />
             )}
           </TouchableOpacity>
           <Text>Concordo com os termos de uso</Text>

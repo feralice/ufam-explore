@@ -30,4 +30,7 @@ export const styles = StyleSheet.create({
     top: 40,
     left: 20,
   },
+  icon: {
+    fontSize: 30,
+  },
 });
