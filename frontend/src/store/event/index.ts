@@ -7,9 +7,7 @@ export const eventSlice = createSlice({
   initialState: EventInitialState,
   reducers: {
     setEventData: (state, action: PayloadAction<IEvent>) => {
-      state.data = action.payload.data;
-      state.local = action.payload.local;
-      state.texto = action.payload.texto;
+      state.evento = action.payload;
       return state;
     },
   },
