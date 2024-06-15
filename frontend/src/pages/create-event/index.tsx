@@ -1,4 +1,5 @@
 import { AntDesign, FontAwesome, MaterialIcons } from "@expo/vector-icons";
+import { yupResolver } from "@hookform/resolvers/yup";
 import DateTimePicker, {
   DateTimePickerEvent,
 } from "@react-native-community/datetimepicker";
@@ -20,6 +21,7 @@ import { createEvent } from "../../services/api";
 import { setEventData } from "../../store/event/actions";
 import { EventInitialState } from "../../store/event/state";
 import { IEvent } from "../../store/event/types";
+import { createEventSchema } from "../../utils/schemas/create-evet-schema";
 import { FeedScreenNavigationProp } from "../create-post/type";
 import { styles } from "./styles";
 
@@ -34,6 +36,7 @@ const CreateEventScreen: React.FC = () => {
     setValue,
   } = useForm<IEvent>({
     defaultValues: EventInitialState.evento,
+    resolver: yupResolver(createEventSchema),
   });
 
   const navigation = useNavigation<FeedScreenNavigationProp>();
@@ -98,9 +101,6 @@ const CreateEventScreen: React.FC = () => {
                 </View>
               )}
             />
-            {errors.dataInicio && (
-              <Text style={styles.errorText}>{errors.dataInicio.message}</Text>
-            )}
           </View>
           <View style={styles.row}>
             <FontAwesome name="clock-o" size={24} color="black" />
@@ -127,7 +127,9 @@ const CreateEventScreen: React.FC = () => {
               )}
             />
           </View>
-
+          {errors.dataInicio && (
+            <Text style={styles.errorText}>{errors.dataInicio.message}</Text>
+          )}
           <Text style={styles.label}>Data e Hora Final *</Text>
           <View style={styles.row}>
             <FontAwesome name="calendar" size={24} color="black" />
@@ -148,9 +150,6 @@ const CreateEventScreen: React.FC = () => {
                 </View>
               )}
             />
-            {errors.dataFinal && (
-              <Text style={styles.errorText}>{errors.dataFinal.message}</Text>
-            )}
           </View>
           <View style={styles.row}>
             <FontAwesome name="clock-o" size={24} color="black" />
@@ -177,7 +176,9 @@ const CreateEventScreen: React.FC = () => {
               )}
             />
           </View>
-
+          {errors.dataFinal && (
+            <Text style={styles.errorText}>{errors.dataFinal.message}</Text>
+          )}
           {showInicioPicker && (
             <DateTimePicker
               value={new Date(getValues("dataInicio"))}
@@ -196,7 +197,6 @@ const CreateEventScreen: React.FC = () => {
               onChange={handleDateChange("dataFinal")}
             />
           )}
-
           <View style={styles.row}>
             <View style={styles.editContainer}>
               <MaterialIcons
@@ -218,12 +218,11 @@ const CreateEventScreen: React.FC = () => {
                   />
                 )}
               />
-              {errors.titulo && (
-                <Text style={styles.errorText}>{errors.titulo.message}</Text>
-              )}
             </View>
           </View>
-
+          {errors.titulo && (
+            <Text style={styles.errorText}>{errors.titulo.message}</Text>
+          )}
           <View style={styles.row}>
             <MaterialIcons
               name="subtitles"
@@ -246,11 +245,10 @@ const CreateEventScreen: React.FC = () => {
                 />
               )}
             />
-            {errors.descricao && (
-              <Text style={styles.errorText}>{errors.descricao.message}</Text>
-            )}
           </View>
-
+          {errors.descricao && (
+            <Text style={styles.errorText}>{errors.descricao.message}</Text>
+          )}
           <View style={styles.row}>
             <FontAwesome
               name="map-marker"
@@ -271,10 +269,10 @@ const CreateEventScreen: React.FC = () => {
                 />
               )}
             />
-            {errors.localizacao && (
-              <Text style={styles.errorText}>{errors.localizacao.message}</Text>
-            )}
           </View>
+          {errors.localizacao && (
+            <Text style={styles.errorText}>{errors.localizacao.message}</Text>
+          )}
         </View>
 
         <BlueButton text="Salvar evento" onPress={handleSubmit(onSubmit)} />

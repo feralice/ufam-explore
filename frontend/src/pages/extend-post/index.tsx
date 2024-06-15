@@ -4,12 +4,15 @@ import {
   MaterialCommunityIcons,
 } from "@expo/vector-icons";
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
-import { useCallback } from "react";
+import { useCallback, useEffect } from "react";
 import { Image, Pressable, ScrollView, Text, View } from "react-native";
 import { useSelector } from "react-redux";
 import { HashtagInPost } from "../../components/hashtags";
 import PopupMenu from "../../components/popup-menu";
+import { getEventById } from "../../services/api";
 import { IStore } from "../../store";
+import { setEventData } from "../../store/event/actions";
+import { ClearEventData } from "../../store/event/state";
 import { useVoteHandlers } from "../../utils/votes/useVoteHandlers";
 import { styles } from "./style";
 
@@ -25,8 +28,27 @@ export const PostScreenExtend = () => {
       if (!currentPost) {
         navigation.goBack();
       }
+
+      return () => {
+        setEventData(ClearEventData.evento);
+      };
     }, [currentPost, navigation])
   );
+
+  useEffect(() => {
+    const fetchEventById = async (eventId: string) => {
+      try {
+        const event = await getEventById(eventId);
+        setEventData(event.data);
+      } catch (error) {
+        console.error("Erro ao buscar evento por ID:", error);
+      }
+    };
+
+    if (currentPost?.eventoId) {
+      fetchEventById(currentPost.eventoId);
+    }
+  }, [currentPost]);
 
   if (!currentPost) {
     return (

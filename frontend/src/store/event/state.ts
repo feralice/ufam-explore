@@ -16,7 +16,7 @@ export const EventInitialState: IEventState = {
 export const ClearEventData: IEventState = {
   evento: {
     dataInicio: "",
-    dataFinal: "",
+    dataFinal:"",
     localizacao: "",
     titulo: "",
   },

@@ -18,8 +18,8 @@ export const styles = StyleSheet.create({
   },
 
   imageStyle: {
-    height: "100%",
     width: "100%",
+    height: 200,
     resizeMode: "cover",
     borderRadius: radius,
     opacity: 0.9,
@@ -96,18 +96,5 @@ export const styles = StyleSheet.create({
   tagText: {
     fontSize: 12,
     color: "#333",
-  },
-
-  eventContainer: {
-    marginLeft: 0,
-    paddingVertical: 3,
-    paddingHorizontal: 6,
-    backgroundColor: "#e0e0e0",
-    borderRadius: 12,
-    alignSelf: "flex-start",
-  },
-
-  eventText: {
-    fontSize: 12,
   },
 });

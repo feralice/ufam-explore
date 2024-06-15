@@ -1,12 +1,7 @@
 import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
-import { useEffect } from "react";
 import { Image, Pressable, Text, View } from "react-native";
-import { useSelector } from "react-redux";
 import { FeedScreenNavigationProp } from "../../pages/create-post/type";
-import { getEventById } from "../../services/api";
-import { IStore } from "../../store";
-import { setEventData } from "../../store/event/actions";
 import { updateCurrentPost } from "../../store/post/actions";
 import { useVoteHandlers } from "../../utils/votes/useVoteHandlers";
 import { HashtagInPost } from "../hashtags";
@@ -17,7 +12,6 @@ const profileImage = require("../../assets/img_test.jpg");
 
 export const PostCard = ({ post }: PostCardProps) => {
   const navigation = useNavigation<FeedScreenNavigationProp>();
-  const { evento } = useSelector((state: IStore) => state.event);
 
   const {
     handleUpvote,
@@ -32,21 +26,6 @@ export const PostCard = ({ post }: PostCardProps) => {
     updateCurrentPost(post);
     navigation.navigate("ExtendPost");
   };
-
-  useEffect(() => {
-    const fetchEventById = async (eventId: string) => {
-      try {
-        const event = await getEventById(eventId);
-        setEventData(event.data);
-      } catch (error) {
-        console.error("Erro ao buscar evento por ID:", error);
-      }
-    };
-
-    if (post.eventoId) {
-      fetchEventById(post.eventoId);
-    }
-  }, [post.eventoId]);
 
   return (
     <View style={styles.container}>
@@ -73,11 +52,6 @@ export const PostCard = ({ post }: PostCardProps) => {
                 {post.tags.map((tag) => (
                   <HashtagInPost key={tag.id} name={tag.nome} />
                 ))}
-              </View>
-            )}
-            {evento.titulo && (
-              <View style={styles.eventContainer}>
-                <Text style={styles.eventText}>Evento: {evento.titulo}</Text>
               </View>
             )}
           </View>
