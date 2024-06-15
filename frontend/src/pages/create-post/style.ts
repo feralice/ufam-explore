@@ -8,7 +8,6 @@ export const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "#FFFFFF",
     paddingTop: 70,
     paddingHorizontal: 20,
   },
@@ -90,5 +89,24 @@ export const styles = StyleSheet.create({
     color: "red",
     fontSize: 12,
   },
+  eventContainer: {
+    backgroundColor: "rgba(0, 0, 139, 0.1)",
+    borderRadius: 5,
+    borderWidth: 1,
+    borderColor: "darkblue",
+    padding: 10,
+    marginVertical: 10,
+    width: "100%",
+  },
+  eventTitle: {
+    color: "darkblue",
+    fontSize: 16,
+    fontWeight: "bold",
+    marginBottom: 5,
+  },
+  eventText: {
+    color: "darkblue",
+    fontSize: 14,
+    marginBottom: 5,
+  },
 });
-

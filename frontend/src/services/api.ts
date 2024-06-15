@@ -1,5 +1,6 @@
 import { AxiosResponse } from "axios";
 import * as FileSystem from "expo-file-system";
+import { IEvent } from "../store/event/types";
 import { IPost, Tag } from "../store/post/types";
 import { api } from "./config";
 import {
@@ -51,6 +52,8 @@ export const createPost = async (
       "Content-Type": "multipart/form-data",
     },
   });
+
+  console.log("response", response.data);
 
   return response;
 };
@@ -134,5 +137,19 @@ export const deletePost = async (
   postId: string
 ): Promise<AxiosResponse<void>> => {
   const response = await api.delete(`/delete/${postId}`);
+  return response;
+};
+
+export const createEvent = async (
+  data: IEvent
+): Promise<AxiosResponse<IEvent>> => {
+  const response = await api.post("/evento", data);
+  return response;
+};
+
+export const getEventById = async (
+  eventId: string
+): Promise<AxiosResponse<IEvent>> => {
+  const response = await api.get(`/evento/${eventId}`);
   return response;
 };

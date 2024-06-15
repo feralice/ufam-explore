@@ -18,6 +18,7 @@ const img = require("../../assets/img_test.jpg");
 export const PostScreenExtend = () => {
   const navigation = useNavigation();
   const currentPost = useSelector((state: IStore) => state.post.currentPost);
+  const event = useSelector((state: IStore) => state.event.evento);
 
   useFocusEffect(
     useCallback(() => {
@@ -102,6 +103,36 @@ export const PostScreenExtend = () => {
                 {currentPost.tags.map((tag) => (
                   <HashtagInPost key={tag.id} name={tag.nome} />
                 ))}
+              </View>
+            )}
+
+            {event.titulo && (
+              <View style={styles.eventInfoContainer}>
+                <Text style={styles.eventTitle}>{event.titulo}</Text>
+                {event.descricao && <Text>{event.descricao}</Text>}
+                <Text>Localização: {event.localizacao}</Text>
+                <Text>
+                  Data e Hora de Início:
+                  {`${new Date(
+                    event.dataInicio
+                  ).toLocaleDateString()} ${new Date(
+                    event.dataInicio
+                  ).toLocaleTimeString([], {
+                    hour: "2-digit",
+                    minute: "2-digit",
+                  })}`}
+                </Text>
+                <Text>
+                  Data de Término:
+                  {`${new Date(
+                    event.dataFinal
+                  ).toLocaleDateString()} ${new Date(
+                    event.dataFinal
+                  ).toLocaleTimeString([], {
+                    hour: "2-digit",
+                    minute: "2-digit",
+                  })}`}{" "}
+                </Text>
               </View>
             )}
           </ScrollView>

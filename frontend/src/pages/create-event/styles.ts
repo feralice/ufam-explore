@@ -1,4 +1,6 @@
-import { StyleSheet } from "react-native";
+import { Dimensions, StyleSheet } from "react-native";
+
+const windowWidth = Dimensions.get("window").width;
 
 export const styles = StyleSheet.create({
   scrollview: {
@@ -9,6 +11,7 @@ export const styles = StyleSheet.create({
     padding: 20,
     backgroundColor: "#f0f0f0",
     paddingTop: 35,
+    alignItems: "center",
   },
   title: {
     fontSize: 24,
@@ -24,32 +27,32 @@ export const styles = StyleSheet.create({
     borderColor: "darkblue",
     padding: 10,
     marginVertical: 10,
-    width: "100%",
+    width: windowWidth - 40,
     alignItems: "center",
   },
   row: {
     flexDirection: "row",
     alignItems: "center",
     marginBottom: 15,
+    width: "100%",
+    paddingHorizontal: 10,
   },
   dateTimeContainer: {
     flex: 1,
     marginLeft: 10,
     flexDirection: "row",
     justifyContent: "space-between",
+    alignItems: "center",
   },
   editContainer: {
     paddingTop: 10,
     flexDirection: "row",
+    alignItems: "center",
+    flex: 1,
   },
   editText: {
     color: "#003366",
     marginTop: 5,
-  },
-  TextExplain: {
-    color: "#003366",
-    marginLeft: 10,
-    fontWeight: "bold",
   },
   label: {
     color: "#003366",
@@ -58,12 +61,16 @@ export const styles = StyleSheet.create({
     paddingTop: 10,
     paddingBottom: 10,
     fontSize: 18,
+    width: "100%",
+    paddingHorizontal: 10,
   },
   input: {
     borderBottomWidth: 1,
     borderBottomColor: "#ccc",
     flex: 1,
     marginLeft: 10,
+    height: 40,
+    fontSize: 16,
   },
   errorText: {
     color: "red",
@@ -76,18 +83,14 @@ export const styles = StyleSheet.create({
     left: 20,
   },
   image: {
-    alignSelf: "center",
-    alignItems: "center",
-    marginHorizontal: "auto",
     width: 100,
     height: 100,
+    resizeMode: "contain",
+    marginBottom: 10,
   },
   icon: {
     width: 30,
     alignItems: "center",
     justifyContent: "center",
-  },
-  required: {
-    color: "red",
   },
 });

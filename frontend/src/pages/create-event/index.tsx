@@ -3,7 +3,7 @@ import DateTimePicker, {
   DateTimePickerEvent,
 } from "@react-native-community/datetimepicker";
 import { useNavigation } from "@react-navigation/native";
-import { useState } from "react";
+import React, { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import {
   Alert,
@@ -16,10 +16,10 @@ import {
   View,
 } from "react-native";
 import { BlueButton } from "../../components/blue-button";
+import { createEvent } from "../../services/api";
 import { setEventData } from "../../store/event/actions";
 import { EventInitialState } from "../../store/event/state";
 import { IEvent } from "../../store/event/types";
-import { formatEventDto } from "../../utils/format-event-data";
 import { FeedScreenNavigationProp } from "../create-post/type";
 import { styles } from "./styles";
 
@@ -48,21 +48,21 @@ const CreateEventScreen: React.FC = () => {
       if (type === "dataInicio") setShowInicioPicker(false);
       if (type === "dataFinal") setShowFinalPicker(false);
       if (selectedDate) {
-        setValue(type, selectedDate);
+        setValue(type, selectedDate.toISOString());
       }
     };
 
   const onSubmit = async () => {
     try {
       const values = getValues();
-      const eventDto = formatEventDto(values);
-      //chama o back
-
-      setEventData(values);
-
+      const eventData = await createEvent(values);
+      setEventData(eventData.data);
       Alert.alert("Sucesso", "Evento criado com sucesso!");
     } catch (error) {
+      console.error(error);
       Alert.alert("Erro", "Ocorreu um erro ao criar o evento.");
+    } finally {
+      navigation.goBack();
     }
   };
 
@@ -86,7 +86,7 @@ const CreateEventScreen: React.FC = () => {
               name="dataInicio"
               render={({ field: { value } }) => (
                 <View style={styles.dateTimeContainer}>
-                  <Text>{value.toLocaleDateString()}</Text>
+                  <Text>{new Date(value).toLocaleDateString()}</Text>
                   <TouchableOpacity
                     onPress={() => {
                       setShowInicioPicker(true);
@@ -110,7 +110,7 @@ const CreateEventScreen: React.FC = () => {
               render={({ field: { value } }) => (
                 <View style={styles.dateTimeContainer}>
                   <Text>
-                    {value.toLocaleTimeString([], {
+                    {new Date(value).toLocaleTimeString([], {
                       hour: "2-digit",
                       minute: "2-digit",
                     })}
@@ -136,7 +136,7 @@ const CreateEventScreen: React.FC = () => {
               name="dataFinal"
               render={({ field: { value } }) => (
                 <View style={styles.dateTimeContainer}>
-                  <Text>{value.toLocaleDateString()}</Text>
+                  <Text>{new Date(value).toLocaleDateString()}</Text>
                   <TouchableOpacity
                     onPress={() => {
                       setShowFinalPicker(true);
@@ -160,7 +160,7 @@ const CreateEventScreen: React.FC = () => {
               render={({ field: { value } }) => (
                 <View style={styles.dateTimeContainer}>
                   <Text>
-                    {value.toLocaleTimeString([], {
+                    {new Date(value).toLocaleTimeString([], {
                       hour: "2-digit",
                       minute: "2-digit",
                     })}
@@ -180,7 +180,7 @@ const CreateEventScreen: React.FC = () => {
 
           {showInicioPicker && (
             <DateTimePicker
-              value={getValues("dataInicio")}
+              value={new Date(getValues("dataInicio"))}
               mode={mode}
               is24Hour={true}
               display="default"
@@ -189,7 +189,7 @@ const CreateEventScreen: React.FC = () => {
           )}
           {showFinalPicker && (
             <DateTimePicker
-              value={getValues("dataFinal")}
+              value={new Date(getValues("dataFinal"))}
               mode={mode}
               is24Hour={true}
               display="default"
@@ -241,6 +241,8 @@ const CreateEventScreen: React.FC = () => {
                   onBlur={onBlur}
                   placeholder="Adicionar descrição"
                   style={styles.input}
+                  multiline
+                  numberOfLines={3}
                 />
               )}
             />

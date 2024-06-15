@@ -1,7 +1,7 @@
 export interface IEvent {
   id?: string;
-  dataInicio: Date;
-  dataFinal: Date;
+  dataInicio: string;
+  dataFinal: string;
   localizacao: string;
   titulo: string;
   descricao?: string;

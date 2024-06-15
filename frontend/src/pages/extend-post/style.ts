@@ -85,4 +85,15 @@ export const styles = StyleSheet.create({
     marginTop: 8,
     paddingLeft: 10,
   },
+  eventInfoContainer: {
+    marginTop: 10,
+    borderTopWidth: 1,
+    paddingTop: 10,
+    marginHorizontal: 10,
+  },
+  eventTitle: {
+    fontSize: 18,
+    fontWeight: "bold",
+    marginBottom: 5,
+  },
 });

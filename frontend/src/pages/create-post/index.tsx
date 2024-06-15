@@ -12,6 +12,8 @@ import { ImagePickerComponent } from "../../components/image-picker";
 import { CustomInput } from "../../components/inputs";
 import { createPost } from "../../services/api";
 import { IStore } from "../../store";
+import { setEventData } from "../../store/event/actions";
+import { ClearEventData } from "../../store/event/state";
 import { setTagsForNewPost } from "../../store/post/actions";
 import { PostInitialState } from "../../store/post/state";
 import { IPostRequest, Tag } from "../../store/post/types";
@@ -38,17 +40,19 @@ export const CreatePostScreen = () => {
   const tagsForNewPost = useSelector(
     (state: IStore) => state.post.tagsForNewPost
   );
+  const event = useSelector((state: IStore) => state.event.evento);
 
   const [image, setImage] = useState<string | any>(null);
 
   const handleClick = handleSubmit(async (data) => {
     const userId = "1151183c-0355-43a2-91d0-f9f3453faf27";
-    const postData = { ...data, tags: tagsForNewPost };
+    const postData = { ...data, tags: tagsForNewPost, eventoId: event?.id };
 
     setLoading(true);
     try {
       await createPost(userId, postData, image);
       setTagsForNewPost([]);
+      setEventData(ClearEventData.evento);
       navigation.navigate("Home");
     } catch (error) {
       Alert.alert("Erro", "Não foi possível criar o post. Tente novamente.");
@@ -61,8 +65,9 @@ export const CreatePostScreen = () => {
   const handleImagePicker = async () => {
     const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
     if (status !== "granted") {
-      alert(
-        "Desculpe, precisamos da permissão para acessar a galeria para que isso funcione!"
+      Alert.alert(
+        "Permissão necessária",
+        "Precisamos da permissão para acessar a galeria para que isso funcione."
       );
       return;
     }
@@ -85,6 +90,7 @@ export const CreatePostScreen = () => {
         <Pressable
           onPress={() => {
             setTagsForNewPost([]);
+            setEventData(ClearEventData.evento);
             navigation.goBack();
           }}
           style={styles.backButton}
@@ -159,10 +165,45 @@ export const CreatePostScreen = () => {
               </View>
             ))}
           </View>
-        </View>
 
-        <BlueButton onPress={handleClick} loading={loading} text="Publicar" />
+          {event.titulo && (
+            <View style={styles.eventContainer}>
+              <Text style={styles.eventTitle}>Evento Adicionado:</Text>
+              <Text style={styles.eventText}>Título: {event.titulo}</Text>
+              <Text style={styles.eventText}>
+                Localização: {event.localizacao}
+              </Text>
+              <Text style={styles.eventText}>
+                Data de Início:{" "}
+                {new Date(event.dataInicio).toLocaleString("pt-BR", {
+                  day: "2-digit",
+                  month: "2-digit",
+                  year: "numeric",
+                  hour: "2-digit",
+                  minute: "2-digit",
+                })}
+              </Text>
+              <Text style={styles.eventText}>
+                Data de Fim:{" "}
+                {new Date(event.dataFinal).toLocaleString("pt-BR", {
+                  day: "2-digit",
+                  month: "2-digit",
+                  year: "numeric",
+                  hour: "2-digit",
+                  minute: "2-digit",
+                })}
+              </Text>
+              {event.descricao && (
+                <Text style={styles.eventText}>
+                  Descrição: {event.descricao}
+                </Text>
+              )}
+            </View>
+          )}
+        </View>
       </View>
+
+      <BlueButton onPress={handleClick} loading={loading} text="Publicar" />
     </ScrollView>
   );
 };
