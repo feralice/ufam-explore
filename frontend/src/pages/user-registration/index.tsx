@@ -56,12 +56,12 @@ export const UserRegistration = () => {
                 <Text style={styles.text}>
                   Os serviços do Ufam Explore são fornecidos pelas pessoa
                   físicas com os seguintes nomes: Fernanda Alice Farias Duarte
-                  inscrito no CPF sob o n° 705.341.322-51, Jo Pereira dos Santos
-                  inscrito no CPF sob o n° 025.774.722-26, Keren Guimarães Góes
-                  inscrito no CPF sob o n° 032.757.742-80, Nilton da Silva
-                  Nascimento inscrito no CPF sob o n° 035.530.492-93 e Sarah
+                  inscrito no CPF sob o n° ***.***.***-51, Jo Pereira dos Santos
+                  inscrito no CPF sob o n° ***.***.***-26, Keren Guimarães Góes
+                  inscrito no CPF sob o n° ***.***.***-80, Nilton da Silva
+                  Nascimento inscrito no CPF sob o n° ***.***.***-93 e Sarah
                   Julia Rolim dos Santos inscrito no CPF sob o n°
-                  706.194.482-02, titulares da propriedade intelectual sobre
+                  ***.***.***-02, titulares da propriedade intelectual sobre
                   software, website, aplicativos, conteúdos e demais ativos
                   relacionados à plataforma Ufam Explore.{" "}
                 </Text>
