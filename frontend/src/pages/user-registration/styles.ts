@@ -1,5 +1,6 @@
 import { StyleSheet } from "react-native";
 import { Card } from "react-native-paper";
+import { blue } from "react-native-reanimated/lib/typescript/reanimated2/Colors";
 
 export const styles = StyleSheet.create({
   container: {
@@ -32,5 +33,32 @@ export const styles = StyleSheet.create({
   },
   icon: {
     fontSize: 30,
+  },
+  modalContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  boxModal: {
+    alignContent: "center",
+    backgroundColor: "#FFFFFF",
+    width: "92%",
+    height: "92%",
+    marginHorizontal: "4%",
+  },
+  bigTitle: {
+    color: "blue",
+    fontSize: 25,
+    fontWeight: "bold",
+  },
+  smallTitle: {
+    color: "blue",
+    fontSize: 15,
+    fontWeight: "bold",
+    paddingBottom: 4,
+  },
+  text: {
+    fontSize: 10,
+    paddingBottom: 8,
   },
 });
