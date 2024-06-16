@@ -19,7 +19,7 @@ const Login = () => {
   return (
     <KeyboardAvoidingView>
       <SafeAreaView style={styles.container}>
-        <View style={styles.container}>
+        <View style={styles.imagem}>
           <Image source={img_ufam} />
           <Image source={img} />
         </View>
@@ -36,6 +36,8 @@ const Login = () => {
             placeholder="*******"
             style={[styles.input, styles.textArea]}
           />
+
+          <View/>
 
           <View style={styles.container}></View>
           <BlueButton
