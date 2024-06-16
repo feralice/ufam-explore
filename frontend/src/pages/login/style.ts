@@ -3,17 +3,16 @@ import { StyleSheet } from "react-native";
 export const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
     paddingTop: 10,
     paddingHorizontal: 10,
   },
   imagem: {
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
     paddingTop: 60,
-    paddingHorizontal: 20,
-
+    paddingHorizontal: 40,
   },
   input: {
     backgroundColor: "rgba(0, 0, 139, 0.2)",
@@ -29,13 +28,11 @@ export const styles = StyleSheet.create({
     height: 50,
     width: 300,
   },
-  text:{
-    color:"darkblue",
+  text: {
+    color: "darkblue",
   },
-  textAbaixo:{
-    color:"darkblue",
-     textDecorationLine: 'underline',
-  }
+  textAbaixo: {
+    color: "darkblue",
+    textDecorationLine: "underline",
+  },
 });
-
-
