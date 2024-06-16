@@ -1,6 +1,7 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import { HomeStackNavigator } from "./stack/stackHome.routes";
+import Login from "../pages/login";
 
 const Tab = createBottomTabNavigator();
 
@@ -21,7 +22,7 @@ export const TabNavigator = () => {
       />
       <Tab.Screen
         name="Settings"
-        component={HomeStackNavigator}
+        component={Login}
         options={{
           tabBarLabel: "Pesquisa",
           tabBarIcon: () => (

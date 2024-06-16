@@ -7,4 +7,5 @@ export type RootStackParamList = {
   EditPost: undefined;
   AddTag: undefined;
   CreateEvent: undefined;
+  Login: undefined;
 };
