@@ -14,10 +14,10 @@ export interface IUser {
   username: string;
   email: string;
   senha: string;
-  funcao: string;
+  funcao?: string;
   fotoPerfil?: string;
   biografia?: string;
-  cnpj?: string;
+  passwordValidation?: string;
 }
 
 export type UserInitialStateType = {

@@ -9,7 +9,7 @@ export const ButtonStyles = (selectedTab: number) =>
       alignItems: "center",
       paddingTop: 30,
       color: "cadetblue",
-      height: "50%",
+      height: "100%",
     },
     background: {
       width: "75%",
@@ -63,5 +63,10 @@ export const ButtonStyles = (selectedTab: number) =>
       fontSize: 25,
       color: "blue",
       paddingTop: 18,
+    },
+    backButtonIcon: {
+      position: "absolute",
+      top: 40,
+      left: 20,
     },
   });

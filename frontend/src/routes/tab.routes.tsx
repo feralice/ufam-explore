@@ -1,5 +1,6 @@
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import ProfileScreen from "../pages/profile";
 import { HomeStackNavigator } from "./stack/stackHome.routes";
 
 const Tab = createBottomTabNavigator();
@@ -31,7 +32,7 @@ export const TabNavigator = () => {
       />
       <Tab.Screen
         name="Profile"
-        component={HomeStackNavigator}
+        component={ProfileScreen}
         options={{
           tabBarLabel: "Perfil",
           tabBarIcon: () => <MaterialCommunityIcons name="account" size={26} />,

@@ -14,7 +14,6 @@ entity "Usuario" {
    * funcao: text
    * foto_de_perfil?: text
    * descricao?: text
-   * cnpj?: text
 }
 
 entity "Evento" {

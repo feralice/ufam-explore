@@ -3,6 +3,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useNavigation } from "@react-navigation/native";
 import { useState } from "react";
 import {
+  Alert,
   Image,
   SafeAreaView,
   ScrollView,
@@ -12,7 +13,7 @@ import {
   View,
 } from "react-native";
 import { BlueButton } from "../../components/blue-button";
-import { LoginScreenNavigationProp } from "../../routes/types";
+import { FeedScreenNavigationProp } from "../../routes/types";
 import { login } from "../../services/api";
 import { styles } from "./style";
 
@@ -24,16 +25,18 @@ const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const navigation = useNavigation<LoginScreenNavigationProp>();
+  const navigation = useNavigation<FeedScreenNavigationProp>();
 
   const handleLogin = async () => {
     try {
       const response = await login({ email, password });
       const { accessToken } = response.data;
-
       await AsyncStorage.setItem("accessToken", accessToken);
       console.log("Token saved:", accessToken);
+
+      navigation.navigate("Home");
     } catch (error) {
+      Alert.alert("Erro", "E-mail ou senha inválidos.");
       console.error("Login failed:", error);
     }
   };

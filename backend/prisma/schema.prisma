@@ -14,10 +14,9 @@ model Usuario {
   username   String
   email      String   @unique
   senha      String
-  funcao     String
+  funcao     String?
   fotoPerfil String?
   biografia  String?
-  cnpj       String?  @unique
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
 

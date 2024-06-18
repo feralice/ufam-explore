@@ -7,15 +7,19 @@ import {
   Param,
   Post,
 } from '@nestjs/common';
-import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
-import { Public } from '../../../common/decorators/auth.decorator';
+import {
+  ApiBearerAuth,
+  ApiOperation,
+  ApiResponse,
+  ApiTags,
+} from '@nestjs/swagger';
+import { DownvoteService } from '../domain/downvote.service';
+import { UpvoteService } from '../domain/upvote.service';
 import { DownvoteResponseDto } from './downvote/dto/downvote-response.dto';
 import { GetVotesInAPostResponseDto } from './dto/get-votes-response.dto';
 import { UpvoteResponseDto } from './upvote/dto/upvote-response.dto';
-import { DownvoteService } from '../domain/downvote.service';
-import { UpvoteService } from '../domain/upvote.service';
 
-@Public()
+@ApiBearerAuth()
 @ApiTags('Post')
 @Controller()
 export class VotesController {
@@ -23,7 +27,7 @@ export class VotesController {
     private readonly upvoteService: UpvoteService,
     private readonly downvoteService: DownvoteService,
   ) {}
-  @Public()
+
   @Post(':postId/upvote')
   @ApiOperation({ summary: 'Upvote a post' })
   @ApiResponse({
@@ -41,7 +45,7 @@ export class VotesController {
   ): Promise<UpvoteResponseDto> {
     return this.upvoteService.upvotePost(userId, postId);
   }
-  @Public()
+  
   @Post(':postId/downvote')
   @ApiOperation({ summary: 'Downvote a post' })
   @ApiResponse({
@@ -59,7 +63,7 @@ export class VotesController {
   ): Promise<DownvoteResponseDto> {
     return this.downvoteService.downvotePost(userId, postId);
   }
-  @Public()
+
   @Get(':postId/upvotes/count')
   @ApiOperation({ summary: 'Get upvotes count of a post' })
   @ApiResponse({
@@ -70,7 +74,7 @@ export class VotesController {
   async getUpvotesCount(@Param('postId') postId: string): Promise<number> {
     return this.upvoteService.getUpvotesInAPost(postId);
   }
-  @Public()
+
   @Get(':postId/downvotes/count')
   @ApiOperation({ summary: 'Get downvotes count of a post' })
   @ApiResponse({
@@ -81,7 +85,7 @@ export class VotesController {
   async getDownvotesCount(@Param('postId') postId: string): Promise<number> {
     return this.downvoteService.getDownvotesInAPost(postId);
   }
-  @Public()
+
   @Get(':postId/votes/count')
   @ApiOperation({ summary: 'Get votes count of a post' })
   @ApiResponse({
@@ -98,7 +102,7 @@ export class VotesController {
 
     return { upvotes, downvotes };
   }
-  @Public()
+
   @Delete(':postId/upvote')
   @ApiOperation({ summary: 'Remove upvote from a post' })
   @ApiResponse({
@@ -113,7 +117,7 @@ export class VotesController {
     await this.upvoteService.deleteUpvote(userId, postId);
     return HttpStatus.OK;
   }
-  @Public()
+
   @Delete(':postId/downvote')
   @ApiOperation({ summary: 'Remove downvote from a post' })
   @ApiResponse({

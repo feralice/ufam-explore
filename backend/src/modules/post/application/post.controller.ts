@@ -11,9 +11,13 @@ import {
   UseInterceptors,
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import {
+  ApiBearerAuth,
+  ApiOperation,
+  ApiResponse,
+  ApiTags,
+} from '@nestjs/swagger';
 import { Postagem } from '@prisma/client';
-import { Public } from '../../../common/decorators/auth.decorator';
 import { CreatePostUseCase } from '../domain/use-cases/create-post.service';
 import { DeletePostUseCase } from '../domain/use-cases/delete-post.service';
 import { EditPostUseCase } from '../domain/use-cases/edit-post.service';
@@ -25,7 +29,7 @@ import { CreatePostDto } from './dto/create/create-post.-request.dto';
 import { DeletePostResponseDto } from './dto/delete/delete-post-response.dto';
 import { EditPostDto } from './dto/edit/edit-post.dto';
 
-@Public()
+@ApiBearerAuth()
 @ApiTags('Post')
 @Controller()
 export class PostController {
@@ -54,7 +58,6 @@ export class PostController {
     return await this.createPostUseCase.execute(userId, createPostDto, file);
   }
 
-  @Public()
   @Get('/all-posts/:userId')
   @ApiOperation({ summary: 'Get all posts' })
   @ApiResponse({
@@ -65,7 +68,6 @@ export class PostController {
     return this.getAllPostsUseCase.execute(userId);
   }
 
-  @Public()
   @Get('/:id/upvotes')
   @ApiOperation({ summary: 'Get upvotes for a post' })
   @ApiResponse({
@@ -76,7 +78,6 @@ export class PostController {
     return this.getVotesUseCase.getUpvotesInAPost(postId);
   }
 
-  @Public()
   @Get('/:id/downvotes')
   @ApiOperation({ summary: 'Get downvotes for a post' })
   @ApiResponse({
@@ -87,7 +88,6 @@ export class PostController {
     return this.getVotesUseCase.getDownvotesInAPost(postId);
   }
 
-  @Public()
   @Get('/:id/votes')
   @ApiOperation({ summary: 'Get all votes for a post' })
   @ApiResponse({
@@ -98,7 +98,6 @@ export class PostController {
     return this.getVotesUseCase.getVotesInAPost(postId);
   }
 
-  @Public()
   @Patch('edit/:postId')
   @UseInterceptors(FileInterceptor('file'))
   @ApiOperation({ summary: 'Update a post' })
@@ -115,7 +114,6 @@ export class PostController {
     return await this.editPostUseCase.execute(postId, updatePostDto, file);
   }
 
-  @Public()
   @Delete('delete/:postId')
   @ApiOperation({ summary: 'Delete a post' })
   @ApiResponse({
@@ -133,7 +131,6 @@ export class PostController {
     return await this.deletePostUseCase.execute(postId);
   }
 
-  @Public()
   @Get('/post/:postId')
   @ApiOperation({ summary: 'Get a post by id' })
   @ApiResponse({

@@ -4,8 +4,15 @@ export const styles = StyleSheet.create({
   container: {
     backgroundColor: "#FFFFFF",
     paddingHorizontal: 20,
-    paddingVertical: 70,
+    paddingVertical: 80,
     alignItems: "center",
+  },
+  title: {
+    fontSize: 24,
+    fontWeight: "bold",
+    paddingBottom: 35,
+    color: "#003366",
+    textAlign: "center",
   },
   boxInput: {
     backgroundColor: "rgba(0, 0, 139, 0.1)",
@@ -50,5 +57,11 @@ export const styles = StyleSheet.create({
     alignSelf: "flex-start",
     paddingHorizontal: 20,
     marginTop: 8,
+  },
+  backButtonIcon: {
+    position: "absolute",
+    top: 40,
+    left: 20,
+    zIndex: 1,
   },
 });

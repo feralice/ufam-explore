@@ -18,7 +18,6 @@ export class UserRepository {
       funcao,
       fotoPerfil,
       biografia,
-      cnpj,
     } = userData;
 
     return this.prisma.usuario.create({
@@ -33,7 +32,6 @@ export class UserRepository {
         funcao,
         fotoPerfil,
         biografia,
-        cnpj,
       },
     });
   }

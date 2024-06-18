@@ -1,6 +1,9 @@
 import { Ionicons } from "@expo/vector-icons";
+import { useNavigation } from "@react-navigation/native";
 import { useState } from "react";
+import { Controller, useForm } from "react-hook-form";
 import {
+  Alert,
   ScrollView,
   Text,
   TextInput,
@@ -10,20 +13,29 @@ import {
 import { useSelector } from "react-redux";
 import { BlueButton } from "../../components/blue-button";
 import TermsModal from "../../components/modals/terms-modal";
+import { LoginScreenNavigationProp } from "../../routes/types";
+import { createUser } from "../../services/api";
 import { IStore } from "../../store";
+import { UserInitialState } from "../../store/user/state";
+import { IUser } from "../../store/user/types";
 import { styles } from "./styles";
 
 export const UserRegistration = () => {
-  const [password, setPassword] = useState("");
-  const [passwordValidation, setPasswordValidation] = useState("");
-  const [hidePassword, setHidePassword] = useState(true);
-  const [name, setName] = useState("");
-  const [userName, setUserName] = useState("");
-  const [email, setEmail] = useState("");
-  const [modalVisible, setModalVisible] = useState(false);
-  const [isFirstIcon, setIsFirstIcon] = useState(true);
+  const navigation = useNavigation<LoginScreenNavigationProp>();
 
-  const passwordsMatch = passwordValidation === password;
+  const { control, handleSubmit, getValues, reset } = useForm<IUser>({
+    defaultValues: UserInitialState.user,
+
+    // Aqui abaixo é a validação que vai ser preciso criar para validar os campos
+    // crie um schema yup dentro da pasta frontend\src\utils\schemas e apos isso coloque o schema abaixo no parametro
+
+    //resolver: yupResolver(createPostSchema),
+  });
+
+  const [passwordValidation, setPasswordValidation] = useState("");
+  const [modalVisible, setModalVisible] = useState(false);
+  const [hidePassword, setHidePassword] = useState(true);
+  const [isFirstIcon, setIsFirstIcon] = useState(false);
 
   const profile = useSelector((state: IStore) => state.user.profile.id);
 
@@ -31,38 +43,84 @@ export const UserRegistration = () => {
     setHidePassword(!hidePassword);
   };
 
-  const handleCreateAccount = () => {
-    //logica pra mandar pro back
-    console.log("Criar conta com os dados:", {
-      name,
-      userName,
-      email,
-      password,
-      passwordValidation,
-      agreedToTerms: isFirstIcon,
-    });
+  const onSubmit = async (data: IUser) => {
+    if (data.senha !== passwordValidation) {
+      Alert.alert("Erro", "As senhas não coincidem.");
+      return;
+    }
+
+    if (!isFirstIcon) {
+      Alert.alert("Erro", "Você deve concordar com os termos de uso.");
+      return;
+    }
+
+    try {
+      const response = await createUser(data);
+
+      console.log("Usuário criado com sucesso:", response.data);
+      Alert.alert(
+        "Sucesso",
+        "Conta criada com sucesso! Agora realize o login com a conta criada."
+      );
+      reset();
+      setPasswordValidation("");
+      setIsFirstIcon(false);
+      setModalVisible(false);
+      navigation.goBack();
+    } catch (error) {
+      console.error("Erro ao criar usuário:", error);
+      Alert.alert(
+        "Erro",
+        "Não foi possível criar a conta. Por favor, tente novamente mais tarde."
+      );
+    } finally {
+      navigation.navigate("Login");
+    }
   };
 
   return (
     <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
       <View style={styles.container}>
+        <TouchableOpacity
+          onPress={() => navigation.goBack()}
+          style={styles.backButtonIcon}
+        >
+          <Ionicons name="arrow-back" size={24} color="darkblue" />
+        </TouchableOpacity>
+
+        <Text style={styles.title}>Criação de Conta</Text>
+
         <Text style={styles.textStyle}>Nome</Text>
         <View style={styles.boxInput}>
-          <TextInput
-            style={styles.inputField}
-            placeholder="Digite seu Nome"
-            value={name}
-            onChangeText={setName}
+          <Controller
+            control={control}
+            name="nome"
+            render={({ field: { onChange, onBlur, value } }) => (
+              <TextInput
+                style={styles.inputField}
+                placeholder="Digite seu Nome"
+                onBlur={onBlur}
+                onChangeText={onChange}
+                value={value}
+              />
+            )}
           />
         </View>
 
-        <Text style={styles.textStyle}>Nome do Usuário</Text>
+        <Text style={styles.textStyle}>Usuário</Text>
         <View style={styles.boxInput}>
-          <TextInput
-            style={styles.inputField}
-            placeholder="Digite seu Nome de Usuário"
-            value={userName}
-            onChangeText={setUserName}
+          <Controller
+            control={control}
+            name="username"
+            render={({ field: { onChange, onBlur, value } }) => (
+              <TextInput
+                style={styles.inputField}
+                placeholder="Digite seu Nome de Usuário"
+                onBlur={onBlur}
+                onChangeText={onChange}
+                value={value}
+              />
+            )}
           />
         </View>
 
@@ -70,11 +128,18 @@ export const UserRegistration = () => {
           <>
             <Text style={styles.textStyle}>Email institucional</Text>
             <View style={styles.boxInput}>
-              <TextInput
-                style={styles.inputField}
-                placeholder="Digite seu email institucional"
-                value={userName}
-                onChangeText={setUserName}
+              <Controller
+                control={control}
+                name="email"
+                render={({ field: { onChange, onBlur, value } }) => (
+                  <TextInput
+                    style={styles.inputField}
+                    placeholder="Digite seu email institucional"
+                    onBlur={onBlur}
+                    onChangeText={onChange}
+                    value={value}
+                  />
+                )}
               />
             </View>
           </>
@@ -82,11 +147,18 @@ export const UserRegistration = () => {
           <>
             <Text style={styles.textStyle}>Email</Text>
             <View style={styles.boxInput}>
-              <TextInput
-                style={styles.inputField}
-                placeholder="Digite seu email"
-                value={email}
-                onChangeText={setEmail}
+              <Controller
+                control={control}
+                name="email"
+                render={({ field: { onChange, onBlur, value } }) => (
+                  <TextInput
+                    style={styles.inputField}
+                    placeholder="Digite seu email"
+                    onBlur={onBlur}
+                    onChangeText={onChange}
+                    value={value}
+                  />
+                )}
               />
             </View>
           </>
@@ -94,13 +166,20 @@ export const UserRegistration = () => {
 
         <Text style={styles.textStyle}>Senha</Text>
         <View style={styles.boxInput}>
-          <TextInput
-            style={styles.inputField}
-            secureTextEntry={hidePassword}
-            placeholder="Digite sua Senha"
-            value={password}
-            onChangeText={setPassword}
-            maxLength={16}
+          <Controller
+            control={control}
+            name="senha"
+            render={({ field: { onChange, onBlur, value } }) => (
+              <TextInput
+                style={styles.inputField}
+                secureTextEntry={hidePassword}
+                placeholder="Digite sua Senha"
+                onBlur={onBlur}
+                onChangeText={onChange}
+                value={value}
+                maxLength={16}
+              />
+            )}
           />
           <TouchableOpacity
             onPress={togglePasswordVisibility}
@@ -119,9 +198,10 @@ export const UserRegistration = () => {
           style={[
             styles.boxInput,
             {
-              backgroundColor: passwordsMatch
-                ? "rgba(0, 0, 139, 0.1)"
-                : "rgba(255, 0, 0, 0.1)",
+              backgroundColor:
+                getValues("senha") === passwordValidation
+                  ? "rgba(0, 0, 139, 0.1)"
+                  : "rgba(255, 0, 0, 0.1)",
             },
           ]}
         >
@@ -145,16 +225,16 @@ export const UserRegistration = () => {
           </TouchableOpacity>
         </View>
 
-        {!passwordsMatch && (
+        {getValues("senha") !== passwordValidation && (
           <Text style={styles.passwordMismatch}>As senhas não coincidem.</Text>
         )}
 
         <View style={styles.checkboxContainer}>
           <TouchableOpacity onPress={() => setIsFirstIcon(!isFirstIcon)}>
             <Ionicons
-              name={isFirstIcon ? "checkbox-outline" : "checkbox"}
+              name={isFirstIcon ? "checkbox" : "checkbox-outline"}
               size={30}
-              color={isFirstIcon ? "gray" : "blue"}
+              color={isFirstIcon ? "blue" : "gray"}
             />
           </TouchableOpacity>
           <TouchableOpacity onPress={() => setModalVisible(true)}>
@@ -164,7 +244,7 @@ export const UserRegistration = () => {
           </TouchableOpacity>
         </View>
 
-        <BlueButton onPress={handleCreateAccount} text="CRIAR CONTA" />
+        <BlueButton onPress={handleSubmit(onSubmit)} text="CRIAR CONTA" />
       </View>
 
       <TermsModal

@@ -17,12 +17,12 @@ import {
   View,
 } from "react-native";
 import { BlueButton } from "../../components/blue-button";
+import { FeedScreenNavigationProp } from "../../routes/types";
 import { createEvent } from "../../services/api";
 import { setEventData } from "../../store/event/actions";
 import { EventInitialState } from "../../store/event/state";
 import { IEvent } from "../../store/event/types";
 import { createEventSchema } from "../../utils/schemas/create-evet-schema";
-import { FeedScreenNavigationProp } from "../create-post/type";
 import { styles } from "./styles";
 
 const lupa = require("../../assets/lupa.png");

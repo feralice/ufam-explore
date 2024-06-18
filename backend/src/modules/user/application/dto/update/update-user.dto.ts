@@ -64,13 +64,4 @@ export class UpdateUserDto {
     example: 'Sou um aluno do curso de engenharia de software.',
   })
   biografia?: string;
-
-  @IsOptional()
-  @IsString()
-  @ApiProperty({
-    type: String,
-    description: 'CNPJ da empresa',
-    example: '12345678901234',
-  })
-  cnpj?: string;
 }

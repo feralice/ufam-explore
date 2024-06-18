@@ -2,6 +2,7 @@ import { AxiosResponse } from "axios";
 import * as FileSystem from "expo-file-system";
 import { IEvent } from "../store/event/types";
 import { IPost, Tag } from "../store/post/types";
+import { IUser } from "../store/user/types";
 import { api } from "./config";
 import {
   ICreatePostRequest,
@@ -17,6 +18,13 @@ export const login = async (
   data: ILoginRequest
 ): Promise<AxiosResponse<ILoginResponse>> => {
   const response = await api.post<ILoginResponse>("/login", data);
+  return response;
+};
+
+export const createUser = async (
+  data: IUser
+): Promise<AxiosResponse<IUser>> => {
+  const response = await api.post("/user/create", data);
   return response;
 };
 

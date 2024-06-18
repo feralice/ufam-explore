@@ -1,6 +1,7 @@
+import { Ionicons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import { useState } from "react";
-import { Image, Pressable, Text, View } from "react-native";
+import { Image, Pressable, Text, TouchableOpacity, View } from "react-native";
 import { BlueButton } from "../../components/blue-button";
 import { LoginScreenNavigationProp } from "../../routes/types";
 import { setProfile } from "../../store/user/actions";
@@ -29,6 +30,12 @@ export const UserOption = () => {
 
   return (
     <View style={styles.container}>
+      <TouchableOpacity
+        onPress={() => navigation.goBack()}
+        style={styles.backButtonIcon}
+      >
+        <Ionicons name="arrow-back" size={24} color="darkblue" />
+      </TouchableOpacity>
       <View style={styles.background}>
         <Pressable
           style={styles.leftBox}

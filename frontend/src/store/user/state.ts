@@ -2,7 +2,7 @@ import { Profiles, UserInitialStateType } from "./types";
 
 export const UserInitialState: UserInitialStateType = {
   profile: {
-    id: "",
+    id: 0,
     nome: Profiles.INTERNO,
   },
   user: {
