@@ -1,5 +1,5 @@
 import { StyleSheet } from "react-native";
-import { deviceWidth } from "../../utils/get-device-width";
+import { deviceWidth } from "../../../utils/get-device-width";
 
 export const styles = StyleSheet.create({
   footerContainer: {

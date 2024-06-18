@@ -1,9 +1,9 @@
 import { NavigationContainer } from "@react-navigation/native";
-import { TabNavigator } from "./tab.routes";
+import AuthStackNavigator from "./stack/stackAuth.routes";
 export const Routes = () => {
   return (
     <NavigationContainer>
-      <TabNavigator />
+      <AuthStackNavigator />
     </NavigationContainer>
   );
 };

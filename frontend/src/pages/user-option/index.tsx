@@ -1,44 +1,56 @@
+import { useNavigation } from "@react-navigation/native";
 import { useState } from "react";
-import { Pressable, Text, View, Image } from "react-native";
-import { ButtonStyles } from "./styles";
+import { Image, Pressable, Text, View } from "react-native";
 import { BlueButton } from "../../components/blue-button";
-import { Ionicons } from "@expo/vector-icons";
+import { LoginScreenNavigationProp } from "../../routes/types";
+import { setProfile } from "../../store/user/actions";
+import { Profiles } from "../../store/user/types";
+import { ButtonStyles } from "./styles";
 
 const people = require("../../assets/equipe.png");
 const option2 = require("../../assets/professores.png");
 
 export const UserOption = () => {
-  const [selectedTab, setSelectedTab] = useState(0);
+  const [selectedTab, setSelectedTab] = useState(1);
   const styles = ButtonStyles(selectedTab);
 
+  const navigation = useNavigation<LoginScreenNavigationProp>();
+
+  const handleConfirm = () => {
+    let profileName = Profiles.INTERNO;
+    let idProfile = 1;
+    if (selectedTab === 2) {
+      idProfile = 2;
+      profileName = Profiles.EXTERNO;
+    }
+    setProfile({ id: idProfile, nome: profileName });
+    navigation.navigate("UserRegistration");
+  };
+
   return (
-    <View style={styles.ButtonContainer}>
-      <View style={styles.Background}>
+    <View style={styles.container}>
+      <View style={styles.background}>
         <Pressable
-          style={styles.BorderLeft}
-          onPress={() => {
-            setSelectedTab(0);
-          }}
-        >
-          <Image source={option2}></Image>
-          <Text style={styles.textoEsquerda}> Interno</Text>
-        </Pressable>
-        <Pressable
-          style={styles.BorderRight}
+          style={styles.leftBox}
           onPress={() => {
             setSelectedTab(1);
           }}
         >
-          <Image source={people}></Image>
-          <Text style={styles.textoDireita}> Externo </Text>
+          <Image source={option2} />
+          <Text style={styles.leftText}>Sou de dentro da UFAM</Text>
+        </Pressable>
+        <View style={styles.space}></View>
+        <Pressable
+          style={styles.rightBox}
+          onPress={() => {
+            setSelectedTab(2);
+          }}
+        >
+          <Image source={people} />
+          <Text style={styles.rightText}>Sou de fora da UFAM</Text>
         </Pressable>
       </View>
-      <BlueButton
-        onPress={function (): void {
-          throw new Error("Function not implemented.");
-        }}
-        text={"Confirmar"}
-      />
+      <BlueButton onPress={handleConfirm} text={"Confirmar"} />
     </View>
   );
 };

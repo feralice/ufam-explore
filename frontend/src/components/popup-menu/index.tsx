@@ -14,7 +14,7 @@ import { useSelector } from "react-redux";
 import { FeedScreenNavigationProp } from "../../pages/create-post/type";
 import { deletePost } from "../../services/api";
 import { IStore } from "../../store";
-import ConfirmationModal from "../confirm-modal";
+import ConfirmationModal from "../modals/confirm-modal";
 import { styles } from "./styles";
 import { Option } from "./types";
 

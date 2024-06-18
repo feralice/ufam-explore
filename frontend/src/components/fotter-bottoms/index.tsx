@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Pressable, Text, View } from "react-native";
-import ConfirmationModal from "../confirm-modal";
+import ConfirmationModal from "../modals/confirm-modal";
 import { styles } from "./styles";
 
 interface FooterWithModalsProps {

@@ -5,7 +5,6 @@ import {
 } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { checkPasswordMatch } from '../../common/utils/check-password-match';
-import { PrismaService } from '../../prisma/prisma.service';
 import { UserService } from '../user/domain/user.service';
 import { LoginPayload } from './dto/login-payload.dto';
 import { LoginResponse } from './dto/login-response.dto';
@@ -13,7 +12,6 @@ import { LoginResponse } from './dto/login-response.dto';
 @Injectable()
 export class AuthService {
   constructor(
-    private prisma: PrismaService,
     private jwtService: JwtService,
     private userService: UserService,
   ) {}

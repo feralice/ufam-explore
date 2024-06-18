@@ -10,6 +10,7 @@ import { useSelector } from "react-redux";
 import { BlueButton } from "../../components/blue-button";
 import { ImagePickerComponent } from "../../components/image-picker";
 import { CustomInput } from "../../components/inputs";
+import { FeedScreenNavigationProp } from "../../routes/types";
 import { createPost } from "../../services/api";
 import { IStore } from "../../store";
 import { setEventData } from "../../store/event/actions";
@@ -19,7 +20,6 @@ import { PostInitialState } from "../../store/post/state";
 import { IPostRequest, Tag } from "../../store/post/types";
 import { createPostSchema } from "../../utils/schemas/create-post-schema";
 import { styles } from "./style";
-import { FeedScreenNavigationProp } from "./type";
 
 const img_perfil = require("../../assets/img_test.jpg");
 

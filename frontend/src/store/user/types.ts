@@ -1,12 +1,11 @@
 export interface IProfile {
-  id: string;
+  id: number;
   nome: Profiles;
 }
 
 export enum Profiles {
   INTERNO = "INTERNO",
   EXTERNO = "EXTERNO",
-  EMPRESA = "EMPRESA",
 }
 
 export interface IUser {

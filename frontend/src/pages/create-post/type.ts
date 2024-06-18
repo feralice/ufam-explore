@@ -6,5 +6,4 @@ export type PostForm = {
   texto: string;
 };
 
-export type FeedScreenNavigationProp = StackNavigationProp<RootStackParamList, "Home">;
 

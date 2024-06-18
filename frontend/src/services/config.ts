@@ -1,9 +1,10 @@
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
 
-const TOKEN_KEY = "accessToken";
-
 export const api = axios.create({
-  baseURL: "https://ufam-explore.vercel.app/",
+  baseURL: "http://192.168.5.181:3000",
+ // withCredentials: true,
 });
 
-console.log("API", api);
+//
+

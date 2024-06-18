@@ -12,10 +12,10 @@ import {
 import { useSelector } from "react-redux";
 import FooterWithModals from "../../components/fotter-bottoms";
 import TagList from "../../components/tags-select";
+import { FeedScreenNavigationProp } from "../../routes/types";
 import { getAllTags } from "../../services/api";
 import { IStore } from "../../store";
 import { setAllTags, setTagsForNewPost } from "../../store/post/actions";
-import { FeedScreenNavigationProp } from "../create-post/type";
 import { styles } from "./styles";
 
 export const AddTagScreen = () => {

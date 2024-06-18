@@ -1,25 +1,43 @@
+import { Ionicons } from "@expo/vector-icons";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useNavigation } from "@react-navigation/native";
+import { useState } from "react";
 import {
-  KeyboardAvoidingView,
+  Image,
+  SafeAreaView,
+  ScrollView,
+  Text,
   TextInput,
   TouchableOpacity,
-  Image,
-  Text,
-  SafeAreaView,
   View,
-  Button,
-  ScrollView,
 } from "react-native";
-import { Card } from "react-native-paper";
-import { styles } from "./style";
-import { Ionicons } from "@expo/vector-icons";
 import { BlueButton } from "../../components/blue-button";
-import { useState } from "react";
+import { LoginScreenNavigationProp } from "../../routes/types";
+import { login } from "../../services/api";
+import { styles } from "./style";
 
 const img_ufam = require("../../assets/lupa.png");
 const img = require("../../assets/UfamExplore.png");
 
 const Login = () => {
   const [hidePassword, setHidePassword] = useState(true);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const navigation = useNavigation<LoginScreenNavigationProp>();
+
+  const handleLogin = async () => {
+    try {
+      const response = await login({ email, password });
+      const { accessToken } = response.data;
+
+      await AsyncStorage.setItem("accessToken", accessToken);
+      console.log("Token saved:", accessToken);
+    } catch (error) {
+      console.error("Login failed:", error);
+    }
+  };
+
   return (
     <ScrollView>
       <SafeAreaView>
@@ -34,6 +52,8 @@ const Login = () => {
             <TextInput
               placeholder="nome@domínio.com"
               style={[styles.input, styles.textArea]}
+              value={email}
+              onChangeText={setEmail}
             />
 
             <Text style={styles.text}>SENHA</Text>
@@ -41,8 +61,10 @@ const Login = () => {
               <TextInput
                 placeholder="Insira sua senha"
                 secureTextEntry={hidePassword}
-                style={[{ width: "65%", color: "darkblue" }]}
+                style={[{ width: "75%", color: "darkblue" }]}
                 maxLength={16}
+                value={password}
+                onChangeText={setPassword}
               />
               <TouchableOpacity onPress={() => setHidePassword(!hidePassword)}>
                 <Ionicons
@@ -55,16 +77,13 @@ const Login = () => {
 
             <View />
 
-            <BlueButton
-              onPress={function (): void {
-                throw new Error("Function not implemented.");
-              }}
-              text={"ENTRAR"}
-            />
+            <BlueButton onPress={handleLogin} text={"ENTRAR"} />
           </View>
 
           <View style={styles.container}>
-            <Text style={styles.textAbaixo}>Criar conta</Text>
+            <TouchableOpacity onPress={() => navigation.navigate("UserOption")}>
+              <Text style={styles.textAbaixo}>Criar conta</Text>
+            </TouchableOpacity>
             <Text style={styles.textAbaixo}>Esqueci minha senha</Text>
           </View>
         </View>

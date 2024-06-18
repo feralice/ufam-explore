@@ -1,64 +1,54 @@
 import { StyleSheet } from "react-native";
-import { Card } from "react-native-paper";
-import { blue } from "react-native-reanimated/lib/typescript/reanimated2/Colors";
 
 export const styles = StyleSheet.create({
   container: {
     backgroundColor: "#FFFFFF",
-    width: "100%",
-    height: "100%",
+    paddingHorizontal: 20,
+    paddingVertical: 70,
+    alignItems: "center",
   },
   boxInput: {
-    backgroundColor: "rgba(0, 0, 139, 0.2)",
+    backgroundColor: "rgba(0, 0, 139, 0.1)",
     borderRadius: 20,
     borderWidth: 1,
     borderColor: "darkblue",
-    width: "80%",
+    width: "100%",
     height: 60,
-    marginHorizontal: "auto",
-    alignItems: "center",
+    marginBottom: 20,
     flexDirection: "row",
-    justifyContent: "space-between",
+    alignItems: "center",
+    paddingHorizontal: 20,
   },
   textStyle: {
-    marginHorizontal: "12%",
-    fontSize: 25,
-    color: "blue",
-    paddingTop: 18,
+    fontSize: 18,
+    color: "darkblue",
+    marginBottom: 10,
+    alignSelf: "flex-start",
+    width: "100%",
+    paddingHorizontal: 20,
   },
-  backButton: {
-    position: "absolute",
-    top: 40,
-    left: 20,
-  },
-  icon: {
-    fontSize: 30,
-  },
-  modalContainer: {
+  inputField: {
     flex: 1,
-    justifyContent: "center",
+    paddingLeft: 10,
+    fontSize: 16,
+  },
+  eyeIcon: {
+    padding: 10,
+  },
+  checkboxContainer: {
+    flexDirection: "row",
     alignItems: "center",
+    marginTop: 20,
   },
-  boxModal: {
-    alignContent: "center",
-    backgroundColor: "#FFFFFF",
-    width: "92%",
-    height: "92%",
-    marginHorizontal: "4%",
-  },
-  bigTitle: {
+  checkboxText: {
     color: "blue",
-    fontSize: 25,
-    fontWeight: "bold",
+    textDecorationLine: "underline",
+    marginLeft: 10,
   },
-  smallTitle: {
-    color: "blue",
-    fontSize: 15,
-    fontWeight: "bold",
-    paddingBottom: 4,
-  },
-  text: {
-    fontSize: 10,
-    paddingBottom: 8,
+  passwordMismatch: {
+    color: "red",
+    alignSelf: "flex-start",
+    paddingHorizontal: 20,
+    marginTop: 8,
   },
 });

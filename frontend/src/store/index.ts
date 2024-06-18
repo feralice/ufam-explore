@@ -4,12 +4,12 @@ import { IEventState } from "./event/types";
 import { postSlice } from "./post";
 import { PostInitialStateType } from "./post/types";
 import { userSlice } from "./user";
-import { IUser } from "./user/types";
+import { IUser, UserInitialStateType } from "./user/types";
 
 export interface IStore {
   post: PostInitialStateType;
   event: IEventState;
-  user: IUser;
+  user: UserInitialStateType;
 }
 export const store = configureStore({
   reducer: {

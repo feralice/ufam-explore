@@ -2,7 +2,7 @@ import { StyleSheet } from "react-native";
 
 export const ButtonStyles = (selectedTab: number) =>
   StyleSheet.create({
-    ButtonContainer: {
+    container: {
       display: "flex",
       flex: 1,
       justifyContent: "center",
@@ -11,7 +11,7 @@ export const ButtonStyles = (selectedTab: number) =>
       color: "cadetblue",
       height: "50%",
     },
-    Background: {
+    background: {
       width: "75%",
       height: 250,
       justifyContent: "space-between",
@@ -21,33 +21,42 @@ export const ButtonStyles = (selectedTab: number) =>
       paddingLeft: 5,
       paddingRight: 5,
     },
-    BorderLeft: {
+    leftBox: {
       width: "50%",
       height: "96%",
       backgroundColor:
-        selectedTab == 0 ? "rgba(0, 0, 139, 0.3)" : "rgba(0, 0, 139, 0.2)",
+        selectedTab === 1 ? "rgba(0, 0, 139, 0.3)" : "rgba(0, 0, 139, 0.2)",
       borderRadius: 30,
       justifyContent: "center",
       alignItems: "center",
+      borderWidth: 1.5,
+      borderColor: selectedTab === 1 ? "darkblue" : "transparent",
     },
-    BorderRight: {
+    rightBox: {
       width: "50%",
       height: "96%",
       backgroundColor:
-        selectedTab == 1 ? "rgba(0, 0, 139, 0.3)" : "rgba(0, 0, 139, 0.2)",
+        selectedTab === 2 ? "rgba(0, 0, 139, 0.3)" : "rgba(0, 0, 139, 0.2)",
       borderRadius: 30,
       justifyContent: "center",
       alignItems: "center",
+      borderWidth: 1.5,
+      borderColor: selectedTab === 2 ? "darkblue" : "transparent",
     },
-    textoEsquerda: {
-      color: selectedTab == 0 ? "#fff" : "#000",
+    space: {
+      width: 10,
+    },
+    leftText: {
+      color: selectedTab === 1 ? "#fff" : "#000",
       fontSize: 18,
       fontWeight: "700",
+      textAlign: "center",
     },
-    textoDireita: {
-      color: selectedTab == 1 ? "#fff" : "#000",
+    rightText: {
+      color: selectedTab === 2 ? "#fff" : "#000",
       fontSize: 18,
       fontWeight: "700",
+      textAlign: "center",
     },
     textStyle: {
       marginHorizontal: "12%",

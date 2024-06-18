@@ -1,4 +1,4 @@
-import { IPost } from "../store/post/types";
+import { StackNavigationProp } from "@react-navigation/stack";
 
 export type RootStackParamList = {
   Home: undefined;
@@ -8,4 +8,16 @@ export type RootStackParamList = {
   AddTag: undefined;
   CreateEvent: undefined;
   Login: undefined;
+  UserOption: undefined;
+  UserRegistration: undefined;
 };
+
+export type LoginScreenNavigationProp = StackNavigationProp<
+  RootStackParamList,
+  "Login"
+>;
+
+export type FeedScreenNavigationProp = StackNavigationProp<
+  RootStackParamList,
+  "Home"
+>;
