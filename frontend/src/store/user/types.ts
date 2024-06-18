@@ -14,7 +14,7 @@ export interface IUser {
   username: string;
   email: string;
   senha: string;
-  funcao?: string;
+  curso?: string;
   fotoPerfil?: string;
   biografia?: string;
   passwordValidation?: string;

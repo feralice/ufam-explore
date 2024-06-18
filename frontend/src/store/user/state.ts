@@ -11,6 +11,6 @@ export const UserInitialState: UserInitialStateType = {
     username: "",
     email: "",
     senha: "",
-    funcao: "",
+    curso: "",
   },
 };

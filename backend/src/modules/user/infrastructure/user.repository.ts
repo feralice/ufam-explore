@@ -15,7 +15,7 @@ export class UserRepository {
       username,
       email,
       senha,
-      funcao,
+      curso,
       fotoPerfil,
       biografia,
     } = userData;
@@ -29,7 +29,7 @@ export class UserRepository {
         username,
         email,
         senha,
-        funcao,
+        curso,
         fotoPerfil,
         biografia,
       },

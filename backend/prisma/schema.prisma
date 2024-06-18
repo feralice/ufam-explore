@@ -14,7 +14,7 @@ model Usuario {
   username   String
   email      String   @unique
   senha      String
-  funcao     String?
+  curso      String?
   fotoPerfil String?
   biografia  String?
   createdAt  DateTime @default(now())

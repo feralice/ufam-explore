@@ -11,7 +11,7 @@ entity "Usuario" {
    * email: text
    * senha: text
    * data_cadastro: date
-   * funcao: text
+   * curso: text
    * foto_de_perfil?: text
    * descricao?: text
 }

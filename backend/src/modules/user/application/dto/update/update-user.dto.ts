@@ -42,10 +42,10 @@ export class UpdateUserDto {
   @IsString()
   @ApiProperty({
     type: String,
-    description: 'Função do usuário',
-    example: 'Professor',
+    description: 'Curso do usuário',
+    example: 'Engenharia de Software',
   })
-  funcao?: string;
+  curso?: string;
 
   @IsOptional()
   @IsString()

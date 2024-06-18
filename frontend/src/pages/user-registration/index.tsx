@@ -1,4 +1,5 @@
 import { Ionicons } from "@expo/vector-icons";
+import { Picker } from "@react-native-picker/picker";
 import { useNavigation } from "@react-navigation/native";
 import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
@@ -18,6 +19,7 @@ import { createUser } from "../../services/api";
 import { IStore } from "../../store";
 import { UserInitialState } from "../../store/user/state";
 import { IUser } from "../../store/user/types";
+import { cursos } from "../../utils/courses";
 import { styles } from "./styles";
 
 export const UserRegistration = () => {
@@ -142,6 +144,27 @@ export const UserRegistration = () => {
                 )}
               />
             </View>
+
+            <Text style={styles.textStyle}>Curso</Text>
+            <View style={styles.boxInput}>
+              <Controller
+                control={control}
+                name="curso"
+                render={({ field: { onChange, value } }) => (
+                  <Picker
+                    selectedValue={value}
+                    style={styles.inputField}
+                    onValueChange={onChange}
+                  >
+                    <Picker.Item label="Selecione um curso" value="" />
+
+                    {cursos.map((curso) => (
+                      <Picker.Item label={curso} value={curso} key={curso} />
+                    ))}
+                  </Picker>
+                )}
+              />
+            </View>
           </>
         ) : (
           <>
@@ -234,7 +257,7 @@ export const UserRegistration = () => {
             <Ionicons
               name={isFirstIcon ? "checkbox" : "checkbox-outline"}
               size={30}
-              color={isFirstIcon ? "blue" : "gray"}
+              color={isFirstIcon ? "blue" : "darkgray"}
             />
           </TouchableOpacity>
           <TouchableOpacity onPress={() => setModalVisible(true)}>
