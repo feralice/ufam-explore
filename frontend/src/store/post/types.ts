@@ -1,6 +1,7 @@
 export interface Tag {
   id: string;
   nome: string;
+  tipo?: string;
 }
 
 export interface IPost {

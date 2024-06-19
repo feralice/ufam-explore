@@ -13,7 +13,7 @@ export class PostRepository {
     data: CreatePostDto,
     imagemUrl?: string,
   ): Promise<Postagem> {
-    const { titulo, texto, eventoId, tags, cursos } = data;
+    const { titulo, texto, eventoId, tags } = data;
 
     return await this.prisma.postagem.create({
       data: {
@@ -25,12 +25,9 @@ export class PostRepository {
         tags: tags
           ? { connect: tags.map((tag) => ({ nome: tag })) }
           : undefined,
-        //TODO:: Depois fazer o mesmo para cursos quando for configurado o modulo dele
-        // cursos: cursos ? { connect: cursos.map(curso => ({ nome: curso })) } : undefined,
       },
       include: {
         tags: true,
-        cursos: true,
       },
     });
   }
@@ -49,20 +46,7 @@ export class PostRepository {
     }
   }
 
-  async associateCoursesWithPosts(postagemId: string, cursos: string[]) {
-    if (cursos && cursos.length) {
-      await Promise.all(
-        cursos.map(async (curso) => {
-          await this.prisma.cursosEmPostagem.create({
-            data: {
-              cursoId: curso,
-              postagemId,
-            },
-          });
-        }),
-      );
-    }
-  }
+ 
   
   async getPostById(postId: string) {
     return await this.prisma.postagem.findUnique({
@@ -70,7 +54,6 @@ export class PostRepository {
       include: {
         usuario: true,
         tags: true,
-        cursos: true,
       },
     });
   }
@@ -80,7 +63,6 @@ export class PostRepository {
       include: {
         usuario: true,
         tags: true,
-        cursos: true,
       },
     });
   }
@@ -103,7 +85,6 @@ export class PostRepository {
       },
       include: {
         tags: true,
-        cursos: true,
       },
     });
   }

@@ -8,10 +8,7 @@ import {
 import { Tag } from '@prisma/client';
 import { CreateTagService } from '../domain/use-cases/create-tag.service';
 import { FindAllTagsService } from '../domain/use-cases/find-all.service';
-import { FindByAreaService } from '../domain/use-cases/find-by-area.service';
-import { FindByCourseService } from '../domain/use-cases/find-by-couse.service';
 import { FindTagByNameService } from '../domain/use-cases/find-by-name.service';
-import { FindOthersTagsService } from '../domain/use-cases/find-others-tags.service';
 import { CreateTagResponseDto } from './dto/create-tag-response.dto';
 
 @ApiBearerAuth()
@@ -22,9 +19,6 @@ export class TagController {
     private readonly createTagService: CreateTagService,
     private readonly findAllTagsService: FindAllTagsService,
     private readonly findTagByNameService: FindTagByNameService,
-    private readonly fingTagByArea: FindByAreaService,
-    private readonly findByCourse: FindByCourseService,
-    private readonly findOthers: FindOthersTagsService,
   ) {}
 
   @Post(':nome')
@@ -56,35 +50,5 @@ export class TagController {
   })
   findByName(@Param('nome') nome: string): Promise<CreateTagResponseDto> {
     return this.findTagByNameService.findByName(nome);
-  }
-
-  @Get('areas')
-  @ApiOperation({ summary: 'Obter tags por áreas' })
-  @ApiResponse({
-    status: 200,
-    description: 'Tags obtidas com sucesso',
-  })
-  async getTagsByArea() {
-    return this.fingTagByArea.getTagsByArea();
-  }
-
-  @Get('cursos')
-  @ApiOperation({ summary: 'Obter tags por cursos' })
-  @ApiResponse({
-    status: 200,
-    description: 'Tags obtidas com sucesso',
-  })
-  async getTagsByCurso() {
-    return this.findByCourse.getTagsByCourse();
-  }
-
-  @Get('others')
-  @ApiOperation({ summary: 'Obter outras tags' })
-  @ApiResponse({
-    status: 200,
-    description: 'Tags obtidas com sucesso',
-  })
-  async getOtherTags() {
-    return this.findOthers.getOthersTags();
   }
 }

@@ -37,13 +37,4 @@ export class CreatePostDto {
     example: ['Geral'],
   })
   tags?: string[];
-
-  @IsOptional()
-  @IsArray()
-  @ApiProperty({
-    type: String,
-    isArray: true,
-    description: 'Nome dos cursos',
-  })
-  cursos?: string[];
 }

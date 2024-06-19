@@ -9,6 +9,7 @@ export enum Profiles {
 }
 
 export interface IUser {
+  id?: string;
   perfilId: number;
   nome: string;
   username: string;

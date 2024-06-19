@@ -1,6 +1,6 @@
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URL")
+  url      = "postgresql://ufam-explore:ufam-explore@localhost:5432/ufam-explore"
 }
 
 generator client {
@@ -28,25 +28,10 @@ model Usuario {
   salvos      Salvar[]
 }
 
-model Curso {
-  id     String @id @default(uuid())
-  nome   String
-  area   Area   @relation(fields: [areaId], references: [id])
-  areaId String
-
-  postagens        Postagem[]
-  cursosEmPostagem CursosEmPostagem[]
-}
-
-model Area {
-  id     String  @id @default(uuid())
-  nome   String
-  cursos Curso[]
-}
-
 model Tag {
-  id   String @id @default(uuid())
+  id   String  @id @default(uuid())
   nome String
+  tipo String?
 
   postagens      Postagem[]
   tagsEmPostagem TagsEmPostagem[]
@@ -78,14 +63,12 @@ model Postagem {
   usuario Usuario @relation(fields: [usuarioId], references: [id], onDelete: Cascade)
   evento  Evento? @relation(fields: [eventoId], references: [id])
 
-  comentarios      Comentario[]
-  upvotes          Upvote[]
-  downvotes        Downvote[]
-  salvos           Salvar[]
-  tags             Tag[]
-  cursos           Curso[]
-  tagsEmPostagem   TagsEmPostagem[]
-  cursosEmPostagem CursosEmPostagem[]
+  comentarios    Comentario[]
+  upvotes        Upvote[]
+  downvotes      Downvote[]
+  salvos         Salvar[]
+  tags           Tag[]
+  tagsEmPostagem TagsEmPostagem[]
 }
 
 model Comentario {
@@ -115,7 +98,7 @@ model Downvote {
   usuarioId  String
   postagemId String
   createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
+  updatedAt  DateTime @default(now())
 
   usuario  Usuario  @relation(fields: [usuarioId], references: [id], onDelete: Cascade)
   postagem Postagem @relation(fields: [postagemId], references: [id], onDelete: Cascade)
@@ -137,15 +120,6 @@ model TagsEmPostagem {
   postagemId String
 
   tag      Tag      @relation(fields: [tagId], references: [id], onDelete: Cascade)
-  postagem Postagem @relation(fields: [postagemId], references: [id], onDelete: Cascade)
-}
-
-model CursosEmPostagem {
-  id         String @id @default(uuid())
-  cursoId    String
-  postagemId String
-
-  curso    Curso    @relation(fields: [cursoId], references: [id], onDelete: Cascade)
   postagem Postagem @relation(fields: [postagemId], references: [id], onDelete: Cascade)
 }
 

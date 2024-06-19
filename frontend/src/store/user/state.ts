@@ -6,6 +6,7 @@ export const UserInitialState: UserInitialStateType = {
     nome: Profiles.INTERNO,
   },
   user: {
+    id: "",
     perfilId: 1,
     nome: "",
     username: "",

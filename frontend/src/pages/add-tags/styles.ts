@@ -63,7 +63,7 @@ export const styles = StyleSheet.create({
     alignItems: "center",
   },
   selectedTag: {
-    backgroundColor: "#4f83cc", 
+    backgroundColor: "#4f83cc",
   },
   tagText: {
     color: "white",
@@ -84,5 +84,43 @@ export const styles = StyleSheet.create({
   addButtonText: {
     color: "white",
     marginLeft: 8,
+  },
+  infoContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    marginBottom: 10,
+  },
+  infoText: {
+    fontSize: 18,
+  },
+  infoButton: {
+    padding: 5,
+  },
+  modalOverlay: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
+  },
+  modalContent: {
+    backgroundColor: "white",
+    padding: 20,
+    borderRadius: 10,
+    alignItems: "center",
+    width: "80%",
+  },
+  modalText: {
+    fontSize: 16,
+    marginBottom: 20,
+  },
+  closeButton: {
+    backgroundColor: "#00186DDA",
+    padding: 10,
+    borderRadius: 5,
+  },
+  closeButtonText: {
+    color: "white",
+    fontWeight: "bold",
   },
 });

@@ -3,6 +3,7 @@ import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import React, { useEffect, useState } from "react";
 import {
   ActivityIndicator,
+  Modal,
   Pressable,
   ScrollView,
   Text,
@@ -24,6 +25,7 @@ export const AddTagScreen = () => {
   const [editIndex, setEditIndex] = useState<number | null>(null);
   const [warning, setWarning] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
+  const [isModalVisible, setModalVisible] = useState<boolean>(false);
 
   const navigation = useNavigation<FeedScreenNavigationProp>();
   const allTags = useSelector((state: IStore) => state.post.tags);
@@ -92,12 +94,22 @@ export const AddTagScreen = () => {
       if (existingTag) {
         return existingTag;
       } else {
-        return { id: Date.now().toString(), nome: tagName };
+        return { id: Date.now().toString(), nome: tagName, tipo: "" };
       }
     });
 
     setTagsForNewPost(selectedTags);
     navigation.goBack();
+  };
+
+  const areasTags = allTags.filter((tag) => tag.tipo === "area");
+  const cursosTags = allTags.filter((tag) => tag.tipo === "curso");
+  const outrasTags = allTags.filter(
+    (tag) => tag.tipo !== "area" && tag.tipo !== "curso"
+  );
+
+  const toggleModal = () => {
+    setModalVisible(!isModalVisible);
   };
 
   return (
@@ -110,6 +122,32 @@ export const AddTagScreen = () => {
           <AntDesign name="arrowleft" size={24} color="black" />
         </Pressable>
         <Text style={styles.header}>Editar tags</Text>
+        <View style={styles.infoContainer}>
+          <Pressable onPress={toggleModal} style={styles.infoButton}>
+            <AntDesign name="infocirlceo" size={24} color="black" />
+          </Pressable>
+        </View>
+        <Modal
+          visible={isModalVisible}
+          transparent={true}
+          animationType="slide"
+          onRequestClose={toggleModal}
+        >
+          <View style={styles.modalOverlay}>
+            <View style={styles.modalContent}>
+              <Text style={styles.modalText}>
+                Adicione tags relevantes ao seu post. Se o conteúdo estiver
+                relacionado a uma área ou curso específico, não se esqueça de
+                incluir essas tags. Você pode buscar por tags existentes ou
+                criar novas caso não encontre uma que corresponda ao seu
+                interesse.
+              </Text>
+              <Pressable onPress={toggleModal} style={styles.closeButton}>
+                <Text style={styles.closeButtonText}>Fechar</Text>
+              </Pressable>
+            </View>
+          </View>
+        </Modal>
         <View style={styles.searchContainer}>
           <TextInput
             style={styles.input}
@@ -134,9 +172,33 @@ export const AddTagScreen = () => {
           <ActivityIndicator size="large" color="#0000ff" />
         ) : (
           <>
-            <Text style={styles.subheader}>Tags disponíveis</Text>
+            <Text style={styles.subheader}>Áreas Disponíveis</Text>
             <TagList
-              tags={allTags.map((tag) => tag.nome)}
+              tags={areasTags.map((tag) => tag.nome)}
+              onAdd={(tag) => {
+                if (!localTags.includes(tag)) {
+                  setLocalTags([...localTags, tag]);
+                } else {
+                  setWarning("Você já adicionou essa tag.");
+                  setTimeout(() => setWarning(""), 3000);
+                }
+              }}
+            />
+            <Text style={styles.subheader}>Cursos Disponíveis</Text>
+            <TagList
+              tags={cursosTags.map((tag) => tag.nome)}
+              onAdd={(tag) => {
+                if (!localTags.includes(tag)) {
+                  setLocalTags([...localTags, tag]);
+                } else {
+                  setWarning("Você já adicionou essa tag.");
+                  setTimeout(() => setWarning(""), 3000);
+                }
+              }}
+            />
+            <Text style={styles.subheader}>Outras Tags</Text>
+            <TagList
+              tags={outrasTags.map((tag) => tag.nome)}
               onAdd={(tag) => {
                 if (!localTags.includes(tag)) {
                   setLocalTags([...localTags, tag]);
