@@ -9,12 +9,11 @@ export enum Profiles {
 }
 
 export interface IUser {
-  id?: string;
+  id: string;
   perfilId: number;
   nome: string;
   username: string;
   email: string;
-  senha: string;
   curso?: string;
   fotoPerfil?: string;
   biografia?: string;

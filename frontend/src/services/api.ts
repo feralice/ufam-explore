@@ -6,6 +6,7 @@ import { IUser } from "../store/user/types";
 import { api } from "./config";
 import {
   ICreatePostRequest,
+  ICreateUserRequest,
   IDownvoteResponse,
   IEditPostRequest,
   ILoginRequest,
@@ -22,7 +23,7 @@ export const login = async (
 };
 
 export const createUser = async (
-  data: IUser
+  data: ICreateUserRequest
 ): Promise<AxiosResponse<IUser>> => {
   const response = await api.post("/user/create", data);
   return response;
@@ -61,7 +62,6 @@ export const createPost = async (
     },
   });
 
-  console.log("response", response.data);
 
   return response;
 };

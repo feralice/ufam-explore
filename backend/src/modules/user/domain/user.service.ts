@@ -1,4 +1,8 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  ConflictException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { Usuario } from '@prisma/client';
 import { encryptPassword } from '../../../common/utils/encrypted-password';
 import { CreateUserDto } from '../application/dto/create/create-user.dto';
@@ -10,16 +14,29 @@ export class UserService {
   constructor(private readonly userRepository: UserRepository) {}
 
   async create(createUserDto: CreateUserDto) {
-    try {
-      const hashedPassword = await encryptPassword(createUserDto.senha);
-      const newUserDto: CreateUserDto = {
-        ...createUserDto,
-        senha: hashedPassword,
-      };
-      return this.userRepository.create(newUserDto);
-    } catch (e) {
-      throw new Error(e);
+    const { email, username } = createUserDto;
+
+    const existingUserByEmail = await this.userRepository.getUserByEmail(email);
+    if (existingUserByEmail) {
+      throw new ConflictException(
+        `Usuário já cadastrado com o email: ${email}`,
+      );
     }
+
+    const existingUserByUsername =
+      await this.userRepository.getUserByUsername(username);
+    if (existingUserByUsername) {
+      throw new ConflictException(
+        `Usuário já cadastrado com o username: ${username}`,
+      );
+    }
+
+    const hashedPassword = await encryptPassword(createUserDto.senha);
+    const newUserDto: CreateUserDto = {
+      ...createUserDto,
+      senha: hashedPassword,
+    };
+    return this.userRepository.create(newUserDto);
   }
 
   async getUserById(id: string): Promise<Usuario> {

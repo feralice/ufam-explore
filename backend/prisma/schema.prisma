@@ -11,7 +11,7 @@ model Usuario {
   id         String   @id @default(uuid())
   perfilId   Int
   nome       String
-  username   String
+  username   String   @unique
   email      String   @unique
   senha      String
   curso      String?

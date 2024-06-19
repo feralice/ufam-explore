@@ -45,7 +45,7 @@ export const CreatePostScreen = () => {
   const [image, setImage] = useState<string | any>(null);
 
   const handleClick = handleSubmit(async (data) => {
-    const userId = "1151183c-0355-43a2-91d0-f9f3453faf27";
+    const userId = useSelector((state: IStore) => state.user.user.id);
     const postData = { ...data, tags: tagsForNewPost, eventoId: event?.id };
 
     setLoading(true);

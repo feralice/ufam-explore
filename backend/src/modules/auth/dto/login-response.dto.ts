@@ -4,4 +4,5 @@ export class LoginResponse {
   perfilId: number;
   nome: string;
   email: string;
+  username: string;
 }

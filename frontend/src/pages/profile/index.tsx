@@ -6,6 +6,9 @@ import { StackNavigationProp } from "@react-navigation/stack";
 import React from "react";
 import { Button, Text, View } from "react-native";
 import { RootStackParamList } from "../../routes/types";
+import { setUser } from "../../store/user/actions";
+
+//Ajustar depois td isso, apenas casos de teste
 
 type ProfileScreenNavigationProp = StackNavigationProp<
   RootStackParamList,
@@ -17,6 +20,13 @@ const ProfileScreen: React.FC = () => {
 
   const handleLogout = async () => {
     await AsyncStorage.removeItem("accessToken");
+    setUser({
+      id: "",
+      nome: "",
+      email: "",
+      username: "",
+      perfilId: 0,
+    });
     navigation.navigate("Login");
   };
 

@@ -42,6 +42,7 @@ export class AuthService {
       perfilId: user.perfilId,
       nome: user.nome,
       email: user.email,
+      username: user.username,
     };
   }
 }

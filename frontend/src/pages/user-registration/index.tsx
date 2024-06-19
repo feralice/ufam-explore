@@ -16,23 +16,24 @@ import { BlueButton } from "../../components/blue-button";
 import TermsModal from "../../components/modals/terms-modal";
 import { LoginScreenNavigationProp } from "../../routes/types";
 import { createUser } from "../../services/api";
+import { ICreateUserRequest } from "../../services/types";
 import { IStore } from "../../store";
 import { UserInitialState } from "../../store/user/state";
-import { IUser } from "../../store/user/types";
 import { cursos } from "../../utils/courses";
 import { styles } from "./styles";
 
 export const UserRegistration = () => {
   const navigation = useNavigation<LoginScreenNavigationProp>();
 
-  const { control, handleSubmit, getValues, reset } = useForm<IUser>({
-    defaultValues: UserInitialState.user,
+  const { control, handleSubmit, getValues, reset } =
+    useForm<ICreateUserRequest>({
+      defaultValues: UserInitialState.user,
 
-    // Aqui abaixo é a validação que vai ser preciso criar para validar os campos
-    // crie um schema yup dentro da pasta frontend\src\utils\schemas e apos isso coloque o schema abaixo no parametro
+      // Aqui abaixo é a validação que vai ser preciso criar para validar os campos
+      // crie um schema yup dentro da pasta frontend\src\utils\schemas e apos isso coloque o schema abaixo no parametro
 
-    //resolver: yupResolver(createPostSchema),
-  });
+      //resolver: yupResolver(createPostSchema),
+    });
 
   const [passwordValidation, setPasswordValidation] = useState("");
   const [modalVisible, setModalVisible] = useState(false);
@@ -45,7 +46,7 @@ export const UserRegistration = () => {
     setHidePassword(!hidePassword);
   };
 
-  const onSubmit = async (data: IUser) => {
+  const onSubmit = async (data: ICreateUserRequest) => {
     if (data.senha !== passwordValidation) {
       Alert.alert("Erro", "As senhas não coincidem.");
       return;
@@ -57,9 +58,7 @@ export const UserRegistration = () => {
     }
 
     try {
-      const response = await createUser(data);
-
-      console.log("Usuário criado com sucesso:", response.data);
+      await createUser(data);
       Alert.alert(
         "Sucesso",
         "Conta criada com sucesso! Agora realize o login com a conta criada."

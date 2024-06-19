@@ -16,7 +16,7 @@ import {
 } from "../../store/post/actions";
 
 export const useVoteHandlers = (postId: string) => {
-  const userId = "1151183c-0355-43a2-91d0-f9f3453faf27";
+  const userId = useSelector((state: IStore) => state.user.user.id);
 
   const upvotes = useSelector(
     (store: IStore) => store.post.upvotes[postId] || 0

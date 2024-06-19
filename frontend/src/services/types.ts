@@ -11,6 +11,16 @@ export interface ILoginResponse {
   perfilId: string;
   nome: string;
   email: string;
+  username: string;
+}
+
+export interface ICreateUserRequest {
+  perfilId: number;
+  nome: string;
+  username: string;
+  email: string;
+  senha: string;
+  curso?: string;
 }
 
 export interface ICreatePostRequest {
