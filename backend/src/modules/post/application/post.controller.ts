@@ -22,6 +22,7 @@ import { CreatePostUseCase } from '../domain/use-cases/create-post.service';
 import { DeletePostUseCase } from '../domain/use-cases/delete-post.service';
 import { EditPostUseCase } from '../domain/use-cases/edit-post.service';
 import { GetAllPostsUseCase } from '../domain/use-cases/get-all-posts.service';
+import { GetPostByCourseTagService } from '../domain/use-cases/get-post-by-course-tag.service';
 import { GetPostByIdService } from '../domain/use-cases/get-post-by-id.service';
 import { GetVotesUseCase } from '../domain/use-cases/get-votes-in-a-post.service';
 import { CreatePostResponse } from './dto/create/create-post-response.dto';
@@ -40,6 +41,7 @@ export class PostController {
     private readonly editPostUseCase: EditPostUseCase,
     private readonly deletePostUseCase: DeletePostUseCase,
     private readonly getPostByIdUseCase: GetPostByIdService,
+    private readonly getPostByCourseTagUseCase: GetPostByCourseTagService,
   ) {}
 
   @Post('/create-post')
@@ -139,5 +141,17 @@ export class PostController {
   })
   async getPostById(@Param('postId') postId: string): Promise<Postagem> {
     return this.getPostByIdUseCase.execute(postId);
+  }
+
+  @Get('/get-post-by-course/:courseName')
+  @ApiOperation({ summary: 'Get a post by course name' })
+  @ApiResponse({
+    status: HttpStatus.OK,
+    description: 'Successfully retrieved post',
+  })
+  async getPostByCourse(
+    @Param('userId') userId: string,
+  ): Promise<Postagem[]> {
+    return this.getPostByCourseTagUseCase.execute(userId);
   }
 }

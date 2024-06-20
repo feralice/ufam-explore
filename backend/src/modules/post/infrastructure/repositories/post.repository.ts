@@ -46,8 +46,6 @@ export class PostRepository {
     }
   }
 
- 
-  
   async getPostById(postId: string) {
     return await this.prisma.postagem.findUnique({
       where: { id: postId },
@@ -102,6 +100,29 @@ export class PostRepository {
       where: { id: postId },
       select: {
         imagemUrl: true,
+      },
+    });
+  }
+
+  async getByCourseTag(courseTag: string) {
+    return this.prisma.postagem.findMany({
+      where: {
+        tags: {
+          some: {
+            nome: courseTag,
+          },
+        },
+      },
+    });
+  }
+
+  async courseByPersonId(userId: string) {
+    return this.prisma.usuario.findUnique({
+      where: {
+        id: userId,
+      },
+      select: {
+        curso: true,
       },
     });
   }
