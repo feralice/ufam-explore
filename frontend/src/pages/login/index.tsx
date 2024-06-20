@@ -41,10 +41,16 @@ const Login = () => {
       } = response.data;
 
       const perfilIdNumber = Number(perfilId);
+      const user = {
+        id,
+        perfilId: perfilIdNumber,
+        nome,
+        email: userEmail,
+        username,
+      };
 
       await AsyncStorage.setItem("accessToken", accessToken);
-      console.log("Token saved:", accessToken);
-
+      await AsyncStorage.setItem("user", JSON.stringify(user));
       setUser({
         id,
         perfilId: perfilIdNumber,

@@ -41,11 +41,11 @@ export const CreatePostScreen = () => {
     (state: IStore) => state.post.tagsForNewPost
   );
   const event = useSelector((state: IStore) => state.event.evento);
+  const userId = useSelector((state: IStore) => state.user.user.id);
 
   const [image, setImage] = useState<string | any>(null);
 
   const handleClick = handleSubmit(async (data) => {
-    const userId = useSelector((state: IStore) => state.user.user.id);
     const postData = { ...data, tags: tagsForNewPost, eventoId: event?.id };
 
     setLoading(true);
@@ -174,7 +174,7 @@ export const CreatePostScreen = () => {
                 Localização: {event.localizacao}
               </Text>
               <Text style={styles.eventText}>
-                Data de Início:{" "}
+                Data de Início:
                 {new Date(event.dataInicio).toLocaleString("pt-BR", {
                   day: "2-digit",
                   month: "2-digit",
@@ -184,7 +184,7 @@ export const CreatePostScreen = () => {
                 })}
               </Text>
               <Text style={styles.eventText}>
-                Data de Fim:{" "}
+                Data de Fim:
                 {new Date(event.dataFinal).toLocaleString("pt-BR", {
                   day: "2-digit",
                   month: "2-digit",
