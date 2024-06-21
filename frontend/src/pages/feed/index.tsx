@@ -30,6 +30,7 @@ export const FeedScreen = () => {
   const navigation = useNavigation<FeedScreenNavigationProp>();
   const [intervalId, setIntervalId] = useState<NodeJS.Timeout | null>(null);
   const { id, curso } = useSelector((state: IStore) => state.user.user);
+  const profileId = useSelector((state: IStore) => state.user.profile.id);
 
   const fetchAllPosts = useCallback(async () => {
     try {
@@ -98,23 +99,27 @@ export const FeedScreen = () => {
             <View style={feedStyles.container}>
               <Image source={logoPhoto} />
             </View>
-            <View style={feedStyles.bottomSelectionContainer}>
-              <BottomSelection setTab={setSelectedTab} />
-            </View>
+            {profileId !== 2 && (
+              <View style={feedStyles.bottomSelectionContainer}>
+                <BottomSelection setTab={setSelectedTab} />
+              </View>
+            )}
           </>
         }
         data={posts}
         renderItem={renderPost}
         keyExtractor={(item) => item.id}
       />
-      <View style={feedStyles.fabContainer}>
-        <FAB
-          style={feedStyles.fab}
-          icon="pencil"
-          color="white"
-          onPress={() => navigation.navigate("Post")}
-        />
-      </View>
+      {profileId !== 2 && (
+        <View style={feedStyles.fabContainer}>
+          <FAB
+            style={feedStyles.fab}
+            icon="pencil"
+            color="white"
+            onPress={() => navigation.navigate("Post")}
+          />
+        </View>
+      )}
     </View>
   );
 };
