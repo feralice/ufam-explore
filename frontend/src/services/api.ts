@@ -25,6 +25,7 @@ export const login = async (
 export const createUser = async (
   data: ICreateUserRequest
 ): Promise<AxiosResponse<IUser>> => {
+  console.log("teste mandando p api", data.perfilId);
   const response = await api.post("/user/create", data);
   return response;
 };
@@ -61,7 +62,6 @@ export const createPost = async (
       "Content-Type": "multipart/form-data",
     },
   });
-
 
   return response;
 };

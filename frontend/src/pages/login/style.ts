@@ -9,6 +9,11 @@ export const styles = StyleSheet.create({
     paddingHorizontal: 10,
     gap: 10,
   },
+  error: {
+    color: "red",
+    fontSize: 12,
+    marginTop: 5,
+  },
   imagem: {
     justifyContent: "center",
     alignItems: "center",

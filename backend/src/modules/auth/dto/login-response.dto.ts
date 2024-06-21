@@ -5,4 +5,5 @@ export class LoginResponse {
   nome: string;
   email: string;
   username: string;
+  curso?: string;
 }

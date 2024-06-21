@@ -9,10 +9,12 @@ import {
   View,
 } from "react-native";
 import { FAB } from "react-native-paper";
+import { useSelector } from "react-redux";
 import { BottomSelection } from "../../components/botton-selection";
 import { PostCard } from "../../components/post-card";
 import { RootStackParamList } from "../../routes/types";
 import { getAllPosts } from "../../services/api";
+import { IStore } from "../../store";
 import { setAllPosts } from "../../store/post/actions";
 import { IPost } from "../../store/post/types";
 import { feedStyles } from "./styles";
@@ -26,13 +28,12 @@ export const FeedScreen = () => {
   const [loading, setLoading] = useState<boolean>(true);
   const navigation = useNavigation<FeedScreenNavigationProp>();
   const [intervalId, setIntervalId] = useState<NodeJS.Timeout | null>(null);
+  const { id } = useSelector((state: IStore) => state.user.user);
 
   const fetchAllPosts = useCallback(async () => {
+    console.log("Fetching all posts", id);
     try {
-      // TODO: mudar o id quando login for feito
-      const response = await getAllPosts(
-        "1151183c-0355-43a2-91d0-f9f3453faf27"
-      );
+      const response = await getAllPosts(id);
       setPosts(response.data);
       setAllPosts(response.data);
     } catch (error) {

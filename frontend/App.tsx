@@ -1,28 +1,16 @@
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import { useEffect } from "react";
 import { Provider } from "react-redux";
+import { PersistGate } from "redux-persist/integration/react";
 import { Routes } from "./src/routes";
-import { store } from "./src/store";
-import { setUser } from "./src/store/user/actions";
+import { persistor, store } from "./src/store";
 
-export default function App() {
-  useEffect(() => {
-    const loadUserData = async () => {
-      try {
-        const userData = await AsyncStorage.getItem("user");
-        if (userData) {
-          setUser(JSON.parse(userData));
-        }
-      } catch (error) {
-        console.error("Failed to load user data:", error);
-      }
-    };
-
-    loadUserData();
-  }, []);
+const App = () => {
   return (
     <Provider store={store}>
-      <Routes />
+      <PersistGate loading={null} persistor={persistor}>
+        <Routes />
+      </PersistGate>
     </Provider>
   );
-}
+};
+
+export default App;

@@ -7,11 +7,10 @@ export const UserInitialState: UserInitialStateType = {
   },
   user: {
     id: "",
-    perfilId: 1,
+    perfilId: 0,
     nome: "",
     username: "",
     email: "",
-    senha: "",
     curso: "",
   },
 };

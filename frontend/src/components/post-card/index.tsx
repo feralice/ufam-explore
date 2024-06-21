@@ -1,12 +1,12 @@
 import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import { Image, Pressable, Text, View } from "react-native";
-import { FeedScreenNavigationProp } from "../../pages/create-post/type";
 import { updateCurrentPost } from "../../store/post/actions";
 import { useVoteHandlers } from "../../utils/votes/useVoteHandlers";
 import { HashtagInPost } from "../hashtags";
 import { styles } from "./styles";
 import { PostCardProps } from "./types";
+import { FeedScreenNavigationProp } from "../../routes/types";
 
 const profileImage = require("../../assets/img_test.jpg");
 

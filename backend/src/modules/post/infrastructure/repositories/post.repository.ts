@@ -104,25 +104,19 @@ export class PostRepository {
     });
   }
 
-  async getByCourseTag(courseTag: string) {
+  async getByTag(tagName: string) {
     return this.prisma.postagem.findMany({
       where: {
         tags: {
           some: {
-            nome: courseTag,
+            nome: tagName,
           },
         },
       },
-    });
-  }
-
-  async courseByPersonId(userId: string) {
-    return this.prisma.usuario.findUnique({
-      where: {
-        id: userId,
-      },
-      select: {
-        curso: true,
+      include: {
+        tags: true,
+        usuario: true,
+        comentarios: true,
       },
     });
   }

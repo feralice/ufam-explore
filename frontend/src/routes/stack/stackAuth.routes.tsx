@@ -8,26 +8,30 @@ import { TabNavigator } from "../tab.routes";
 
 const Stack = createStackNavigator();
 
+// Este componente de navegação de autenticação é uma solução temporária.
+// Ele verifica o status de autenticação ao montar o componente e periodicamente,
+// mas há uma necessidade de revisão para encontrar uma solução mais eficiente.
 const AuthStackNavigator = () => {
-  const [loading, setLoading] = useState(true);
-  const [isAuth, setIsAuth] = useState(false);
+  const [authenticated, setIsAuthenticated] = useState(false);
+
+  const checkAuthStatus = async () => {
+    const auth = await isAuthenticated();
+    setIsAuthenticated(auth);
+  };
 
   useEffect(() => {
-    const checkAuth = async () => {
-      const auth = await isAuthenticated();
-      setIsAuth(auth);
-      setLoading(false);
-    };
-    checkAuth();
-  }, []);
+    checkAuthStatus();
 
-  if (loading) {
-    return null;
-  }
+    const interval = setInterval(() => {
+      checkAuthStatus();
+    }, 5000); 
+
+    return () => clearInterval(interval);
+  }, []);
 
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
-      {isAuth ? (
+      {authenticated ? (
         <Stack.Screen name="App" component={TabNavigator} />
       ) : (
         <>

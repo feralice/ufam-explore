@@ -40,7 +40,7 @@ export const UserRegistration = () => {
   const [hidePassword, setHidePassword] = useState(true);
   const [isFirstIcon, setIsFirstIcon] = useState(false);
 
-  const profile = useSelector((state: IStore) => state.user.profile.id);
+  const profileId = useSelector((state: IStore) => state.user.profile.id);
 
   const togglePasswordVisibility = () => {
     setHidePassword(!hidePassword);
@@ -58,7 +58,8 @@ export const UserRegistration = () => {
     }
 
     try {
-      await createUser(data);
+      const userData = { ...data, perfilId: profileId };
+      await createUser(userData);
       Alert.alert(
         "Sucesso",
         "Conta criada com sucesso! Agora realize o login com a conta criada."
@@ -125,7 +126,7 @@ export const UserRegistration = () => {
           />
         </View>
 
-        {profile === 1 ? (
+        {profileId === 1 ? (
           <>
             <Text style={styles.textStyle}>Email institucional</Text>
             <View style={styles.boxInput}>

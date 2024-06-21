@@ -43,6 +43,7 @@ export class AuthService {
       nome: user.nome,
       email: user.email,
       username: user.username,
+      curso: user.curso,
     };
   }
 }

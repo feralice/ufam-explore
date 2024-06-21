@@ -1,4 +1,5 @@
 import { Ionicons } from "@expo/vector-icons";
+import { yupResolver } from "@hookform/resolvers/yup";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useNavigation } from "@react-navigation/native";
 import { useState } from "react";
@@ -17,6 +18,7 @@ import { BlueButton } from "../../components/blue-button";
 import { FeedScreenNavigationProp } from "../../routes/types";
 import { login } from "../../services/api";
 import { setUser } from "../../store/user/actions";
+import { LoginSchema } from "../../utils/schemas/login.schema";
 import { styles } from "./style";
 import { FormData } from "./types";
 
@@ -25,7 +27,14 @@ const img = require("../../assets/UfamExplore.png");
 
 const Login = () => {
   const navigation = useNavigation<FeedScreenNavigationProp>();
-  const { control, handleSubmit } = useForm<FormData>();
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<FormData>({
+    resolver: yupResolver(LoginSchema),
+    mode: "onChange",
+  });
   const [hidePassword, setHidePassword] = useState(true);
 
   const handleLogin = async (data: FormData) => {
@@ -41,16 +50,9 @@ const Login = () => {
       } = response.data;
 
       const perfilIdNumber = Number(perfilId);
-      const user = {
-        id,
-        perfilId: perfilIdNumber,
-        nome,
-        email: userEmail,
-        username,
-      };
 
       await AsyncStorage.setItem("accessToken", accessToken);
-      await AsyncStorage.setItem("user", JSON.stringify(user));
+
       setUser({
         id,
         perfilId: perfilIdNumber,
@@ -90,6 +92,9 @@ const Login = () => {
               )}
               name="email"
             />
+            {errors.email && (
+              <Text style={styles.error}>{errors.email.message}</Text>
+            )}
 
             <Text style={styles.text}>SENHA</Text>
             <Controller
@@ -118,6 +123,9 @@ const Login = () => {
               )}
               name="password"
             />
+            {errors.password && (
+              <Text style={styles.error}>{errors.password.message}</Text>
+            )}
 
             <BlueButton onPress={handleSubmit(handleLogin)} text={"ENTRAR"} />
           </View>
