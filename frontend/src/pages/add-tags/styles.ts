@@ -10,7 +10,7 @@ export const styles = StyleSheet.create({
     paddingBottom: 100,
   },
   backButton: {
-    marginBottom: 16,
+    paddingVertical: 25,
   },
   header: {
     fontSize: 24,
@@ -39,7 +39,6 @@ export const styles = StyleSheet.create({
   },
   warning: {
     color: "red",
-    marginBottom: 16,
   },
   subheader: {
     fontSize: 18,

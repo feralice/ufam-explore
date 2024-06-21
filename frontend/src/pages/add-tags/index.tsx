@@ -26,6 +26,8 @@ export const AddTagScreen = () => {
   const [warning, setWarning] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
   const [isModalVisible, setModalVisible] = useState<boolean>(false);
+  const [searchResults, setSearchResults] = useState<string[]>([]);
+  const [isSearching, setIsSearching] = useState<boolean>(false);
 
   const navigation = useNavigation<FeedScreenNavigationProp>();
   const allTags = useSelector((state: IStore) => state.post.tags);
@@ -57,19 +59,38 @@ export const AddTagScreen = () => {
     loadTags();
   }, []);
 
+  const searchTag = (input: string) => {
+    setIsSearching(true);
+    const searchText = input.trim().toLowerCase();
+    if (searchText === "") {
+      setSearchResults([]);
+      setIsSearching(false);
+      return;
+    }
+    const results = allTags
+      .filter((tag) => tag.nome.toLowerCase().includes(searchText))
+      .map((tag) => tag.nome);
+    setSearchResults(results);
+    setIsSearching(false);
+  };
+
   const addTag = () => {
-    if (text.trim() !== "") {
-      if (localTags.includes(text.trim())) {
+    const trimmedText = text.trim();
+    if (trimmedText !== "") {
+      const existingTagIndex = localTags.findIndex(
+        (tag) => tag.toLowerCase() === trimmedText.toLowerCase()
+      );
+      if (existingTagIndex !== -1) {
         setWarning("Você já adicionou essa tag.");
         setTimeout(() => setWarning(""), 3000);
       } else {
         if (editIndex !== null) {
           const newTags = [...localTags];
-          newTags[editIndex] = text.trim();
+          newTags[editIndex] = trimmedText;
           setLocalTags(newTags);
           setEditIndex(null);
         } else {
-          setLocalTags([...localTags, text.trim()]);
+          setLocalTags([...localTags, trimmedText]);
         }
         setText("");
       }
@@ -153,21 +174,43 @@ export const AddTagScreen = () => {
             style={styles.input}
             placeholder="Pesquise ou crie uma tag"
             value={text}
-            onChangeText={setText}
+            onChangeText={(input) => {
+              setText(input);
+              searchTag(input);
+            }}
             onSubmitEditing={addTag}
           />
           <Pressable style={styles.searchButton} onPress={addTag}>
             <AntDesign name="search1" size={20} color="black" />
           </Pressable>
         </View>
+        {isSearching && <ActivityIndicator />}
         <Text style={styles.warning}>{warning}</Text>
-        <Text style={styles.subheader}>Tags adicionadas</Text>
+        {localTags.length > 0 && (
+          <Text style={styles.subheader}>Tags adicionadas</Text>
+        )}
         <TagList
           tags={localTags}
           onEdit={editTag}
           onRemove={removeTag}
           selected
         />
+
+        {searchResults.length > 0 && (
+          <Text style={styles.subheader}>Resultados da Pesquisa</Text>
+        )}
+        <TagList
+          tags={searchResults}
+          onAdd={(tag) => {
+            if (!localTags.includes(tag)) {
+              setLocalTags([...localTags, tag]);
+            } else {
+              setWarning("Você já adicionou essa tag.");
+              setTimeout(() => setWarning(""), 3000);
+            }
+          }}
+        />
+
         {loading ? (
           <ActivityIndicator size="large" color="#0000ff" />
         ) : (
