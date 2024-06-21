@@ -3,7 +3,6 @@ import { useNavigation } from "@react-navigation/native";
 import { useState } from "react";
 import {
   Alert,
-  Dimensions,
   Modal,
   Pressable,
   SafeAreaView,
@@ -11,14 +10,12 @@ import {
   View,
 } from "react-native";
 import { useSelector } from "react-redux";
-import { FeedScreenNavigationProp } from "../../pages/create-post/type";
+import { FeedScreenNavigationProp } from "../../routes/types";
 import { deletePost } from "../../services/api";
 import { IStore } from "../../store";
 import ConfirmationModal from "../modals/confirm-modal";
 import { styles } from "./styles";
 import { Option } from "./types";
-
-const { width, height } = Dimensions.get("window");
 
 const PopupMenu = () => {
   const [visible, setVisible] = useState(false);
@@ -26,6 +23,8 @@ const PopupMenu = () => {
   const [loading, setLoading] = useState(false);
   const navigation = useNavigation<FeedScreenNavigationProp>();
   const post = useSelector((state: IStore) => state.post.currentPost);
+  const currentUser = useSelector((state: IStore) => state.user.user);
+  const isPostOwner = post?.usuario.id === currentUser.id;
 
   const handleDeletePost = async () => {
     setLoading(true);
@@ -44,33 +43,62 @@ const PopupMenu = () => {
     }
   };
 
-  const options: Option[] = [
-    {
-      title: "Adicionar ao calendário",
-      icon: "calendar",
-      action: () => alert("calendario"),
-    },
-    {
-      title: "Editar post",
-      icon: "edit",
-      action: () => {
-        setVisible(false);
-        navigation.navigate("EditPost");
+  const handleSavePost = () => {
+    setVisible(false);
+    alert("Salvando post");
+  };
+
+  const handleAddToCalendar = () => {
+    setVisible(false);
+    alert("Adicionando ao calendário");
+  };
+
+  const options: Option[] = [];
+
+  if (isPostOwner) {
+    // Se o usuário atual for o proprietário do post
+    options.push(
+      {
+        title: "Editar post",
+        icon: "edit",
+        action: () => {
+          setVisible(false);
+          navigation.navigate("EditPost");
+        },
       },
-    },
-    {
-      title: "Salvar post",
-      icon: "save",
-      action: () => alert("Salvando post"),
-    },
-    {
-      title: "Excluir post",
-      icon: "delete",
-      action: () => {
-        setModalVisible(true);
+      {
+        title: "Excluir post",
+        icon: "delete",
+        action: () => {
+          setModalVisible(true);
+        },
       },
-    },
-  ];
+      {
+        title: "Salvar post",
+        icon: "save",
+        action: handleSavePost,
+      },
+      {
+        title: "Adicionar ao calendário",
+        icon: "calendar",
+        action: handleAddToCalendar,
+      }
+    );
+  } else {
+    // Se o usuário atual não for o proprietário do post
+    options.push(
+      {
+        title: "Salvar post",
+        icon: "save",
+        action: handleSavePost,
+      },
+      {
+        title: "Adicionar ao calendário",
+        icon: "calendar",
+        action: handleAddToCalendar,
+      }
+    );
+  }
 
   return (
     <View style={styles.popupContainer}>

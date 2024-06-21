@@ -9,8 +9,8 @@ import ConfirmationModal from "../../components/modals/confirm-modal";
 import { editPost } from "../../services/api";
 import { IStore } from "../../store";
 import { setCurrentPost } from "../../store/post/actions";
-import { FeedScreenNavigationProp } from "../create-post/type";
 import { styles } from "./style";
+import { FeedScreenNavigationProp } from "../../routes/types";
 
 const img = require("../../assets/img_test.jpg");
 
