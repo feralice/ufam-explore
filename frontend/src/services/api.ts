@@ -161,3 +161,7 @@ export const getEventById = async (
   const response = await api.get(`/evento/${eventId}`);
   return response;
 };
+
+export const getPostByTag = async (tag: string) => {
+  return await api.get(`/get-post-by-tag/${tag}`);
+};

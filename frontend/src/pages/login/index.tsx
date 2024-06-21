@@ -47,6 +47,7 @@ const Login = () => {
         nome,
         email: userEmail,
         username,
+        curso,
       } = response.data;
 
       const perfilIdNumber = Number(perfilId);
@@ -59,6 +60,7 @@ const Login = () => {
         nome,
         email: userEmail,
         username,
+        curso,
       });
 
       navigation.navigate("Home");

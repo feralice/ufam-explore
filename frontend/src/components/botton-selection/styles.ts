@@ -2,7 +2,7 @@ import { StyleSheet } from "react-native";
 
 export const ButtonStyles = (selectedTab: number) =>
   StyleSheet.create({
-    ButtonContainer: {
+    buttonContainer: {
       display: "flex",
       flex: 1,
       justifyContent: "center",
@@ -10,7 +10,7 @@ export const ButtonStyles = (selectedTab: number) =>
       paddingTop: 30,
       color: "cadetblue",
     },
-    Background: {
+    background: {
       width: "90%",
       height: 45,
       justifyContent: "center",
@@ -20,7 +20,7 @@ export const ButtonStyles = (selectedTab: number) =>
       paddingLeft: 5,
       paddingRight: 5,
     },
-    BorderLeft: {
+    borderLeft: {
       width: "50%",
       height: "96%",
       backgroundColor: selectedTab == 0 ? "darkblue" : "cornflowerblue",
@@ -30,7 +30,7 @@ export const ButtonStyles = (selectedTab: number) =>
       borderTopRightRadius: 0,
       borderBottomRightRadius: 0,
     },
-    BorderRight: {
+    borderRight: {
       width: "50%",
       height: "96%",
       backgroundColor: selectedTab == 1 ? "darkblue" : "cornflowerblue",
@@ -40,12 +40,12 @@ export const ButtonStyles = (selectedTab: number) =>
       borderTopLeftRadius: 0,
       borderBottomLeftRadius: 0,
     },
-    textoEsquerda: {
+    leftText: {
       color: selectedTab == 0 ? "#fff" : "#000",
       fontSize: 18,
       fontWeight: "700",
     },
-    textoDireita: {
+    rightText: {
       color: selectedTab == 1 ? "#fff" : "#000",
       fontSize: 18,
       fontWeight: "700",
