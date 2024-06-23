@@ -14,50 +14,65 @@ import {
 import { useSelector } from "react-redux";
 import { BlueButton } from "../../components/blue-button";
 import TermsModal from "../../components/modals/terms-modal";
+import PasswordRequirements from "../../components/password-validations";
 import { LoginScreenNavigationProp } from "../../routes/types";
 import { createUser } from "../../services/api";
 import { ICreateUserRequest } from "../../services/types";
 import { IStore } from "../../store";
 import { UserInitialState } from "../../store/user/state";
 import { cursos } from "../../utils/courses";
+import { validatePassword } from "../../utils/validate-password";
 import { styles } from "./styles";
 
 export const UserRegistration = () => {
   const navigation = useNavigation<LoginScreenNavigationProp>();
 
-  const { control, handleSubmit, getValues, reset } =
-    useForm<ICreateUserRequest>({
-      defaultValues: UserInitialState.user,
+  const profileId = useSelector((state: IStore) => state.user.profile.id);
 
-      // Aqui abaixo é a validação que vai ser preciso criar para validar os campos
-      // crie um schema yup dentro da pasta frontend\src\utils\schemas e apos isso coloque o schema abaixo no parametro
-
-      //resolver: yupResolver(createPostSchema),
-    });
+  const {
+    control,
+    handleSubmit,
+    getValues,
+    reset,
+    formState: { errors },
+    trigger,
+  } = useForm<ICreateUserRequest>({
+    defaultValues: UserInitialState.user,
+    shouldUnregister: false,
+  });
 
   const [passwordValidation, setPasswordValidation] = useState("");
   const [modalVisible, setModalVisible] = useState(false);
   const [hidePassword, setHidePassword] = useState(true);
   const [isFirstIcon, setIsFirstIcon] = useState(false);
-
-  const profileId = useSelector((state: IStore) => state.user.profile.id);
+  const [confirmPasswordVisited, setConfirmPasswordVisited] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const togglePasswordVisibility = () => {
     setHidePassword(!hidePassword);
   };
 
   const onSubmit = async (data: ICreateUserRequest) => {
-    if (data.senha !== passwordValidation) {
-      Alert.alert("Erro", "As senhas não coincidem.");
-      return;
-    }
-
-    if (!isFirstIcon) {
-      Alert.alert("Erro", "Você deve concordar com os termos de uso.");
-      return;
-    }
+    setIsLoading(true); // Inicia o loading ao iniciar a requisição
 
     try {
+      const passwordValid = validatePassword(data.senha);
+
+      if (passwordValid !== true) {
+        Alert.alert("Erro", passwordValid);
+        return;
+      }
+
+      if (data.senha !== passwordValidation) {
+        Alert.alert("Erro", "As senhas não coincidem.");
+        return;
+      }
+
+      if (!isFirstIcon) {
+        Alert.alert("Erro", "Você deve concordar com os termos de uso.");
+        return;
+      }
+
       const userData = { ...data, perfilId: profileId };
       await createUser(userData);
       Alert.alert(
@@ -69,15 +84,49 @@ export const UserRegistration = () => {
       setIsFirstIcon(false);
       setModalVisible(false);
       navigation.goBack();
-    } catch (error) {
+    } catch (error: any) {
+      if (error.response.status === 409) {
+        Alert.alert("Erro", "Usuário já cadastrado.");
+        return;
+      }
+
       console.error("Erro ao criar usuário:", error);
       Alert.alert(
         "Erro",
         "Não foi possível criar a conta. Por favor, tente novamente mais tarde."
       );
     } finally {
+      setIsLoading(false); // Finaliza o loading ao terminar a requisição
       navigation.navigate("Login");
     }
+  };
+
+  const handleInputChange = async (
+    field:
+      | "perfilId"
+      | "nome"
+      | "username"
+      | "email"
+      | "senha"
+      | "curso"
+      | ("perfilId" | "nome" | "username" | "email" | "senha" | "curso")[]
+      | readonly (
+          | "perfilId"
+          | "nome"
+          | "username"
+          | "email"
+          | "senha"
+          | "curso"
+        )[]
+      | undefined,
+    value: string
+  ) => {
+    await trigger(field);
+  };
+
+  const handleConfirmPasswordChange = (text: string) => {
+    setPasswordValidation(text);
+    setConfirmPasswordVisited(true);
   };
 
   return (
@@ -89,43 +138,75 @@ export const UserRegistration = () => {
         >
           <Ionicons name="arrow-back" size={24} color="darkblue" />
         </TouchableOpacity>
-
         <Text style={styles.title}>Criação de Conta</Text>
 
+        {/* Nome */}
         <Text style={styles.textStyle}>Nome</Text>
         <View style={styles.boxInput}>
           <Controller
             control={control}
             name="nome"
+            rules={{
+              required: "Nome é obrigatório",
+              pattern: {
+                value: /^[a-zA-ZÀ-ÿ\s']*$/,
+                message: "O nome deve conter apenas letras e espaços",
+              },
+            }}
             render={({ field: { onChange, onBlur, value } }) => (
-              <TextInput
-                style={styles.inputField}
-                placeholder="Digite seu Nome"
-                onBlur={onBlur}
-                onChangeText={onChange}
-                value={value}
-              />
+              <>
+                <TextInput
+                  style={styles.inputField}
+                  placeholder="Digite seu Nome"
+                  onBlur={onBlur}
+                  onChangeText={(text) => {
+                    onChange(text);
+                    handleInputChange("nome", text);
+                  }}
+                  value={value}
+                />
+              </>
             )}
           />
         </View>
+        {errors.nome && (
+          <Text style={styles.errorMessage}>{errors.nome.message}</Text>
+        )}
 
+        {/* Usuário */}
         <Text style={styles.textStyle}>Usuário</Text>
         <View style={styles.boxInput}>
           <Controller
             control={control}
             name="username"
+            rules={{
+              required: "Nome de usuário é obrigatório",
+              pattern: {
+                value: /^[a-zA-Z0-9_]*$/,
+                message: "O usuário deve conter apenas letras, números e _",
+              },
+            }}
             render={({ field: { onChange, onBlur, value } }) => (
-              <TextInput
-                style={styles.inputField}
-                placeholder="Digite seu Nome de Usuário"
-                onBlur={onBlur}
-                onChangeText={onChange}
-                value={value}
-              />
+              <>
+                <TextInput
+                  style={styles.inputField}
+                  placeholder="Digite seu Nome de Usuário"
+                  onBlur={onBlur}
+                  onChangeText={(text) => {
+                    onChange(text);
+                    handleInputChange("username", text);
+                  }}
+                  value={value}
+                />
+              </>
             )}
           />
         </View>
+        {errors.username && (
+          <Text style={styles.errorMessage}>{errors.username.message}</Text>
+        )}
 
+        {/* Email e Curso (se perfilId for 1) */}
         {profileId === 1 ? (
           <>
             <Text style={styles.textStyle}>Email institucional</Text>
@@ -133,23 +214,49 @@ export const UserRegistration = () => {
               <Controller
                 control={control}
                 name="email"
+                rules={{
+                  required: "Email é obrigatório",
+                  pattern: {
+                    value: /^[\w.-]*@[\w-]+(\.[\w-]+)+$/i,
+                    message: "Por favor, insira um email válido",
+                  },
+                  validate: (value) => {
+                    const domain = value.split("@")[1];
+                    return (
+                      domain.includes("ufam") ||
+                      "Por favor, insira um email institucional da UFAM"
+                    );
+                  },
+                }}
                 render={({ field: { onChange, onBlur, value } }) => (
-                  <TextInput
-                    style={styles.inputField}
-                    placeholder="Digite seu email institucional"
-                    onBlur={onBlur}
-                    onChangeText={onChange}
-                    value={value}
-                  />
+                  <>
+                    <TextInput
+                      style={styles.inputField}
+                      placeholder="Digite seu email institucional"
+                      onBlur={onBlur}
+                      onChangeText={(text) => {
+                        onChange(text);
+                        handleInputChange("email", text);
+                      }}
+                      value={value}
+                    />
+                  </>
                 )}
               />
             </View>
+            {errors.email && (
+              <Text style={styles.errorMessage}>{errors.email.message}</Text>
+            )}
 
+            {/* Curso */}
             <Text style={styles.textStyle}>Curso</Text>
             <View style={styles.boxInput}>
               <Controller
                 control={control}
                 name="curso"
+                rules={{
+                  required: "Curso é obrigatório",
+                }}
                 render={({ field: { onChange, value } }) => (
                   <Picker
                     selectedValue={value}
@@ -165,6 +272,9 @@ export const UserRegistration = () => {
                 )}
               />
             </View>
+            {errors.curso && (
+              <Text style={styles.errorMessage}>{errors.curso.message}</Text>
+            )}
           </>
         ) : (
           <>
@@ -173,59 +283,88 @@ export const UserRegistration = () => {
               <Controller
                 control={control}
                 name="email"
+                rules={{
+                  required: "Email é obrigatório",
+                  pattern: {
+                    value: /^[\w.-]*@[\w-]+(\.[\w-]+)+$/i,
+                    message: "Por favor, insira um email válido",
+                  },
+                }}
                 render={({ field: { onChange, onBlur, value } }) => (
                   <TextInput
                     style={styles.inputField}
                     placeholder="Digite seu email"
                     onBlur={onBlur}
-                    onChangeText={onChange}
+                    onChangeText={(text) => {
+                      onChange(text);
+                      handleInputChange("email", text);
+                    }}
                     value={value}
                   />
                 )}
               />
             </View>
+            {errors.email && (
+              <Text style={styles.errorMessage}>{errors.email.message}</Text>
+            )}
           </>
         )}
 
+        {/* Senha */}
         <Text style={styles.textStyle}>Senha</Text>
         <View style={styles.boxInput}>
           <Controller
             control={control}
             name="senha"
+            rules={{
+              required: "Senha é obrigatória",
+              validate: validatePassword, // Função para validar a senha conforme suas regras
+            }}
             render={({ field: { onChange, onBlur, value } }) => (
-              <TextInput
-                style={styles.inputField}
-                secureTextEntry={hidePassword}
-                placeholder="Digite sua Senha"
-                onBlur={onBlur}
-                onChangeText={onChange}
-                value={value}
-                maxLength={16}
-              />
+              <>
+                <TextInput
+                  style={styles.inputField}
+                  secureTextEntry={hidePassword}
+                  placeholder="Digite sua Senha"
+                  onBlur={onBlur}
+                  onChangeText={(text) => {
+                    onChange(text);
+                    handleInputChange("senha", text);
+                  }}
+                  value={value}
+                  maxLength={16}
+                />
+                <TouchableOpacity
+                  onPress={togglePasswordVisibility}
+                  style={styles.eyeIcon}
+                >
+                  <Ionicons
+                    name={hidePassword ? "eye-off" : "eye"}
+                    size={24}
+                    color="gray"
+                  />
+                </TouchableOpacity>
+              </>
             )}
           />
-          <TouchableOpacity
-            onPress={togglePasswordVisibility}
-            style={styles.eyeIcon}
-          >
-            <Ionicons
-              name={hidePassword ? "eye-off" : "eye"}
-              size={24}
-              color="gray"
-            />
-          </TouchableOpacity>
         </View>
+        {errors.senha && errors.senha.type === "required" && (
+          <Text style={styles.errorMessage}>{errors.senha.message}</Text>
+        )}
 
+        {/* Requisitos de Senha */}
+        {getValues("senha") && (
+          <PasswordRequirements password={getValues("senha")} />
+        )}
+
+        {/* Confirmar Senha */}
         <Text style={styles.textStyle}>Confirmar Senha</Text>
         <View
           style={[
             styles.boxInput,
-            {
-              backgroundColor:
-                getValues("senha") === passwordValidation
-                  ? "rgba(0, 0, 139, 0.1)"
-                  : "rgba(255, 0, 0, 0.1)",
-            },
+            confirmPasswordVisited && getValues("senha") !== passwordValidation
+              ? styles.confirmPasswordInput
+              : null,
           ]}
         >
           <TextInput
@@ -233,7 +372,7 @@ export const UserRegistration = () => {
             secureTextEntry={hidePassword}
             placeholder="Digite sua Senha novamente"
             value={passwordValidation}
-            onChangeText={setPasswordValidation}
+            onChangeText={handleConfirmPasswordChange}
             maxLength={16}
           />
           <TouchableOpacity
@@ -247,11 +386,12 @@ export const UserRegistration = () => {
             />
           </TouchableOpacity>
         </View>
+        {confirmPasswordVisited &&
+          getValues("senha") !== passwordValidation && (
+            <Text style={styles.errorMessage}>As senhas não coincidem.</Text>
+          )}
 
-        {getValues("senha") !== passwordValidation && (
-          <Text style={styles.passwordMismatch}>As senhas não coincidem.</Text>
-        )}
-
+        {/* Checkbox de Concordo com os termos */}
         <View style={styles.checkboxContainer}>
           <TouchableOpacity onPress={() => setIsFirstIcon(!isFirstIcon)}>
             <Ionicons
@@ -267,13 +407,19 @@ export const UserRegistration = () => {
           </TouchableOpacity>
         </View>
 
-        <BlueButton onPress={handleSubmit(onSubmit)} text="CRIAR CONTA" />
+        {/* Botão de Registro */}
+        <BlueButton
+          onPress={handleSubmit(onSubmit)}
+          text={isLoading ? "Carregando..." : "Criar Conta"}
+        />
+        {/* Modal de Termos de Uso */}
+        <TermsModal
+          modalVisible={modalVisible}
+          closeModal={() => setModalVisible(false)}
+        />
       </View>
-
-      <TermsModal
-        modalVisible={modalVisible}
-        closeModal={() => setModalVisible(false)}
-      />
     </ScrollView>
   );
 };
+
+export default UserRegistration;

@@ -36,8 +36,11 @@ const Login = () => {
     mode: "onChange",
   });
   const [hidePassword, setHidePassword] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleLogin = async (data: FormData) => {
+    setIsLoading(true);
+
     try {
       const response = await login(data);
       const {
@@ -63,8 +66,12 @@ const Login = () => {
         curso,
       });
 
-      navigation.navigate("Home");
+      setTimeout(() => {
+        setIsLoading(false);
+        navigation.navigate("Home");
+      }, 5000);
     } catch (error) {
+      setIsLoading(false);
       Alert.alert("Erro", "E-mail ou senha inválidos.");
       console.error("Login failed:", error);
     }
@@ -129,7 +136,10 @@ const Login = () => {
               <Text style={styles.error}>{errors.password.message}</Text>
             )}
 
-            <BlueButton onPress={handleSubmit(handleLogin)} text={"ENTRAR"} />
+            <BlueButton
+              onPress={handleSubmit(handleLogin)}
+              text={isLoading ? "Carregando..." : "ENTRAR"}
+            />
           </View>
 
           <View style={styles.container}>

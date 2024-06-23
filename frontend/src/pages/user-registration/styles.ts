@@ -10,7 +10,7 @@ export const styles = StyleSheet.create({
   title: {
     fontSize: 24,
     fontWeight: "bold",
-    paddingBottom: 35,
+    paddingBottom: 10,
     color: "#003366",
     textAlign: "center",
   },
@@ -21,12 +21,12 @@ export const styles = StyleSheet.create({
     borderColor: "darkblue",
     width: "100%",
     height: 60,
-    marginBottom: 20,
     flexDirection: "row",
     alignItems: "center",
     paddingHorizontal: 20,
   },
   textStyle: {
+    marginTop: 20,
     fontSize: 18,
     color: "darkblue",
     marginBottom: 10,
@@ -63,5 +63,15 @@ export const styles = StyleSheet.create({
     top: 40,
     left: 20,
     zIndex: 1,
+  },
+  errorMessage: {
+    color: "red",
+    fontSize: 14,
+    alignSelf: "flex-start",
+    paddingHorizontal: 20,
+    marginTop: 4,
+  },
+  confirmPasswordInput: {
+    backgroundColor: "rgba(255, 0, 0, 0.1)",
   },
 });
