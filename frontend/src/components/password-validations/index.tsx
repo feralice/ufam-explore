@@ -1,42 +1,13 @@
 import { Ionicons } from "@expo/vector-icons";
 import React from "react";
-import { StyleSheet, Text, View } from "react-native";
-
-type PasswordRequirementsProps = {
-  password: string;
-};
-
-type Requirement = {
-  label: string;
-  test: (password: string) => boolean;
-};
+import { Text, View } from "react-native";
+import { requirements } from "./constant";
+import { styles } from "./styles";
+import { PasswordRequirementsProps } from "./types";
 
 const PasswordRequirements: React.FC<PasswordRequirementsProps> = ({
   password,
 }) => {
-  const requirements: Requirement[] = [
-    {
-      label: "Senha deve ter pelo menos 8 caracteres",
-      test: (pw) => pw.length >= 8,
-    },
-    {
-      label: "Senha deve ter pelo menos um caractere maiúsculo",
-      test: (pw) => /[A-Z]/.test(pw),
-    },
-    {
-      label: "Senha deve ter pelo menos um caractere minúsculo",
-      test: (pw) => /[a-z]/.test(pw),
-    },
-    {
-      label: "Senha deve conter pelo menos um número",
-      test: (pw) => /[0-9]/.test(pw),
-    },
-    {
-      label: "Senha deve conter pelo menos um caractere especial",
-      test: (pw) => /[^A-Za-z0-9]/.test(pw),
-    },
-  ];
-
   return (
     <View style={styles.requirementsContainer}>
       {requirements.map((req, index) => (
@@ -53,26 +24,5 @@ const PasswordRequirements: React.FC<PasswordRequirementsProps> = ({
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  requirementsContainer: {
-    marginTop: 10,
-    padding: 10,
-    backgroundColor: "rgba(91, 123, 252, 0.3)",
-    borderRadius: 15,
-  },
-  requirementItem: {
-    flexDirection: "row",
-    alignItems: "center",
-    marginBottom: 5,
-  },
-  icon: {
-    marginRight: 5,
-  },
-  requirementText: {
-    fontSize: 14,
-    color: "darkblue",
-  },
-});
 
 export default PasswordRequirements;

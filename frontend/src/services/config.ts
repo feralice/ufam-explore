@@ -10,10 +10,6 @@ api.interceptors.request.use(
     const token = await AsyncStorage.getItem("accessToken");
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
-      console.log(
-        "Token adicionado aos cabeçalhos:",
-        config.headers.Authorization
-      );
     }
     return config;
   },
