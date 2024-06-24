@@ -1,6 +1,6 @@
 import { Ionicons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
-import { useState } from "react";
+import React, { useState } from "react";
 import { Image, Pressable, Text, TouchableOpacity, View } from "react-native";
 import { BlueButton } from "../../components/blue-button";
 import { LoginScreenNavigationProp } from "../../routes/types";
@@ -11,7 +11,7 @@ import { ButtonStyles } from "./styles";
 const people = require("../../assets/equipe.png");
 const option2 = require("../../assets/professores.png");
 
-export const UserOption = () => {
+export const UserOption: React.FC = () => {
   const [selectedTab, setSelectedTab] = useState(1);
   const styles = ButtonStyles(selectedTab);
 
@@ -37,22 +37,12 @@ export const UserOption = () => {
         <Ionicons name="arrow-back" size={24} color="darkblue" />
       </TouchableOpacity>
       <View style={styles.background}>
-        <Pressable
-          style={styles.leftBox}
-          onPress={() => {
-            setSelectedTab(1);
-          }}
-        >
+        <Pressable style={styles.leftBox} onPress={() => setSelectedTab(1)}>
           <Image source={option2} />
           <Text style={styles.leftText}>Sou de dentro da UFAM</Text>
         </Pressable>
         <View style={styles.space}></View>
-        <Pressable
-          style={styles.rightBox}
-          onPress={() => {
-            setSelectedTab(2);
-          }}
-        >
+        <Pressable style={styles.rightBox} onPress={() => setSelectedTab(2)}>
           <Image source={people} />
           <Text style={styles.rightText}>Sou de fora da UFAM</Text>
         </Pressable>
