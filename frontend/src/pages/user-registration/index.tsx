@@ -53,7 +53,7 @@ export const UserRegistration = () => {
   };
 
   const onSubmit = async (data: ICreateUserRequest) => {
-    setIsLoading(true); // Inicia o loading ao iniciar a requisição
+    setIsLoading(true);
 
     try {
       const passwordValid = validatePassword(data.senha);
@@ -96,7 +96,7 @@ export const UserRegistration = () => {
         "Não foi possível criar a conta. Por favor, tente novamente mais tarde."
       );
     } finally {
-      setIsLoading(false); // Finaliza o loading ao terminar a requisição
+      setIsLoading(false);
       navigation.navigate("Login");
     }
   };
@@ -318,7 +318,7 @@ export const UserRegistration = () => {
             name="senha"
             rules={{
               required: "Senha é obrigatória",
-              validate: validatePassword, // Função para validar a senha conforme suas regras
+              validate: validatePassword,
             }}
             render={({ field: { onChange, onBlur, value } }) => (
               <>

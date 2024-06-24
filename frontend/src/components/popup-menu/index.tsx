@@ -56,7 +56,6 @@ const PopupMenu = () => {
   const options: Option[] = [];
 
   if (isPostOwner) {
-    // Se o usuário atual for o proprietário do post
     options.push(
       {
         title: "Editar post",
@@ -85,7 +84,6 @@ const PopupMenu = () => {
       }
     );
   } else {
-    // Se o usuário atual não for o proprietário do post
     options.push(
       {
         title: "Salvar post",

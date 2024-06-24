@@ -1,12 +1,12 @@
 import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import { Image, Pressable, Text, View } from "react-native";
+import { FeedScreenNavigationProp } from "../../routes/types";
 import { updateCurrentPost } from "../../store/post/actions";
 import { useVoteHandlers } from "../../utils/votes/useVoteHandlers";
 import { HashtagInPost } from "../hashtags";
 import { styles } from "./styles";
 import { PostCardProps } from "./types";
-import { FeedScreenNavigationProp } from "../../routes/types";
 
 const profileImage = require("../../assets/img_test.jpg");
 
@@ -36,25 +36,22 @@ export const PostCard = ({ post }: PostCardProps) => {
             <Text>@{post.usuario?.username}</Text>
           </View>
 
-          <View style={styles.alignItems}>
-            {post.imagemUrl ? (
-              <Image
-                style={styles.imageStyle}
-                source={{ uri: post.imagemUrl }}
-              />
-            ) : null}
-            <Text style={styles.title}>{post.titulo}</Text>
-            <Text style={styles.text} numberOfLines={5}>
-              {post.texto}
-            </Text>
-            {post.tags && post.tags.length > 0 && (
-              <View style={styles.tagsContainer}>
-                {post.tags.map((tag) => (
-                  <HashtagInPost key={tag.id} name={tag.nome} />
-                ))}
-              </View>
-            )}
-          </View>
+          {post.imagemUrl && (
+            <Image style={styles.imageStyle} source={{ uri: post.imagemUrl }} />
+          )}
+
+          <Text style={styles.title}>{post.titulo}</Text>
+          <Text style={styles.text} numberOfLines={5}>
+            {post.texto}
+          </Text>
+
+          {post.tags && post.tags.length > 0 && (
+            <View style={styles.tagsContainer}>
+              {post.tags.map((tag) => (
+                <HashtagInPost key={tag.id} name={tag.nome} />
+              ))}
+            </View>
+          )}
 
           <View style={styles.interaction}>
             <Pressable style={styles.icon}>

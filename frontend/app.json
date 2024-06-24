@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "frontend",
-    "slug": "frontend",
+    "name": "ufam-explore",
+    "slug": "ufam-explore",
     "version": "1.0.0",
     "orientation": "portrait",
     "userInterfaceStyle": "light",
@@ -28,8 +28,9 @@
     "web": {},
     "extra": {
       "eas": {
-        "projectId": "a4ff6dcf-3395-4e48-9a65-1ae48e371b9e"
+        "projectId": "28c6507f-c0e8-45e5-a439-68770472baae"
       }
-    }
+    },
+    "owner": "feralice"
   }
 }
