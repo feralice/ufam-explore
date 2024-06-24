@@ -2,7 +2,7 @@
   "expo": {
     "name": "ufam-explore",
     "slug": "ufam-explore",
-    "version": "1.0.1",
+    "version": "1.0.0",
     "orientation": "portrait",
     "userInterfaceStyle": "light",
     "splash": {
@@ -10,7 +10,6 @@
       "backgroundColor": "#ffffff"
     },
     "ios": {
-      "versionCode": 2,
       "supportsTablet": true,
       "infoPlist": {
         "NSCameraUsageDescription": "This app needs access to your camera.",
@@ -18,7 +17,7 @@
       }
     },
     "android": {
-      "versionCode": 2,
+      "versionCode": 1,
       "permissions": [
         "CAMERA",
         "CAMERA_ROLL",
