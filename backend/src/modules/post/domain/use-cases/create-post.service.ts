@@ -27,12 +27,14 @@ export class CreatePostUseCase {
       ? await uploadFileToCloudinary(this.cloudinaryService, file)
       : null;
 
+    const secureUrl = photoUrlInCloudinary.replace('http', 'https');
+
     const allTags = await this.processTags(data.tags);
 
     const post = await this.postRepository.create(
       usuarioId,
       data,
-      photoUrlInCloudinary,
+      secureUrl,
     );
 
     if (allTags.length > 0) {
