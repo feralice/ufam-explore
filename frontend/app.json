@@ -17,7 +17,6 @@
       }
     },
     "android": {
-      "versionCode": 1,
       "permissions": [
         "CAMERA",
         "CAMERA_ROLL",
@@ -29,7 +28,7 @@
     "web": {},
     "extra": {
       "eas": {
-        "projectId": "28c6507f-c0e8-45e5-a439-68770472baae"
+        "projectId": "00b1dec8-400f-467e-8c06-6ca3df88db32"
       }
     },
     "owner": "feralice"

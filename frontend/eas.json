@@ -10,10 +10,9 @@
         "gradleCommand": ":app:assembleRelease"
       }
     },
-    "production": {
-      "android": {
-        "buildType": "apk"
-      }
-    }
+    "preview3": {
+      "developmentClient": true
+    },
+    "production": {}
   }
 }
