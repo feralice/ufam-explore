@@ -14,4 +14,14 @@ export class SavePostRepository {
       },
     });
   }
+  async getSavedPostsByUser(usuarioId: string) {
+    return this.prisma.salvar.findMany({
+      where: {
+        usuarioId,
+      },
+      include: {
+        postagem: true,
+      },
+    });
+  }
 }

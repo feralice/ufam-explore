@@ -73,19 +73,23 @@ export const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: "bold",
     marginBottom: 5,
+    paddingHorizontal: 10,
     paddingTop: 10,
-    maxHeight: 70,
+    maxHeight: 200,
     overflow: "hidden",
   },
 
   text: {
     fontSize: 14,
     paddingBottom: 10,
+    paddingHorizontal: 10,
   },
 
   tagsContainer: {
     flexDirection: "row",
     flexWrap: "wrap",
+    maxHeight: 65,
+    overflow: "hidden",
   },
 
   tag: {

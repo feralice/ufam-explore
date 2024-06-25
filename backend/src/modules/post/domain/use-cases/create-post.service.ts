@@ -23,19 +23,19 @@ export class CreatePostUseCase {
   ): Promise<CreatePostResponse> {
     await this.validateUserExists(usuarioId);
 
-    const photoUrlInCloudinary = file
-      ? await uploadFileToCloudinary(this.cloudinaryService, file)
-      : null;
-
-    const secureUrl = photoUrlInCloudinary.replace('http', 'https');
+    let secureUrl = null;
+    if (file) {
+      const photoUrlInCloudinary = await uploadFileToCloudinary(
+        this.cloudinaryService,
+        file,
+      );
+      secureUrl = photoUrlInCloudinary.replace('http', 'https');
+      console.log(`Uploaded photo to Cloudinary. Secure URL: ${secureUrl}`);
+    }
 
     const allTags = await this.processTags(data.tags);
 
-    const post = await this.postRepository.create(
-      usuarioId,
-      data,
-      secureUrl,
-    );
+    const post = await this.postRepository.create(usuarioId, data, secureUrl);
 
     if (allTags.length > 0) {
       await this.associateTagsWithPost(
