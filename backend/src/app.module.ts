@@ -5,6 +5,7 @@ import { AuthModule } from './modules/auth/auth.module';
 import { EventModule } from './modules/event/event.module';
 import { PostModule } from './modules/post/post.module';
 import { ProfileModule } from './modules/profile/profile.module';
+import { SaveModule } from './modules/save/save.module';
 import { TagModule } from './modules/tag/tag.module';
 import { UserModule } from './modules/user/user.module';
 import { VotesModule } from './modules/votes/votes.module';
@@ -23,6 +24,7 @@ import { PrismaModule } from './prisma/prisma.module';
     EventModule,
     CloudinaryModule,
     VotesModule,
+    SaveModule,
   ],
   //providers: [
   //{ provide: APP_GUARD, useClass: RolesGuard },
