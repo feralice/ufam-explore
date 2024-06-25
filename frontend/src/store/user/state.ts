@@ -12,5 +12,6 @@ export const UserInitialState: UserInitialStateType = {
     username: "",
     email: "",
     curso: "",
+    isAuthenticated: false,
   },
 };

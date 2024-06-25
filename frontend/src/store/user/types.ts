@@ -18,6 +18,7 @@ export interface IUser {
   fotoPerfil?: string;
   biografia?: string;
   passwordValidation?: string;
+  isAuthenticated?: boolean;
 }
 
 export type UserInitialStateType = {

@@ -1,37 +1,21 @@
 import { createStackNavigator } from "@react-navigation/stack";
-import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import Login from "../../pages/login";
 import { UserOption } from "../../pages/user-option";
 import { UserRegistration } from "../../pages/user-registration";
-import { isAuthenticated } from "../../utils/isAuthenticated";
+import { IStore } from "../../store";
 import { TabNavigator } from "../tab.routes";
 
 const Stack = createStackNavigator();
 
-// Este componente de navegação de autenticação é uma solução temporária.
-// Ele verifica o status de autenticação ao montar o componente e periodicamente,
-// mas há uma necessidade de revisão para encontrar uma solução mais eficiente.
 const AuthStackNavigator = () => {
-  const [authenticated, setIsAuthenticated] = useState(false);
-
-  const checkAuthStatus = async () => {
-    const auth = await isAuthenticated();
-    setIsAuthenticated(auth);
-  };
-
-  useEffect(() => {
-    checkAuthStatus();
-
-    const interval = setInterval(() => {
-      checkAuthStatus();
-    }, 5000); 
-
-    return () => clearInterval(interval);
-  }, []);
+  const isAuth = useSelector(
+    (state: IStore) => state.user.user.isAuthenticated
+  );
 
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
-      {authenticated ? (
+      {isAuth ? (
         <Stack.Screen name="App" component={TabNavigator} />
       ) : (
         <>

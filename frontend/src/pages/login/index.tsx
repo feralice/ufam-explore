@@ -64,12 +64,8 @@ const Login = () => {
         email: userEmail,
         username,
         curso,
+        isAuthenticated: true,
       });
-
-      setTimeout(() => {
-        setIsLoading(false);
-        navigation.navigate("Home");
-      }, 5000);
     } catch (error) {
       setIsLoading(false);
       Alert.alert("Erro", "E-mail ou senha inválidos.");
