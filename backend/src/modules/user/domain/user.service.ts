@@ -64,4 +64,18 @@ export class UserService {
 
     return user;
   }
+
+  async deleteUser(id: string) {
+    try {
+      const deletedUser = this.userRepository.deleteUser(id);
+
+      if (!deletedUser) {
+        throw new NotFoundException(`User with ID ${id} not found`);
+      }
+
+      return `User with ID ${id} deleted successfully`;
+    } catch (e) {
+      throw new Error(e);
+    }
+  }
 }

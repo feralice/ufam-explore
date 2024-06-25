@@ -74,4 +74,20 @@ export class UserController {
   getUserByEmail(@Param('email') email: string): Promise<Usuario> {
     return this.userService.getUserByEmail(email);
   }
+
+  @Post('/delete/:userId')
+  @ApiOperation({ summary: 'Delete user by ID' })
+  @ApiResponse({
+    status: HttpStatus.OK,
+    description: 'User deleted successfully',
+  })
+  @ApiResponse({ status: HttpStatus.NOT_FOUND, description: 'User not found' })
+  async deleteUser(@Param('userId') userId: string) {
+    try {
+      const result = await this.userService.deleteUser(userId);
+      return { message: result }; // Retorna um objeto com a mensagem
+    } catch (error) {
+      throw new Error(error.message);
+    }
+  }
 }
