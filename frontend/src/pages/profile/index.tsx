@@ -1,41 +1,53 @@
-// Profile.tsx
+import { MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons";
+import { Text, TouchableOpacity, View } from "react-native";
+import { styles } from "./styles";
 
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import { useNavigation } from "@react-navigation/native";
-import { StackNavigationProp } from "@react-navigation/stack";
-import React from "react";
-import { Button, Text, View } from "react-native";
-import { RootStackParamList } from "../../routes/types";
-import { setUser } from "../../store/user/actions";
-
-//Ajustar depois td isso, apenas casos de teste
-
-type ProfileScreenNavigationProp = StackNavigationProp<
-  RootStackParamList,
-  "Profile"
->;
-
-const ProfileScreen: React.FC = () => {
-  const navigation = useNavigation<ProfileScreenNavigationProp>();
-
-  const handleLogout = async () => {
-    await AsyncStorage.removeItem("accessToken");
-    setUser({
-      id: "",
-      nome: "",
-      email: "",
-      username: "",
-      perfilId: 0,
-    });
-    navigation.navigate("Login");
+export const ProfileScreen = () => {
+  const handleProfilePicturePress = () => {
+    // Implementar a lógica para alterar a foto de perfil aqui
+    console.log("Alterar foto de perfil");
   };
 
   return (
-    <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-      <Text>Perfil do Usuário</Text>
-      <Button title="Logout" onPress={handleLogout} />
+    <View style={styles.container}>
+      <View style={styles.profileSection}>
+        <TouchableOpacity
+          onPress={handleProfilePicturePress}
+          style={styles.profileImageContainer}
+        >
+          <MaterialCommunityIcons name="account" size={80} color="#000" />
+        </TouchableOpacity>
+        <Text style={styles.profileName}>Caesoft</Text>
+      </View>
+      <View style={styles.buttonsContainer}>
+        <TouchableOpacity style={styles.button}>
+          <MaterialIcons
+            name="save-alt"
+            size={24}
+            color="#000"
+            style={styles.buttonIcon}
+          />
+          <Text style={styles.buttonText}>Publicações salvas</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.button}>
+          <MaterialCommunityIcons
+            name="calendar"
+            size={24}
+            color="#000"
+            style={styles.buttonIcon}
+          />
+          <Text style={styles.buttonText}>Minhas publicações</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.button}>
+          <MaterialIcons
+            name="account-circle"
+            size={24}
+            color="#000"
+            style={styles.buttonIcon}
+          />
+          <Text style={styles.buttonText}>Informações da conta</Text>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 };
-
-export default ProfileScreen;
