@@ -11,10 +11,25 @@ export class SavePostService {
 
   constructor(private savePostRepository: SavePostRepository) {}
 
-  async savePost(usuarioId: string, postagemId: string) {
-    this.logger.log(`Saving post with ID ${postagemId} for user ${usuarioId}`);
-
+  async saveOrUnsavePost(usuarioId: string, postagemId: string) {
     try {
+      const existingSave = await this.savePostRepository.findSave(
+        usuarioId,
+        postagemId,
+      );
+
+
+      if (existingSave) {
+        const result = await this.savePostRepository.deleteSave(
+          usuarioId,
+          postagemId,
+        );
+        this.logger.log(
+          `Successfully unsaved post with ID ${postagemId} for user ${usuarioId}`,
+        );
+        return result;
+      }
+
       const result = await this.savePostRepository.savePost(
         usuarioId,
         postagemId,
@@ -25,10 +40,10 @@ export class SavePostService {
       return result;
     } catch (error) {
       this.logger.error(
-        `Failed to save post with ID ${postagemId} for user ${usuarioId}`,
+        `Failed to save or unsave post with ID ${postagemId} for user ${usuarioId}`,
         error.stack,
       );
-      throw new InternalServerErrorException('Failed to save post');
+      throw new InternalServerErrorException('Failed to save or unsave post');
     }
   }
 }

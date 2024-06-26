@@ -19,6 +19,7 @@ export interface IPost {
     id: string;
     username: string;
   };
+  isSaved: boolean;
 }
 
 export interface IPostRequest {
@@ -47,6 +48,7 @@ export interface PostInitialStateType {
   posts: IPost[];
   userUpvoted: Record<string, boolean>;
   userDownvoted: Record<string, boolean>;
+  userSaved: Record<string, boolean>;
   tags: Tag[];
   tagsForNewPost: Tag[];
   currentPost: IPost | null;

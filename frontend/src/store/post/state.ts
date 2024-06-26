@@ -10,6 +10,7 @@ export const PostInitialState: PostInitialStateType = {
   downvotes: {},
   userUpvoted: {},
   userDownvoted: {},
+  userSaved: {},
   tags: [],
   tagsForNewPost: [],
   currentPost: null,

@@ -1,4 +1,4 @@
-import AntDesign from "@expo/vector-icons/AntDesign";
+import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import { useNavigation } from "@react-navigation/native";
 import { useState } from "react";
 import {
@@ -59,7 +59,7 @@ const PopupMenu = () => {
     options.push(
       {
         title: "Editar post",
-        icon: "edit",
+        icon: "pencil",
         action: () => {
           setVisible(false);
           navigation.navigate("EditPost");
@@ -74,7 +74,7 @@ const PopupMenu = () => {
       },
       {
         title: "Salvar post",
-        icon: "save",
+        icon: "content-save",
         action: handleSavePost,
       },
       {
@@ -87,7 +87,7 @@ const PopupMenu = () => {
     options.push(
       {
         title: "Salvar post",
-        icon: "save",
+        icon: "content-save",
         action: handleSavePost,
       },
       {
@@ -108,7 +108,11 @@ const PopupMenu = () => {
         loading={loading}
       />
       <Pressable onPress={() => setVisible(!visible)}>
-        <AntDesign name="ellipsis1" size={24} color="darkblue" />
+        <MaterialCommunityIcons
+          name="dots-vertical"
+          size={24}
+          color="darkblue"
+        />
       </Pressable>
 
       <Modal transparent visible={visible}>
@@ -121,7 +125,11 @@ const PopupMenu = () => {
             {options.map((op, i) => (
               <Pressable key={i} onPress={op.action}>
                 <View style={styles.option}>
-                  <AntDesign name={op.icon} size={24} color="darkblue" />
+                  <MaterialCommunityIcons
+                    name={op.icon}
+                    size={24}
+                    color="darkblue"
+                  />
                   <Text style={styles.optionText}>{op.title}</Text>
                 </View>
               </Pressable>

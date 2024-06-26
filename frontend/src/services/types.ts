@@ -52,3 +52,8 @@ export interface IEditPostRequest {
   titulo: string;
   texto: string;
 }
+
+export interface ISavePostRequest {
+  usuarioId: string;
+  postagemId: string;
+}

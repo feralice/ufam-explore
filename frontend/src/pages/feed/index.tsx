@@ -1,3 +1,4 @@
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { useCallback, useState } from "react";
@@ -114,7 +115,9 @@ export const FeedScreen = () => {
         <View style={feedStyles.fabContainer}>
           <FAB
             style={feedStyles.fab}
-            icon="pencil"
+            icon={() => (
+              <MaterialCommunityIcons name="pencil" size={24} color="white" />
+            )}
             color="white"
             onPress={() => navigation.navigate("Post")}
           />

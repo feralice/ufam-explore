@@ -1,4 +1,9 @@
-type IconName = "calendar" | "edit" | "save" | "delete" | "ellipsis1";
+export type IconName =
+  | "pencil"
+  | "delete"
+  | "content-save"
+  | "calendar"
+  | "dots-horizontal";
 
 export interface Option {
   title: string;

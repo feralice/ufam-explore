@@ -1,9 +1,15 @@
 import { Body, Controller, Get, Post, Query } from '@nestjs/common';
-import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import {
+  ApiBearerAuth,
+  ApiOperation,
+  ApiResponse,
+  ApiTags,
+} from '@nestjs/swagger';
 import { GetSavePostsByUser } from '../domain/use-cases/get-posts-by-user.service';
 import { SavePostService } from '../domain/use-cases/save-post.service';
 import { SavePostDto } from './dto/save-post.dto';
 
+@ApiBearerAuth()
 @ApiTags('Save-Post')
 @Controller('save-post')
 export class SavePostController {
@@ -18,7 +24,7 @@ export class SavePostController {
   @ApiResponse({ status: 400, description: 'Parâmetros inválidos' })
   async savePost(@Body() savePostDto: SavePostDto) {
     const { usuarioId, postagemId } = savePostDto;
-    return this.savePostService.savePost(usuarioId, postagemId);
+    return this.savePostService.saveOrUnsavePost(usuarioId, postagemId);
   }
 
   @Get('/save-by-user')

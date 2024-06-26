@@ -50,6 +50,17 @@ export const postSlice = createSlice({
       const { postId, downvoted } = action.payload;
       state.userDownvoted[postId] = downvoted;
     },
+    setUserSaved: (
+      state,
+      action: PayloadAction<{
+        postId: string;
+        userId: string;
+        saved: boolean;
+      }>
+    ) => {
+      const { postId, saved } = action.payload;
+      state.userSaved[postId] = saved;
+    },
     setCurrentPost: (state, action: PayloadAction<IPost>) => {
       state.currentPost = action.payload;
     },

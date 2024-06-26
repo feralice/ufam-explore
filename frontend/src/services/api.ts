@@ -11,6 +11,7 @@ import {
   IEditPostRequest,
   ILoginRequest,
   ILoginResponse,
+  ISavePostRequest,
   ITagResponse,
   IUpvoteResponse,
 } from "./types";
@@ -163,4 +164,10 @@ export const getEventById = async (
 
 export const getPostByTag = async (tag: string) => {
   return await api.get(`/get-post-by-tag/${tag}`);
+};
+
+export const savePost = async (
+  data: ISavePostRequest
+): Promise<AxiosResponse<IPost>> => {
+  return await api.post("/save-post", data);
 };
