@@ -2,7 +2,8 @@ import { createStackNavigator } from "@react-navigation/stack";
 import { useSelector } from "react-redux";
 import Login from "../../pages/login";
 import { UserOption } from "../../pages/user-option";
-import { UserRegistration } from "../../pages/user-registration";
+import ExternalSignUpScreen from "../../pages/user-registration/ExternalSignUpScreen";
+import InternalSignUpScreen from "../../pages/user-registration/InternalSignUpScreen";
 import { IStore } from "../../store";
 import { TabNavigator } from "../tab.routes";
 
@@ -21,7 +22,14 @@ const AuthStackNavigator = () => {
         <>
           <Stack.Screen name="Login" component={Login} />
           <Stack.Screen name="UserOption" component={UserOption} />
-          <Stack.Screen name="UserRegistration" component={UserRegistration} />
+          <Stack.Screen
+            name="InternalSignUp"
+            component={InternalSignUpScreen}
+          />
+          <Stack.Screen
+            name="ExternalSignUp"
+            component={ExternalSignUpScreen}
+          />
         </>
       )}
     </Stack.Navigator>

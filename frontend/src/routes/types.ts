@@ -9,7 +9,8 @@ export type RootStackParamList = {
   CreateEvent: undefined;
   Login: undefined;
   UserOption: undefined;
-  UserRegistration: undefined;
+  InternalSignUp: undefined;
+  ExternalSignUp: undefined;
   Profile: undefined;
 };
 
