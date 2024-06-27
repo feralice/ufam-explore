@@ -1,12 +1,25 @@
-import { Ionicons } from "@expo/vector-icons";
+import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
+import { useNavigation } from "@react-navigation/native";
 import { useState } from "react";
 import {
+  Alert,
   ScrollView,
   Text,
   TextInput,
   TouchableOpacity,
   View,
 } from "react-native";
+import { BlueButton } from "../../components/blue-button";
+import TermsModal from "../../components/modals/terms-modal";
+import { LoginScreenNavigationProp } from "../../routes/types";
+import { createUser } from "../../services/api";
+import {
+  isEmailValid,
+  isNameValid,
+  isPasswordValid,
+  isUsernameValid,
+  passwordsMatch,
+} from "../../utils/validationsUtils";
 import { styles } from "./styles";
 
 const ExternalSignUpScreen = () => {
@@ -17,78 +30,85 @@ const ExternalSignUpScreen = () => {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [hidePassword, setHidePassword] = useState(true);
   const [hideConfirmPassword, setHideConfirmPassword] = useState(true);
-
   const [nameError, setNameError] = useState("");
   const [usernameError, setUsernameError] = useState("");
   const [emailError, setEmailError] = useState("");
   const [passwordError, setPasswordError] = useState("");
   const [confirmPasswordError, setConfirmPasswordError] = useState("");
+  const [isFirstIcon, setIsFirstIcon] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [modalVisible, setModalVisible] = useState(false);
 
-  const handleSignUp = () => {
-    // Implementação da lógica de cadastro aqui
-    if (!isNameValid()) {
+  const navigation = useNavigation<LoginScreenNavigationProp>();
+
+  const handleSignUp = async () => {
+    setNameError("");
+    setUsernameError("");
+    setEmailError("");
+    setPasswordError("");
+    setConfirmPasswordError("");
+
+    if (!isNameValid(name)) {
       setNameError("Por favor, insira um nome válido (apenas letras).");
       return;
-    } else {
-      setNameError("");
     }
 
-    if (!isUsernameValid()) {
+    if (!isUsernameValid(username)) {
       setUsernameError("Por favor, insira um nome de usuário válido.");
       return;
-    } else {
-      setUsernameError("");
     }
 
-    if (!isEmailValid()) {
+    if (!isEmailValid(email)) {
       setEmailError("Por favor, insira um email válido.");
       return;
-    } else {
-      setEmailError("");
     }
 
-    if (!isPasswordValid()) {
+    if (!isPasswordValid(password)) {
       setPasswordError(
         "A senha deve ter pelo menos 8 caracteres, incluindo maiúsculas, minúsculas, números e caracteres especiais."
       );
       return;
-    } else {
-      setPasswordError("");
     }
 
-    if (!passwordsMatch()) {
+    if (!passwordsMatch(password, confirmPassword)) {
       setConfirmPasswordError("As senhas não coincidem.");
       return;
-    } else {
-      setConfirmPasswordError("");
     }
 
-    // Lógica de cadastro bem-sucedida
-    alert("Cadastro realizado com sucesso!");
-    // Redirecionar ou outra ação necessária após o cadastro
-  };
+    setIsLoading(true);
 
-  const isNameValid = () => {
-    return /^[a-zA-Z ]+$/.test(name);
-  };
+    try {
+      const profileId = 2;
+      const userData = {
+        perfilId: profileId,
+        nome: name,
+        username,
+        email,
+        senha: password,
+      };
 
-  const isUsernameValid = () => {
-    // Exemplo básico de validação de nome de usuário
-    return /^[a-zA-Z0-9_]{4,}$/.test(username);
-  };
+      await createUser(userData);
 
-  const isEmailValid = () => {
-    return /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/i.test(email);
-  };
+      setName("");
+      setUsername("");
+      setEmail("");
+      setPassword("");
+      setConfirmPassword("");
+      setIsFirstIcon(false);
+      setIsLoading(false);
+      setModalVisible(false);
 
-  const isPasswordValid = () => {
-    return /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/.test(
-      password
-    );
-  };
-
-  const passwordsMatch = () => {
-    return password === confirmPassword;
+      Alert.alert("Sucesso", "Cadastro realizado com sucesso!");
+    } catch (error) {
+      console.error("Erro ao criar usuário:", error);
+      Alert.alert(
+        "Erro",
+        "Erro ao criar usuário. Por favor, tente novamente mais tarde."
+      );
+      setIsLoading(false);
+    } finally {
+      navigation.navigate("Login");
+    }
   };
 
   const togglePasswordVisibility = () => {
@@ -102,8 +122,15 @@ const ExternalSignUpScreen = () => {
   return (
     <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
       <View style={styles.container}>
+        <TouchableOpacity
+          onPress={() => navigation.goBack()}
+          style={styles.backButtonIcon}
+        >
+          <Ionicons name="arrow-back" size={24} color="darkblue" />
+        </TouchableOpacity>
         <Text style={styles.title}>Criação de Conta</Text>
 
+        {/* Nome */}
         <Text style={styles.textStyle}>Nome</Text>
         <View style={styles.boxInput}>
           <TextInput
@@ -112,7 +139,7 @@ const ExternalSignUpScreen = () => {
             onChangeText={(text) => {
               setName(text);
               setNameError(
-                isNameValid()
+                isNameValid(text)
                   ? ""
                   : "Por favor, insira um nome válido (apenas letras)."
               );
@@ -124,6 +151,7 @@ const ExternalSignUpScreen = () => {
           <Text style={styles.errorMessage}>{nameError}</Text>
         ) : null}
 
+        {/* Nome de Usuário */}
         <Text style={styles.textStyle}>Nome de Usuário</Text>
         <View style={styles.boxInput}>
           <TextInput
@@ -132,7 +160,7 @@ const ExternalSignUpScreen = () => {
             onChangeText={(text) => {
               setUsername(text);
               setUsernameError(
-                isUsernameValid()
+                isUsernameValid(text)
                   ? ""
                   : "Por favor, insira um nome de usuário válido."
               );
@@ -144,6 +172,7 @@ const ExternalSignUpScreen = () => {
           <Text style={styles.errorMessage}>{usernameError}</Text>
         ) : null}
 
+        {/* E-mail */}
         <Text style={styles.textStyle}>E-mail</Text>
         <View style={styles.boxInput}>
           <TextInput
@@ -152,7 +181,7 @@ const ExternalSignUpScreen = () => {
             onChangeText={(text) => {
               setEmail(text);
               setEmailError(
-                isEmailValid() ? "" : "Por favor, insira um email válido."
+                isEmailValid(text) ? "" : "Por favor, insira um email válido."
               );
             }}
             style={styles.inputField}
@@ -162,6 +191,7 @@ const ExternalSignUpScreen = () => {
           <Text style={styles.errorMessage}>{emailError}</Text>
         ) : null}
 
+        {/* Senha */}
         <Text style={styles.textStyle}>Senha</Text>
         <View style={styles.boxInput}>
           <TextInput
@@ -170,7 +200,7 @@ const ExternalSignUpScreen = () => {
             onChangeText={(text) => {
               setPassword(text);
               setPasswordError(
-                isPasswordValid()
+                isPasswordValid(text)
                   ? ""
                   : "A senha deve ter pelo menos 8 caracteres, incluindo maiúsculas, minúsculas, números e caracteres especiais."
               );
@@ -182,7 +212,7 @@ const ExternalSignUpScreen = () => {
             onPress={togglePasswordVisibility}
             style={styles.eyeIcon}
           >
-            <Ionicons
+            <MaterialCommunityIcons
               name={hidePassword ? "eye-off" : "eye"}
               size={24}
               color="gray"
@@ -193,6 +223,7 @@ const ExternalSignUpScreen = () => {
           <Text style={styles.errorMessage}>{passwordError}</Text>
         ) : null}
 
+        {/* Confirmar a Senha */}
         <Text style={styles.textStyle}>Confirmar a Senha</Text>
         <View
           style={[
@@ -203,12 +234,7 @@ const ExternalSignUpScreen = () => {
           <TextInput
             placeholder="Digite sua Senha novamente"
             value={confirmPassword}
-            onChangeText={(text) => {
-              setConfirmPassword(text);
-              setConfirmPasswordError(
-                passwordsMatch() ? "" : "As senhas não coincidem."
-              );
-            }}
+            onChangeText={(text) => setConfirmPassword(text)}
             secureTextEntry={hideConfirmPassword}
             style={styles.inputField}
           />
@@ -216,7 +242,7 @@ const ExternalSignUpScreen = () => {
             onPress={toggleConfirmPasswordVisibility}
             style={styles.eyeIcon}
           >
-            <Ionicons
+            <MaterialCommunityIcons
               name={hideConfirmPassword ? "eye-off" : "eye"}
               size={24}
               color="gray"
@@ -227,16 +253,33 @@ const ExternalSignUpScreen = () => {
           <Text style={styles.errorMessage}>{confirmPasswordError}</Text>
         ) : null}
 
+        {/* Checkbox dos termos */}
         <View style={styles.checkboxContainer}>
-          <TouchableOpacity>
-            <Ionicons name="checkbox-outline" size={24} color="gray" />
+          <TouchableOpacity onPress={() => setIsFirstIcon(!isFirstIcon)}>
+            <MaterialCommunityIcons
+              name={isFirstIcon ? "checkbox-marked" : "checkbox-blank-outline"}
+              size={30}
+              color={isFirstIcon ? "blue" : "darkgray"}
+            />
           </TouchableOpacity>
-          <Text style={styles.checkboxText}>Concordo com os termos de uso</Text>
+          <TouchableOpacity onPress={() => setModalVisible(true)}>
+            <Text style={styles.checkboxText}>
+              Concordo com os termos de uso
+            </Text>
+          </TouchableOpacity>
         </View>
 
-        <TouchableOpacity onPress={handleSignUp}>
-          <Text>Criar Conta</Text>
-        </TouchableOpacity>
+        {/* Botão de Registro */}
+        <BlueButton
+          onPress={handleSignUp}
+          text={isLoading ? "Carregando..." : "Criar Conta"}
+        />
+
+        {/* Modal de Termos de Uso */}
+        <TermsModal
+          modalVisible={modalVisible}
+          closeModal={() => setModalVisible(false)}
+        />
       </View>
     </ScrollView>
   );

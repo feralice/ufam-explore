@@ -30,6 +30,7 @@ export const ButtonStyles = (selectedTab: number) =>
       justifyContent: "center",
       alignItems: "center",
       borderWidth: 1.5,
+      marginRight: 10,
       borderColor: selectedTab === 1 ? "darkblue" : "transparent",
     },
     rightBox: {
@@ -70,3 +71,18 @@ export const ButtonStyles = (selectedTab: number) =>
       left: 20,
     },
   });
+
+  export const styles = StyleSheet.create({
+    container: {
+      flex: 1,
+      justifyContent: "center",
+      alignItems: "center",
+    },
+    backButton: {
+      position: "absolute",
+      top: 50,
+      left: 20,
+      zIndex: 10,
+    },
+  });
+  

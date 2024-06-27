@@ -1,13 +1,26 @@
 import { Ionicons } from "@expo/vector-icons";
+import { useNavigation } from "@react-navigation/native";
 import { useState } from "react";
 import {
+  Alert,
   ScrollView,
   Text,
   TextInput,
   TouchableOpacity,
   View,
 } from "react-native";
-import { styles } from "./styles"; // Certifique-se de importar os estilos corretamente
+import { BlueButton } from "../../components/blue-button";
+import TermsModal from "../../components/modals/terms-modal";
+import { LoginScreenNavigationProp } from "../../routes/types";
+import { createUser } from "../../services/api";
+import {
+  isEmailValid,
+  isNameValid,
+  isPasswordValid,
+  isUsernameValid,
+  passwordsMatch,
+} from "../../utils/validationsUtils";
+import { styles } from "./styles";
 
 const InternalSignUpScreen = () => {
   const [name, setName] = useState("");
@@ -18,77 +31,84 @@ const InternalSignUpScreen = () => {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [hidePassword, setHidePassword] = useState(true);
   const [hideConfirmPassword, setHideConfirmPassword] = useState(true);
-
   const [nameError, setNameError] = useState("");
   const [usernameError, setUsernameError] = useState("");
   const [emailError, setEmailError] = useState("");
   const [passwordError, setPasswordError] = useState("");
   const [confirmPasswordError, setConfirmPasswordError] = useState("");
+  const [isFirstIcon, setIsFirstIcon] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [modalVisible, setModalVisible] = useState(false);
 
-  const handleSignUp = () => {
-    // Implementação da lógica de cadastro aqui
-    if (!isNameValid()) {
+  const handleSignUp = async () => {
+    // Reset errors
+    setNameError("");
+    setUsernameError("");
+    setEmailError("");
+    setPasswordError("");
+    setConfirmPasswordError("");
+
+    // Validate inputs
+    if (!isNameValid(name)) {
       setNameError("Por favor, insira um nome válido (apenas letras).");
       return;
-    } else {
-      setNameError("");
     }
 
-    if (!isUsernameValid()) {
+    if (!isUsernameValid(username)) {
       setUsernameError("Por favor, insira um nome de usuário válido.");
       return;
-    } else {
-      setUsernameError("");
     }
 
-    if (!isEmailValid()) {
+    if (!isEmailValid(email)) {
       setEmailError("Por favor, insira um email válido.");
       return;
-    } else {
-      setEmailError("");
     }
 
-    if (!isPasswordValid()) {
+    if (!isPasswordValid(password)) {
       setPasswordError(
         "A senha deve ter pelo menos 8 caracteres, incluindo maiúsculas, minúsculas, números e caracteres especiais."
       );
       return;
-    } else {
-      setPasswordError("");
     }
 
-    if (!passwordsMatch()) {
+    if (!passwordsMatch(password, confirmPassword)) {
       setConfirmPasswordError("As senhas não coincidem.");
       return;
-    } else {
-      setConfirmPasswordError("");
     }
 
-    // Lógica de cadastro bem-sucedida
-    alert("Cadastro realizado com sucesso!");
-    // Redirecionar ou outra ação necessária após o cadastro
-  };
+    try {
+      const userData = {
+        perfilId: 1,
+        nome: name,
+        username: username,
+        email: email,
+        curso: course,
+        senha: password,
+      };
 
-  const isNameValid = () => {
-    return /^[a-zA-Z ]+$/.test(name);
-  };
+      setIsLoading(true);
 
-  const isUsernameValid = () => {
-    return /^[a-zA-Z0-9_]{4,}$/.test(username);
-  };
+      await createUser(userData);
 
-  const isEmailValid = () => {
-    return /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/i.test(email);
-  };
+      setName("");
+      setUsername("");
+      setEmail("");
+      setCourse("");
+      setPassword("");
+      setConfirmPassword("");
+      setIsLoading(false);
 
-  const isPasswordValid = () => {
-    return /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/.test(
-      password
-    );
-  };
-
-  const passwordsMatch = () => {
-    return password === confirmPassword;
+      Alert.alert("Sucesso", "Cadastro realizado com sucesso!");
+    } catch (error) {
+      console.error("Erro ao criar usuário:", error);
+      setIsLoading(false);
+      Alert.alert(
+        "Erro",
+        "Erro ao criar usuário. Por favor, tente novamente mais tarde."
+      );
+    } finally {
+      navigation.navigate("Login");
+    }
   };
 
   const togglePasswordVisibility = () => {
@@ -98,10 +118,17 @@ const InternalSignUpScreen = () => {
   const toggleConfirmPasswordVisibility = () => {
     setHideConfirmPassword(!hideConfirmPassword);
   };
+  const navigation = useNavigation<LoginScreenNavigationProp>();
 
   return (
     <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
       <View style={styles.container}>
+        <TouchableOpacity
+          onPress={() => navigation.goBack()}
+          style={styles.backButtonIcon}
+        >
+          <Ionicons name="arrow-back" size={24} color="darkblue" />
+        </TouchableOpacity>
         <Text style={styles.title}>Criação de Conta Interna</Text>
 
         <Text style={styles.textStyle}>Nome</Text>
@@ -112,7 +139,7 @@ const InternalSignUpScreen = () => {
             onChangeText={(text) => {
               setName(text);
               setNameError(
-                isNameValid()
+                isNameValid(text)
                   ? ""
                   : "Por favor, insira um nome válido (apenas letras)."
               );
@@ -132,7 +159,7 @@ const InternalSignUpScreen = () => {
             onChangeText={(text) => {
               setUsername(text);
               setUsernameError(
-                isUsernameValid()
+                isUsernameValid(text)
                   ? ""
                   : "Por favor, insira um nome de usuário válido."
               );
@@ -152,7 +179,7 @@ const InternalSignUpScreen = () => {
             onChangeText={(text) => {
               setEmail(text);
               setEmailError(
-                isEmailValid() ? "" : "Por favor, insira um email válido."
+                isEmailValid(text) ? "" : "Por favor, insira um email válido."
               );
             }}
             style={styles.inputField}
@@ -180,7 +207,7 @@ const InternalSignUpScreen = () => {
             onChangeText={(text) => {
               setPassword(text);
               setPasswordError(
-                isPasswordValid()
+                isPasswordValid(text)
                   ? ""
                   : "A senha deve ter pelo menos 8 caracteres, incluindo maiúsculas, minúsculas, números e caracteres especiais."
               );
@@ -216,7 +243,7 @@ const InternalSignUpScreen = () => {
             onChangeText={(text) => {
               setConfirmPassword(text);
               setConfirmPasswordError(
-                passwordsMatch() ? "" : "As senhas não coincidem."
+                passwordsMatch(password, text) ? "" : "As senhas não coincidem."
               );
             }}
             secureTextEntry={hideConfirmPassword}
@@ -241,15 +268,29 @@ const InternalSignUpScreen = () => {
         )}
 
         <View style={styles.checkboxContainer}>
-          <TouchableOpacity>
-            <Ionicons name="checkbox-outline" size={24} color="gray" />
+          <TouchableOpacity onPress={() => setIsFirstIcon(!isFirstIcon)}>
+            <Ionicons
+              name={isFirstIcon ? "checkbox" : "checkbox-outline"}
+              size={30}
+              color={isFirstIcon ? "blue" : "darkgray"}
+            />
           </TouchableOpacity>
-          <Text style={styles.checkboxText}>Concordo com os termos de uso</Text>
+          <TouchableOpacity onPress={() => setModalVisible(true)}>
+            <Text style={styles.checkboxText}>
+              Concordo com os termos de uso
+            </Text>
+          </TouchableOpacity>
         </View>
 
-        <TouchableOpacity onPress={handleSignUp}>
-          <Text>Criar Conta</Text>
-        </TouchableOpacity>
+        <BlueButton
+          onPress={handleSignUp}
+          text={isLoading ? "Carregando..." : "Criar Conta"}
+        />
+
+        <TermsModal
+          modalVisible={modalVisible}
+          closeModal={() => setModalVisible(false)}
+        />
       </View>
     </ScrollView>
   );
