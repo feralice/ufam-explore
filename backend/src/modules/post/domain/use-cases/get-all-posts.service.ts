@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { SavePostRepository } from 'src/modules/save/infrastructure/save.repository';
+import { SavePostRepository } from '../../../../modules/save/infrastructure/save.repository';
 import { DownvoteRepository } from '../../../votes/infrastructure/downvote.repository';
 import { UpvoteRepository } from '../../../votes/infrastructure/upvote.repository';
 import { PostRepository } from '../../infrastructure/repositories/post.repository';
