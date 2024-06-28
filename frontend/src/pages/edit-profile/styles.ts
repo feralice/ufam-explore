@@ -28,10 +28,15 @@ export const styles = StyleSheet.create({
     fontWeight: "bold",
     marginTop: 10,
   },
-  cogIcon: {
-    position: "absolute",
-    top: 20, 
-    right: 20,
-    padding: 10,
+  texto:{
+    color: "darkblue",
+    fontSize: 20,
+    right: 30,
+  },
+  textoAlternativo:{
+    color: "black",
+    fontSize: 15,
+    right: 30,
+    marginBottom: 20,
   }
 });
