@@ -42,6 +42,7 @@ export const CreatePostScreen = () => {
   );
   const event = useSelector((state: IStore) => state.event.evento);
   const userId = useSelector((state: IStore) => state.user.user.id);
+  const currentPost = useSelector((state: IStore) => state.post.currentPost);
 
   const [image, setImage] = useState<string | any>(null);
 
@@ -100,7 +101,7 @@ export const CreatePostScreen = () => {
         <View style={styles.card}>
           <View style={styles.perfil}>
             <Image source={img_perfil} style={styles.imagePerfil} />
-            <Text>@nickname</Text>
+            <Text>@{currentPost?.usuario.username}</Text>
           </View>
 
           <ImagePickerComponent image={image} onPress={handleImagePicker} />
