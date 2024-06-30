@@ -4,4 +4,5 @@ export interface ConfirmationModalProps {
   onConfirm: () => void;
   loading?: boolean;
   text: string;
+  children?: React.ReactNode;
 }

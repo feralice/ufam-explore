@@ -36,7 +36,7 @@ export const ProfileScreen = () => {
             <PopupEdit />
       </View>
 
-      <View styles={styles.sectionInformation}>
+      <View >
           <Text style={styles.texto}>NOME</Text>
           <Text style={styles.textoAlternativo}>nome nome nome</Text>
           <Text style={styles.texto}>NOME DE USUÁRIO</Text>
