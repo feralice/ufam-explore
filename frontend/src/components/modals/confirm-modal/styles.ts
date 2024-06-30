@@ -141,4 +141,9 @@ export const styles = StyleSheet.create({
     flexDirection: "row-reverse",
     justifyContent: "flex-start",
   },
+  checkBoxContainer: {
+    marginTop: 10,
+    flexDirection: "row",
+    alignItems: "center",
+  },
 });
