@@ -1,5 +1,4 @@
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
-import { useNavigation } from "@react-navigation/native";
 import { useState } from "react";
 import {
   Alert,
@@ -14,15 +13,22 @@ import { Option } from "./types";
 
 const PopupEdit = () => {
   const [visible, setVisible] = useState(false);
-  const [modalVisible, setModalVisible] = useState(false);
+
+  const showModal = () => {
+    setVisible(true);
+  };
+
+  const hideModal = () => {
+    setVisible(false);
+  };
 
   const handleDeleteAccount = () => {
-    alert("Excluindo conta");
+    Alert.alert("Excluindo conta");
     console.log("Excluindo");
   };
 
   const handleEditAccount = () => {
-    alert("Editando conta");
+    Alert.alert("Editando conta");
     console.log("Editando");
   };
 
@@ -41,11 +47,11 @@ const PopupEdit = () => {
 
   return (
     <View style={styles.popupContainer}>
-      <Pressable onPress={() => setVisible(!visible)}>
+      <Pressable onPress={showModal}>
         <MaterialCommunityIcons
           name="cog"
           size={30}
-          color="#000"
+          color="#F0F0F0"
           style={styles.cogIcon}
         />
       </Pressable>
@@ -53,12 +59,10 @@ const PopupEdit = () => {
       <Modal
         transparent
         visible={visible}
-        onRequestClose={() => setVisible(false)}
+        onRequestClose={hideModal}
+        animationType="fade"
       >
-        <Pressable
-          style={styles.modalOverlay}
-          onPress={() => setVisible(false)}
-        >
+        <Pressable style={styles.modalOverlay} onPress={hideModal}>
           <SafeAreaView style={styles.safeAreaView} />
           <View style={styles.popup}>
             {options.map((op, i) => (

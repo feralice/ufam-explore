@@ -13,6 +13,7 @@ import {
   TextInput,
   TouchableOpacity,
   View,
+  Dimensions,
 } from "react-native";
 import { BlueButton } from "../../components/blue-button";
 import { FeedScreenNavigationProp } from "../../routes/types";
@@ -24,6 +25,8 @@ import { FormData } from "./types";
 
 const img_ufam = require("../../assets/lupa.png");
 const img = require("../../assets/UfamExplore.png");
+
+const screenWidth = Dimensions.get("window").width;
 
 const Login = () => {
   const navigation = useNavigation<FeedScreenNavigationProp>();
@@ -105,11 +108,11 @@ const Login = () => {
             <Controller
               control={control}
               render={({ field: { onChange, onBlur, value } }) => (
-                <View style={[styles.input, { flexDirection: "row" }]}>
+                <View style={[styles.input, styles.passwordInput]}>
                   <TextInput
                     placeholder="Insira sua senha"
                     secureTextEntry={hidePassword}
-                    style={[{ width: "65%", color: "darkblue" }]}
+                    style={[styles.passwordTextInput]}
                     maxLength={16}
                     onBlur={onBlur}
                     onChangeText={onChange}

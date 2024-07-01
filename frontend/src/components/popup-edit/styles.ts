@@ -5,12 +5,14 @@ const { width, height } = Dimensions.get("window");
 export const styles = StyleSheet.create({
   popupContainer: {
     position: "absolute",
-    top: 0,
-    right: 0,
-    zIndex: 4,
+    top: 20,
+    right: 20,
+    zIndex: 5,
   },
   modalOverlay: {
     flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
     zIndex: 4,
   },
   safeAreaView: {
@@ -23,8 +25,9 @@ export const styles = StyleSheet.create({
     borderWidth: 1,
     backgroundColor: "rgba(255, 255, 255, 0.8)",
     paddingHorizontal: 10,
+    paddingVertical: 10,
     position: "absolute",
-    top: 20,
+    top: 40,
     right: 20,
     width: 200,
     zIndex: 4,
@@ -35,6 +38,7 @@ export const styles = StyleSheet.create({
     alignItems: "center",
     paddingVertical: height * 0.01,
     borderBottomColor: "#ccc",
+    borderBottomWidth: 1,
     zIndex: 4,
   },
   optionText: {
@@ -42,10 +46,7 @@ export const styles = StyleSheet.create({
     color: "darkblue",
   },
   cogIcon: {
-    position: "absolute",
-    top: 20,
-    right: 20,
     padding: 10,
-    zIndex: 4,
+    zIndex: 5,
   },
 });

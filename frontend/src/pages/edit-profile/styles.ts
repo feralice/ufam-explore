@@ -8,7 +8,7 @@ export const styles = StyleSheet.create({
   },
   profileSection: {
     width: "100%",
-    backgroundColor: "#00186D",
+    backgroundColor: "rgba(0, 24, 109, 0.9)",
     alignItems: "center",
     paddingVertical: 50,
     borderBottomRightRadius: 30,
