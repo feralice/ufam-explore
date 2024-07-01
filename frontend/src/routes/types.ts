@@ -12,6 +12,7 @@ export type RootStackParamList = {
   InternalSignUp: undefined;
   ExternalSignUp: undefined;
   Profile: undefined;
+  informationUser: undefined;
 };
 
 export type LoginScreenNavigationProp = StackNavigationProp<

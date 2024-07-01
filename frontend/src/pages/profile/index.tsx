@@ -3,12 +3,15 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Text, TouchableOpacity, View } from "react-native";
 import { setUser } from "../../store/user/actions";
 import { styles } from "./styles";
+import { useNavigation } from "@react-navigation/native";
+import { LoginScreenNavigationProp } from "../../routes/types";
 
 export const ProfileScreen = () => {
   const handleProfilePicturePress = () => {
     // Implementar a lógica para alterar a foto de perfil aqui
     console.log("Alterar foto de perfil");
   };
+  const navigation = useNavigation<LoginScreenNavigationProp>();
 
   const handleLogout = async () => {
     await AsyncStorage.removeItem("accessToken");
@@ -52,7 +55,12 @@ export const ProfileScreen = () => {
           />
           <Text style={styles.buttonText}>Minhas publicações</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.button}>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => {
+            navigation.navigate("informationUser");
+          }}
+        >
           <MaterialIcons
             name="account-circle"
             size={24}
