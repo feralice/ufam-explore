@@ -10,6 +10,16 @@ export const isEmailValid = (email: string): boolean => {
   return /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/i.test(email);
 };
 
+export const isEmailValidUfam = (email: string): boolean => {
+  const emailPattern = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/i;
+  if (!emailPattern.test(email)) {
+    return false;
+  }
+
+  const emailDomain = email.split("@")[1];
+  return emailDomain !== undefined && emailDomain.includes("ufam");
+};
+
 export const isPasswordValid = (password: string): boolean => {
   return /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/.test(
     password

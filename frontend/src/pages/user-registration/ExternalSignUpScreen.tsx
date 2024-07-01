@@ -11,6 +11,7 @@ import {
 } from "react-native";
 import { BlueButton } from "../../components/blue-button";
 import TermsModal from "../../components/modals/terms-modal";
+import PasswordRequirements from "../../components/password-validations";
 import { LoginScreenNavigationProp } from "../../routes/types";
 import { createUser } from "../../services/api";
 import {
@@ -38,6 +39,7 @@ const ExternalSignUpScreen = () => {
   const [isFirstIcon, setIsFirstIcon] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
+  const [showPasswordRules, setShowPasswordRules] = useState(false);
 
   const navigation = useNavigation<LoginScreenNavigationProp>();
 
@@ -75,6 +77,11 @@ const ExternalSignUpScreen = () => {
       return;
     }
 
+    if (!isFirstIcon) {
+      Alert.alert("Erro", "Você deve aceitar os termos de uso.");
+      return;
+    }
+
     setIsLoading(true);
 
     try {
@@ -100,6 +107,7 @@ const ExternalSignUpScreen = () => {
 
       Alert.alert("Sucesso", "Cadastro realizado com sucesso!");
     } catch (error) {
+      setShowPasswordRules(true);
       console.error("Erro ao criar usuário:", error);
       Alert.alert(
         "Erro",
@@ -197,6 +205,8 @@ const ExternalSignUpScreen = () => {
           <TextInput
             placeholder="Digite sua Senha"
             value={password}
+            onFocus={() => setShowPasswordRules(true)}
+            onBlur={() => setShowPasswordRules(false)}
             onChangeText={(text) => {
               setPassword(text);
               setPasswordError(
@@ -219,6 +229,7 @@ const ExternalSignUpScreen = () => {
             />
           </TouchableOpacity>
         </View>
+        {showPasswordRules && <PasswordRequirements password={password} />}
         {passwordError ? (
           <Text style={styles.errorMessage}>{passwordError}</Text>
         ) : null}
@@ -252,6 +263,9 @@ const ExternalSignUpScreen = () => {
         {confirmPasswordError ? (
           <Text style={styles.errorMessage}>{confirmPasswordError}</Text>
         ) : null}
+        {password !== confirmPassword && confirmPassword.length > 0 && (
+          <Text style={styles.passwordMismatch}>As senhas não coincidem.</Text>
+        )}
 
         {/* Checkbox dos termos */}
         <View style={styles.checkboxContainer}>

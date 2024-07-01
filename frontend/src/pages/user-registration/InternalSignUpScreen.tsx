@@ -1,4 +1,5 @@
-import { Ionicons } from "@expo/vector-icons";
+import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
+import { Picker } from "@react-native-picker/picker";
 import { useNavigation } from "@react-navigation/native";
 import { useState } from "react";
 import {
@@ -11,10 +12,12 @@ import {
 } from "react-native";
 import { BlueButton } from "../../components/blue-button";
 import TermsModal from "../../components/modals/terms-modal";
+import PasswordRequirements from "../../components/password-validations";
 import { LoginScreenNavigationProp } from "../../routes/types";
 import { createUser } from "../../services/api";
+import { cursos } from "../../utils/courses";
 import {
-  isEmailValid,
+  isEmailValidUfam,
   isNameValid,
   isPasswordValid,
   isUsernameValid,
@@ -39,9 +42,11 @@ const InternalSignUpScreen = () => {
   const [isFirstIcon, setIsFirstIcon] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
+  const [showPasswordRules, setShowPasswordRules] = useState(false);
+  const navigation = useNavigation<LoginScreenNavigationProp>();
 
   const handleSignUp = async () => {
-    // Reset errors
+    setShowPasswordRules(true);
     setNameError("");
     setUsernameError("");
     setEmailError("");
@@ -49,30 +54,48 @@ const InternalSignUpScreen = () => {
     setConfirmPasswordError("");
 
     // Validate inputs
+    let hasError = false;
+
     if (!isNameValid(name)) {
       setNameError("Por favor, insira um nome válido (apenas letras).");
-      return;
+      hasError = true;
     }
 
     if (!isUsernameValid(username)) {
       setUsernameError("Por favor, insira um nome de usuário válido.");
-      return;
+      hasError = true;
     }
 
-    if (!isEmailValid(email)) {
-      setEmailError("Por favor, insira um email válido.");
-      return;
+    if (!isEmailValidUfam(email)) {
+      setEmailError(
+        "Por favor, insira um email válido que contenha 'ufam' após '@'."
+      );
+      hasError = true;
     }
 
     if (!isPasswordValid(password)) {
       setPasswordError(
         "A senha deve ter pelo menos 8 caracteres, incluindo maiúsculas, minúsculas, números e caracteres especiais."
       );
-      return;
+      hasError = true;
     }
 
     if (!passwordsMatch(password, confirmPassword)) {
       setConfirmPasswordError("As senhas não coincidem.");
+      hasError = true;
+    }
+
+    if (course === "" || hasError) {
+      Alert.alert("Erro", "Por favor, preencha todos os campos corretamente.");
+      hasError = true;
+    }
+
+    if (!isFirstIcon) {
+      Alert.alert("Erro", "Você deve aceitar os termos de uso.");
+      hasError = true;
+    }
+
+    if (hasError) {
       return;
     }
 
@@ -99,6 +122,7 @@ const InternalSignUpScreen = () => {
       setIsLoading(false);
 
       Alert.alert("Sucesso", "Cadastro realizado com sucesso!");
+      navigation.navigate("Login");
     } catch (error) {
       console.error("Erro ao criar usuário:", error);
       setIsLoading(false);
@@ -106,8 +130,6 @@ const InternalSignUpScreen = () => {
         "Erro",
         "Erro ao criar usuário. Por favor, tente novamente mais tarde."
       );
-    } finally {
-      navigation.navigate("Login");
     }
   };
 
@@ -118,7 +140,6 @@ const InternalSignUpScreen = () => {
   const toggleConfirmPasswordVisibility = () => {
     setHideConfirmPassword(!hideConfirmPassword);
   };
-  const navigation = useNavigation<LoginScreenNavigationProp>();
 
   return (
     <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
@@ -179,7 +200,9 @@ const InternalSignUpScreen = () => {
             onChangeText={(text) => {
               setEmail(text);
               setEmailError(
-                isEmailValid(text) ? "" : "Por favor, insira um email válido."
+                isEmailValidUfam(text)
+                  ? ""
+                  : "Por favor, insira um email válido e institucional."
               );
             }}
             style={styles.inputField}
@@ -191,12 +214,16 @@ const InternalSignUpScreen = () => {
 
         <Text style={styles.textStyle}>Curso</Text>
         <View style={styles.boxInput}>
-          <TextInput
-            placeholder="Digite seu Curso"
-            value={course}
-            onChangeText={setCourse}
+          <Picker
+            selectedValue={course}
             style={styles.inputField}
-          />
+            onValueChange={(itemValue) => setCourse(itemValue)}
+          >
+            <Picker.Item label="Selecione um curso" value="" />
+            {cursos.map((curso) => (
+              <Picker.Item label={curso} value={curso} key={curso} />
+            ))}
+          </Picker>
         </View>
 
         <Text style={styles.textStyle}>Senha</Text>
@@ -204,6 +231,8 @@ const InternalSignUpScreen = () => {
           <TextInput
             placeholder="Digite sua Senha"
             value={password}
+            onFocus={() => setShowPasswordRules(true)}
+            onBlur={() => setShowPasswordRules(false)}
             onChangeText={(text) => {
               setPassword(text);
               setPasswordError(
@@ -226,9 +255,7 @@ const InternalSignUpScreen = () => {
             />
           </TouchableOpacity>
         </View>
-        {passwordError ? (
-          <Text style={styles.errorMessage}>{passwordError}</Text>
-        ) : null}
+        {showPasswordRules && <PasswordRequirements password={password} />}
 
         <Text style={styles.textStyle}>Confirmar a Senha</Text>
         <View
@@ -269,8 +296,8 @@ const InternalSignUpScreen = () => {
 
         <View style={styles.checkboxContainer}>
           <TouchableOpacity onPress={() => setIsFirstIcon(!isFirstIcon)}>
-            <Ionicons
-              name={isFirstIcon ? "checkbox" : "checkbox-outline"}
+            <MaterialCommunityIcons
+              name={isFirstIcon ? "checkbox-marked" : "checkbox-blank-outline"}
               size={30}
               color={isFirstIcon ? "blue" : "darkgray"}
             />

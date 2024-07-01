@@ -30,8 +30,9 @@ export const FeedScreen = () => {
   const [selectedTab, setSelectedTab] = useState<number>(0);
   const navigation = useNavigation<FeedScreenNavigationProp>();
   const [intervalId, setIntervalId] = useState<NodeJS.Timeout | null>(null);
-  const { id, curso } = useSelector((state: IStore) => state.user.user);
-  const profileId = useSelector((state: IStore) => state.user.profile.id);
+  const { id, curso, perfilId } = useSelector(
+    (state: IStore) => state.user.user
+  );
 
   const fetchAllPosts = useCallback(async () => {
     try {
@@ -100,7 +101,7 @@ export const FeedScreen = () => {
             <View style={feedStyles.container}>
               <Image source={logoPhoto} />
             </View>
-            {profileId !== 2 && (
+            {perfilId !== 2 && (
               <View style={feedStyles.bottomSelectionContainer}>
                 <BottomSelection setTab={setSelectedTab} />
               </View>
@@ -111,7 +112,7 @@ export const FeedScreen = () => {
         renderItem={renderPost}
         keyExtractor={(item) => item.id}
       />
-      {profileId !== 2 && (
+      {perfilId !== 2 && (
         <View style={feedStyles.fabContainer}>
           <FAB
             style={feedStyles.fab}

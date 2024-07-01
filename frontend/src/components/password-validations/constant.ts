@@ -2,6 +2,10 @@ import { Requirement } from "./types";
 
 export const requirements: Requirement[] = [
   {
+    label: "Senha não pode ser nula",
+    test: (pw) => pw.length > 0,
+  },
+  {
     label: "Senha deve ter pelo menos 8 caracteres",
     test: (pw) => pw.length >= 8,
   },
