@@ -22,21 +22,26 @@ export const styles = StyleSheet.create({
     borderRadius: 50,
     padding: 10,
   },
+  backButton: {
+    position: "absolute",
+    top: 40,
+    left: 20,
+  },
   profileName: {
     color: "#FFFFFF",
     fontSize: 20,
     fontWeight: "bold",
     marginTop: 10,
   },
-  texto:{
+  texto: {
     color: "darkblue",
     fontSize: 20,
     right: 30,
   },
-  textoAlternativo:{
+  textoAlternativo: {
     color: "black",
     fontSize: 15,
     right: 30,
     marginBottom: 20,
-  }
+  },
 });

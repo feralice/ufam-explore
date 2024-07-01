@@ -15,7 +15,6 @@ import { Option } from "./types";
 const PopupEdit = () => {
   const [visible, setVisible] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
-  
 
   const handleDeleteAccount = () => {
     alert("Excluindo conta");
@@ -29,17 +28,16 @@ const PopupEdit = () => {
 
   const options: Option[] = [
     {
-        title: "Editar conta",
-        icon: "pencil",
-        action: handleEditAccount,
-      },
-      {
-        title: "Excluir conta",
-        icon: "delete",
-        action: handleDeleteAccount,
-      },
+      title: "Editar conta",
+      icon: "pencil",
+      action: handleEditAccount,
+    },
+    {
+      title: "Excluir conta",
+      icon: "delete",
+      action: handleDeleteAccount,
+    },
   ];
-
 
   return (
     <View style={styles.popupContainer}>
@@ -52,7 +50,11 @@ const PopupEdit = () => {
         />
       </Pressable>
 
-      <Modal transparent visible={visible} onRequestClose={() => setVisible(false)}>
+      <Modal
+        transparent
+        visible={visible}
+        onRequestClose={() => setVisible(false)}
+      >
         <Pressable
           style={styles.modalOverlay}
           onPress={() => setVisible(false)}
@@ -79,4 +81,3 @@ const PopupEdit = () => {
 };
 
 export default PopupEdit;
- 

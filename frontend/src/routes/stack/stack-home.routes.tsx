@@ -6,6 +6,7 @@ import { EditPostScreen } from "../../pages/edit-post";
 import { PostScreenExtend } from "../../pages/extend-post";
 import { FeedScreen } from "../../pages/feed";
 import { RootStackParamList } from "../types";
+import { ProfileScreen } from "../../pages/edit-profile";
 const HomeStack = createStackNavigator<RootStackParamList>();
 
 export const HomeStackNavigator = () => {
@@ -17,6 +18,7 @@ export const HomeStackNavigator = () => {
       <HomeStack.Screen name="EditPost" component={EditPostScreen} />
       <HomeStack.Screen name="AddTag" component={AddTagScreen} />
       <HomeStack.Screen name="CreateEvent" component={CreateEventScreen} />
+      <HomeStack.Screen name="informationUser" component={ProfileScreen} />
     </HomeStack.Navigator>
   );
 };
