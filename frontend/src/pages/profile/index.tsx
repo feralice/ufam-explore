@@ -1,10 +1,12 @@
 import { MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useNavigation } from "@react-navigation/native";
 import { Text, TouchableOpacity, View } from "react-native";
+import { useSelector } from "react-redux";
+import { LoginScreenNavigationProp } from "../../routes/types";
+import { IStore } from "../../store";
 import { setUser } from "../../store/user/actions";
 import { styles } from "./styles";
-import { useNavigation } from "@react-navigation/native";
-import { LoginScreenNavigationProp } from "../../routes/types";
 
 export const ProfileScreen = () => {
   const handleProfilePicturePress = () => {
@@ -12,6 +14,7 @@ export const ProfileScreen = () => {
     console.log("Alterar foto de perfil");
   };
   const navigation = useNavigation<LoginScreenNavigationProp>();
+  const { username } = useSelector((state: IStore) => state.user.user);
 
   const handleLogout = async () => {
     await AsyncStorage.removeItem("accessToken");
@@ -34,7 +37,7 @@ export const ProfileScreen = () => {
         >
           <MaterialCommunityIcons name="account" size={80} color="#000" />
         </TouchableOpacity>
-        <Text style={styles.profileName}>Caesoft</Text>
+        <Text style={styles.profileName}>{username}</Text>
       </View>
       <View style={styles.buttonsContainer}>
         <TouchableOpacity style={styles.button}>

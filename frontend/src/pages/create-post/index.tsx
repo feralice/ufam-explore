@@ -41,8 +41,7 @@ export const CreatePostScreen = () => {
     (state: IStore) => state.post.tagsForNewPost
   );
   const event = useSelector((state: IStore) => state.event.evento);
-  const userId = useSelector((state: IStore) => state.user.user.id);
-  const currentPost = useSelector((state: IStore) => state.post.currentPost);
+  const { id, username } = useSelector((state: IStore) => state.user.user);
 
   const [image, setImage] = useState<string | any>(null);
 
@@ -51,7 +50,7 @@ export const CreatePostScreen = () => {
 
     setLoading(true);
     try {
-      await createPost(userId, postData, image);
+      await createPost(id, postData, image);
       setTagsForNewPost([]);
       setEventData(ClearEventData.evento);
       navigation.navigate("Home");
@@ -101,7 +100,7 @@ export const CreatePostScreen = () => {
         <View style={styles.card}>
           <View style={styles.perfil}>
             <Image source={img_perfil} style={styles.imagePerfil} />
-            <Text>@{currentPost?.usuario.username}</Text>
+            <Text>@{username}</Text>
           </View>
 
           <ImagePickerComponent image={image} onPress={handleImagePicker} />

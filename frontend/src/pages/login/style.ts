@@ -1,4 +1,6 @@
-import { StyleSheet } from "react-native";
+import { Dimensions, StyleSheet } from "react-native";
+
+const screenWidth = Dimensions.get("window").width;
 
 export const styles = StyleSheet.create({
   container: {
@@ -28,11 +30,19 @@ export const styles = StyleSheet.create({
     padding: 10,
     marginVertical: 10,
     color: "darkblue",
-    width: "100%",
+    width: screenWidth * 0.8,
   },
   textArea: {
     height: 50,
-    width: 300,
+  },
+  passwordInput: {
+    flexDirection: "row",
+    alignItems: "center",
+    width: screenWidth * 0.8,
+  },
+  passwordTextInput: {
+    flex: 1,
+    color: "darkblue",
   },
   text: {
     color: "darkblue",
