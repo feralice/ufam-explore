@@ -8,8 +8,11 @@ async function bootstrap() {
   app.enableCors();
 
   if (process.env.ENABLE_SWAGGER === 'true') {
-    const config = new DocumentBuilder().setVersion('1.0').build();
-
+    const config = new DocumentBuilder()
+      .setTitle('Ufam explorer API')
+      .setVersion('1.0')
+      .addBearerAuth()
+      .build();
     const document = SwaggerModule.createDocument(app, config);
     SwaggerModule.setup('api', app, document);
   }

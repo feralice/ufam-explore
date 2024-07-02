@@ -5,10 +5,10 @@ import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import {
   Alert,
+  Pressable,
   ScrollView,
   Text,
   TextInput,
-  TouchableOpacity,
   View,
 } from "react-native";
 import { useSelector } from "react-redux";
@@ -132,12 +132,12 @@ export const UserRegistration = () => {
   return (
     <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
       <View style={styles.container}>
-        <TouchableOpacity
+        <Pressable
           onPress={() => navigation.goBack()}
           style={styles.backButtonIcon}
         >
           <Ionicons name="arrow-back" size={24} color="darkblue" />
-        </TouchableOpacity>
+        </Pressable>
         <Text style={styles.title}>Criação de Conta</Text>
 
         {/* Nome */}
@@ -334,7 +334,7 @@ export const UserRegistration = () => {
                   value={value}
                   maxLength={16}
                 />
-                <TouchableOpacity
+                <Pressable
                   onPress={togglePasswordVisibility}
                   style={styles.eyeIcon}
                 >
@@ -343,7 +343,7 @@ export const UserRegistration = () => {
                     size={24}
                     color="gray"
                   />
-                </TouchableOpacity>
+                </Pressable>
               </>
             )}
           />
@@ -375,16 +375,13 @@ export const UserRegistration = () => {
             onChangeText={handleConfirmPasswordChange}
             maxLength={16}
           />
-          <TouchableOpacity
-            onPress={togglePasswordVisibility}
-            style={styles.eyeIcon}
-          >
+          <Pressable onPress={togglePasswordVisibility} style={styles.eyeIcon}>
             <Ionicons
               name={hidePassword ? "eye-off" : "eye"}
               size={24}
               color="gray"
             />
-          </TouchableOpacity>
+          </Pressable>
         </View>
         {confirmPasswordVisited &&
           getValues("senha") !== passwordValidation && (
@@ -393,18 +390,18 @@ export const UserRegistration = () => {
 
         {/* Checkbox de Concordo com os termos */}
         <View style={styles.checkboxContainer}>
-          <TouchableOpacity onPress={() => setIsFirstIcon(!isFirstIcon)}>
+          <Pressable onPress={() => setIsFirstIcon(!isFirstIcon)}>
             <Ionicons
               name={isFirstIcon ? "checkbox" : "checkbox-outline"}
               size={30}
               color={isFirstIcon ? "blue" : "darkgray"}
             />
-          </TouchableOpacity>
-          <TouchableOpacity onPress={() => setModalVisible(true)}>
+          </Pressable>
+          <Pressable onPress={() => setModalVisible(true)}>
             <Text style={styles.checkboxText}>
               Concordo com os termos de uso
             </Text>
-          </TouchableOpacity>
+          </Pressable>
         </View>
 
         {/* Botão de Registro */}

@@ -6,14 +6,14 @@ import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import {
   Alert,
+  Dimensions,
   Image,
+  Pressable,
   SafeAreaView,
   ScrollView,
   Text,
   TextInput,
-  TouchableOpacity,
   View,
-  Dimensions,
 } from "react-native";
 import { BlueButton } from "../../components/blue-button";
 import { FeedScreenNavigationProp } from "../../routes/types";
@@ -118,15 +118,13 @@ const Login = () => {
                     onChangeText={onChange}
                     value={value}
                   />
-                  <TouchableOpacity
-                    onPress={() => setHidePassword(!hidePassword)}
-                  >
+                  <Pressable onPress={() => setHidePassword(!hidePassword)}>
                     <Ionicons
                       name={hidePassword ? "eye-off" : "eye"}
                       size={24}
                       color="gray"
                     />
-                  </TouchableOpacity>
+                  </Pressable>
                 </View>
               )}
               name="password"
@@ -142,9 +140,9 @@ const Login = () => {
           </View>
 
           <View style={styles.container}>
-            <TouchableOpacity onPress={() => navigation.navigate("UserOption")}>
+            <Pressable onPress={() => navigation.navigate("UserOption")}>
               <Text style={styles.textAbaixo}>Criar conta</Text>
-            </TouchableOpacity>
+            </Pressable>
             <Text style={styles.textAbaixo}>Esqueci minha senha</Text>
           </View>
         </View>

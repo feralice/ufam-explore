@@ -3,10 +3,10 @@ import { useNavigation } from "@react-navigation/native";
 import { useState } from "react";
 import {
   Alert,
+  Pressable,
   ScrollView,
   Text,
   TextInput,
-  TouchableOpacity,
   View,
 } from "react-native";
 import { BlueButton } from "../../components/blue-button";
@@ -130,12 +130,12 @@ const ExternalSignUpScreen = () => {
   return (
     <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
       <View style={styles.container}>
-        <TouchableOpacity
+        <Pressable
           onPress={() => navigation.goBack()}
           style={styles.backButtonIcon}
         >
           <Ionicons name="arrow-back" size={24} color="darkblue" />
-        </TouchableOpacity>
+        </Pressable>
         <Text style={styles.title}>Criação de Conta</Text>
 
         {/* Nome */}
@@ -218,16 +218,13 @@ const ExternalSignUpScreen = () => {
             secureTextEntry={hidePassword}
             style={styles.inputField}
           />
-          <TouchableOpacity
-            onPress={togglePasswordVisibility}
-            style={styles.eyeIcon}
-          >
+          <Pressable onPress={togglePasswordVisibility} style={styles.eyeIcon}>
             <MaterialCommunityIcons
               name={hidePassword ? "eye-off" : "eye"}
               size={24}
               color="gray"
             />
-          </TouchableOpacity>
+          </Pressable>
         </View>
         {showPasswordRules && <PasswordRequirements password={password} />}
         {passwordError ? (
@@ -249,7 +246,7 @@ const ExternalSignUpScreen = () => {
             secureTextEntry={hideConfirmPassword}
             style={styles.inputField}
           />
-          <TouchableOpacity
+          <Pressable
             onPress={toggleConfirmPasswordVisibility}
             style={styles.eyeIcon}
           >
@@ -258,7 +255,7 @@ const ExternalSignUpScreen = () => {
               size={24}
               color="gray"
             />
-          </TouchableOpacity>
+          </Pressable>
         </View>
         {confirmPasswordError ? (
           <Text style={styles.errorMessage}>{confirmPasswordError}</Text>
@@ -269,18 +266,18 @@ const ExternalSignUpScreen = () => {
 
         {/* Checkbox dos termos */}
         <View style={styles.checkboxContainer}>
-          <TouchableOpacity onPress={() => setIsFirstIcon(!isFirstIcon)}>
+          <Pressable onPress={() => setIsFirstIcon(!isFirstIcon)}>
             <MaterialCommunityIcons
               name={isFirstIcon ? "checkbox-marked" : "checkbox-blank-outline"}
               size={30}
               color={isFirstIcon ? "blue" : "darkgray"}
             />
-          </TouchableOpacity>
-          <TouchableOpacity onPress={() => setModalVisible(true)}>
+          </Pressable>
+          <Pressable onPress={() => setModalVisible(true)}>
             <Text style={styles.checkboxText}>
               Concordo com os termos de uso
             </Text>
-          </TouchableOpacity>
+          </Pressable>
         </View>
 
         {/* Botão de Registro */}

@@ -1,14 +1,14 @@
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import AntDesign from "@expo/vector-icons/AntDesign";
 import { useNavigation } from "@react-navigation/native";
-import { Pressable, Text, TouchableOpacity, View } from "react-native";
+import { Pressable, Text, View } from "react-native";
 import { useSelector } from "react-redux";
 import PopupEdit from "../../components/popup-edit";
 import { FeedScreenNavigationProp } from "../../routes/types";
 import { IStore } from "../../store";
 import { styles } from "./styles";
 
-export const ProfileScreen = () => {
+export const ProfileInformationScreen = () => {
   const user = useSelector((state: IStore) => state.user.user);
   const navigation = useNavigation<FeedScreenNavigationProp>();
   const handleProfilePicturePress = () => {
@@ -19,12 +19,12 @@ export const ProfileScreen = () => {
   return (
     <View style={styles.container}>
       <View style={styles.profileSection}>
-        <TouchableOpacity
+        <Pressable
           onPress={handleProfilePicturePress}
           style={styles.profileImageContainer}
         >
           <MaterialCommunityIcons name="account" size={80} color="#000" />
-        </TouchableOpacity>
+        </Pressable>
         <Pressable
           onPress={() => {
             navigation.goBack();

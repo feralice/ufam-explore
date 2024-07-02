@@ -40,7 +40,10 @@ export const ProfileScreen = () => {
         <Text style={styles.profileName}>{username}</Text>
       </View>
       <View style={styles.buttonsContainer}>
-        <TouchableOpacity style={styles.button}>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => navigation.navigate("SavedPostsScreen")}
+        >
           <MaterialIcons
             name="save-alt"
             size={24}
@@ -61,7 +64,7 @@ export const ProfileScreen = () => {
         <TouchableOpacity
           style={styles.button}
           onPress={() => {
-            navigation.navigate("informationUser");
+            navigation.navigate("DataUser");
           }}
         >
           <MaterialIcons

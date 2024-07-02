@@ -1,6 +1,6 @@
 import { Ionicons } from "@expo/vector-icons";
 import React from "react";
-import { Modal, ScrollView, Text, TouchableOpacity, View } from "react-native";
+import { Modal, Pressable, ScrollView, Text, View } from "react-native";
 import { styles } from "./styles";
 import { TermsModalProps } from "./types";
 
@@ -19,9 +19,9 @@ const TermsModal: React.FC<TermsModalProps> = ({
         <View style={styles.modalContainer}>
           <View style={styles.modalContent}>
             <View style={styles.modalHeader}>
-              <TouchableOpacity onPress={closeModal}>
+              <Pressable onPress={closeModal}>
                 <Ionicons name="close-outline" style={styles.closeIcon} />
-              </TouchableOpacity>
+              </Pressable>
             </View>
             <View style={{ alignItems: "center", marginBottom: 20 }}>
               <Text style={styles.bigTitle}>

@@ -13,7 +13,6 @@ import {
   ScrollView,
   Text,
   TextInput,
-  TouchableOpacity,
   View,
 } from "react-native";
 import { BlueButton } from "../../components/blue-button";
@@ -90,14 +89,14 @@ const CreateEventScreen: React.FC = () => {
               render={({ field: { value } }) => (
                 <View style={styles.dateTimeContainer}>
                   <Text>{new Date(value).toLocaleDateString()}</Text>
-                  <TouchableOpacity
+                  <Pressable
                     onPress={() => {
                       setShowInicioPicker(true);
                       setMode("date");
                     }}
                   >
                     <Text style={styles.editText}>Editar Data</Text>
-                  </TouchableOpacity>
+                  </Pressable>
                 </View>
               )}
             />
@@ -115,14 +114,14 @@ const CreateEventScreen: React.FC = () => {
                       minute: "2-digit",
                     })}
                   </Text>
-                  <TouchableOpacity
+                  <Pressable
                     onPress={() => {
                       setShowInicioPicker(true);
                       setMode("time");
                     }}
                   >
                     <Text style={styles.editText}>Editar Hora</Text>
-                  </TouchableOpacity>
+                  </Pressable>
                 </View>
               )}
             />
@@ -139,14 +138,14 @@ const CreateEventScreen: React.FC = () => {
               render={({ field: { value } }) => (
                 <View style={styles.dateTimeContainer}>
                   <Text>{new Date(value).toLocaleDateString()}</Text>
-                  <TouchableOpacity
+                  <Pressable
                     onPress={() => {
                       setShowFinalPicker(true);
                       setMode("date");
                     }}
                   >
                     <Text style={styles.editText}>Editar Data</Text>
-                  </TouchableOpacity>
+                  </Pressable>
                 </View>
               )}
             />
@@ -164,14 +163,14 @@ const CreateEventScreen: React.FC = () => {
                       minute: "2-digit",
                     })}
                   </Text>
-                  <TouchableOpacity
+                  <Pressable
                     onPress={() => {
                       setShowFinalPicker(true);
                       setMode("time");
                     }}
                   >
                     <Text style={styles.editText}>Editar Hora</Text>
-                  </TouchableOpacity>
+                  </Pressable>
                 </View>
               )}
             />

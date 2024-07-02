@@ -37,6 +37,7 @@
     "react-redux": "^9.1.2",
     "redux": "^5.0.1",
     "redux-persist": "^6.0.0",
+    "reselect": "^5.1.1",
     "start": "^5.1.0",
     "typescript": "~5.3.3",
     "yup": "^1.4.0"
