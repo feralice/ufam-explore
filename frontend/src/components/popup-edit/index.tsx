@@ -1,22 +1,17 @@
-import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { useNavigation } from "@react-navigation/native";
 import { useState } from "react";
-import {
-  Alert,
-  Modal,
-  Pressable,
-  SafeAreaView,
-  Text,
-  View,
-} from "react-native";
+import { Modal, Pressable, SafeAreaView, Text, View } from "react-native";
+import { FeedScreenNavigationProp } from "../../routes/types";
+import DeleteModal from "../modals/delete-modal";
 import { styles } from "./styles";
 import { Option } from "./types";
-import { useNavigation } from "@react-navigation/native";
-import { FeedScreenNavigationProp } from "../../routes/types";
 
 const PopupEdit = () => {
   const navigation = useNavigation<FeedScreenNavigationProp>();
 
   const [visible, setVisible] = useState(false);
+  const [deleteModalVisible, setDeleteModalVisible] = useState(false);
 
   const showModal = () => {
     setVisible(true);
@@ -27,8 +22,8 @@ const PopupEdit = () => {
   };
 
   const handleDeleteAccount = () => {
-    Alert.alert("Excluindo conta");
-    console.log("Excluindo");
+    setDeleteModalVisible(true);
+    hideModal();
   };
 
   const handleEditAccount = () => {
@@ -83,6 +78,11 @@ const PopupEdit = () => {
           </View>
         </Pressable>
       </Modal>
+
+      <DeleteModal
+        visible={deleteModalVisible}
+        onClose={() => setDeleteModalVisible(false)}
+      />
     </View>
   );
 };

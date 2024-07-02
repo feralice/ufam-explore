@@ -1,17 +1,18 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet } from "react-native";
 
 export const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
   },
   modalContent: {
-    marginTop: 20,
+    paddingBottom: 20,
   },
   checkboxText: {
-    color: 'red',
-  }
+    color: "red",
+    textAlign: "center",
+  },
 });
 
 export default styles;
