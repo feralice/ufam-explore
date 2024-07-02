@@ -3,7 +3,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useNavigation } from "@react-navigation/native";
 import { Text, TouchableOpacity, View } from "react-native";
 import { useSelector } from "react-redux";
-import { LoginScreenNavigationProp } from "../../routes/types";
+import { ProfileScreenNavigationProp } from "../../routes/types";
 import { IStore } from "../../store";
 import { setUser } from "../../store/user/actions";
 import { styles } from "./styles";
@@ -13,7 +13,7 @@ export const ProfileScreen = () => {
     // Implementar a lógica para alterar a foto de perfil aqui
     console.log("Alterar foto de perfil");
   };
-  const navigation = useNavigation<LoginScreenNavigationProp>();
+  const navigation = useNavigation<ProfileScreenNavigationProp>();
   const { username } = useSelector((state: IStore) => state.user.user);
 
   const handleLogout = async () => {
@@ -52,7 +52,12 @@ export const ProfileScreen = () => {
           />
           <Text style={styles.buttonText}>Publicações salvas</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.button}>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => {
+            navigation.navigate("UserPosts");
+          }}
+        >
           <MaterialCommunityIcons
             name="calendar"
             size={24}

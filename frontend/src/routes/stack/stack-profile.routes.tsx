@@ -3,6 +3,8 @@ import { ProfileInformationScreen } from "../../pages/profile-informations";
 import { ProfileScreen } from "../../pages/profile";
 import SavedPostsScreen from "../../pages/saved-posts";
 import { RootStackParamList } from "../types";
+import { UserPostsScreen } from "../../pages/user-posts";
+
 const ProfileStack = createStackNavigator<RootStackParamList>();
 
 export const ProfileStackNavigator = () => {
@@ -17,6 +19,8 @@ export const ProfileStackNavigator = () => {
         name="SavedPostsScreen"
         component={SavedPostsScreen}
       />
+            <ProfileStack.Screen name="UserPosts" component={UserPostsScreen} />
+
     </ProfileStack.Navigator>
   );
 };

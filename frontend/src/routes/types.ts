@@ -15,11 +15,17 @@ export type RootStackParamList = {
   InformationUser: undefined;
   DataUser: undefined;
   SavedPostsScreen: undefined;
+  UserPosts: undefined;
 };
 
 export type LoginScreenNavigationProp = StackNavigationProp<
   RootStackParamList,
   "Login"
+>;
+
+export type ProfileScreenNavigationProp = StackNavigationProp<
+  RootStackParamList,
+  "Profile"
 >;
 
 export type FeedScreenNavigationProp = StackNavigationProp<
