@@ -1,14 +1,12 @@
-// components/PostCard.tsx
 import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
-import { useState } from "react";
 import { Alert, Image, Pressable, Text, View } from "react-native";
 import { useSelector } from "react-redux";
 import { FeedScreenNavigationProp } from "../../routes/types";
 import { savePost } from "../../services/api"; // Importe as funções corretas
 import { ISavePostRequest } from "../../services/types";
 import { IStore } from "../../store";
-import { updateCurrentPost } from "../../store/post/actions";
+import { updateCurrentPost, updateUserSaved } from "../../store/post/actions";
 import { useVoteHandlers } from "../../utils/votes/useVoteHandlers";
 import { HashtagInPost } from "../hashtags";
 import { styles } from "./styles";
@@ -18,7 +16,7 @@ const profileImage = require("../../assets/img_test.jpg");
 
 export const PostCard = ({ post }: PostCardProps) => {
   const navigation = useNavigation<FeedScreenNavigationProp>();
-  const [saved, setSaved] = useState<boolean>(post.isSaved); // Estado local para controlar o salvamento
+  const saved = useSelector((state: IStore) => state.post.userSaved[post.id]);
   const { id } = useSelector((state: IStore) => state.user.user);
 
   const {
@@ -30,7 +28,6 @@ export const PostCard = ({ post }: PostCardProps) => {
     currentDownvote,
   } = useVoteHandlers(post.id);
 
-  // Função para lidar com a navegação para o post completo
   const handleClick = () => {
     updateCurrentPost(post);
     navigation.navigate("ExtendPost");
@@ -40,12 +37,11 @@ export const PostCard = ({ post }: PostCardProps) => {
   const handleSave = async () => {
     try {
       if (!saved) {
-        // Caso não esteja salvo, salva o post
         await handleActualSave();
       } else {
-        // Caso contrário, desfaz a ação de salvar
         await handleUnsave();
       }
+      updateUserSaved(post.id, !saved);
     } catch (error) {
       console.error("Erro ao salvar post:", error);
       Alert.alert(
@@ -61,7 +57,6 @@ export const PostCard = ({ post }: PostCardProps) => {
       postagemId: post.id,
     };
     await savePost(data);
-    setSaved(true);
   };
 
   const handleUnsave = async () => {
@@ -78,7 +73,6 @@ export const PostCard = ({ post }: PostCardProps) => {
         "Ocorreu um erro ao desfazer a ação de salvar o post. Por favor, tente novamente."
       );
     }
-    setSaved(false);
   };
 
   return (

@@ -5,14 +5,16 @@ import {
 } from "@expo/vector-icons";
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import { useCallback, useEffect } from "react";
-import { Image, Pressable, ScrollView, Text, View } from "react-native";
+import { Alert, Image, Pressable, ScrollView, Text, View } from "react-native";
 import { useSelector } from "react-redux";
 import { HashtagInPost } from "../../components/hashtags";
 import PopupMenu from "../../components/popup-menu";
-import { getEventById } from "../../services/api";
+import { getEventById, savePost } from "../../services/api";
+import { ISavePostRequest } from "../../services/types";
 import { IStore } from "../../store";
 import { setEventData } from "../../store/event/actions";
 import { ClearEventData } from "../../store/event/state";
+import { updateUserSaved } from "../../store/post/actions";
 import { useVoteHandlers } from "../../utils/votes/useVoteHandlers";
 import { styles } from "./style";
 
@@ -21,7 +23,11 @@ const img = require("../../assets/img_test.jpg");
 export const PostScreenExtend = () => {
   const navigation = useNavigation();
   const currentPost = useSelector((state: IStore) => state.post.currentPost);
+  const saved = useSelector(
+    (state: IStore) => currentPost && state.post.userSaved[currentPost.id]
+  );
   const event = useSelector((state: IStore) => state.event.evento);
+  const { id } = useSelector((state: IStore) => state.user.user);
 
   useFocusEffect(
     useCallback(() => {
@@ -66,6 +72,47 @@ export const PostScreenExtend = () => {
     currentUpvote,
     currentDownvote,
   } = useVoteHandlers(currentPost.id);
+
+  const handleSave = async () => {
+    try {
+      if (!saved) {
+        await handleActualSave();
+      } else {
+        await handleUnsave();
+      }
+      updateUserSaved(currentPost.id, !saved);
+    } catch (error) {
+      console.error("Erro ao salvar post:", error);
+      Alert.alert(
+        "Erro",
+        "Ocorreu um erro ao salvar o post. Por favor, tente novamente."
+      );
+    }
+  };
+
+  const handleActualSave = async () => {
+    const data: ISavePostRequest = {
+      usuarioId: id,
+      postagemId: currentPost.id,
+    };
+    await savePost(data);
+  };
+
+  const handleUnsave = async () => {
+    const data: ISavePostRequest = {
+      usuarioId: id,
+      postagemId: currentPost.id,
+    };
+    try {
+      await savePost(data);
+    } catch (error) {
+      console.error("Erro ao desfazer salvar post:", error);
+      Alert.alert(
+        "Erro",
+        "Ocorreu um erro ao desfazer a ação de salvar o post. Por favor, tente novamente."
+      );
+    }
+  };
 
   return (
     <ScrollView contentContainerStyle={styles.scrollViewContainer}>
@@ -114,8 +161,12 @@ export const PostScreenExtend = () => {
               <Text>{currentDownvote}</Text>
             </Pressable>
 
-            <Pressable style={styles.icon}>
-              <Ionicons name="bookmark-outline" size={25} />
+            <Pressable style={styles.icon} onPress={handleSave}>
+              <MaterialCommunityIcons
+                name={saved ? "bookmark" : "bookmark-outline"}
+                size={25}
+                color={saved ? "darkblue" : "black"}
+              />
             </Pressable>
           </View>
           <ScrollView>

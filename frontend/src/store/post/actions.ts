@@ -75,10 +75,6 @@ export const clearPost = () => {
   store.dispatch(postSlice.actions.clearCurrentPost());
 };
 
-export const updateUserSaved = (
-  postId: string,
-  userId: string,
-  saved: boolean
-) => {
-  store.dispatch(postSlice.actions.setUserSaved({ postId, userId, saved }));
+export const updateUserSaved = (postId: string, saved: boolean) => {
+  store.dispatch(postSlice.actions.setUserSaved({ postId, saved }));
 };

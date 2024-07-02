@@ -54,12 +54,20 @@ export const postSlice = createSlice({
       state,
       action: PayloadAction<{
         postId: string;
-        userId: string;
         saved: boolean;
       }>
     ) => {
       const { postId, saved } = action.payload;
       state.userSaved[postId] = saved;
+
+      const post = state.posts.find((post) => post.id === postId);
+      if (post) {
+        post.isSaved = saved;
+      }
+
+      if (state.currentPost?.id === postId) {
+        state.currentPost.isSaved = saved;
+      }
     },
     setCurrentPost: (state, action: PayloadAction<IPost>) => {
       state.currentPost = action.payload;
