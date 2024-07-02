@@ -1,5 +1,4 @@
 import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
-import { Picker } from "@react-native-picker/picker";
 import { useNavigation } from "@react-navigation/native";
 import { useState } from "react";
 import {
@@ -15,7 +14,6 @@ import TermsModal from "../../components/modals/terms-modal";
 import PasswordRequirements from "../../components/password-validations";
 import { LoginScreenNavigationProp } from "../../routes/types";
 import { createUser } from "../../services/api";
-import { cursos } from "../../utils/courses";
 import {
   isEmailValidUfam,
   isNameValid,
@@ -214,16 +212,12 @@ const InternalSignUpScreen = () => {
 
         <Text style={styles.textStyle}>Curso</Text>
         <View style={styles.boxInput}>
-          <Picker
-            selectedValue={course}
+          <TextInput
+            placeholder="Digite seu Curso"
+            value={course}
+            onChangeText={setCourse}
             style={styles.inputField}
-            onValueChange={(itemValue) => setCourse(itemValue)}
-          >
-            <Picker.Item label="Selecione um curso" value="" />
-            {cursos.map((curso) => (
-              <Picker.Item label={curso} value={curso} key={curso} />
-            ))}
-          </Picker>
+          />
         </View>
 
         <Text style={styles.textStyle}>Senha</Text>
