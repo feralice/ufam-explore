@@ -294,9 +294,6 @@ const InternalSignUpScreen = () => {
         {confirmPasswordError ? (
           <Text style={styles.errorMessage}>{confirmPasswordError}</Text>
         ) : null}
-        {password !== confirmPassword && confirmPassword.length > 0 && (
-          <Text style={styles.passwordMismatch}>As senhas não coincidem.</Text>
-        )}
 
         <View style={styles.checkboxContainer}>
           <Pressable onPress={() => setIsFirstIcon(!isFirstIcon)}>

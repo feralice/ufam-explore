@@ -1,5 +1,5 @@
 import { createStackNavigator } from "@react-navigation/stack";
-import { ProfileInformationScreen } from "../../pages/edit-profile";
+import { ProfileInformationScreen } from "../../pages/profile-informations";
 import { ProfileScreen } from "../../pages/profile";
 import SavedPostsScreen from "../../pages/saved-posts";
 import { RootStackParamList } from "../types";

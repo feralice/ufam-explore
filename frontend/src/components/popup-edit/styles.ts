@@ -5,7 +5,7 @@ const { width, height } = Dimensions.get("window");
 export const styles = StyleSheet.create({
   popupContainer: {
     position: "absolute",
-    top: 20,
+    top: 30,
     right: 20,
     zIndex: 5,
   },

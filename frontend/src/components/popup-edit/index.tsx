@@ -50,7 +50,7 @@ const PopupEdit = () => {
       <Pressable onPress={showModal}>
         <MaterialCommunityIcons
           name="cog"
-          size={30}
+          size={24}
           color="#F0F0F0"
           style={styles.cogIcon}
         />

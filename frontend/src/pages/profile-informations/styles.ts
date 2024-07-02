@@ -26,6 +26,8 @@ export const styles = StyleSheet.create({
     position: "absolute",
     top: 40,
     left: 20,
+    justifyContent: "center",
+    alignItems: "center",
   },
   profileName: {
     color: "#FFFFFF",
