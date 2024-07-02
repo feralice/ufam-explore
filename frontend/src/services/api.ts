@@ -171,3 +171,7 @@ export const savePost = async (
 ): Promise<AxiosResponse<IPost>> => {
   return await api.post("/save-post", data);
 };
+
+export const deleteUser = async (userId: string) => {
+  return await api.post(`/user/delete/${userId}`);
+};

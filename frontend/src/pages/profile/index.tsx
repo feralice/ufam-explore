@@ -1,11 +1,10 @@
 import { MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useNavigation } from "@react-navigation/native";
 import { Text, TouchableOpacity, View } from "react-native";
 import { useSelector } from "react-redux";
 import { ProfileScreenNavigationProp } from "../../routes/types";
 import { IStore } from "../../store";
-import { setUser } from "../../store/user/actions";
+import { handleLogout } from "../../utils/logout";
 import { styles } from "./styles";
 
 export const ProfileScreen = () => {
@@ -15,18 +14,6 @@ export const ProfileScreen = () => {
   };
   const navigation = useNavigation<ProfileScreenNavigationProp>();
   const { username } = useSelector((state: IStore) => state.user.user);
-
-  const handleLogout = async () => {
-    await AsyncStorage.removeItem("accessToken");
-    setUser({
-      id: "",
-      nome: "",
-      email: "",
-      username: "",
-      perfilId: 0,
-      isAuthenticated: false,
-    });
-  };
 
   return (
     <View style={styles.container}>

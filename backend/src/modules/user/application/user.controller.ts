@@ -85,7 +85,7 @@ export class UserController {
   async deleteUser(@Param('userId') userId: string) {
     try {
       const result = await this.userService.deleteUser(userId);
-      return { message: result }; // Retorna um objeto com a mensagem
+      return { message: result };
     } catch (error) {
       throw new Error(error.message);
     }
