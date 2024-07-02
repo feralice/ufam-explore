@@ -22,7 +22,7 @@ import {
   isPasswordValid,
   isUsernameValid,
   passwordsMatch,
-} from "../../utils/validationsUtils";
+} from "../../utils/validations-utils";
 import { pickerSelectStyles, styles } from "./styles";
 
 const InternalSignUpScreen = () => {

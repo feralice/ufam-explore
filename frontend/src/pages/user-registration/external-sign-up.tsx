@@ -20,7 +20,7 @@ import {
   isPasswordValid,
   isUsernameValid,
   passwordsMatch,
-} from "../../utils/validationsUtils";
+} from "../../utils/validations-utils";
 import { styles } from "./styles";
 
 const ExternalSignUpScreen = () => {
