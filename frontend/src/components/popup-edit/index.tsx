@@ -10,8 +10,12 @@ import {
 } from "react-native";
 import { styles } from "./styles";
 import { Option } from "./types";
+import { useNavigation } from "@react-navigation/native";
+import { FeedScreenNavigationProp } from "../../routes/types";
 
 const PopupEdit = () => {
+  const navigation = useNavigation<FeedScreenNavigationProp>();
+
   const [visible, setVisible] = useState(false);
 
   const showModal = () => {
@@ -28,8 +32,7 @@ const PopupEdit = () => {
   };
 
   const handleEditAccount = () => {
-    Alert.alert("Editando conta");
-    console.log("Editando");
+    navigation.navigate("EditProfileInformation");
   };
 
   const options: Option[] = [
