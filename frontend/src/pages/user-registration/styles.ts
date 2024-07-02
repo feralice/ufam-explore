@@ -24,6 +24,7 @@ export const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     paddingHorizontal: 20,
+    position: "relative",
   },
   textStyle: {
     marginTop: 20,
@@ -73,5 +74,31 @@ export const styles = StyleSheet.create({
   },
   confirmPasswordInput: {
     backgroundColor: "rgba(255, 0, 0, 0.1)",
+  },
+  pickerIcon: {
+    position: "absolute",
+    right: 20,
+    top: "50%",
+    transform: [{ translateY: -12 }],
+  },
+});
+
+export const pickerSelectStyles = StyleSheet.create({
+  inputIOS: {
+    color: "black",
+    fontSize: 16,
+    paddingVertical: 12,
+    paddingHorizontal: 20,
+    width: "100%",
+  },
+  inputAndroid: {
+    color: "black",
+    fontSize: 16,
+    paddingVertical: 12,
+    width: "100%",
+  },
+  placeholder: {
+    color: "#9EA0A4",
+    fontSize: 16,
   },
 });

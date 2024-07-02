@@ -9,11 +9,13 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
+import RNPickerSelect from "react-native-picker-select";
 import { BlueButton } from "../../components/blue-button";
 import TermsModal from "../../components/modals/terms-modal";
 import PasswordRequirements from "../../components/password-validations";
 import { LoginScreenNavigationProp } from "../../routes/types";
 import { createUser } from "../../services/api";
+import { cursosItems } from "../../utils/courses";
 import {
   isEmailValidUfam,
   isNameValid,
@@ -21,7 +23,7 @@ import {
   isUsernameValid,
   passwordsMatch,
 } from "../../utils/validationsUtils";
-import { styles } from "./styles";
+import { pickerSelectStyles, styles } from "./styles";
 
 const InternalSignUpScreen = () => {
   const [name, setName] = useState("");
@@ -212,11 +214,22 @@ const InternalSignUpScreen = () => {
 
         <Text style={styles.textStyle}>Curso</Text>
         <View style={styles.boxInput}>
-          <TextInput
-            placeholder="Digite seu Curso"
-            value={course}
-            onChangeText={setCourse}
-            style={styles.inputField}
+          <RNPickerSelect
+            useNativeAndroidPickerStyle={false}
+            placeholder={{
+              label: "Selecione seu curso",
+              value: null,
+              color: "lightgray",
+            }}
+            onValueChange={(value) => setCourse(value)}
+            items={cursosItems}
+            style={pickerSelectStyles}
+          />
+          <MaterialCommunityIcons
+            name="chevron-down"
+            size={24}
+            color="gray"
+            style={styles.pickerIcon}
           />
         </View>
 

@@ -10,7 +10,6 @@ import { styles } from "./styles";
 
 export const ProfileScreen = () => {
   const user = useSelector((state: IStore) => state.user.user);
-
   const navigation = useNavigation<FeedScreenNavigationProp>();
   const handleProfilePicturePress = () => {
     // Implementar a lógica para alterar a foto de perfil aqui
@@ -35,7 +34,7 @@ export const ProfileScreen = () => {
           <AntDesign name="arrowleft" size={24} color="#F0F0F0" />
         </Pressable>
 
-        <Text style={styles.profileName}>Caesoft</Text>
+        <Text style={styles.profileName}>{user.username}</Text>
         <PopupEdit />
       </View>
 

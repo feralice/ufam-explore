@@ -48,3 +48,8 @@ export const cursos: string[] = [
   "Psicologia",
   "Serviço Social",
 ];
+
+export const cursosItems = cursos.map((curso) => ({
+  label: curso,
+  value: curso,
+}));
