@@ -1,9 +1,10 @@
 import { createStackNavigator } from "@react-navigation/stack";
-import { ProfileInformationScreen } from "../../pages/profile-informations";
+import { EditProfileInformation } from "../../pages/edit-profile-informations";
 import { ProfileScreen } from "../../pages/profile";
+import { ProfileInformationScreen } from "../../pages/profile-informations";
 import SavedPostsScreen from "../../pages/saved-posts";
-import { RootStackParamList } from "../types";
 import { UserPostsScreen } from "../../pages/user-posts";
+import { RootStackParamList } from "../types";
 
 const ProfileStack = createStackNavigator<RootStackParamList>();
 
@@ -19,8 +20,11 @@ export const ProfileStackNavigator = () => {
         name="SavedPostsScreen"
         component={SavedPostsScreen}
       />
-            <ProfileStack.Screen name="UserPosts" component={UserPostsScreen} />
-
+      <ProfileStack.Screen name="UserPosts" component={UserPostsScreen} />
+      <ProfileStack.Screen
+        name="EditProfileInformation"
+        component={EditProfileInformation}
+      />
     </ProfileStack.Navigator>
   );
 };

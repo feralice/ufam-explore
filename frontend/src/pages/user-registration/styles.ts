@@ -14,6 +14,43 @@ export const styles = StyleSheet.create({
     color: "#003366",
     textAlign: "center",
   },
+  dropdownButtonStyle: {
+    width: "100%",
+    height: 50,
+    borderRadius: 8,
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    paddingHorizontal: 12,
+  },
+  dropdownButtonTxtStyle: {
+    flex: 1,
+    fontSize: 16,
+    color: "#444",
+    textAlign: "left",
+  },
+  dropdownButtonArrowStyle: {
+    fontSize: 24,
+    color: "gray",
+  },
+  dropdownMenuStyle: {
+    backgroundColor: "#EFEFEF",
+    borderRadius: 8,
+  },
+  dropdownItemStyle: {
+    width: "100%",
+    flexDirection: "row",
+    paddingHorizontal: 12,
+    justifyContent: "center",
+    alignItems: "center",
+    paddingVertical: 8,
+  },
+  dropdownItemTxtStyle: {
+    flex: 1,
+    fontSize: 16,
+    color: "#444",
+    textAlign: "left",
+  },
   boxInput: {
     backgroundColor: "rgba(0, 0, 139, 0.1)",
     borderRadius: 20,

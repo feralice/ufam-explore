@@ -9,13 +9,13 @@ import {
   TextInput,
   View,
 } from "react-native";
-import RNPickerSelect from "react-native-picker-select";
+import SelectDropdown from "react-native-select-dropdown";
 import { BlueButton } from "../../components/blue-button";
 import TermsModal from "../../components/modals/terms-modal";
 import PasswordRequirements from "../../components/password-validations";
 import { LoginScreenNavigationProp } from "../../routes/types";
 import { createUser } from "../../services/api";
-import { cursosItems } from "../../utils/courses";
+import { cursos } from "../../utils/courses";
 import {
   isEmailValidUfam,
   isNameValid,
@@ -23,7 +23,7 @@ import {
   isUsernameValid,
   passwordsMatch,
 } from "../../utils/validations-utils";
-import { pickerSelectStyles, styles } from "./styles";
+import { styles } from "./styles";
 
 const InternalSignUpScreen = () => {
   const [name, setName] = useState("");
@@ -214,22 +214,37 @@ const InternalSignUpScreen = () => {
 
         <Text style={styles.textStyle}>Curso</Text>
         <View style={styles.boxInput}>
-          <RNPickerSelect
-            useNativeAndroidPickerStyle={false}
-            placeholder={{
-              label: "Selecione seu curso",
-              value: null,
-              color: "lightgray",
+          <SelectDropdown
+            data={cursos}
+            onSelect={(selectedItem, index) => {
+              setCourse(selectedItem);
             }}
-            onValueChange={(value) => setCourse(value)}
-            items={cursosItems}
-            style={pickerSelectStyles}
-          />
-          <MaterialCommunityIcons
-            name="chevron-down"
-            size={24}
-            color="gray"
-            style={styles.pickerIcon}
+            renderButton={(selectedItem, isOpened) => {
+              return (
+                <View style={styles.dropdownButtonStyle}>
+                  <Text style={styles.dropdownButtonTxtStyle}>
+                    {selectedItem ? selectedItem : "Selecione seu curso"}
+                  </Text>
+                  <MaterialCommunityIcons
+                    name={isOpened ? "chevron-up" : "chevron-down"}
+                    style={styles.dropdownButtonArrowStyle}
+                  />
+                </View>
+              );
+            }}
+            renderItem={(item, index, isSelected) => {
+              return (
+                <View
+                  style={{
+                    ...styles.dropdownItemStyle,
+                    ...(isSelected && { backgroundColor: "#D2D9DF" }),
+                  }}
+                >
+                  <Text style={styles.dropdownItemTxtStyle}>{item}</Text>
+                </View>
+              );
+            }}
+            dropdownStyle={styles.dropdownMenuStyle}
           />
         </View>
 
