@@ -6,10 +6,19 @@ export const styles = StyleSheet.create({
     backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
+    paddingTop: 50,
   },
   title: {
-    fontSize: 24,
+    fontSize: 20,
     fontWeight: 'bold',
     marginBottom: 20,
+    color: 'darkblue',
+  },
+  backButton: {
+    position: "absolute",
+    top: 55,
+    left: 20,
+    justifyContent: "center",
+    alignItems: "center",
   },
 });
