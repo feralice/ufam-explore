@@ -1,5 +1,14 @@
 {
   "expo": {
+    "plugins": [
+      [
+        "expo-calendar",
+        {
+          "calendarPermission": "O aplicativo precisa acessar seu calendário.",
+          "remindersPermission": "O aplicativo precisa acessar seus lembretes."
+        }
+      ]
+    ],
     "name": "ufam-explore",
     "slug": "ufam-explore",
     "version": "1.0.0",
@@ -14,8 +23,10 @@
     "ios": {
       "supportsTablet": true,
       "infoPlist": {
-        "NSCameraUsageDescription": "This app needs access to your camera.",
-        "NSPhotoLibraryUsageDescription": "This app needs access to your photos."
+        "NSCameraUsageDescription": "Este aplicativo precisa acessar sua câmera.",
+        "NSPhotoLibraryUsageDescription": "Este aplicativo precisa acessar suas fotos.",
+        "NSCalendarsUsageDescription": "Este aplicativo precisa acessar seu calendário.",
+        "NSRemindersUsageDescription": "Este aplicativo precisa acessar seus lembretes."
       }
     },
     "android": {
@@ -27,7 +38,9 @@
         "CAMERA",
         "CAMERA_ROLL",
         "WRITE_EXTERNAL_STORAGE",
-        "READ_EXTERNAL_STORAGE"
+        "READ_EXTERNAL_STORAGE",
+        "READ_CALENDAR",
+        "WRITE_CALENDAR"
       ],
       "package": "com.feralice.frontend"
     },

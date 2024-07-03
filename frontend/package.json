@@ -42,7 +42,8 @@
     "reselect": "^5.1.1",
     "start": "^5.1.0",
     "typescript": "~5.3.3",
-    "yup": "^1.4.0"
+    "yup": "^1.4.0",
+    "expo-calendar": "~13.0.5"
   },
   "devDependencies": {
     "@types/lodash.debounce": "^4.0.9",

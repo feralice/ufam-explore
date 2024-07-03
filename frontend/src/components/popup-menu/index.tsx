@@ -1,9 +1,11 @@
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import { useNavigation } from "@react-navigation/native";
+import * as Calendar from "expo-calendar";
 import { useState } from "react";
 import {
   Alert,
   Modal,
+  Platform,
   Pressable,
   SafeAreaView,
   Text,
@@ -24,6 +26,7 @@ const PopupMenu = () => {
   const navigation = useNavigation<FeedScreenNavigationProp>();
   const post = useSelector((state: IStore) => state.post.currentPost);
   const currentUser = useSelector((state: IStore) => state.user.user);
+  const event = useSelector((state: IStore) => state.event.evento);
   const isPostOwner = post?.usuario.id === currentUser.id;
 
   const handleDeletePost = async () => {
@@ -48,15 +51,78 @@ const PopupMenu = () => {
     alert("Salvando post");
   };
 
-  const handleAddToCalendar = () => {
+  const handleAddToCalendar = async () => {
     setVisible(false);
-    alert("Adicionando ao calendário");
+    if (!post?.eventoId) {
+      Alert.alert("Erro", "Nenhum evento associado ao post.");
+      return;
+    }
+
+    const { status } = await Calendar.requestCalendarPermissionsAsync();
+    if (status === "granted") {
+      let defaultCalendarSource: Calendar.Source;
+      let calendarId: string;
+
+      if (Platform.OS === "ios") {
+        const defaultCalendar = await Calendar.getDefaultCalendarAsync();
+        defaultCalendarSource = defaultCalendar.source;
+        calendarId = defaultCalendar.id;
+      } else {
+        defaultCalendarSource = {
+          isLocalAccount: true,
+          name: "Ufam Explore Calendar",
+          type: Calendar.SourceType.LOCAL,
+        };
+        calendarId = await Calendar.createCalendarAsync({
+          title: "Ufam Explore Calendar",
+          color: "blue",
+          entityType: Calendar.EntityTypes.EVENT,
+          source: defaultCalendarSource,
+          name: "internalCalendarName",
+          ownerAccount: "personal",
+          accessLevel: Calendar.CalendarAccessLevel.OWNER,
+        });
+      }
+
+      const newEvent = {
+        title: event.titulo,
+        startDate: new Date(event.dataInicio),
+        endDate: new Date(event.dataFinal),
+        timeZone: "GMT-4",
+        location: event.localizacao,
+        notes: event.descricao,
+      };
+
+      try {
+        await Calendar.createEventAsync(calendarId, newEvent);
+        Alert.alert("Sucesso", "Evento adicionado ao calendário!");
+      } catch (error) {
+        console.error("Erro ao criar evento no calendário:", error);
+        Alert.alert(
+          "Erro",
+          "Não foi possível adicionar o evento ao calendário."
+        );
+      }
+    } else {
+      Alert.alert("Permissão negada", "Não foi possível acessar o calendário.");
+    }
   };
 
-  const options: Option[] = [];
+  const options: Option[] = [
+    {
+      title: "Salvar post",
+      icon: "content-save",
+      action: handleSavePost,
+    },
+    {
+      title: "Adicionar ao calendário",
+      icon: "calendar",
+      action: handleAddToCalendar,
+    },
+  ];
 
   if (isPostOwner) {
-    options.push(
+    options.unshift(
       {
         title: "Editar post",
         icon: "pencil",
@@ -71,29 +137,6 @@ const PopupMenu = () => {
         action: () => {
           setModalVisible(true);
         },
-      },
-      {
-        title: "Salvar post",
-        icon: "content-save",
-        action: handleSavePost,
-      },
-      {
-        title: "Adicionar ao calendário",
-        icon: "calendar",
-        action: handleAddToCalendar,
-      }
-    );
-  } else {
-    options.push(
-      {
-        title: "Salvar post",
-        icon: "content-save",
-        action: handleSavePost,
-      },
-      {
-        title: "Adicionar ao calendário",
-        icon: "calendar",
-        action: handleAddToCalendar,
       }
     );
   }
