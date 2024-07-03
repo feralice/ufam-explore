@@ -1,15 +1,24 @@
 import { StyleSheet } from "react-native";
 
-export const userPostsStyles = StyleSheet.create({
+export const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
-    padding: 10,
+    backgroundColor: '#fff',
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingTop: 50,
   },
-  loadingContainer: {
-    flex: 1,
+  title: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    marginBottom: 20,
+    color: 'darkblue',
+  },
+  backButton: {
+    position: "absolute",
+    top: 55,
+    left: 20,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "#fff",
   },
 });
