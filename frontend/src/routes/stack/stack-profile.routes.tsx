@@ -5,6 +5,7 @@ import { ProfileInformationScreen } from "../../pages/profile-informations";
 import SavedPostsScreen from "../../pages/saved-posts";
 import { UserPostsScreen } from "../../pages/user-posts";
 import { RootStackParamList } from "../types";
+import { PostScreenExtend } from "../../pages/extend-post";
 
 const ProfileStack = createStackNavigator<RootStackParamList>();
 
@@ -25,6 +26,13 @@ export const ProfileStackNavigator = () => {
         name="EditProfileInformation"
         component={EditProfileInformation}
       />
+
+      <ProfileStack.Screen
+        name="ExtendPostProfile"
+        component={PostScreenExtend}
+      />
+
+
     </ProfileStack.Navigator>
   );
 };

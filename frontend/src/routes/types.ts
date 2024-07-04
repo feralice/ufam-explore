@@ -17,6 +17,7 @@ export type RootStackParamList = {
   SavedPostsScreen: undefined;
   UserPosts: undefined;
   EditProfileInformation: undefined;
+  ExtendPostProfile: undefined;
 };
 
 export type LoginScreenNavigationProp = StackNavigationProp<

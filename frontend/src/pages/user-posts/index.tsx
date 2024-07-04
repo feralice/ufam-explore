@@ -37,7 +37,7 @@ export const UserPostsScreen = () => {
   }, [allPosts, userId]);
 
   const renderPost: ListRenderItem<IPost> = useCallback(
-    ({ item }) => <PostCardNoInteraction key={item.id} post={item} />,
+    ({ item }) => <PostCardNoInteraction key={item.id} post={item}/>,
     []
   );
 

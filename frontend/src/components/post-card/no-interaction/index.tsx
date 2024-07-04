@@ -3,11 +3,17 @@ import { updateCurrentPost } from "../../../store/post/actions";
 import { HashtagInPost } from "../../hashtags";
 import { styles } from "../styles";
 import { PostCardProps } from "../types";
+import { FeedScreenNavigationProp } from "../../../routes/types";
+import { useNavigation } from "@react-navigation/native";
+
 
 export const PostCardNoInteraction = ({ post }: PostCardProps) => {
   const handleClick = () => {
+    navigation.navigate("ExtendPostProfile");
     updateCurrentPost(post);
   };
+
+  const navigation = useNavigation<FeedScreenNavigationProp>();
 
   return (
     <View style={styles.container}>
