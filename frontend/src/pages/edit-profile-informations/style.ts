@@ -2,8 +2,7 @@ import { StyleSheet } from "react-native";
 
 export const styles = StyleSheet.create({
   container: {
-    flexGrow: 1,
-    backgroundColor: "#FFFFFF",
+    flex: 1,
     alignItems: "center",
   },
   profileSection: {
@@ -56,6 +55,10 @@ export const styles = StyleSheet.create({
     color: "#444",
     textAlign: "left",
   },
+  errorText: {
+    color: "red",
+    paddingBottom: 5,
+  },
   boxInput: {
     backgroundColor: "rgba(0, 0, 139, 0.1)",
     borderRadius: 20,
@@ -93,7 +96,7 @@ export const styles = StyleSheet.create({
     fontSize: 20,
     alignSelf: "flex-start",
     paddingHorizontal: 5,
-    marginBottom: 5,
+    paddingTop: 10,
   },
   cameraIconContainer: {
     position: "absolute",
@@ -120,11 +123,9 @@ export const styles = StyleSheet.create({
     borderRadius: 10,
     paddingLeft: 10,
     borderColor: "darkblue",
-    marginBottom: 20,
   },
-  confirmButton: {
-    width: "40%",
-    position: "absolute",
-    bottom: 20,
+  confirmButton: {},
+  confirmButtonContainer: {
+    paddingVertical: 10,
   },
 });

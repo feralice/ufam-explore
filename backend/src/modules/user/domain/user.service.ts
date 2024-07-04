@@ -40,19 +40,40 @@ export class UserService {
   }
 
   async getUserById(id: string): Promise<Usuario> {
-    try {
-      return this.userRepository.getUserById(id);
-    } catch (e) {
-      throw new Error(e);
+    const user = await this.userRepository.getUserById(id);
+    if (!user) {
+      throw new NotFoundException(`User not found with ID: ${id}`);
     }
+    return user;
   }
 
   async updateUser(id: string, updateUserDto: UpdateUserDto) {
-    try {
-      return this.userRepository.updateUser(id, updateUserDto);
-    } catch (e) {
-      throw new Error(e);
+    const user = await this.userRepository.getUserById(id);
+    if (!user) {
+      throw new NotFoundException(`User not found with ID: ${id}`);
     }
+
+    const verifyIfEmailExists = await this.userRepository.getUserByEmail(
+      updateUserDto.email,
+    );
+
+    if (verifyIfEmailExists && verifyIfEmailExists.id !== id) {
+      throw new ConflictException(
+        `Usuário já cadastrado com o email: ${updateUserDto.email}`,
+      );
+    }
+
+    const verifyIfUsernameExists = await this.userRepository.getUserByUsername(
+      updateUserDto.username,
+    );
+
+    if (verifyIfUsernameExists && verifyIfUsernameExists.id !== id) {
+      throw new ConflictException(
+        `Usuário já cadastrado com o username: ${updateUserDto.username}`,
+      );
+    }
+
+    return await this.userRepository.updateUser(id, updateUserDto);
   }
 
   async getUserByEmail(email: string): Promise<Usuario> {
@@ -66,16 +87,12 @@ export class UserService {
   }
 
   async deleteUser(id: string) {
-    try {
-      const deletedUser = this.userRepository.deleteUser(id);
-
-      if (!deletedUser) {
-        throw new NotFoundException(`User with ID ${id} not found`);
-      }
-
-      return `User with ID ${id} deleted successfully`;
-    } catch (e) {
-      throw new Error(e);
+    const user = await this.userRepository.getUserById(id);
+    if (!user) {
+      throw new NotFoundException(`User not found with ID: ${id}`);
     }
+
+    await this.userRepository.deleteUser(id);
+    return `User with ID ${id} deleted successfully`;
   }
 }

@@ -3,7 +3,7 @@ export const isNameValid = (name: string): boolean => {
 };
 
 export const isUsernameValid = (username: string): boolean => {
-  return /^[a-zA-Z0-9_]{4,}$/.test(username);
+  return /^[a-zA-Z0-9_]{3,}$/.test(username);
 };
 
 export const isEmailValid = (email: string): boolean => {

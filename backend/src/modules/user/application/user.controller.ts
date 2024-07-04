@@ -57,6 +57,10 @@ export class UserController {
     type: CreateUserDto,
   })
   @ApiResponse({ status: HttpStatus.NOT_FOUND, description: 'User not found' })
+  @ApiResponse({
+    status: HttpStatus.CONFLICT,
+    description: 'User with the specified email already exists',
+  })
   update(
     @Param('userId') userId: string,
     @Body() updateUserDto: UpdateUserDto,
