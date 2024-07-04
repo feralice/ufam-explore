@@ -1,7 +1,7 @@
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import AntDesign from "@expo/vector-icons/AntDesign";
 import { useNavigation } from "@react-navigation/native";
-import { Pressable, Text, View } from "react-native";
+import { Image, Pressable, Text, View } from "react-native";
 import { useSelector } from "react-redux";
 import PopupEdit from "../../components/popup-edit";
 import { FeedScreenNavigationProp } from "../../routes/types";
@@ -21,9 +21,18 @@ export const ProfileInformationScreen = () => {
       <View style={styles.profileSection}>
         <Pressable
           onPress={handleProfilePicturePress}
-          style={styles.profileImageContainer}
+          style={
+            user.fotoPerfil ? styles.profileImage : styles.profileImageContainer
+          }
         >
-          <MaterialCommunityIcons name="account" size={80} color="#000" />
+          {user.fotoPerfil ? (
+            <Image
+              source={{ uri: user.fotoPerfil }}
+              style={styles.profileImage}
+            />
+          ) : (
+            <MaterialCommunityIcons name="account" size={80} color="#000" />
+          )}
         </Pressable>
         <Pressable
           onPress={() => {
@@ -31,7 +40,7 @@ export const ProfileInformationScreen = () => {
           }}
           style={styles.backButton}
         >
-          <AntDesign name="arrowleft" size={24} color="#F0F0F0" />
+          <AntDesign name="arrowleft" size={26} color="#FFFFFF" />
         </Pressable>
 
         <Text style={styles.profileName}>{user.username}</Text>

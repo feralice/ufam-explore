@@ -6,7 +6,10 @@ import {
   Param,
   Patch,
   Post,
+  UploadedFile,
+  UseInterceptors,
 } from '@nestjs/common';
+import { FileInterceptor } from '@nestjs/platform-express';
 import {
   ApiBearerAuth,
   ApiOperation,
@@ -50,6 +53,7 @@ export class UserController {
   }
 
   @Patch('/update/:userId')
+  @UseInterceptors(FileInterceptor('file'))
   @ApiOperation({ summary: 'Update user by ID' })
   @ApiResponse({
     status: HttpStatus.OK,
@@ -64,8 +68,9 @@ export class UserController {
   update(
     @Param('userId') userId: string,
     @Body() updateUserDto: UpdateUserDto,
+    @UploadedFile() file?: Express.Multer.File,
   ): Promise<Usuario> {
-    return this.userService.updateUser(userId, updateUserDto);
+    return this.userService.updateUser(userId, updateUserDto, file);
   }
 
   @Get('/by-email/:email')

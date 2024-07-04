@@ -1,11 +1,11 @@
+import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { useNavigation } from "@react-navigation/native";
 import { Image, Pressable, Text, View } from "react-native";
+import { FeedScreenNavigationProp } from "../../../routes/types";
 import { updateCurrentPost } from "../../../store/post/actions";
 import { HashtagInPost } from "../../hashtags";
 import { styles } from "../styles";
 import { PostCardProps } from "../types";
-import { FeedScreenNavigationProp } from "../../../routes/types";
-import { useNavigation } from "@react-navigation/native";
-
 
 export const PostCardNoInteraction = ({ post }: PostCardProps) => {
   const handleClick = () => {
@@ -20,6 +20,19 @@ export const PostCardNoInteraction = ({ post }: PostCardProps) => {
       <View style={styles.cardContainer}>
         <Pressable onPress={handleClick}>
           <View style={styles.userInfo}>
+            {post.usuario?.fotoPerfil ? (
+              <Image
+                style={styles.imagePerfil}
+                source={{ uri: post.usuario.fotoPerfil }}
+              />
+            ) : (
+              <MaterialCommunityIcons
+                name="account"
+                size={30}
+                color="#FFFFFF"
+                style={styles.imagePerfil}
+              />
+            )}
             <Text>@{post.usuario?.username}</Text>
           </View>
 

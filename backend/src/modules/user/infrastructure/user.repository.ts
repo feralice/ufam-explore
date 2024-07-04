@@ -42,10 +42,19 @@ export class UserRepository {
     });
   }
 
-  async updateUser(id: string, userData: UpdateUserDto): Promise<Usuario> {
+  async updateUser(
+    id: string,
+    userData: UpdateUserDto,
+    imageUrl?: string,
+  ): Promise<Usuario> {
+    const dataToUpdate: any = { ...userData };
+    if (imageUrl) {
+      dataToUpdate.fotoPerfil = imageUrl;
+    }
+
     return this.prisma.usuario.update({
       where: { id },
-      data: userData,
+      data: dataToUpdate,
     });
   }
 

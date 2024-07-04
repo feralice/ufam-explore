@@ -4,6 +4,8 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { Usuario } from '@prisma/client';
+import { CloudinaryService } from 'src/adapters/cloudinary/cloudinary.service';
+import { uploadFileToCloudinary } from 'src/modules/post/infrastructure/update-photo-in-cloudinary';
 import { encryptPassword } from '../../../common/utils/encrypted-password';
 import { CreateUserDto } from '../application/dto/create/create-user.dto';
 import { UpdateUserDto } from '../application/dto/update/update-user.dto';
@@ -11,7 +13,10 @@ import { UserRepository } from '../infrastructure/user.repository';
 
 @Injectable()
 export class UserService {
-  constructor(private readonly userRepository: UserRepository) {}
+  constructor(
+    private readonly userRepository: UserRepository,
+    private readonly cloudinaryService: CloudinaryService,
+  ) {}
 
   async create(createUserDto: CreateUserDto) {
     const { email, username } = createUserDto;
@@ -47,10 +52,18 @@ export class UserService {
     return user;
   }
 
-  async updateUser(id: string, updateUserDto: UpdateUserDto) {
-    const user = await this.userRepository.getUserById(id);
-    if (!user) {
-      throw new NotFoundException(`User not found with ID: ${id}`);
+  async updateUser(
+    id: string,
+    updateUserDto: UpdateUserDto,
+    file?: Express.Multer.File,
+  ) {
+    let secureUrl = null;
+    if (file) {
+      const photoUrlInCloudinary = await uploadFileToCloudinary(
+        this.cloudinaryService,
+        file,
+      );
+      secureUrl = photoUrlInCloudinary.replace('http', 'https');
     }
 
     const verifyIfEmailExists = await this.userRepository.getUserByEmail(
@@ -73,7 +86,7 @@ export class UserService {
       );
     }
 
-    return await this.userRepository.updateUser(id, updateUserDto);
+    return await this.userRepository.updateUser(id, updateUserDto, secureUrl);
   }
 
   async getUserByEmail(email: string): Promise<Usuario> {

@@ -16,6 +16,7 @@ export const styles = StyleSheet.create({
     borderColor: "darkblue",
     borderWidth: 1,
     margin: deviceWidth * 0.06,
+    marginTop: 40,
     padding: 10,
   },
   imageStyle: {
@@ -27,18 +28,19 @@ export const styles = StyleSheet.create({
     alignSelf: "center",
   },
   imagePerfil: {
-    display: "flex",
-    alignItems: "center",
     borderRadius: 50,
     width: 30,
     height: 30,
+    marginRight: 10,
   },
   userInfo: {
     flexDirection: "row",
     justifyContent: "flex-start",
     alignItems: "center",
+    paddingVertical: 15,
+    paddingHorizontal: 10,
+    width: "100%",
     gap: 10,
-    padding: 15,
   },
   interaction: {
     flexDirection: "row",

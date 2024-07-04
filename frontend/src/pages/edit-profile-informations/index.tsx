@@ -1,8 +1,8 @@
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-import AntDesign from "@expo/vector-icons/AntDesign";
 import { useNavigation } from "@react-navigation/native";
+import * as ImagePicker from "expo-image-picker";
 import { useState } from "react";
-import { Alert, Pressable, Text, TextInput, View } from "react-native";
+import { Alert, Image, Pressable, Text, TextInput, View } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import SelectDropdown from "react-native-select-dropdown";
 import { useDispatch, useSelector } from "react-redux";
@@ -24,6 +24,11 @@ export const EditProfileInformation = () => {
   const [nome, setName] = useState(user.nome);
   const [username, setUsername] = useState(user.username);
   const [email, setEmail] = useState(user.email);
+  const [profileImage, setProfileImage] = useState<string | null>(
+    user.fotoPerfil || null
+  );
+  const [isImageChanged, setIsImageChanged] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const { nameError, usernameError, emailError } = useValidation(
     nome,
@@ -32,8 +37,27 @@ export const EditProfileInformation = () => {
     user.perfilId
   );
 
-  const handleProfilePicturePress = () => {
-    Alert.alert("Alterar foto de perfil", "Em breve...");
+  const handleProfilePicturePress = async () => {
+    const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+    if (status !== "granted") {
+      Alert.alert(
+        "Permissão necessária",
+        "Precisamos da permissão para acessar a galeria para que isso funcione."
+      );
+      return;
+    }
+
+    const result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: true,
+      aspect: [4, 4],
+      quality: 1,
+    });
+
+    if (!result.canceled) {
+      setProfileImage(result.assets[0].uri);
+      setIsImageChanged(true);
+    }
   };
 
   const handleClickConfirm = async () => {
@@ -42,31 +66,43 @@ export const EditProfileInformation = () => {
       return;
     }
 
+    setIsLoading(true);
+
     try {
-      const updatedUser = { nome, username, email, curso };
-      await editUser(user.id, updatedUser);
+      const updatedUser = { nome, username, email, curso: curso || user.curso };
+
+      let newDataUser;
+      const image = profileImage || "";
+      if (isImageChanged) {
+        newDataUser = await editUser(user.id, updatedUser, image);
+      } else {
+        newDataUser = await editUser(user.id, updatedUser);
+      }
 
       setUser({
         id: user.id,
         nome: nome,
         email: email,
         username: username,
-        curso: curso,
+        curso: updatedUser.curso,
         perfilId: user.perfilId,
         isAuthenticated: true,
+        fotoPerfil: newDataUser.data.fotoPerfil,
       });
 
       Alert.alert("Sucesso", "Informações atualizadas com sucesso!");
       navigation.goBack();
     } catch (error: any) {
-      if (error.response.status === 409) {
+      if (error.response && error.response.status === 409) {
         Alert.alert("Erro", "Nome de usuário ou email já cadastrados.");
-        return;
+      } else {
+        Alert.alert(
+          "Erro",
+          `Não foi possível atualizar as informações: ${error}`
+        );
       }
-      Alert.alert(
-        "Erro",
-        `Não foi possível atualizar as informações: ${error}`
-      );
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -78,7 +114,14 @@ export const EditProfileInformation = () => {
             onPress={handleProfilePicturePress}
             style={styles.profileImageContainer}
           >
-            <MaterialCommunityIcons name="account" size={80} color="#000" />
+            {profileImage ? (
+              <Image
+                source={{ uri: profileImage }}
+                style={styles.profileImage}
+              />
+            ) : (
+              <MaterialCommunityIcons name="account" size={80} color="#000" />
+            )}
             <View style={styles.cameraIconContainer}>
               <MaterialCommunityIcons name="camera" size={24} color="#FFF" />
             </View>
@@ -89,7 +132,11 @@ export const EditProfileInformation = () => {
             }}
             style={styles.backButton}
           >
-            <AntDesign name="arrowleft" size={24} color="#F0F0F0" />
+            <MaterialCommunityIcons
+              name="arrow-left"
+              size={24}
+              color="#F0F0F0"
+            />
           </Pressable>
 
           <Text style={styles.profileName}>{user.username}</Text>
@@ -101,7 +148,6 @@ export const EditProfileInformation = () => {
             <TextInput
               value={nome}
               onChangeText={setName}
-              testID="Name"
               style={styles.inputField}
             />
           </View>
@@ -112,7 +158,6 @@ export const EditProfileInformation = () => {
             <TextInput
               value={username}
               onChangeText={setUsername}
-              testID="NameUser"
               style={styles.inputField}
             />
           </View>
@@ -125,7 +170,6 @@ export const EditProfileInformation = () => {
             <TextInput
               value={email}
               onChangeText={setEmail}
-              testID="EmailUser"
               style={styles.inputField}
             />
           </View>
@@ -146,7 +190,7 @@ export const EditProfileInformation = () => {
                     return (
                       <View style={styles.dropdownButtonStyle}>
                         <Text style={styles.dropdownButtonTxtStyle}>
-                          {selectedItem ? selectedItem : "Modifique seu curso"}
+                          {selectedItem ? selectedItem : user.curso}
                         </Text>
                         <MaterialCommunityIcons
                           name={isOpened ? "chevron-up" : "chevron-down"}
@@ -177,7 +221,7 @@ export const EditProfileInformation = () => {
       <View style={styles.confirmButtonContainer}>
         <BlueButton
           onPress={handleClickConfirm}
-          text={"Confirmar"}
+          text={isLoading ? "Carregando..." : "Confirmar"}
           style={styles.confirmButton}
         />
       </View>

@@ -76,7 +76,8 @@ export const styles = StyleSheet.create({
     alignItems: "center",
     backgroundColor: "#F0F0F0",
     borderRadius: 50,
-    padding: 10,
+    width: 100,
+    height: 100,
   },
   backButton: {
     position: "absolute",
@@ -127,5 +128,10 @@ export const styles = StyleSheet.create({
   confirmButton: {},
   confirmButtonContainer: {
     paddingVertical: 10,
+  },
+  profileImage: {
+    width: 100,
+    height: 100,
+    borderRadius: 50,
   },
 });

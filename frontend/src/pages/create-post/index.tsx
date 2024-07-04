@@ -7,6 +7,7 @@ import { Controller, useForm } from "react-hook-form";
 import { Alert, Image, Pressable, ScrollView, Text, View } from "react-native";
 import { useSelector } from "react-redux";
 
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { BlueButton } from "../../components/blue-button";
 import { ImagePickerComponent } from "../../components/image-picker";
 import { CustomInput } from "../../components/inputs";
@@ -20,8 +21,6 @@ import { PostInitialState } from "../../store/post/state";
 import { IPostRequest, Tag } from "../../store/post/types";
 import { createPostSchema } from "../../utils/schemas/create-post-schema";
 import { styles } from "./style";
-
-const img_perfil = require("../../assets/img_test.jpg");
 
 export const CreatePostScreen = () => {
   const {
@@ -41,7 +40,9 @@ export const CreatePostScreen = () => {
     (state: IStore) => state.post.tagsForNewPost
   );
   const event = useSelector((state: IStore) => state.event.evento);
-  const { id, username } = useSelector((state: IStore) => state.user.user);
+  const { id, username, fotoPerfil } = useSelector(
+    (state: IStore) => state.user.user
+  );
 
   const [image, setImage] = useState<string | any>(null);
 
@@ -99,7 +100,16 @@ export const CreatePostScreen = () => {
         </Pressable>
         <View style={styles.card}>
           <View style={styles.perfil}>
-            <Image source={img_perfil} style={styles.imagePerfil} />
+            {fotoPerfil ? (
+              <Image source={{ uri: fotoPerfil }} style={styles.imagePerfil} />
+            ) : (
+              <MaterialCommunityIcons
+                name="account"
+                size={30}
+                color="#000"
+                style={styles.imagePerfil}
+              />
+            )}
             <Text>@{username}</Text>
           </View>
 

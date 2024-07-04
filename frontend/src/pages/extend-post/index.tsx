@@ -18,8 +18,6 @@ import { updateUserSaved } from "../../store/post/actions";
 import { useVoteHandlers } from "../../utils/votes/useVoteHandlers";
 import { styles } from "./style";
 
-const img = require("../../assets/img_test.jpg");
-
 export const PostScreenExtend = () => {
   const navigation = useNavigation();
   const currentPost = useSelector((state: IStore) => state.post.currentPost);
@@ -125,7 +123,14 @@ export const PostScreenExtend = () => {
         </Pressable>
         <View style={styles.cardContainer}>
           <View style={styles.userInfo}>
-            <Image style={styles.imagePerfil} source={img} />
+            {currentPost.usuario.fotoPerfil ? (
+              <Image
+                style={styles.imagePerfil}
+                source={{ uri: currentPost.usuario.fotoPerfil }}
+              />
+            ) : (
+              <MaterialCommunityIcons name="account" size={30} color="#000" />
+            )}
             <Text>@{currentPost.usuario.username}</Text>
             <PopupMenu />
           </View>

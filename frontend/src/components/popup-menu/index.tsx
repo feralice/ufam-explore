@@ -152,8 +152,8 @@ const PopupMenu = () => {
       />
       <Pressable onPress={() => setVisible(!visible)}>
         <MaterialCommunityIcons
-          name="dots-vertical"
-          size={24}
+          name="dots-horizontal"
+          size={32}
           color="darkblue"
         />
       </Pressable>

@@ -20,7 +20,14 @@ export const styles = StyleSheet.create({
     alignItems: "center",
     backgroundColor: "#F0F0F0",
     borderRadius: 50,
-    padding: 10,
+    height: 100,
+    width: 100,
+  },
+  profileImage: {
+    width: 100,
+    height: 100,
+    padding: 0,
+    borderRadius: 50,
   },
   profileName: {
     color: "#FFFFFF",

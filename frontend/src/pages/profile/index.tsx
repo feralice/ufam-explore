@@ -1,6 +1,6 @@
 import { MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
-import { Text, TouchableOpacity, View } from "react-native";
+import { Alert, Image, Text, TouchableOpacity, View } from "react-native";
 import { useSelector } from "react-redux";
 import { ProfileScreenNavigationProp } from "../../routes/types";
 import { IStore } from "../../store";
@@ -9,11 +9,14 @@ import { styles } from "./styles";
 
 export const ProfileScreen = () => {
   const handleProfilePicturePress = () => {
-    // Implementar a lógica para alterar a foto de perfil aqui
-    console.log("Alterar foto de perfil");
+    Alert.alert(
+      "Você pode alterar sua foto de perfil na tela de edição de perfil."
+    );
   };
   const navigation = useNavigation<ProfileScreenNavigationProp>();
-  const { username } = useSelector((state: IStore) => state.user.user);
+  const { username, fotoPerfil } = useSelector(
+    (state: IStore) => state.user.user
+  );
 
   return (
     <View style={styles.container}>
@@ -22,7 +25,11 @@ export const ProfileScreen = () => {
           onPress={handleProfilePicturePress}
           style={styles.profileImageContainer}
         >
-          <MaterialCommunityIcons name="account" size={80} color="#000" />
+          {fotoPerfil ? (
+            <Image source={{ uri: fotoPerfil }} style={styles.profileImage} />
+          ) : (
+            <MaterialCommunityIcons name="account" size={80} color="#000" />
+          )}
         </TouchableOpacity>
         <Text style={styles.profileName}>{username}</Text>
       </View>

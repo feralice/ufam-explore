@@ -22,6 +22,11 @@ export const styles = StyleSheet.create({
     borderRadius: 50,
     padding: 10,
   },
+  profileImage: {
+    width: 100,
+    height: 100,
+    borderRadius: 50,
+  },
   backButton: {
     position: "absolute",
     top: 40,

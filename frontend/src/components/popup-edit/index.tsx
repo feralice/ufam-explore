@@ -28,6 +28,7 @@ const PopupEdit = () => {
 
   const handleEditAccount = () => {
     navigation.navigate("EditProfileInformation");
+    hideModal();
   };
 
   const options: Option[] = [
@@ -48,8 +49,8 @@ const PopupEdit = () => {
       <Pressable onPress={showModal}>
         <MaterialCommunityIcons
           name="cog"
-          size={24}
-          color="#F0F0F0"
+          size={28}
+          color="white"
           style={styles.cogIcon}
         />
       </Pressable>

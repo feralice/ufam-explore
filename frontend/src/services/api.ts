@@ -179,7 +179,31 @@ export const deleteUser = async (userId: string) => {
 
 export const editUser = async (
   userId: string,
-  data: IUpdateUserRequest
+  data: IUpdateUserRequest,
+  fileUri?: string
 ): Promise<AxiosResponse<IUser>> => {
-  return await api.patch(`/user/update/${userId}`, data);
+  const formData = new FormData();
+  formData.append("nome", data.nome || "");
+  formData.append("username", data.username || "");
+  formData.append("email", data.email || "");
+  formData.append("curso", data.curso || "");
+  if (fileUri) {
+    const fileInfo = await FileSystem.getInfoAsync(fileUri);
+    if (fileInfo.exists) {
+      const fileType = fileUri.substring(fileUri.lastIndexOf(".") + 1);
+      const fileBlob = {
+        uri: fileUri,
+        name: `photo.${fileType}`,
+        type: `image/${fileType}`,
+      };
+      formData.append("file", fileBlob as any);
+    }
+  }
+  const response = await api.patch(`/user/update/${userId}`, formData, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+  });
+
+  return response;
 };

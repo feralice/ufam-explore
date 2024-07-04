@@ -18,6 +18,7 @@ export interface IPost {
   usuario: {
     id: string;
     username: string;
+    fotoPerfil?: string;
   };
   isSaved: boolean;
 }

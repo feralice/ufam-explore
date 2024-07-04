@@ -1,9 +1,9 @@
 import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import { Alert, Image, Pressable, Text, View } from "react-native";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { FeedScreenNavigationProp } from "../../routes/types";
-import { savePost } from "../../services/api"; // Importe as funções corretas
+import { savePost } from "../../services/api";
 import { ISavePostRequest } from "../../services/types";
 import { IStore } from "../../store";
 import { updateCurrentPost, updateUserSaved } from "../../store/post/actions";
@@ -12,12 +12,11 @@ import { HashtagInPost } from "../hashtags";
 import { styles } from "./styles";
 import { PostCardProps } from "./types";
 
-const profileImage = require("../../assets/img_test.jpg");
-
 export const PostCard = ({ post }: PostCardProps) => {
   const navigation = useNavigation<FeedScreenNavigationProp>();
   const saved = useSelector((state: IStore) => state.post.userSaved[post.id]);
   const { id } = useSelector((state: IStore) => state.user.user);
+  const dispatch = useDispatch();
 
   const {
     handleUpvote,
@@ -80,8 +79,15 @@ export const PostCard = ({ post }: PostCardProps) => {
       <View style={styles.cardContainer}>
         <Pressable onPress={handleClick}>
           <View style={styles.userInfo}>
-            <Image style={styles.imagePerfil} source={profileImage} />
-            <Text>@{post.usuario?.username}</Text>
+            {post.usuario.fotoPerfil ? (
+              <Image
+                style={styles.imagePerfil}
+                source={{ uri: post.usuario.fotoPerfil }}
+              />
+            ) : (
+              <MaterialCommunityIcons name="account" size={24} color="#000" />
+            )}
+            <Text>@{post.usuario.username}</Text>
           </View>
 
           {post.imagemUrl && (
