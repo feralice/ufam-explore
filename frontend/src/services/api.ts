@@ -13,6 +13,7 @@ import {
   ILoginResponse,
   ISavePostRequest,
   ITagResponse,
+  IUpdateUserRequest,
   IUpvoteResponse,
 } from "./types";
 
@@ -174,4 +175,11 @@ export const savePost = async (
 
 export const deleteUser = async (userId: string) => {
   return await api.post(`/user/delete/${userId}`);
+};
+
+export const editUser = async (
+  userId: string,
+  data: IUpdateUserRequest
+): Promise<AxiosResponse<IUser>> => {
+  return await api.patch(`/user/update/${userId}`, data);
 };

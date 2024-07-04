@@ -1,26 +1,61 @@
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import AntDesign from "@expo/vector-icons/AntDesign";
 import { useNavigation } from "@react-navigation/native";
-import { Alert, Pressable, Text, TextInput, View } from "react-native";
-import { useSelector } from "react-redux";
-import PopupEdit from "../../components/popup-edit";
-import { FeedScreenNavigationProp } from "../../routes/types";
-import { IStore } from "../../store";
-import { styles } from "./style";
 import { useState } from "react";
-import { BlueButton } from "../../components/blue-button";
-import { cursos } from "../../utils/courses";
+import { Alert, Pressable, Text, TextInput, View } from "react-native";
 import SelectDropdown from "react-native-select-dropdown";
+import { useSelector } from "react-redux";
+import { BlueButton } from "../../components/blue-button";
+import { ProfileScreenNavigationProp } from "../../routes/types";
+import { editUser } from "../../services/api";
+import { IStore } from "../../store";
+import { setUser } from "../../store/user/actions";
+import { cursos } from "../../utils/courses";
+import { styles } from "./style";
 
 export const EditProfileInformation = () => {
   const user = useSelector((state: IStore) => state.user.user);
-  const navigation = useNavigation<FeedScreenNavigationProp>();
+  const navigation = useNavigation<ProfileScreenNavigationProp>();
+
+  const [curso, setCourse] = useState("");
+  const [nome, setName] = useState(user.nome);
+  const [username, setUsername] = useState(user.username);
+  const [email, setEmail] = useState(user.email);
+
   const handleProfilePicturePress = () => {
     // Implementar a lógica para alterar a foto de perfil aqui
-    console.log("Alterar foto de perfil");
+    Alert.alert("Alterar foto de perfil", "Em breve...");
   };
-  const [course, setCourse] = useState("");
-  const [name, setName] = useState("OIIIIIIIIIIIIII");
+
+  const handleClickConfirm = async () => {
+    try {
+      const updatedUser = { nome, username, email, curso };
+      await editUser(user.id, updatedUser);
+
+      setUser({
+        id: user.id,
+        nome: nome,
+        email: email,
+        username: username,
+        curso: curso,
+        perfilId: user.perfilId,
+        isAuthenticated: true,
+      });
+      Alert.alert("Sucesso", "Informações atualizadas com sucesso!");
+      navigation.goBack();
+    } catch (error: any) {
+      if (error.response.status === 409) {
+        console.log("erro 409");
+        Alert.alert("Erro", "Nome de usuário ou email já cadastrados.");
+        return;
+      }
+
+      Alert.alert(
+        "Erro",
+        `Não foi possível atualizar as informações: ${error}`
+      );
+    }
+  };
 
   return (
     <View style={styles.container}>
@@ -30,6 +65,9 @@ export const EditProfileInformation = () => {
           style={styles.profileImageContainer}
         >
           <MaterialCommunityIcons name="account" size={80} color="#000" />
+          <View style={styles.cameraIconContainer}>
+            <MaterialCommunityIcons name="camera" size={24} color="#FFF" />
+          </View>
         </Pressable>
         <Pressable
           onPress={() => {
@@ -43,35 +81,37 @@ export const EditProfileInformation = () => {
         <Text style={styles.profileName}>{user.username}</Text>
       </View>
 
-      <View style={{}}>
+      <View style={styles.editableSection}>
         <Text style={styles.texto}>NOME</Text>
-        <View style={[styles.texto, styles.BoxInput]}>
+        <View style={styles.BoxInput}>
           <TextInput
-            defaultValue={user.nome}
+            value={nome}
             onChangeText={setName}
             testID="Name"
+            style={styles.inputField}
           />
         </View>
-        <Text style={[styles.texto, { paddingTop: 20 }]}>NOME DE USUÁRIO</Text>
-        <View style={[styles.texto, styles.BoxInput]}>
+        <Text style={styles.texto}>NOME DE USUÁRIO</Text>
+        <View style={styles.BoxInput}>
           <TextInput
-            defaultValue={user.username}
-            onChangeText={setName}
+            value={username}
+            onChangeText={setUsername}
             testID="NameUser"
+            style={styles.inputField}
           />
         </View>
-        <Text style={[styles.texto, { paddingTop: 20 }]}>E-MAIL</Text>
-
-        <View style={[styles.texto, styles.BoxInput]}>
+        <Text style={styles.texto}>E-MAIL</Text>
+        <View style={styles.BoxInput}>
           <TextInput
-            defaultValue={user.email}
-            onChangeText={setName}
+            value={email}
+            onChangeText={setEmail}
             testID="EmailUser"
+            style={styles.inputField}
           />
         </View>
         {user.perfilId === 1 && (
           <>
-            <Text style={[styles.texto, { paddingTop: 20 }]}>CURSO</Text>
+            <Text style={styles.texto}>CURSO</Text>
             <View style={styles.boxInput}>
               <SelectDropdown
                 data={cursos}
@@ -111,12 +151,9 @@ export const EditProfileInformation = () => {
       </View>
 
       <BlueButton
-        onPress={function (): void {
-          Alert.alert("OMG this is a button that go to main menu");
-          navigation.navigate("Home");
-        }}
+        onPress={handleClickConfirm}
         text={"Confirmar"}
-        style={{ width: "40%", position: "absolute", bottom: 20 }}
+        style={styles.confirmButton}
       ></BlueButton>
     </View>
   );

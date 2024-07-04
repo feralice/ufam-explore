@@ -24,6 +24,12 @@ export interface ICreateUserRequest {
   curso?: string;
 }
 
+export interface IUpdateUserRequest {
+  nome?: string;
+  username?: string;
+  email?: string;
+  curso?: string;
+}
 export interface ICreatePostRequest {
   titulo: string;
   texto: string;

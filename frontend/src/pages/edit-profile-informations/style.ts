@@ -15,6 +15,10 @@ export const styles = StyleSheet.create({
     borderBottomLeftRadius: 30,
     marginBottom: 50,
   },
+  editableSection: {
+    width: "80%",
+    alignItems: "center",
+  },
   dropdownButtonStyle: {
     width: "100%",
     height: 50,
@@ -57,13 +61,12 @@ export const styles = StyleSheet.create({
     borderRadius: 20,
     borderWidth: 1,
     borderColor: "darkblue",
-    width: "60%",
-    height: 30,
+    width: "100%",
+    height: 40,
     flexDirection: "row",
     alignItems: "center",
     paddingHorizontal: 20,
-    position: "relative",
-    left: -30,
+    marginBottom: 20,
   },
   profileImageContainer: {
     justifyContent: "center",
@@ -88,12 +91,21 @@ export const styles = StyleSheet.create({
   texto: {
     color: "darkblue",
     fontSize: 20,
-    right: 30,
+    alignSelf: "flex-start",
+    paddingHorizontal: 5,
+    marginBottom: 5,
+  },
+  cameraIconContainer: {
+    position: "absolute",
+    bottom: 0,
+    right: 0,
+    backgroundColor: "rgba(0, 0, 0, 0.6)",
+    borderRadius: 12,
+    padding: 5,
   },
   textoAlternativo: {
     color: "black",
     fontSize: 15,
-    right: 30,
     marginBottom: 20,
   },
   inputField: {
@@ -103,11 +115,16 @@ export const styles = StyleSheet.create({
   },
   BoxInput: {
     backgroundColor: "rgba(0, 0, 139, 0.1)",
-    width: 250,
-    height: 30,
+    width: "100%",
+    height: 40,
     borderRadius: 10,
     paddingLeft: 10,
-    paddingTop: 3,
     borderColor: "darkblue",
+    marginBottom: 20,
+  },
+  confirmButton: {
+    width: "40%",
+    position: "absolute",
+    bottom: 20,
   },
 });
