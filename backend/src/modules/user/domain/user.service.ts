@@ -4,9 +4,9 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { Usuario } from '@prisma/client';
-import { CloudinaryService } from 'src/adapters/cloudinary/cloudinary.service';
-import { uploadFileToCloudinary } from 'src/modules/post/infrastructure/update-photo-in-cloudinary';
+import { CloudinaryService } from '../../../adapters/cloudinary/cloudinary.service';
 import { encryptPassword } from '../../../common/utils/encrypted-password';
+import { uploadFileToCloudinary } from '../../../modules/post/infrastructure/update-photo-in-cloudinary';
 import { CreateUserDto } from '../application/dto/create/create-user.dto';
 import { UpdateUserDto } from '../application/dto/update/update-user.dto';
 import { UserRepository } from '../infrastructure/user.repository';
