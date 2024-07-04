@@ -1,9 +1,9 @@
 import { Module } from '@nestjs/common';
 import { JwtModule } from '@nestjs/jwt';
+import { CloudinaryModule } from '../../adapters/cloudinary/cloudinary.module';
 import { UserController } from './application/user.controller';
 import { UserService } from './domain/user.service';
 import { UserRepository } from './infrastructure/user.repository';
-import { CloudinaryModule } from 'src/adapters/cloudinary/cloudinary.module';
 
 @Module({
   imports: [JwtModule, CloudinaryModule],
