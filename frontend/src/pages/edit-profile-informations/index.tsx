@@ -5,7 +5,7 @@ import { useState } from "react";
 import { Alert, Image, Pressable, Text, TextInput, View } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import SelectDropdown from "react-native-select-dropdown";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { BlueButton } from "../../components/blue-button";
 import { ProfileScreenNavigationProp } from "../../routes/types";
 import { editUser } from "../../services/api";
@@ -17,7 +17,6 @@ import { useValidation } from "./validations";
 
 export const EditProfileInformation = () => {
   const user = useSelector((state: IStore) => state.user.user);
-  const dispatch = useDispatch();
   const navigation = useNavigation<ProfileScreenNavigationProp>();
 
   const [curso, setCourse] = useState("");

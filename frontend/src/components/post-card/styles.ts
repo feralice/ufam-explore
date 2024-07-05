@@ -15,7 +15,6 @@ export const styles = StyleSheet.create({
     padding: 10,
     maxHeight: 450,
     overflow: "hidden",
-    alignItems: "flex-start",
   },
 
   imageStyle: {
@@ -30,6 +29,8 @@ export const styles = StyleSheet.create({
   },
 
   imagePerfil: {
+    display: "flex",
+    alignItems: "center",
     borderRadius: 50,
     width: 30,
     height: 30,
@@ -39,10 +40,8 @@ export const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "flex-start",
     alignItems: "center",
-    paddingVertical: 15,
-    paddingHorizontal: 10,
-    width: "100%",
     gap: 10,
+    padding: 15,
   },
 
   interaction: {
@@ -50,7 +49,6 @@ export const styles = StyleSheet.create({
     justifyContent: "space-around",
     borderRadius: 5,
     padding: 10,
-    width: "100%",
   },
 
   icon: {
@@ -58,12 +56,17 @@ export const styles = StyleSheet.create({
     justifyContent: "center",
     borderRadius: 5,
     padding: "auto",
-    paddingRight: 40,
   },
 
   container: {
     flexDirection: "row",
     justifyContent: "center",
+    color: "white",
+  },
+
+  alignItems: {
+    paddingHorizontal: 10,
+    paddingBottom: 10,
   },
 
   title: {
@@ -74,14 +77,12 @@ export const styles = StyleSheet.create({
     paddingTop: 10,
     maxHeight: 200,
     overflow: "hidden",
-    width: "100%",
   },
 
   text: {
     fontSize: 14,
     paddingBottom: 10,
     paddingHorizontal: 10,
-    width: "100%",
   },
 
   tagsContainer: {
@@ -89,8 +90,7 @@ export const styles = StyleSheet.create({
     flexWrap: "wrap",
     maxHeight: 65,
     overflow: "hidden",
-    paddingHorizontal: 10,
-    width: "100%",
+    paddingLeft: 10,
   },
 
   tag: {

@@ -110,11 +110,6 @@ const PopupMenu = () => {
 
   const options: Option[] = [
     {
-      title: "Salvar post",
-      icon: "content-save",
-      action: handleSavePost,
-    },
-    {
       title: "Adicionar ao calendário",
       icon: "calendar",
       action: handleAddToCalendar,

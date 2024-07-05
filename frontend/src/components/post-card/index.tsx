@@ -1,7 +1,7 @@
 import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import { Alert, Image, Pressable, Text, View } from "react-native";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { FeedScreenNavigationProp } from "../../routes/types";
 import { savePost } from "../../services/api";
 import { ISavePostRequest } from "../../services/types";
@@ -16,7 +16,6 @@ export const PostCard = ({ post }: PostCardProps) => {
   const navigation = useNavigation<FeedScreenNavigationProp>();
   const saved = useSelector((state: IStore) => state.post.userSaved[post.id]);
   const { id } = useSelector((state: IStore) => state.user.user);
-  const dispatch = useDispatch();
 
   const {
     handleUpvote,

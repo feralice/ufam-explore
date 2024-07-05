@@ -57,12 +57,16 @@ export class PostRepository {
   }
 
   async getAllPosts() {
-    return await this.prisma.postagem.findMany({
+    const posts = await this.prisma.postagem.findMany({
       include: {
         usuario: true,
         tags: true,
+        upvotes: true,
       },
     });
+
+    // Ordene os posts pela contagem de upvotes
+    return posts.sort((a, b) => b.upvotes.length - a.upvotes.length);
   }
 
   async editPostById(postId: string, data: EditPostDto, imagemUrl?: string) {

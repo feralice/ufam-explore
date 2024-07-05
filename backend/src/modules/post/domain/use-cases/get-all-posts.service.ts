@@ -49,7 +49,7 @@ export class GetAllPostsUseCase {
         }),
       );
 
-      return postsWithVotesAndSaves;
+      return postsWithVotesAndSaves.sort((a, b) => b.upvotes - a.upvotes);
     } catch (error) {
       throw new Error('Error getting posts');
     }

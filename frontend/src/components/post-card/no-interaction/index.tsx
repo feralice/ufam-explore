@@ -20,18 +20,13 @@ export const PostCardNoInteraction = ({ post }: PostCardProps) => {
       <View style={styles.cardContainer}>
         <Pressable onPress={handleClick}>
           <View style={styles.userInfo}>
-            {post.usuario?.fotoPerfil ? (
+            {post.usuario.fotoPerfil ? (
               <Image
                 style={styles.imagePerfil}
                 source={{ uri: post.usuario.fotoPerfil }}
               />
             ) : (
-              <MaterialCommunityIcons
-                name="account"
-                size={30}
-                color="#FFFFFF"
-                style={styles.imagePerfil}
-              />
+              <MaterialCommunityIcons name="account" size={24} color="#000" />
             )}
             <Text>@{post.usuario?.username}</Text>
           </View>
