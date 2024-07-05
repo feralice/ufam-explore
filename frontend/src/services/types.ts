@@ -12,6 +12,7 @@ export interface ILoginResponse {
   nome: string;
   email: string;
   username: string;
+  fotoPerfil?: string;
   curso?: string;
 }
 

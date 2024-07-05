@@ -6,7 +6,6 @@ import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import {
   Alert,
-  Dimensions,
   Image,
   Pressable,
   SafeAreaView,
@@ -25,8 +24,6 @@ import { FormData } from "./types";
 
 const img_ufam = require("../../assets/lupa.png");
 const img = require("../../assets/UfamExplore.png");
-
-const screenWidth = Dimensions.get("window").width;
 
 const Login = () => {
   const navigation = useNavigation<FeedScreenNavigationProp>();
@@ -54,6 +51,7 @@ const Login = () => {
         email: userEmail,
         username,
         curso,
+        fotoPerfil,
       } = response.data;
 
       const perfilIdNumber = Number(perfilId);
@@ -67,6 +65,7 @@ const Login = () => {
         email: userEmail,
         username,
         curso,
+        fotoPerfil,
         isAuthenticated: true,
       });
     } catch (error) {

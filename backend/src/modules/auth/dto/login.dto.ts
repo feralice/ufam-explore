@@ -7,7 +7,7 @@ export class LoginDto {
   @ApiProperty({
     type: String,
     description: 'Email do usuário',
-    example: 'fernanda@alice.com'
+    example: 'fernanda@alice.com',
   })
   email: string;
 
@@ -17,7 +17,7 @@ export class LoginDto {
   @ApiProperty({
     type: String,
     description: 'Senha do usuário',
-    example: 'fernanda'
+    example: 'fernanda',
   })
   password: string;
 }

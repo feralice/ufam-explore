@@ -112,18 +112,15 @@ export const FeedScreen = () => {
         renderItem={renderPost}
         keyExtractor={(item) => item.id}
       />
-      {perfilId !== 2 && (
-        <View style={feedStyles.fabContainer}>
-          <FAB
-            style={feedStyles.fab}
-            icon={() => (
-              <MaterialCommunityIcons name="pencil" size={24} color="white" />
-            )}
-            color="white"
-            onPress={() => navigation.navigate("Post")}
-          />
-        </View>
-      )}
+      <View style={feedStyles.fabContainer}>
+        <FAB
+          style={feedStyles.fab}
+          icon={() => (
+            <MaterialCommunityIcons name="pencil" size={24} color="white" />
+          )}
+          onPress={() => navigation.navigate("Post")}
+        />
+      </View>
     </View>
   );
 };
