@@ -1,6 +1,7 @@
 import {
   ConflictException,
   Injectable,
+  Logger,
   NotFoundException,
 } from '@nestjs/common';
 import { Usuario } from '@prisma/client';
@@ -13,6 +14,8 @@ import { UserRepository } from '../infrastructure/user.repository';
 
 @Injectable()
 export class UserService {
+  private readonly logger = new Logger(UserService.name);
+
   constructor(
     private readonly userRepository: UserRepository,
     private readonly cloudinaryService: CloudinaryService,
@@ -20,9 +23,13 @@ export class UserService {
 
   async create(createUserDto: CreateUserDto) {
     const { email, username } = createUserDto;
+    this.logger.log(
+      `Creating user with email: ${email} and username: ${username}`,
+    );
 
     const existingUserByEmail = await this.userRepository.getUserByEmail(email);
     if (existingUserByEmail) {
+      this.logger.warn(`Conflict: User already exists with email: ${email}`);
       throw new ConflictException(
         `Usuário já cadastrado com o email: ${email}`,
       );
@@ -31,6 +38,9 @@ export class UserService {
     const existingUserByUsername =
       await this.userRepository.getUserByUsername(username);
     if (existingUserByUsername) {
+      this.logger.warn(
+        `Conflict: User already exists with username: ${username}`,
+      );
       throw new ConflictException(
         `Usuário já cadastrado com o username: ${username}`,
       );
@@ -41,12 +51,16 @@ export class UserService {
       ...createUserDto,
       senha: hashedPassword,
     };
-    return this.userRepository.create(newUserDto);
+    const user = await this.userRepository.create(newUserDto);
+    this.logger.log(`User created with ID: ${user.id}`);
+    return user;
   }
 
   async getUserById(id: string): Promise<Usuario> {
+    this.logger.log(`Fetching user with ID: ${id}`);
     const user = await this.userRepository.getUserById(id);
     if (!user) {
+      this.logger.error(`User not found with ID: ${id}`);
       throw new NotFoundException(`User not found with ID: ${id}`);
     }
     return user;
@@ -57,6 +71,7 @@ export class UserService {
     updateUserDto: UpdateUserDto,
     file?: Express.Multer.File,
   ) {
+    this.logger.log(`Updating user with ID: ${id}`);
     let secureUrl = null;
     if (file) {
       const photoUrlInCloudinary = await uploadFileToCloudinary(
@@ -64,6 +79,9 @@ export class UserService {
         file,
       );
       secureUrl = photoUrlInCloudinary.replace('http', 'https');
+      this.logger.log(
+        `File uploaded to Cloudinary with secure URL: ${secureUrl}`,
+      );
     }
 
     const verifyIfEmailExists = await this.userRepository.getUserByEmail(
@@ -71,6 +89,9 @@ export class UserService {
     );
 
     if (verifyIfEmailExists && verifyIfEmailExists.id !== id) {
+      this.logger.warn(
+        `Conflict: Email already in use: ${updateUserDto.email}`,
+      );
       throw new ConflictException(
         `Usuário já cadastrado com o email: ${updateUserDto.email}`,
       );
@@ -81,18 +102,29 @@ export class UserService {
     );
 
     if (verifyIfUsernameExists && verifyIfUsernameExists.id !== id) {
+      this.logger.warn(
+        `Conflict: Username already in use: ${updateUserDto.username}`,
+      );
       throw new ConflictException(
         `Usuário já cadastrado com o username: ${updateUserDto.username}`,
       );
     }
 
-    return await this.userRepository.updateUser(id, updateUserDto, secureUrl);
+    const updatedUser = await this.userRepository.updateUser(
+      id,
+      updateUserDto,
+      secureUrl,
+    );
+    this.logger.log(`User with ID: ${id} updated successfully`);
+    return updatedUser;
   }
 
   async getUserByEmail(email: string): Promise<Usuario> {
+    this.logger.log(`Fetching user with email: ${email}`);
     const user = await this.userRepository.getUserByEmail(email);
 
     if (!user) {
+      this.logger.error(`User not found with email: ${email}`);
       throw new NotFoundException(`User not found with email: ${email}`);
     }
 
@@ -100,12 +132,15 @@ export class UserService {
   }
 
   async deleteUser(id: string) {
+    this.logger.log(`Deleting user with ID: ${id}`);
     const user = await this.userRepository.getUserById(id);
     if (!user) {
+      this.logger.error(`User not found with ID: ${id}`);
       throw new NotFoundException(`User not found with ID: ${id}`);
     }
 
     await this.userRepository.deleteUser(id);
+    this.logger.log(`User with ID ${id} deleted successfully`);
     return `User with ID ${id} deleted successfully`;
   }
 }
