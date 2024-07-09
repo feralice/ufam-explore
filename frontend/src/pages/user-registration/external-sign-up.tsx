@@ -106,9 +106,11 @@ const ExternalSignUpScreen = () => {
       setModalVisible(false);
 
       Alert.alert("Sucesso", "Cadastro realizado com sucesso!");
-    } catch (error) {
+    } catch (error: any) {
+      if (error.response.status === 409) {
+        Alert.alert("Erro", "Nome de usuário ou email já cadastrados.");
+      }
       setShowPasswordRules(true);
-      console.error("Erro ao criar usuário:", error);
       Alert.alert(
         "Erro",
         "Erro ao criar usuário. Por favor, tente novamente mais tarde."

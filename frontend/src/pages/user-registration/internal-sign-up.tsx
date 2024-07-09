@@ -123,8 +123,13 @@ const InternalSignUpScreen = () => {
 
       Alert.alert("Sucesso", "Cadastro realizado com sucesso!");
       navigation.navigate("Login");
-    } catch (error) {
-      console.error("Erro ao criar usuário:", error);
+    } catch (error: any) {
+      if (error.response.status === 409) {
+        Alert.alert("Erro", "Nome de usuário ou email já cadastrado.");
+        setIsLoading(false);
+        return;
+      }
+
       setIsLoading(false);
       Alert.alert(
         "Erro",
