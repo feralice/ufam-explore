@@ -1,14 +1,8 @@
 import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import { useState } from "react";
-import {
-  Alert,
-  Pressable,
-  ScrollView,
-  Text,
-  TextInput,
-  View,
-} from "react-native";
+import { Alert, Pressable, Text, TextInput, View } from "react-native";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import SelectDropdown from "react-native-select-dropdown";
 import { BlueButton } from "../../components/blue-button";
 import TermsModal from "../../components/modals/terms-modal";
@@ -43,6 +37,8 @@ const InternalSignUpScreen = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
   const [showPasswordRules, setShowPasswordRules] = useState(false);
+  const [isPasswordFocused, setIsPasswordFocused] = useState(false);
+
   const navigation = useNavigation<LoginScreenNavigationProp>();
 
   const handleSignUp = async () => {
@@ -147,7 +143,12 @@ const InternalSignUpScreen = () => {
   };
 
   return (
-    <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
+    <KeyboardAwareScrollView
+      enableOnAndroid={true}
+      contentContainerStyle={{ flexGrow: 1, justifyContent: "center" }}
+      extraScrollHeight={isPasswordFocused ? 300 : 100}
+      keyboardOpeningTime={250}
+    >
       <View style={styles.container}>
         <Pressable
           onPress={() => navigation.goBack()}
@@ -258,8 +259,14 @@ const InternalSignUpScreen = () => {
           <TextInput
             placeholder="Digite sua Senha"
             value={password}
-            onFocus={() => setShowPasswordRules(true)}
-            onBlur={() => setShowPasswordRules(false)}
+            onFocus={() => {
+              setShowPasswordRules(true);
+              setIsPasswordFocused(true);
+            }}
+            onBlur={() => {
+              setShowPasswordRules(false);
+              setIsPasswordFocused(false);
+            }}
             onChangeText={(text) => {
               setPassword(text);
               setPasswordError(
@@ -340,7 +347,7 @@ const InternalSignUpScreen = () => {
           closeModal={() => setModalVisible(false)}
         />
       </View>
-    </ScrollView>
+    </KeyboardAwareScrollView>
   );
 };
 
