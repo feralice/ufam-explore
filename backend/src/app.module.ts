@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 import { JwtModule } from '@nestjs/jwt';
 import { CloudinaryModule } from './adapters/cloudinary/cloudinary.module';
 import { AuthModule } from './modules/auth/auth.module';
+import { CommentsModule } from './modules/comment/comment.module';
 import { EventModule } from './modules/event/event.module';
 import { PostModule } from './modules/post/post.module';
 import { ProfileModule } from './modules/profile/profile.module';
@@ -25,6 +26,7 @@ import { PrismaModule } from './prisma/prisma.module';
     CloudinaryModule,
     VotesModule,
     SaveModule,
+    CommentsModule,
   ],
   //providers: [
   //{ provide: APP_GUARD, useClass: RolesGuard },
