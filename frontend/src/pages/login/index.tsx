@@ -112,7 +112,6 @@ const Login = () => {
                     placeholder="Insira sua senha"
                     secureTextEntry={hidePassword}
                     style={[styles.passwordTextInput]}
-                    maxLength={16}
                     onBlur={onBlur}
                     onChangeText={onChange}
                     value={value}
