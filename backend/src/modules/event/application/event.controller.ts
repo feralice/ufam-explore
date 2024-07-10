@@ -1,4 +1,12 @@
-import { Body, Controller, Get, HttpStatus, Param, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  HttpStatus,
+  Param,
+  Patch,
+  Post,
+} from '@nestjs/common';
 import {
   ApiBearerAuth,
   ApiOperation,
@@ -9,7 +17,9 @@ import {
 import { Evento } from '@prisma/client';
 import { EventService } from '../domain/use-cases/create-event.service';
 import { GetEventByIdService } from '../domain/use-cases/find-event-by-id.service';
+import { UpdateEventService } from '../domain/use-cases/update-event.service';
 import { CreateEventDto } from './dto/create-event.dto';
+import { UpdateEventDto } from './dto/update-event.dto';
 
 @ApiBearerAuth()
 @ApiTags('Evento')
@@ -18,6 +28,7 @@ export class EventController {
   constructor(
     private readonly createEvent: EventService,
     private readonly getEventByIdService: GetEventByIdService,
+    private readonly updateEventService: UpdateEventService,
   ) {}
 
   @Post()
@@ -55,5 +66,27 @@ export class EventController {
   @ApiParam({ name: 'id', type: String })
   async findOne(@Param('id') id: string): Promise<Evento> {
     return this.getEventByIdService.findOne(id);
+  }
+
+  @Patch('/:id')
+  @ApiOperation({ summary: 'Atualiza um evento existente' })
+  @ApiResponse({
+    status: HttpStatus.OK,
+    description: 'O evento foi atualizado com sucesso.',
+  })
+  @ApiResponse({
+    status: HttpStatus.NOT_FOUND,
+    description: 'Evento não encontrado.',
+  })
+  @ApiResponse({
+    status: HttpStatus.BAD_REQUEST,
+    description: 'Parâmetros inválidos.',
+  })
+  @ApiParam({ name: 'id', type: String })
+  async update(
+    @Param('id') id: string,
+    @Body() updateEventDto: UpdateEventDto,
+  ): Promise<Evento> {
+    return this.updateEventService.updateEvent(id, updateEventDto);
   }
 }
