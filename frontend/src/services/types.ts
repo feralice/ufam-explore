@@ -1,4 +1,4 @@
-import { Tag } from "../store/post/types";
+import { Tag } from '../store/post/types';
 
 export interface ILoginRequest {
   email: string;
@@ -58,6 +58,9 @@ export interface ITagResponse {
 export interface IEditPostRequest {
   titulo: string;
   texto: string;
+  eventoId?: string;
+  tags?: string[];
+  imagem?: File;
 }
 
 export interface ISavePostRequest {
