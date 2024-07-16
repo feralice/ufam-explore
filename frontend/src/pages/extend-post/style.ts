@@ -98,4 +98,17 @@ export const styles = StyleSheet.create({
     fontWeight: "bold",
     marginBottom: 5,
   },
+  CommentsBox: {
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+    columnGap: 0,
+  },
+  BoxInputComment: {
+    height: "50%",
+    width: "70%",
+    backgroundColor: "#EFEFEF",
+    color: "black",
+    borderColor: "#EFEFEF",
+  },
 });

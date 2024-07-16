@@ -17,6 +17,7 @@ import { ClearEventData } from "../../store/event/state";
 import { updateUserSaved } from "../../store/post/actions";
 import { useVoteHandlers } from "../../utils/votes/useVoteHandlers";
 import { styles } from "./style";
+import { CustomInput } from "../../components/inputs";
 
 export const PostScreenExtend = () => {
   const navigation = useNavigation();
@@ -26,6 +27,7 @@ export const PostScreenExtend = () => {
   );
   const event = useSelector((state: IStore) => state.event.evento);
   const { id } = useSelector((state: IStore) => state.user.user);
+  const currentUser = useSelector((state: IStore) => state.user);
 
   useFocusEffect(
     useCallback(() => {
@@ -214,6 +216,35 @@ export const PostScreenExtend = () => {
               </View>
             )}
           </ScrollView>
+
+          {/*box to insertion comments*/}
+          <View style={styles.CommentsBox}>
+            {currentUser.user.fotoPerfil ? (
+              <Image
+                style={styles.imagePerfil}
+                source={{ uri: currentUser.user.fotoPerfil }}
+              />
+            ) : (
+              <MaterialCommunityIcons name="account" size={30} color="#000" />
+            )}
+            {/*comentario logo abaixo*/}
+            <CustomInput
+              multiline
+              id="comentario"
+              style={styles.BoxInputComment}
+            ></CustomInput>
+            <Pressable
+              onPress={() => {
+                Alert.alert("enviar comentario");
+              }}
+            >
+              <MaterialCommunityIcons
+                name="chevron-right-circle-outline"
+                size={40}
+                color="#000"
+              />
+            </Pressable>
+          </View>
         </View>
       </View>
     </ScrollView>
