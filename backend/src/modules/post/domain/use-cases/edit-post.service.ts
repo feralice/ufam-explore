@@ -35,7 +35,11 @@ export class EditPostUseCase {
       const existingPost = await this.postRepository.getPhotoByPostId(postId);
       return existingPost?.imagemUrl || '';
     }
-    return await uploadFileToCloudinary(this.cloudinaryService, file);
+    let imageUrl = await uploadFileToCloudinary(this.cloudinaryService, file);
+    if (imageUrl.startsWith('http:')) {
+      imageUrl = imageUrl.replace('http:', 'https:');
+    }
+    return imageUrl;
   }
 
   private async updatePost(

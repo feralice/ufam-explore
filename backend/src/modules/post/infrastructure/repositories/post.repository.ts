@@ -31,6 +31,7 @@ export class PostRepository {
       },
     });
   }
+
   async associateTagsWithPosts(postagemId: string, tags: string[]) {
     if (tags && tags.length) {
       await Promise.all(
@@ -69,24 +70,25 @@ export class PostRepository {
     return posts.sort((a, b) => b.upvotes.length - a.upvotes.length);
   }
 
-  async editPostById(postId: string, data: EditPostDto, imagemUrl?: string) {
-    const { titulo, texto } = data;
-
-    const post = await this.getPostById(postId);
-
-    if (!post) {
-      throw new Error('Post not found');
-    }
+  async editPostById(
+    postId: string,
+    data: EditPostDto,
+    photoUrl: string,
+  ): Promise<Postagem> {
+    const { titulo, texto, eventoId, tags } = data;
 
     return await this.prisma.postagem.update({
       where: { id: postId },
       data: {
         titulo,
         texto,
-        imagemUrl,
+        imagemUrl: photoUrl,
+        evento: eventoId ? { connect: { id: eventoId } } : undefined,
+        tags: tags ? { set: tags.map((tag) => ({ nome: tag })) } : undefined,
       },
       include: {
         tags: true,
+        evento: true,
       },
     });
   }

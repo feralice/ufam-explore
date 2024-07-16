@@ -1,8 +1,8 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsArray, IsNotEmpty, IsOptional, IsString } from 'class-validator';
+import { IsArray, IsOptional, IsString } from 'class-validator';
 
 export class EditPostDto {
-  @IsNotEmpty()
+  @IsOptional()
   @IsString()
   @ApiProperty({
     type: String,
@@ -11,7 +11,7 @@ export class EditPostDto {
   })
   titulo?: string;
 
-  @IsNotEmpty()
+  @IsOptional()
   @IsString()
   @ApiProperty({
     type: String,
