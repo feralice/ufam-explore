@@ -9,6 +9,7 @@ const ConfirmationModal = ({
   loading = false,
   text,
   children,
+  showButtons = true,  
 }: ConfirmationModalProps) => {
   return (
     <Modal
@@ -25,6 +26,7 @@ const ConfirmationModal = ({
             {children}
           </View>
 
+          {showButtons && (
           <View style={styles.modalButtonContainer}>
             <Pressable
               style={[styles.modalButton, styles.modalButtonCancel]}
@@ -48,6 +50,7 @@ const ConfirmationModal = ({
               )}
             </Pressable>
           </View>
+          )}
         </View>
       </View>
     </Modal>

@@ -5,4 +5,5 @@ export interface ConfirmationModalProps {
   loading?: boolean;
   text: string;
   children?: React.ReactNode;
+  showButtons?: boolean;
 }
