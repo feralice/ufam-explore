@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import { View, StyleSheet, Button } from 'react-native';
+import { View, StyleSheet, Pressable, Text } from 'react-native';
 import ConfirmationModal from '../confirm-modal';
 import styles from './styles';
 
@@ -18,10 +18,13 @@ const SaveToCalendarModal = () => {
         showButtons={false}
       >
 
-      <Button
-          title="OK"
+      <Pressable
+          style={styles.botao} 
           onPress={() => {}}
-      />
+        >
+          <Text style={styles.textoBotao}>OK</Text>
+        </Pressable>
+
       </ConfirmationModal>
     </View>
   );

@@ -10,12 +10,13 @@ export const styles = StyleSheet.create({
     paddingBottom: 20,
   },
   botao: {
-    backgroundColor: "#2196F3",  // Exemplo de cor
-    borderRadius: 25,
-    paddingVertical: 10,
-    paddingHorizontal: 20,
-    alignItems: "center",
-
+    backgroundColor: "darkblue",    
+    borderRadius: 15,  
+    paddingVertical: 12, 
+    paddingHorizontal: 30,  
+  },
+  textoBotao: {
+    color: "white",
   }
 });
 
