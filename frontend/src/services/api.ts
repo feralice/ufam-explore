@@ -1,9 +1,9 @@
-import { AxiosResponse } from "axios";
-import * as FileSystem from "expo-file-system";
-import { IEvent } from "../store/event/types";
-import { IPost, Tag } from "../store/post/types";
-import { IUser } from "../store/user/types";
-import { api } from "./config";
+import { AxiosResponse } from 'axios';
+import * as FileSystem from 'expo-file-system';
+import { IEvent } from '../store/event/types';
+import { IPost, Tag } from '../store/post/types';
+import { IUser } from '../store/user/types';
+import { api } from './config';
 import {
   ICreatePostRequest,
   ICreateUserRequest,
@@ -15,19 +15,19 @@ import {
   ITagResponse,
   IUpdateUserRequest,
   IUpvoteResponse,
-} from "./types";
+} from './types';
 
 export const login = async (
   data: ILoginRequest
 ): Promise<AxiosResponse<ILoginResponse>> => {
-  const response = await api.post<ILoginResponse>("/login", data);
+  const response = await api.post<ILoginResponse>('/login', data);
   return response;
 };
 
 export const createUser = async (
   data: ICreateUserRequest
 ): Promise<AxiosResponse<IUser>> => {
-  const response = await api.post("/user/create", data);
+  const response = await api.post('/user/create', data);
   return response;
 };
 
@@ -37,44 +37,65 @@ export const createPost = async (
   fileUri?: string
 ): Promise<AxiosResponse<ICreatePostRequest>> => {
   const formData = new FormData();
-  formData.append("userId", userId);
-  formData.append("titulo", body.titulo);
-  formData.append("texto", body.texto);
+  formData.append('userId', userId);
+  formData.append('titulo', body.titulo);
+  formData.append('texto', body.texto);
   if (body.eventoId) {
-    formData.append("eventoId", body.eventoId);
+    formData.append('eventoId', body.eventoId);
   }
   if (body.tags) {
-    body.tags.forEach((tag) => formData.append("tags[]", tag.nome));
+    body.tags.forEach((tag) => formData.append('tags[]', tag.nome));
   }
   if (fileUri) {
     const fileInfo = await FileSystem.getInfoAsync(fileUri);
     if (fileInfo.exists) {
-      const fileType = fileUri.substring(fileUri.lastIndexOf(".") + 1);
+      const fileType = fileUri.substring(fileUri.lastIndexOf('.') + 1);
       const fileBlob = {
         uri: fileUri,
         name: `photo.${fileType}`,
         type: `image/${fileType}`,
       };
-      formData.append("file", fileBlob as any);
+      formData.append('file', fileBlob as any);
     }
   }
-  const response = await api.post("/create-post", formData, {
+  const response = await api.post('/create-post', formData, {
     headers: {
-      "Content-Type": "multipart/form-data",
+      'Content-Type': 'multipart/form-data',
     },
   });
 
   return response;
 };
-
 export const editPost = async (
   postId: string,
-  body: IEditPostRequest
+  body: IEditPostRequest,
+  fileUri?: string
 ): Promise<AxiosResponse<IPost>> => {
-  const response = await api.patch(`/edit/${postId}`, body);
+  const formData = new FormData();
+  formData.append('titulo', body.titulo);
+  formData.append('texto', body.texto);
+
+  if (fileUri) {
+    const fileInfo = await FileSystem.getInfoAsync(fileUri);
+    if (fileInfo.exists) {
+      const fileType = fileUri.substring(fileUri.lastIndexOf('.') + 1);
+      const fileBlob = {
+        uri: fileUri,
+        name: `photo.${fileType}`,
+        type: `image/${fileType}`,
+      };
+      formData.append('file', fileBlob as any);
+    }
+  }
+
+  const response = await api.patch(`/edit/${postId}`, formData, {
+    headers: {
+      'Content-Type': 'multipart/form-data',
+    },
+  });
+
   return response;
 };
-
 export const getAllPosts = async (userId: string) => {
   const response = await api.get(`/all-posts/${userId}`);
   return response;
@@ -131,7 +152,7 @@ export const getPostById = async (
 };
 
 export const getAllTags = async (): Promise<AxiosResponse<Tag[]>> => {
-  const response = await api.get("/tag/all");
+  const response = await api.get('/tag/all');
   return response;
 };
 
@@ -152,7 +173,7 @@ export const deletePost = async (
 export const createEvent = async (
   data: IEvent
 ): Promise<AxiosResponse<IEvent>> => {
-  const response = await api.post("/evento", data);
+  const response = await api.post('/evento', data);
   return response;
 };
 
@@ -170,7 +191,7 @@ export const getPostByTag = async (tag: string) => {
 export const savePost = async (
   data: ISavePostRequest
 ): Promise<AxiosResponse<IPost>> => {
-  return await api.post("/save-post", data);
+  return await api.post('/save-post', data);
 };
 
 export const deleteUser = async (userId: string) => {
@@ -183,25 +204,25 @@ export const editUser = async (
   fileUri?: string
 ): Promise<AxiosResponse<IUser>> => {
   const formData = new FormData();
-  formData.append("nome", data.nome || "");
-  formData.append("username", data.username || "");
-  formData.append("email", data.email || "");
-  formData.append("curso", data.curso || "");
+  formData.append('nome', data.nome || '');
+  formData.append('username', data.username || '');
+  formData.append('email', data.email || '');
+  formData.append('curso', data.curso || '');
   if (fileUri) {
     const fileInfo = await FileSystem.getInfoAsync(fileUri);
     if (fileInfo.exists) {
-      const fileType = fileUri.substring(fileUri.lastIndexOf(".") + 1);
+      const fileType = fileUri.substring(fileUri.lastIndexOf('.') + 1);
       const fileBlob = {
         uri: fileUri,
         name: `photo.${fileType}`,
         type: `image/${fileType}`,
       };
-      formData.append("file", fileBlob as any);
+      formData.append('file', fileBlob as any);
     }
   }
   const response = await api.patch(`/user/update/${userId}`, formData, {
     headers: {
-      "Content-Type": "multipart/form-data",
+      'Content-Type': 'multipart/form-data',
     },
   });
 
