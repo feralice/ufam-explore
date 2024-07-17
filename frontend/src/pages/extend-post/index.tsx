@@ -28,6 +28,7 @@ export const PostScreenExtend = () => {
   const event = useSelector((state: IStore) => state.event.evento);
   const { id } = useSelector((state: IStore) => state.user.user);
   const currentUser = useSelector((state: IStore) => state.user);
+  const Arrow_right = require("../../assets/Arrow-right.png");
 
   useFocusEffect(
     useCallback(() => {
@@ -238,11 +239,7 @@ export const PostScreenExtend = () => {
                 Alert.alert("enviar comentario");
               }}
             >
-              <MaterialCommunityIcons
-                name="chevron-right-circle-outline"
-                size={40}
-                color="#000"
-              />
+              <Image source={Arrow_right}></Image>
             </Pressable>
           </View>
         </View>
