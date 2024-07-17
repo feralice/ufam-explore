@@ -20,7 +20,7 @@ export const Comments = ({ name, photo, text, action }: CommentProp) => {
         <View style={styles.header}>
           <Text style={styles.username}>@{name}</Text>
           <Pressable onPress={action}>
-            <MaterialCommunityIcons name="trash-can" size={25} color="#000" />
+            <MaterialCommunityIcons name="animation" size={25} color="#000" />
           </Pressable>
         </View>
         <Text style={styles.message}>{text}</Text>
