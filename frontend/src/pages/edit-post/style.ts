@@ -51,6 +51,14 @@ export const styles = StyleSheet.create({
     marginTop: 10,
     width: '100%',
   },
+  iconWithLabel: {
+    alignItems: 'center',
+  },
+  iconLabel: {
+    fontSize: 12,
+    color: 'darkblue',
+    marginTop: 2,
+  },
   perfil: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -110,7 +118,7 @@ export const styles = StyleSheet.create({
     backgroundColor: '#F194FF',
   },
   imagePicker: {
-    backgroundColor: '#ddd',
+    backgroundColor: 'rgba(0, 0, 139, 0.1)',
     padding: 10,
     borderRadius: 5,
     alignItems: 'center',
@@ -135,5 +143,16 @@ export const styles = StyleSheet.create({
   containerButton: {
     flexDirection: 'row-reverse',
     justifyContent: 'flex-start',
+  },
+  eventInfoContainer: {
+    marginVertical: 10,
+    padding: 10,
+    backgroundColor: 'rgba(0, 0, 139, 0.1)',
+    borderRadius: 10,
+    width: '100%',
+  },
+  eventTitle: {
+    fontWeight: 'bold',
+    marginBottom: 5,
   },
 });

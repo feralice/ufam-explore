@@ -1,11 +1,12 @@
-import { createStackNavigator } from "@react-navigation/stack";
-import { AddTagScreen } from "../../pages/add-tags";
-import CreateEventScreen from "../../pages/create-event";
-import { CreatePostScreen } from "../../pages/create-post";
-import { EditPostScreen } from "../../pages/edit-post";
-import { PostScreenExtend } from "../../pages/extend-post";
-import { FeedScreen } from "../../pages/feed";
-import { RootStackParamList } from "../types";
+import { createStackNavigator } from '@react-navigation/stack';
+import { AddTagScreen } from '../../pages/add-tags';
+import CreateEventScreen from '../../pages/create-event';
+import { CreatePostScreen } from '../../pages/create-post';
+import { EditPostScreen } from '../../pages/edit-post';
+import { PostScreenExtend } from '../../pages/extend-post';
+import { FeedScreen } from '../../pages/feed';
+import { RootStackParamList } from '../types';
+import EditEventScreen from '../../pages/edit-post/edit-event';
 const HomeStack = createStackNavigator<RootStackParamList>();
 
 export const HomeStackNavigator = () => {
@@ -17,6 +18,8 @@ export const HomeStackNavigator = () => {
       <HomeStack.Screen name="EditPost" component={EditPostScreen} />
       <HomeStack.Screen name="AddTag" component={AddTagScreen} />
       <HomeStack.Screen name="CreateEvent" component={CreateEventScreen} />
+      <HomeStack.Screen name="EditEventScreen" component={EditEventScreen} />
+
     </HomeStack.Navigator>
   );
 };

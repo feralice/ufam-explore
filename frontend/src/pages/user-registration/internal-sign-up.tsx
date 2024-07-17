@@ -1,38 +1,38 @@
-import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
-import { useNavigation } from "@react-navigation/native";
-import { useState } from "react";
-import { Alert, Pressable, Text, TextInput, View } from "react-native";
-import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
-import SelectDropdown from "react-native-select-dropdown";
-import { BlueButton } from "../../components/blue-button";
-import TermsModal from "../../components/modals/terms-modal";
-import PasswordRequirements from "../../components/password-validations";
-import { LoginScreenNavigationProp } from "../../routes/types";
-import { createUser } from "../../services/api";
-import { cursos } from "../../utils/courses";
+import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
+import { useNavigation } from '@react-navigation/native';
+import { useState } from 'react';
+import { Alert, Pressable, Text, TextInput, View } from 'react-native';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import SelectDropdown from 'react-native-select-dropdown';
+import { BlueButton } from '../../components/blue-button';
+import TermsModal from '../../components/modals/terms-modal';
+import PasswordRequirements from '../../components/password-validations';
+import { LoginScreenNavigationProp } from '../../routes/types';
+import { createUser } from '../../services/api';
+import { cursos } from '../../utils/courses';
 import {
   isEmailValidUfam,
   isNameValid,
   isPasswordValid,
   isUsernameValid,
   passwordsMatch,
-} from "../../utils/validations-utils";
-import { styles } from "./styles";
+} from '../../utils/validations-utils';
+import { styles } from './styles';
 
 const InternalSignUpScreen = () => {
-  const [name, setName] = useState("");
-  const [username, setUsername] = useState("");
-  const [email, setEmail] = useState("");
-  const [course, setCourse] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
+  const [name, setName] = useState('');
+  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
+  const [course, setCourse] = useState('');
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
   const [hidePassword, setHidePassword] = useState(true);
   const [hideConfirmPassword, setHideConfirmPassword] = useState(true);
-  const [nameError, setNameError] = useState("");
-  const [usernameError, setUsernameError] = useState("");
-  const [emailError, setEmailError] = useState("");
-  const [passwordError, setPasswordError] = useState("");
-  const [confirmPasswordError, setConfirmPasswordError] = useState("");
+  const [nameError, setNameError] = useState('');
+  const [usernameError, setUsernameError] = useState('');
+  const [emailError, setEmailError] = useState('');
+  const [passwordError, setPasswordError] = useState('');
+  const [confirmPasswordError, setConfirmPasswordError] = useState('');
   const [isFirstIcon, setIsFirstIcon] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
@@ -43,22 +43,22 @@ const InternalSignUpScreen = () => {
 
   const handleSignUp = async () => {
     setShowPasswordRules(true);
-    setNameError("");
-    setUsernameError("");
-    setEmailError("");
-    setPasswordError("");
-    setConfirmPasswordError("");
+    setNameError('');
+    setUsernameError('');
+    setEmailError('');
+    setPasswordError('');
+    setConfirmPasswordError('');
 
     // Validate inputs
     let hasError = false;
 
     if (!isNameValid(name)) {
-      setNameError("Por favor, insira um nome válido (apenas letras).");
+      setNameError('Por favor, insira um nome válido (apenas letras).');
       hasError = true;
     }
 
     if (!isUsernameValid(username)) {
-      setUsernameError("Por favor, insira um nome de usuário válido.");
+      setUsernameError('Por favor, insira um nome de usuário válido.');
       hasError = true;
     }
 
@@ -71,23 +71,23 @@ const InternalSignUpScreen = () => {
 
     if (!isPasswordValid(password)) {
       setPasswordError(
-        "A senha deve ter pelo menos 8 caracteres, incluindo maiúsculas, minúsculas, números e caracteres especiais."
+        'A senha deve ter pelo menos 8 caracteres, incluindo maiúsculas, minúsculas, números e caracteres especiais.'
       );
       hasError = true;
     }
 
     if (!passwordsMatch(password, confirmPassword)) {
-      setConfirmPasswordError("As senhas não coincidem.");
+      setConfirmPasswordError('As senhas não coincidem.');
       hasError = true;
     }
 
-    if (course === "" || hasError) {
-      Alert.alert("Erro", "Por favor, preencha todos os campos corretamente.");
+    if (course === '' || hasError) {
+      Alert.alert('Erro', 'Por favor, preencha todos os campos corretamente.');
       hasError = true;
     }
 
     if (!isFirstIcon) {
-      Alert.alert("Erro", "Você deve aceitar os termos de uso.");
+      Alert.alert('Erro', 'Você deve aceitar os termos de uso.');
       hasError = true;
     }
 
@@ -109,27 +109,27 @@ const InternalSignUpScreen = () => {
 
       await createUser(userData);
 
-      setName("");
-      setUsername("");
-      setEmail("");
-      setCourse("");
-      setPassword("");
-      setConfirmPassword("");
+      setName('');
+      setUsername('');
+      setEmail('');
+      setCourse('');
+      setPassword('');
+      setConfirmPassword('');
       setIsLoading(false);
 
-      Alert.alert("Sucesso", "Cadastro realizado com sucesso!");
-      navigation.navigate("Login");
+      Alert.alert('Sucesso', 'Cadastro realizado com sucesso!');
+      navigation.navigate('Login');
     } catch (error: any) {
       if (error.response.status === 409) {
-        Alert.alert("Erro", "Nome de usuário ou email já cadastrado.");
+        Alert.alert('Erro', 'Nome de usuário ou email já cadastrado.');
         setIsLoading(false);
         return;
       }
 
       setIsLoading(false);
       Alert.alert(
-        "Erro",
-        "Erro ao criar usuário. Por favor, tente novamente mais tarde."
+        'Erro',
+        'Erro ao criar usuário. Por favor, tente novamente mais tarde.'
       );
     }
   };
@@ -145,7 +145,7 @@ const InternalSignUpScreen = () => {
   return (
     <KeyboardAwareScrollView
       enableOnAndroid={true}
-      contentContainerStyle={{ flexGrow: 1, justifyContent: "center" }}
+      contentContainerStyle={{ flexGrow: 1, justifyContent: 'center' }}
       extraScrollHeight={isPasswordFocused ? 300 : 100}
       keyboardOpeningTime={250}
     >
@@ -167,8 +167,8 @@ const InternalSignUpScreen = () => {
               setName(text);
               setNameError(
                 isNameValid(text)
-                  ? ""
-                  : "Por favor, insira um nome válido (apenas letras)."
+                  ? ''
+                  : 'Por favor, insira um nome válido (apenas letras).'
               );
             }}
             style={styles.inputField}
@@ -187,8 +187,8 @@ const InternalSignUpScreen = () => {
               setUsername(text);
               setUsernameError(
                 isUsernameValid(text)
-                  ? ""
-                  : "Por favor, insira um nome de usuário válido."
+                  ? ''
+                  : 'Por favor, insira um nome de usuário válido.'
               );
             }}
             style={styles.inputField}
@@ -207,8 +207,8 @@ const InternalSignUpScreen = () => {
               setEmail(text);
               setEmailError(
                 isEmailValidUfam(text)
-                  ? ""
-                  : "Por favor, insira um email válido e institucional."
+                  ? ''
+                  : 'Por favor, insira um email válido e institucional.'
               );
             }}
             style={styles.inputField}
@@ -229,10 +229,10 @@ const InternalSignUpScreen = () => {
               return (
                 <View style={styles.dropdownButtonStyle}>
                   <Text style={styles.dropdownButtonTxtStyle}>
-                    {selectedItem ? selectedItem : "Selecione seu curso"}
+                    {selectedItem ? selectedItem : 'Selecione seu curso'}
                   </Text>
                   <MaterialCommunityIcons
-                    name={isOpened ? "chevron-up" : "chevron-down"}
+                    name={isOpened ? 'chevron-up' : 'chevron-down'}
                     style={styles.dropdownButtonArrowStyle}
                   />
                 </View>
@@ -243,7 +243,7 @@ const InternalSignUpScreen = () => {
                 <View
                   style={{
                     ...styles.dropdownItemStyle,
-                    ...(isSelected && { backgroundColor: "#D2D9DF" }),
+                    ...(isSelected && { backgroundColor: '#D2D9DF' }),
                   }}
                 >
                   <Text style={styles.dropdownItemTxtStyle}>{item}</Text>
@@ -271,8 +271,8 @@ const InternalSignUpScreen = () => {
               setPassword(text);
               setPasswordError(
                 isPasswordValid(text)
-                  ? ""
-                  : "A senha deve ter pelo menos 8 caracteres, incluindo maiúsculas, minúsculas, números e caracteres especiais."
+                  ? ''
+                  : 'A senha deve ter pelo menos 8 caracteres, incluindo maiúsculas, minúsculas, números e caracteres especiais.'
               );
             }}
             secureTextEntry={hidePassword}
@@ -280,7 +280,7 @@ const InternalSignUpScreen = () => {
           />
           <Pressable onPress={togglePasswordVisibility} style={styles.eyeIcon}>
             <Ionicons
-              name={hidePassword ? "eye-off" : "eye"}
+              name={hidePassword ? 'eye-off' : 'eye'}
               size={24}
               color="gray"
             />
@@ -301,7 +301,7 @@ const InternalSignUpScreen = () => {
             onChangeText={(text) => {
               setConfirmPassword(text);
               setConfirmPasswordError(
-                passwordsMatch(password, text) ? "" : "As senhas não coincidem."
+                passwordsMatch(password, text) ? '' : 'As senhas não coincidem.'
               );
             }}
             secureTextEntry={hideConfirmPassword}
@@ -312,7 +312,7 @@ const InternalSignUpScreen = () => {
             style={styles.eyeIcon}
           >
             <Ionicons
-              name={hideConfirmPassword ? "eye-off" : "eye"}
+              name={hideConfirmPassword ? 'eye-off' : 'eye'}
               size={24}
               color="gray"
             />
@@ -325,9 +325,9 @@ const InternalSignUpScreen = () => {
         <View style={styles.checkboxContainer}>
           <Pressable onPress={() => setIsFirstIcon(!isFirstIcon)}>
             <MaterialCommunityIcons
-              name={isFirstIcon ? "checkbox-marked" : "checkbox-blank-outline"}
+              name={isFirstIcon ? 'checkbox-marked' : 'checkbox-blank-outline'}
               size={30}
-              color={isFirstIcon ? "blue" : "darkgray"}
+              color={isFirstIcon ? 'blue' : 'darkgray'}
             />
           </Pressable>
           <Pressable onPress={() => setModalVisible(true)}>
@@ -339,7 +339,8 @@ const InternalSignUpScreen = () => {
 
         <BlueButton
           onPress={handleSignUp}
-          text={isLoading ? "Carregando..." : "Criar Conta"}
+          text={'Criar Conta'}
+          loading={isLoading}
         />
 
         <TermsModal

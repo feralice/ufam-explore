@@ -66,14 +66,29 @@ export const createPost = async (
 
   return response;
 };
+
 export const editPost = async (
   postId: string,
   body: IEditPostRequest,
   fileUri?: string
 ): Promise<AxiosResponse<IPost>> => {
   const formData = new FormData();
-  formData.append('titulo', body.titulo);
-  formData.append('texto', body.texto);
+
+  if (body.titulo) {
+    formData.append('titulo', body.titulo);
+  }
+
+  if (body.texto) {
+    formData.append('texto', body.texto);
+  }
+
+  if (body.eventoId) {
+    formData.append('eventoId', body.eventoId);
+  }
+
+  if (body.tags && body.tags.length > 0) {
+    body.tags.forEach((tag) => formData.append('tags', tag));
+  }
 
   if (fileUri) {
     const fileInfo = await FileSystem.getInfoAsync(fileUri);
@@ -96,6 +111,7 @@ export const editPost = async (
 
   return response;
 };
+
 export const getAllPosts = async (userId: string) => {
   const response = await api.get(`/all-posts/${userId}`);
   return response;
@@ -227,4 +243,17 @@ export const editUser = async (
   });
 
   return response;
+};
+
+export const upsertEvent = async (
+  eventId: string | null,
+  data: IEvent
+): Promise<AxiosResponse<IEvent>> => {
+  if (eventId) {
+    const response = await api.put(`/evento/${eventId}`, data);
+    return response;
+  } else {
+    const response = await api.post('/evento', data);
+    return response;
+  }
 };

@@ -1,25 +1,25 @@
-import { MaterialCommunityIcons } from "@expo/vector-icons";
-import { useNavigation } from "@react-navigation/native";
-import * as ImagePicker from "expo-image-picker";
-import { useState } from "react";
-import { Alert, Image, Pressable, Text, TextInput, View } from "react-native";
-import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
-import SelectDropdown from "react-native-select-dropdown";
-import { useSelector } from "react-redux";
-import { BlueButton } from "../../components/blue-button";
-import { ProfileScreenNavigationProp } from "../../routes/types";
-import { editUser } from "../../services/api";
-import { IStore } from "../../store";
-import { setUser } from "../../store/user/actions";
-import { cursos } from "../../utils/courses";
-import { styles } from "./style";
-import { useValidation } from "./validations";
+import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { useNavigation } from '@react-navigation/native';
+import * as ImagePicker from 'expo-image-picker';
+import { useState } from 'react';
+import { Alert, Image, Pressable, Text, TextInput, View } from 'react-native';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import SelectDropdown from 'react-native-select-dropdown';
+import { useSelector } from 'react-redux';
+import { BlueButton } from '../../components/blue-button';
+import { ProfileScreenNavigationProp } from '../../routes/types';
+import { editUser } from '../../services/api';
+import { IStore } from '../../store';
+import { setUser } from '../../store/user/actions';
+import { cursos } from '../../utils/courses';
+import { styles } from './style';
+import { useValidation } from './validations';
 
 export const EditProfileInformation = () => {
   const user = useSelector((state: IStore) => state.user.user);
   const navigation = useNavigation<ProfileScreenNavigationProp>();
 
-  const [curso, setCourse] = useState("");
+  const [curso, setCourse] = useState('');
   const [nome, setName] = useState(user.nome);
   const [username, setUsername] = useState(user.username);
   const [email, setEmail] = useState(user.email);
@@ -38,10 +38,10 @@ export const EditProfileInformation = () => {
 
   const handleProfilePicturePress = async () => {
     const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
-    if (status !== "granted") {
+    if (status !== 'granted') {
       Alert.alert(
-        "Permissão necessária",
-        "Precisamos da permissão para acessar a galeria para que isso funcione."
+        'Permissão necessária',
+        'Precisamos da permissão para acessar a galeria para que isso funcione.'
       );
       return;
     }
@@ -61,7 +61,7 @@ export const EditProfileInformation = () => {
 
   const handleClickConfirm = async () => {
     if (nameError || usernameError || emailError) {
-      Alert.alert("Erro", "Corrija os erros antes de confirmar.");
+      Alert.alert('Erro', 'Corrija os erros antes de confirmar.');
       return;
     }
 
@@ -71,7 +71,7 @@ export const EditProfileInformation = () => {
       const updatedUser = { nome, username, email, curso: curso || user.curso };
 
       let newDataUser;
-      const image = profileImage || "";
+      const image = profileImage || '';
       if (isImageChanged) {
         newDataUser = await editUser(user.id, updatedUser, image);
       } else {
@@ -89,14 +89,14 @@ export const EditProfileInformation = () => {
         fotoPerfil: newDataUser.data.fotoPerfil,
       });
 
-      Alert.alert("Sucesso", "Informações atualizadas com sucesso!");
+      Alert.alert('Sucesso', 'Informações atualizadas com sucesso!');
       navigation.goBack();
     } catch (error: any) {
       if (error.response && error.response.status === 409) {
-        Alert.alert("Erro", "Nome de usuário ou email já cadastrados.");
+        Alert.alert('Erro', 'Nome de usuário ou email já cadastrados.');
       } else {
         Alert.alert(
-          "Erro",
+          'Erro',
           `Não foi possível atualizar as informações: ${error}`
         );
       }
@@ -192,7 +192,7 @@ export const EditProfileInformation = () => {
                           {selectedItem ? selectedItem : user.curso}
                         </Text>
                         <MaterialCommunityIcons
-                          name={isOpened ? "chevron-up" : "chevron-down"}
+                          name={isOpened ? 'chevron-up' : 'chevron-down'}
                           style={styles.dropdownButtonArrowStyle}
                         />
                       </View>
@@ -203,7 +203,7 @@ export const EditProfileInformation = () => {
                       <View
                         style={{
                           ...styles.dropdownItemStyle,
-                          ...(isSelected && { backgroundColor: "#D2D9DF" }),
+                          ...(isSelected && { backgroundColor: '#D2D9DF' }),
                         }}
                       >
                         <Text style={styles.dropdownItemTxtStyle}>{item}</Text>
@@ -220,7 +220,8 @@ export const EditProfileInformation = () => {
       <View style={styles.confirmButtonContainer}>
         <BlueButton
           onPress={handleClickConfirm}
-          text={isLoading ? "Carregando..." : "Confirmar"}
+          text={'Confirmar'}
+          loading={isLoading}
           style={styles.confirmButton}
         />
       </View>

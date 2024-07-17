@@ -41,6 +41,7 @@ export const clearCurrentPost = () => {
 export const setTagsForNewPost = (tags: Tag[]) => {
   store.dispatch(postSlice.actions.setTagsForNewPost(tags));
 };
+
 export const updateDownvote = (downvote: IDownvote) => {
   store.dispatch(postSlice.actions.setDownvote(downvote));
 };

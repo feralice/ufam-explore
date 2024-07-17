@@ -1,35 +1,35 @@
-import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
-import { useNavigation } from "@react-navigation/native";
-import { useState } from "react";
-import { Alert, Pressable, Text, TextInput, View } from "react-native";
-import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
-import { BlueButton } from "../../components/blue-button";
-import TermsModal from "../../components/modals/terms-modal";
-import PasswordRequirements from "../../components/password-validations";
-import { LoginScreenNavigationProp } from "../../routes/types";
-import { createUser } from "../../services/api";
+import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
+import { useNavigation } from '@react-navigation/native';
+import { useState } from 'react';
+import { Alert, Pressable, Text, TextInput, View } from 'react-native';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import { BlueButton } from '../../components/blue-button';
+import TermsModal from '../../components/modals/terms-modal';
+import PasswordRequirements from '../../components/password-validations';
+import { LoginScreenNavigationProp } from '../../routes/types';
+import { createUser } from '../../services/api';
 import {
   isEmailValid,
   isNameValid,
   isPasswordValid,
   isUsernameValid,
   passwordsMatch,
-} from "../../utils/validations-utils";
-import { styles } from "./styles";
+} from '../../utils/validations-utils';
+import { styles } from './styles';
 
 const ExternalSignUpScreen = () => {
-  const [name, setName] = useState("");
-  const [username, setUsername] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
+  const [name, setName] = useState('');
+  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
   const [hidePassword, setHidePassword] = useState(true);
   const [hideConfirmPassword, setHideConfirmPassword] = useState(true);
-  const [nameError, setNameError] = useState("");
-  const [usernameError, setUsernameError] = useState("");
-  const [emailError, setEmailError] = useState("");
-  const [passwordError, setPasswordError] = useState("");
-  const [confirmPasswordError, setConfirmPasswordError] = useState("");
+  const [nameError, setNameError] = useState('');
+  const [usernameError, setUsernameError] = useState('');
+  const [emailError, setEmailError] = useState('');
+  const [passwordError, setPasswordError] = useState('');
+  const [confirmPasswordError, setConfirmPasswordError] = useState('');
   const [isFirstIcon, setIsFirstIcon] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
@@ -39,41 +39,41 @@ const ExternalSignUpScreen = () => {
   const navigation = useNavigation<LoginScreenNavigationProp>();
 
   const handleSignUp = async () => {
-    setNameError("");
-    setUsernameError("");
-    setEmailError("");
-    setPasswordError("");
-    setConfirmPasswordError("");
+    setNameError('');
+    setUsernameError('');
+    setEmailError('');
+    setPasswordError('');
+    setConfirmPasswordError('');
 
     if (!isNameValid(name)) {
-      setNameError("Por favor, insira um nome válido (apenas letras).");
+      setNameError('Por favor, insira um nome válido (apenas letras).');
       return;
     }
 
     if (!isUsernameValid(username)) {
-      setUsernameError("Por favor, insira um nome de usuário válido.");
+      setUsernameError('Por favor, insira um nome de usuário válido.');
       return;
     }
 
     if (!isEmailValid(email)) {
-      setEmailError("Por favor, insira um email válido.");
+      setEmailError('Por favor, insira um email válido.');
       return;
     }
 
     if (!isPasswordValid(password)) {
       setPasswordError(
-        "A senha deve ter pelo menos 8 caracteres, incluindo maiúsculas, minúsculas, números e caracteres especiais."
+        'A senha deve ter pelo menos 8 caracteres, incluindo maiúsculas, minúsculas, números e caracteres especiais.'
       );
       return;
     }
 
     if (!passwordsMatch(password, confirmPassword)) {
-      setConfirmPasswordError("As senhas não coincidem.");
+      setConfirmPasswordError('As senhas não coincidem.');
       return;
     }
 
     if (!isFirstIcon) {
-      Alert.alert("Erro", "Você deve aceitar os termos de uso.");
+      Alert.alert('Erro', 'Você deve aceitar os termos de uso.');
       return;
     }
 
@@ -91,28 +91,28 @@ const ExternalSignUpScreen = () => {
 
       await createUser(userData);
 
-      setName("");
-      setUsername("");
-      setEmail("");
-      setPassword("");
-      setConfirmPassword("");
+      setName('');
+      setUsername('');
+      setEmail('');
+      setPassword('');
+      setConfirmPassword('');
       setIsFirstIcon(false);
       setIsLoading(false);
       setModalVisible(false);
 
-      Alert.alert("Sucesso", "Cadastro realizado com sucesso!");
+      Alert.alert('Sucesso', 'Cadastro realizado com sucesso!');
     } catch (error: any) {
       if (error.response.status === 409) {
-        Alert.alert("Erro", "Nome de usuário ou email já cadastrados.");
+        Alert.alert('Erro', 'Nome de usuário ou email já cadastrados.');
       }
       setShowPasswordRules(true);
       Alert.alert(
-        "Erro",
-        "Erro ao criar usuário. Por favor, tente novamente mais tarde."
+        'Erro',
+        'Erro ao criar usuário. Por favor, tente novamente mais tarde.'
       );
       setIsLoading(false);
     } finally {
-      navigation.navigate("Login");
+      navigation.navigate('Login');
     }
   };
 
@@ -127,7 +127,7 @@ const ExternalSignUpScreen = () => {
   return (
     <KeyboardAwareScrollView
       enableOnAndroid={true}
-      contentContainerStyle={{ flexGrow: 1, justifyContent: "center" }}
+      contentContainerStyle={{ flexGrow: 1, justifyContent: 'center' }}
       extraScrollHeight={isPasswordFocused ? 300 : 100}
       keyboardOpeningTime={250}
     >
@@ -150,8 +150,8 @@ const ExternalSignUpScreen = () => {
               setName(text);
               setNameError(
                 isNameValid(text)
-                  ? ""
-                  : "Por favor, insira um nome válido (apenas letras)."
+                  ? ''
+                  : 'Por favor, insira um nome válido (apenas letras).'
               );
             }}
             style={styles.inputField}
@@ -171,8 +171,8 @@ const ExternalSignUpScreen = () => {
               setUsername(text);
               setUsernameError(
                 isUsernameValid(text)
-                  ? ""
-                  : "Por favor, insira um nome de usuário válido."
+                  ? ''
+                  : 'Por favor, insira um nome de usuário válido.'
               );
             }}
             style={styles.inputField}
@@ -191,7 +191,7 @@ const ExternalSignUpScreen = () => {
             onChangeText={(text) => {
               setEmail(text);
               setEmailError(
-                isEmailValid(text) ? "" : "Por favor, insira um email válido."
+                isEmailValid(text) ? '' : 'Por favor, insira um email válido.'
               );
             }}
             style={styles.inputField}
@@ -219,8 +219,8 @@ const ExternalSignUpScreen = () => {
               setPassword(text);
               setPasswordError(
                 isPasswordValid(text)
-                  ? ""
-                  : "A senha deve ter pelo menos 8 caracteres, incluindo maiúsculas, minúsculas, números e caracteres especiais."
+                  ? ''
+                  : 'A senha deve ter pelo menos 8 caracteres, incluindo maiúsculas, minúsculas, números e caracteres especiais.'
               );
             }}
             secureTextEntry={hidePassword}
@@ -228,7 +228,7 @@ const ExternalSignUpScreen = () => {
           />
           <Pressable onPress={togglePasswordVisibility} style={styles.eyeIcon}>
             <MaterialCommunityIcons
-              name={hidePassword ? "eye-off" : "eye"}
+              name={hidePassword ? 'eye-off' : 'eye'}
               size={24}
               color="gray"
             />
@@ -259,7 +259,7 @@ const ExternalSignUpScreen = () => {
             style={styles.eyeIcon}
           >
             <MaterialCommunityIcons
-              name={hideConfirmPassword ? "eye-off" : "eye"}
+              name={hideConfirmPassword ? 'eye-off' : 'eye'}
               size={24}
               color="gray"
             />
@@ -276,9 +276,9 @@ const ExternalSignUpScreen = () => {
         <View style={styles.checkboxContainer}>
           <Pressable onPress={() => setIsFirstIcon(!isFirstIcon)}>
             <MaterialCommunityIcons
-              name={isFirstIcon ? "checkbox-marked" : "checkbox-blank-outline"}
+              name={isFirstIcon ? 'checkbox-marked' : 'checkbox-blank-outline'}
               size={30}
-              color={isFirstIcon ? "blue" : "darkgray"}
+              color={isFirstIcon ? 'blue' : 'darkgray'}
             />
           </Pressable>
           <Pressable onPress={() => setModalVisible(true)}>
@@ -291,7 +291,8 @@ const ExternalSignUpScreen = () => {
         {/* Botão de Registro */}
         <BlueButton
           onPress={handleSignUp}
-          text={isLoading ? "Carregando..." : "Criar Conta"}
+          text={'Criar Conta'}
+          loading={isLoading}
         />
 
         {/* Modal de Termos de Uso */}

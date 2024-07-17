@@ -56,11 +56,10 @@ export interface ITagResponse {
 }
 
 export interface IEditPostRequest {
-  titulo: string;
-  texto: string;
+  titulo?: string;
+  texto?: string;
   eventoId?: string;
   tags?: string[];
-  imagem?: File;
 }
 
 export interface ISavePostRequest {

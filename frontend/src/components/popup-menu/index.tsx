@@ -1,7 +1,7 @@
-import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
-import { useNavigation } from "@react-navigation/native";
-import * as Calendar from "expo-calendar";
-import { useState } from "react";
+import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
+import { useNavigation } from '@react-navigation/native';
+import * as Calendar from 'expo-calendar';
+import { useState } from 'react';
 import {
   Alert,
   Modal,
@@ -10,14 +10,14 @@ import {
   SafeAreaView,
   Text,
   View,
-} from "react-native";
-import { useSelector } from "react-redux";
-import { FeedScreenNavigationProp } from "../../routes/types";
-import { deletePost } from "../../services/api";
-import { IStore } from "../../store";
-import ConfirmationModal from "../modals/confirm-modal";
-import { styles } from "./styles";
-import { Option } from "./types";
+} from 'react-native';
+import { useSelector } from 'react-redux';
+import { FeedScreenNavigationProp } from '../../routes/types';
+import { deletePost } from '../../services/api';
+import { IStore } from '../../store';
+import ConfirmationModal from '../modals/confirm-modal';
+import { styles } from './styles';
+import { Option } from './types';
 
 const PopupMenu = () => {
   const [visible, setVisible] = useState(false);
@@ -32,13 +32,13 @@ const PopupMenu = () => {
   const handleDeletePost = async () => {
     setLoading(true);
     try {
-      const response = await deletePost(post?.id ?? "");
+      const response = await deletePost(post?.id ?? '');
       if (response.status === 200) {
-        Alert.alert("Sucesso", "Post excluído com sucesso");
-        navigation.navigate("Home");
+        Alert.alert('Sucesso', 'Post excluído com sucesso');
+        navigation.navigate('Home');
       }
     } catch (error) {
-      Alert.alert("Erro", "Não foi possível excluir o post");
+      Alert.alert('Erro', 'Não foi possível excluir o post');
     } finally {
       setLoading(false);
       setModalVisible(false);
@@ -48,38 +48,38 @@ const PopupMenu = () => {
 
   const handleSavePost = () => {
     setVisible(false);
-    alert("Salvando post");
+    alert('Salvando post');
   };
 
   const handleAddToCalendar = async () => {
     setVisible(false);
     if (!post?.eventoId) {
-      Alert.alert("Erro", "Nenhum evento associado ao post.");
+      Alert.alert('Erro', 'Nenhum evento associado ao post.');
       return;
     }
 
     const { status } = await Calendar.requestCalendarPermissionsAsync();
-    if (status === "granted") {
+    if (status === 'granted') {
       let defaultCalendarSource: Calendar.Source;
       let calendarId: string;
 
-      if (Platform.OS === "ios") {
+      if (Platform.OS === 'ios') {
         const defaultCalendar = await Calendar.getDefaultCalendarAsync();
         defaultCalendarSource = defaultCalendar.source;
         calendarId = defaultCalendar.id;
       } else {
         defaultCalendarSource = {
           isLocalAccount: true,
-          name: "Ufam Explore Calendar",
+          name: 'Ufam Explore Calendar',
           type: Calendar.SourceType.LOCAL,
         };
         calendarId = await Calendar.createCalendarAsync({
-          title: "Ufam Explore Calendar",
-          color: "blue",
+          title: 'Ufam Explore Calendar',
+          color: 'blue',
           entityType: Calendar.EntityTypes.EVENT,
           source: defaultCalendarSource,
-          name: "internalCalendarName",
-          ownerAccount: "personal",
+          name: 'internalCalendarName',
+          ownerAccount: 'personal',
           accessLevel: Calendar.CalendarAccessLevel.OWNER,
         });
       }
@@ -88,30 +88,30 @@ const PopupMenu = () => {
         title: event.titulo,
         startDate: new Date(event.dataInicio),
         endDate: new Date(event.dataFinal),
-        timeZone: "GMT-4",
+        timeZone: 'GMT-4',
         location: event.localizacao,
         notes: event.descricao,
       };
 
       try {
         await Calendar.createEventAsync(calendarId, newEvent);
-        Alert.alert("Sucesso", "Evento adicionado ao calendário!");
+        Alert.alert('Sucesso', 'Evento adicionado ao calendário!');
       } catch (error) {
-        console.error("Erro ao criar evento no calendário:", error);
+        console.error('Erro ao criar evento no calendário:', error);
         Alert.alert(
-          "Erro",
-          "Não foi possível adicionar o evento ao calendário."
+          'Erro',
+          'Não foi possível adicionar o evento ao calendário.'
         );
       }
     } else {
-      Alert.alert("Permissão negada", "Não foi possível acessar o calendário.");
+      Alert.alert('Permissão negada', 'Não foi possível acessar o calendário.');
     }
   };
 
   const options: Option[] = [
     {
-      title: "Adicionar ao calendário",
-      icon: "calendar",
+      title: 'Adicionar ao calendário',
+      icon: 'calendar',
       action: handleAddToCalendar,
     },
   ];
@@ -119,16 +119,16 @@ const PopupMenu = () => {
   if (isPostOwner) {
     options.unshift(
       {
-        title: "Editar post",
-        icon: "pencil",
+        title: 'Editar post',
+        icon: 'pencil',
         action: () => {
           setVisible(false);
-          navigation.navigate("EditPost");
+          navigation.navigate('EditPost');
         },
       },
       {
-        title: "Excluir post",
-        icon: "delete",
+        title: 'Excluir post',
+        icon: 'delete',
         action: () => {
           setModalVisible(true);
         },

@@ -66,7 +66,6 @@ export class PostRepository {
       },
     });
 
-    // Ordene os posts pela contagem de upvotes
     return posts.sort((a, b) => b.upvotes.length - a.upvotes.length);
   }
 

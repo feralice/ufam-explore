@@ -133,7 +133,8 @@ const Login = () => {
 
             <BlueButton
               onPress={handleSubmit(handleLogin)}
-              text={isLoading ? "Carregando..." : "ENTRAR"}
+              text={"ENTRAR"}
+              loading={isLoading}
             />
           </View>
 

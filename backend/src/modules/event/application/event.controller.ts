@@ -4,8 +4,8 @@ import {
   Get,
   HttpStatus,
   Param,
-  Patch,
   Post,
+  Put,
 } from '@nestjs/common';
 import {
   ApiBearerAuth,
@@ -68,11 +68,15 @@ export class EventController {
     return this.getEventByIdService.findOne(id);
   }
 
-  @Patch('/:id')
-  @ApiOperation({ summary: 'Atualiza um evento existente' })
+  @Put('/:id')
+  @ApiOperation({ summary: 'Atualiza um evento existente ou cria um novo' })
   @ApiResponse({
     status: HttpStatus.OK,
     description: 'O evento foi atualizado com sucesso.',
+  })
+  @ApiResponse({
+    status: HttpStatus.CREATED,
+    description: 'O evento foi criado com sucesso.',
   })
   @ApiResponse({
     status: HttpStatus.NOT_FOUND,
@@ -83,10 +87,10 @@ export class EventController {
     description: 'Parâmetros inválidos.',
   })
   @ApiParam({ name: 'id', type: String })
-  async update(
+  async upsert(
     @Param('id') id: string,
     @Body() updateEventDto: UpdateEventDto,
   ): Promise<Evento> {
-    return this.updateEventService.updateEvent(id, updateEventDto);
+    return this.updateEventService.upsertEvent(id, updateEventDto);
   }
 }

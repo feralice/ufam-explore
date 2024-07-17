@@ -2,22 +2,30 @@ import {
   AntDesign,
   Ionicons,
   MaterialCommunityIcons,
-} from "@expo/vector-icons";
-import { useFocusEffect, useNavigation } from "@react-navigation/native";
-import { useCallback, useEffect } from "react";
-import { Alert, Image, Pressable, ScrollView, Text, View } from "react-native";
-import { useSelector } from "react-redux";
-import { HashtagInPost } from "../../components/hashtags";
-import PopupMenu from "../../components/popup-menu";
-import { getEventById, savePost } from "../../services/api";
-import { ISavePostRequest } from "../../services/types";
-import { IStore } from "../../store";
-import { setEventData } from "../../store/event/actions";
-import { ClearEventData } from "../../store/event/state";
-import { updateUserSaved } from "../../store/post/actions";
-import { useVoteHandlers } from "../../utils/votes/useVoteHandlers";
-import { styles } from "./style";
-import { CustomInput } from "../../components/inputs";
+} from '@expo/vector-icons';
+import { useFocusEffect, useNavigation } from '@react-navigation/native';
+import { useCallback, useEffect, useState } from 'react';
+import {
+  ActivityIndicator,
+  Alert,
+  Image,
+  Pressable,
+  ScrollView,
+  Text,
+  View,
+} from 'react-native';
+import { useSelector } from 'react-redux';
+import { CommentSection } from '../../components/Comments/comment-section';
+import { HashtagInPost } from '../../components/hashtags';
+import PopupMenu from '../../components/popup-menu';
+import { getEventById, savePost } from '../../services/api';
+import { ISavePostRequest } from '../../services/types';
+import { IStore } from '../../store';
+import { setEventData } from '../../store/event/actions';
+import { ClearEventData } from '../../store/event/state';
+import { updateUserSaved } from '../../store/post/actions';
+import { useVoteHandlers } from '../../utils/votes/useVoteHandlers';
+import { styles } from './style';
 
 export const PostScreenExtend = () => {
   const navigation = useNavigation();
@@ -27,17 +35,14 @@ export const PostScreenExtend = () => {
   );
   const event = useSelector((state: IStore) => state.event.evento);
   const { id } = useSelector((state: IStore) => state.user.user);
-  const currentUser = useSelector((state: IStore) => state.user);
+
+  const [loadingEvent, setLoadingEvent] = useState(true);
 
   useFocusEffect(
     useCallback(() => {
       if (!currentPost) {
         navigation.goBack();
       }
-
-      return () => {
-        setEventData(ClearEventData.evento);
-      };
     }, [currentPost, navigation])
   );
 
@@ -47,14 +52,32 @@ export const PostScreenExtend = () => {
         const event = await getEventById(eventId);
         setEventData(event.data);
       } catch (error) {
-        console.error("Erro ao buscar evento por ID:", error);
+        console.error('Erro ao buscar evento por ID:', error);
+      } finally {
+        setLoadingEvent(false);
       }
     };
 
     if (currentPost?.eventoId) {
+      setLoadingEvent(true);
       fetchEventById(currentPost.eventoId);
     }
   }, [currentPost]);
+
+  useEffect(() => {
+    const unsubscribe = navigation.addListener('beforeRemove', (e) => {
+      const isNavigate = e.data.action.type === 'NAVIGATE';
+      const navigateToEditEventScreen =
+        isNavigate &&
+        (e.data.action.payload as { name: string })?.name === 'EditEventScreen';
+
+      if (!navigateToEditEventScreen) {
+        setEventData(ClearEventData.evento);
+      }
+    });
+
+    return unsubscribe;
+  }, [navigation]);
 
   if (!currentPost) {
     return (
@@ -82,10 +105,10 @@ export const PostScreenExtend = () => {
       }
       updateUserSaved(currentPost.id, !saved);
     } catch (error) {
-      console.error("Erro ao salvar post:", error);
+      console.error('Erro ao salvar post:', error);
       Alert.alert(
-        "Erro",
-        "Ocorreu um erro ao salvar o post. Por favor, tente novamente."
+        'Erro',
+        'Ocorreu um erro ao salvar o post. Por favor, tente novamente.'
       );
     }
   };
@@ -106,10 +129,10 @@ export const PostScreenExtend = () => {
     try {
       await savePost(data);
     } catch (error) {
-      console.error("Erro ao desfazer salvar post:", error);
+      console.error('Erro ao desfazer salvar post:', error);
       Alert.alert(
-        "Erro",
-        "Ocorreu um erro ao desfazer a ação de salvar o post. Por favor, tente novamente."
+        'Erro',
+        'Ocorreu um erro ao desfazer a ação de salvar o post. Por favor, tente novamente.'
       );
     }
   };
@@ -118,7 +141,10 @@ export const PostScreenExtend = () => {
     <ScrollView contentContainerStyle={styles.scrollViewContainer}>
       <View style={styles.container}>
         <Pressable
-          onPress={() => navigation.goBack()}
+          onPress={() => {
+            setEventData(ClearEventData.evento);
+            navigation.goBack();
+          }}
           style={styles.backButton}
         >
           <AntDesign name="arrowleft" size={24} color="black" />
@@ -152,27 +178,27 @@ export const PostScreenExtend = () => {
 
             <Pressable style={styles.icon} onPress={handleUpvote}>
               <MaterialCommunityIcons
-                name={upvoted ? "arrow-up-bold" : "arrow-up-bold-outline"}
+                name={upvoted ? 'arrow-up-bold' : 'arrow-up-bold-outline'}
                 size={upvoted ? 26 : 24}
-                color={upvoted ? "green" : "black"}
+                color={upvoted ? 'green' : 'black'}
               />
               <Text>{currentUpvote}</Text>
             </Pressable>
 
             <Pressable style={styles.icon} onPress={handleDownvote}>
               <MaterialCommunityIcons
-                name={downvoted ? "arrow-down-bold" : "arrow-down-bold-outline"}
+                name={downvoted ? 'arrow-down-bold' : 'arrow-down-bold-outline'}
                 size={downvoted ? 26 : 24}
-                color={downvoted ? "red" : "black"}
+                color={downvoted ? 'red' : 'black'}
               />
               <Text>{currentDownvote}</Text>
             </Pressable>
 
             <Pressable style={styles.icon} onPress={handleSave}>
               <MaterialCommunityIcons
-                name={saved ? "bookmark" : "bookmark-outline"}
+                name={saved ? 'bookmark' : 'bookmark-outline'}
                 size={25}
-                color={saved ? "darkblue" : "black"}
+                color={saved ? 'darkblue' : 'black'}
               />
             </Pressable>
           </View>
@@ -186,65 +212,47 @@ export const PostScreenExtend = () => {
               </View>
             )}
 
-            {event.titulo && (
-              <View style={styles.eventInfoContainer}>
-                <Text style={styles.eventTitle}>{event.titulo}</Text>
-                {event.descricao && <Text>{event.descricao}</Text>}
-                <Text>Localização: {event.localizacao}</Text>
-                <Text>
-                  Data e Hora de Início:
-                  {`${new Date(
-                    event.dataInicio
-                  ).toLocaleDateString()} ${new Date(
-                    event.dataInicio
-                  ).toLocaleTimeString([], {
-                    hour: "2-digit",
-                    minute: "2-digit",
-                  })}`}
-                </Text>
-                <Text>
-                  Data de Término:
-                  {`${new Date(
-                    event.dataFinal
-                  ).toLocaleDateString()} ${new Date(
-                    event.dataFinal
-                  ).toLocaleTimeString([], {
-                    hour: "2-digit",
-                    minute: "2-digit",
-                  })}`}
-                </Text>
-              </View>
-            )}
-          </ScrollView>
-
-          {/*box to insertion comments*/}
-          <View style={styles.CommentsBox}>
-            {currentUser.user.fotoPerfil ? (
-              <Image
-                style={styles.imagePerfil}
-                source={{ uri: currentUser.user.fotoPerfil }}
+            {loadingEvent && currentPost.eventoId ? (
+              <ActivityIndicator
+                style={styles.loadingIndicator}
+                size="large"
+                color="#0000ff"
               />
             ) : (
-              <MaterialCommunityIcons name="account" size={30} color="#000" />
+              event.titulo && (
+                <View style={styles.eventInfoContainer}>
+                  <Text style={styles.eventTitle}>{event.titulo}</Text>
+                  {event.descricao && <Text>{event.descricao}</Text>}
+                  <Text>Localização: {event.localizacao}</Text>
+                  <Text>
+                    Data e Hora de Início:
+                    {`${new Date(
+                      event.dataInicio
+                    ).toLocaleDateString()} ${new Date(
+                      event.dataInicio
+                    ).toLocaleTimeString([], {
+                      hour: '2-digit',
+                      minute: '2-digit',
+                    })}`}
+                  </Text>
+                  <Text>
+                    Data de Término:
+                    {`${new Date(
+                      event.dataFinal
+                    ).toLocaleDateString()} ${new Date(
+                      event.dataFinal
+                    ).toLocaleTimeString([], {
+                      hour: '2-digit',
+                      minute: '2-digit',
+                    })}`}
+                  </Text>
+                </View>
+              )
             )}
-            {/*comentario logo abaixo*/}
-            <CustomInput
-              multiline
-              id="comentario"
-              style={styles.BoxInputComment}
-            ></CustomInput>
-            <Pressable
-              onPress={() => {
-                Alert.alert("enviar comentario");
-              }}
-            >
-              <MaterialCommunityIcons
-                name="chevron-right-circle-outline"
-                size={40}
-                color="#000"
-              />
-            </Pressable>
-          </View>
+
+            {/* Comentários */}
+            <CommentSection />
+          </ScrollView>
         </View>
       </View>
     </ScrollView>

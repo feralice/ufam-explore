@@ -1,4 +1,4 @@
-import { IEventState } from "./types";
+import { IEventState } from './types';
 
 const dataInicio = new Date().toISOString();
 
@@ -8,16 +8,17 @@ export const EventInitialState: IEventState = {
     dataFinal: new Date(
       new Date().setDate(new Date().getDate() + 1)
     ).toISOString(),
-    localizacao: "",
-    titulo: "",
+    localizacao: '',
+    titulo: '',
   },
 };
 
 export const ClearEventData: IEventState = {
   evento: {
-    dataInicio: "",
-    dataFinal:"",
-    localizacao: "",
-    titulo: "",
+    dataInicio: '',
+    dataFinal: '',
+    localizacao: '',
+    titulo: '',
+    descricao: '',
   },
 };
