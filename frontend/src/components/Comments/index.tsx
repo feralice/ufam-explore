@@ -9,6 +9,7 @@ import {
 import { CommentProp } from "./type";
 
 export const Comments = ({ name, photo, text, action }: CommentProp) => {
+  const optionPhoto = require("../../assets/ThreePoint.png");
   return (
     <View style={styles.container}>
       {photo ? (
@@ -20,7 +21,7 @@ export const Comments = ({ name, photo, text, action }: CommentProp) => {
         <View style={styles.header}>
           <Text style={styles.username}>@{name}</Text>
           <Pressable onPress={action}>
-            <MaterialCommunityIcons name="animation" size={25} color="#000" />
+            <Image source={optionPhoto}></Image>
           </Pressable>
         </View>
         <Text style={styles.message}>{text}</Text>

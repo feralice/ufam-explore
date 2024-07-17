@@ -226,25 +226,25 @@ export const PostScreenExtend = () => {
                   <Text>Localização: {event.localizacao}</Text>
                   <Text>
                     Data e Hora de Início:
-                    {`${new Date(
+                    {${new Date(
                       event.dataInicio
                     ).toLocaleDateString()} ${new Date(
                       event.dataInicio
                     ).toLocaleTimeString([], {
                       hour: '2-digit',
                       minute: '2-digit',
-                    })}`}
+                    })}}
                   </Text>
                   <Text>
                     Data de Término:
-                    {`${new Date(
+                    {${new Date(
                       event.dataFinal
                     ).toLocaleDateString()} ${new Date(
                       event.dataFinal
                     ).toLocaleTimeString([], {
                       hour: '2-digit',
                       minute: '2-digit',
-                    })}`}
+                    })}}
                   </Text>
                 </View>
               )
