@@ -14,7 +14,6 @@ export class CommentsRepository {
         conteudo,
         usuarioId,
         postagemId,
-        data: new Date(),
         createdAt: new Date(),
         updatedAt: new Date(),
       },
