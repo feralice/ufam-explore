@@ -14,7 +14,7 @@ import {
   Text,
   View,
 } from 'react-native';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { CommentSection } from '../../../components/Comments/comment-section';
 import { HashtagInPost } from '../../../components/hashtags';
 import PopupMenu from '../../../components/popup-menu';
@@ -35,7 +35,6 @@ export const PostScreenExtend = () => {
   );
   const event = useSelector((state: IStore) => state.event.evento);
   const { id } = useSelector((state: IStore) => state.user.user);
-
   const [loadingEvent, setLoadingEvent] = useState(true);
 
   useFocusEffect(
@@ -61,6 +60,8 @@ export const PostScreenExtend = () => {
     if (currentPost?.eventoId) {
       setLoadingEvent(true);
       fetchEventById(currentPost.eventoId);
+    } else {
+      setLoadingEvent(false);
     }
   }, [currentPost]);
 

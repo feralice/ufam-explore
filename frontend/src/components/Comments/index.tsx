@@ -1,15 +1,10 @@
-import { Alert, Image, Pressable, ScrollView, Text, View } from "react-native";
-import { styles } from "./styles";
-import { IStore } from "../../store";
-import {
-  AntDesign,
-  Ionicons,
-  MaterialCommunityIcons,
-} from "@expo/vector-icons";
-import { CommentProp } from "./type";
+import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { Image, Pressable, Text, View } from 'react-native';
+import { styles } from './styles';
+import { CommentProp } from './type';
 
 export const Comments = ({ name, photo, text, action }: CommentProp) => {
-  const optionPhoto = require("../../assets/ThreePoint.png");
+  const optionPhoto = require('../../assets/ThreePoint.png');
   return (
     <View style={styles.container}>
       {photo ? (

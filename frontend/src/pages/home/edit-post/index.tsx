@@ -34,23 +34,6 @@ export const EditPostScreen = () => {
     }
   }, [post]);
 
-  useEffect(() => {
-    if (post && event && event.id) {
-      const updatePostDto: IEditPostRequest = {
-        titulo: title,
-        texto: text,
-        eventoId: event.id,
-      };
-      editPost(post.id, updatePostDto, image || undefined).then(() => {
-        const updatedPost = {
-          ...post,
-          eventoId: event.id,
-        };
-        updateCurrentPost(updatedPost);
-      });
-    }
-  }, [event]);
-
   if (!post) {
     return (
       <View style={styles.container}>
