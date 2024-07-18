@@ -73,7 +73,6 @@ model Postagem {
 
 model Comentario {
   id         String   @id @default(uuid())
-  data       DateTime
   conteudo   String
   usuarioId  String
   postagemId String
