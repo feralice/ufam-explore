@@ -6,6 +6,7 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
   app.enableCors();
+  console.log('DATABASE_URL:', process.env.DATABASE_URL);
 
   if (process.env.ENABLE_SWAGGER === 'true') {
     const config = new DocumentBuilder()

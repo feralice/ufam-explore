@@ -1,5 +1,6 @@
 import { AxiosResponse } from 'axios';
 import * as FileSystem from 'expo-file-system';
+import { IComment } from '../store/comment/types';
 import { IEvent } from '../store/event/types';
 import { IPost, Tag } from '../store/post/types';
 import { IUser } from '../store/user/types';
@@ -256,4 +257,11 @@ export const upsertEvent = async (
     const response = await api.post('/evento', data);
     return response;
   }
+};
+
+export const createComment = async (
+  commentData: IComment
+): Promise<AxiosResponse<IComment>> => {
+  const response = await api.post('/comments/create', commentData);
+  return response;
 };

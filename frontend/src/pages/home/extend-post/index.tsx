@@ -14,7 +14,7 @@ import {
   Text,
   View,
 } from 'react-native';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { CommentSection } from '../../../components/Comments/comment-section';
 import { HashtagInPost } from '../../../components/hashtags';
 import PopupMenu from '../../../components/popup-menu';
@@ -203,57 +203,53 @@ export const PostScreenExtend = () => {
               />
             </Pressable>
           </View>
-          <ScrollView>
-            <Text style={styles.text}>{currentPost.texto}</Text>
-            {currentPost.tags && currentPost.tags.length > 0 && (
-              <View style={styles.tagsContainer}>
-                {currentPost.tags.map((tag) => (
-                  <HashtagInPost key={tag.id} name={tag.nome} />
-                ))}
+          <Text style={styles.text}>{currentPost.texto}</Text>
+          {currentPost.tags && currentPost.tags.length > 0 && (
+            <View style={styles.tagsContainer}>
+              {currentPost.tags.map((tag) => (
+                <HashtagInPost key={tag.id} name={tag.nome} />
+              ))}
+            </View>
+          )}
+
+          {loadingEvent && currentPost.eventoId ? (
+            <ActivityIndicator
+              style={styles.loadingIndicator}
+              size="large"
+              color="#0000ff"
+            />
+          ) : (
+            event.titulo && (
+              <View style={styles.eventInfoContainer}>
+                <Text style={styles.eventTitle}>{event.titulo}</Text>
+                {event.descricao && <Text>{event.descricao}</Text>}
+                <Text>Localização: {event.localizacao}</Text>
+                <Text>
+                  Data e Hora de Início:
+                  {`${new Date(
+                    event.dataInicio
+                  ).toLocaleDateString()} ${new Date(
+                    event.dataInicio
+                  ).toLocaleTimeString([], {
+                    hour: '2-digit',
+                    minute: '2-digit',
+                  })}`}
+                </Text>
+                <Text>
+                  Data de Término:
+                  {`${new Date(
+                    event.dataFinal
+                  ).toLocaleDateString()} ${new Date(
+                    event.dataFinal
+                  ).toLocaleTimeString([], {
+                    hour: '2-digit',
+                    minute: '2-digit',
+                  })}`}
+                </Text>
               </View>
-            )}
-
-            {loadingEvent && currentPost.eventoId ? (
-              <ActivityIndicator
-                style={styles.loadingIndicator}
-                size="large"
-                color="#0000ff"
-              />
-            ) : (
-              event.titulo && (
-                <View style={styles.eventInfoContainer}>
-                  <Text style={styles.eventTitle}>{event.titulo}</Text>
-                  {event.descricao && <Text>{event.descricao}</Text>}
-                  <Text>Localização: {event.localizacao}</Text>
-                  <Text>
-                    Data e Hora de Início:
-                    {`${new Date(
-                      event.dataInicio
-                    ).toLocaleDateString()} ${new Date(
-                      event.dataInicio
-                    ).toLocaleTimeString([], {
-                      hour: '2-digit',
-                      minute: '2-digit',
-                    })}`}
-                  </Text>
-                  <Text>
-                    Data de Término:
-                    {`${new Date(
-                      event.dataFinal
-                    ).toLocaleDateString()} ${new Date(
-                      event.dataFinal
-                    ).toLocaleTimeString([], {
-                      hour: '2-digit',
-                      minute: '2-digit',
-                    })}`}
-                  </Text>
-                </View>
-              )
-            )}
-
-            {/* Comentários */}
-            <CommentSection />
-          </ScrollView>
+            )
+          )}
+        <CommentSection />
         </View>
       </View>
     </ScrollView>

@@ -1,5 +1,5 @@
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import { combineReducers, configureStore } from "@reduxjs/toolkit";
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { combineReducers, configureStore } from '@reduxjs/toolkit';
 import {
   FLUSH,
   PAUSE,
@@ -9,22 +9,25 @@ import {
   REHYDRATE,
   persistReducer,
   persistStore,
-} from "redux-persist";
-import { eventSlice } from "./event";
-import { IEventState } from "./event/types";
-import { postSlice } from "./post";
-import { PostInitialStateType } from "./post/types";
-import { userSlice } from "./user";
-import { UserInitialStateType } from "./user/types";
+} from 'redux-persist';
+import { commentSlice } from './comment';
+import { ICommentState } from './comment/types';
+import { eventSlice } from './event';
+import { IEventState } from './event/types';
+import { postSlice } from './post';
+import { PostInitialStateType } from './post/types';
+import { userSlice } from './user';
+import { UserInitialStateType } from './user/types';
 
 const rootReducer = combineReducers({
   post: postSlice.reducer,
   event: eventSlice.reducer,
   user: userSlice.reducer,
+  comment: commentSlice.reducer,
 });
 
 const persistConfig = {
-  key: "root",
+  key: 'root',
   storage: AsyncStorage,
 };
 
@@ -34,6 +37,7 @@ export interface IStore {
   post: PostInitialStateType;
   event: IEventState;
   user: UserInitialStateType;
+  comment: ICommentState;
 }
 
 export const store = configureStore({
