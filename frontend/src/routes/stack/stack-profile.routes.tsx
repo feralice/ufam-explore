@@ -1,11 +1,11 @@
-import { createStackNavigator } from "@react-navigation/stack";
-import { EditProfileInformation } from "../../pages/edit-profile-informations";
-import { ProfileScreen } from "../../pages/profile";
-import { ProfileInformationScreen } from "../../pages/profile-informations";
-import SavedPostsScreen from "../../pages/saved-posts";
-import { UserPostsScreen } from "../../pages/user-posts";
-import { RootStackParamList } from "../types";
-import { PostScreenExtend } from "../../pages/extend-post";
+import { createStackNavigator } from '@react-navigation/stack';
+import { PostScreenExtend } from '../../pages/home/extend-post';
+import { EditProfileInformation } from '../../pages/profile/edit-profile-informations';
+import { ProfileInformationScreen } from '../../pages/profile/profile-informations';
+import { ProfileScreen } from '../../pages/profile/profile-screen';
+import SavedPostsScreen from '../../pages/profile/saved-posts';
+import { UserPostsScreen } from '../../pages/profile/user-posts';
+import { RootStackParamList } from '../types';
 
 const ProfileStack = createStackNavigator<RootStackParamList>();
 
@@ -31,8 +31,6 @@ export const ProfileStackNavigator = () => {
         name="ExtendPostProfile"
         component={PostScreenExtend}
       />
-
-
     </ProfileStack.Navigator>
   );
 };

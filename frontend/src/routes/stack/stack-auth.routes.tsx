@@ -1,11 +1,11 @@
-import { createStackNavigator } from "@react-navigation/stack";
-import { useSelector } from "react-redux";
-import Login from "../../pages/login";
-import { UserOption } from "../../pages/user-option";
-import ExternalSignUpScreen from "../../pages/user-registration/external-sign-up";
-import InternalSignUpScreen from "../../pages/user-registration/internal-sign-up";
-import { IStore } from "../../store";
-import { TabNavigator } from "../tab.routes";
+import { createStackNavigator } from '@react-navigation/stack';
+import { useSelector } from 'react-redux';
+import Login from '../../pages/auth/login';
+import { UserOption } from '../../pages/auth/user-option';
+import ExternalSignUpScreen from '../../pages/auth/user-registration/external-sign-up';
+import InternalSignUpScreen from '../../pages/auth/user-registration/internal-sign-up';
+import { IStore } from '../../store';
+import { TabNavigator } from '../tab.routes';
 
 const Stack = createStackNavigator();
 
