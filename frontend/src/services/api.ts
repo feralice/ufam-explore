@@ -265,3 +265,8 @@ export const createComment = async (
   const response = await api.post('/comments/create', commentData);
   return response;
 };
+
+export const getCommentsByPost = async (postId: string) => {
+  const response = await api.get(`/comments/by-post/${postId}`);
+  return response;
+};

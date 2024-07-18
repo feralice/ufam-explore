@@ -3,6 +3,10 @@ export interface IComment {
   conteudo: string;
   usuarioId: string;
   postagemId: string;
+  usuario?: {
+    username: string;
+    fotoPerfil: string;
+  };
 }
 
 export interface ICommentState {

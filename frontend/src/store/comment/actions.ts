@@ -9,3 +9,7 @@ export const addComment = (commentData: IComment) => {
 export const setComments = (comments: IComment[]) => {
   store.dispatch(commentSlice.actions.setComments(comments));
 };
+
+export const clearComments = () => {
+  store.dispatch(commentSlice.actions.clearComments());
+};

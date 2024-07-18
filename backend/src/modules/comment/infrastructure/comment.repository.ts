@@ -19,4 +19,20 @@ export class CommentsRepository {
       },
     });
   }
+
+  async findByPost(postId: string) {
+    return this.prisma.comentario.findMany({
+      where: {
+        postagemId: postId,
+      },
+      include: {
+        usuario: {
+          select: {
+            username: true,
+            fotoPerfil: true,
+          },
+        },
+      },
+    });
+  }
 }

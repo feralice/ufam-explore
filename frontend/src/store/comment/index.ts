@@ -12,5 +12,8 @@ export const commentSlice = createSlice({
     setComments: (state, action: PayloadAction<IComment[]>) => {
       state.comments = action.payload;
     },
+    clearComments: (state) => {
+      state.comments = [];
+    },
   },
 });

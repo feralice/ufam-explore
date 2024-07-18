@@ -1,7 +1,8 @@
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useState } from 'react';
 import { Alert, Image, Pressable, ScrollView, View } from 'react-native';
-import { useDispatch, useSelector } from 'react-redux';
+import Toast from 'react-native-root-toast';
+import { useSelector } from 'react-redux';
 import { Comments } from '..';
 import { createComment } from '../../../services/api';
 import { IStore } from '../../../store';
@@ -10,16 +11,18 @@ import { IComment } from '../../../store/comment/types';
 import { CustomInput } from '../../inputs';
 import { styles } from './styles';
 
-export const CommentSection = () => {
+export const CommentInput = () => {
   const [commentInput, setCommentInput] = useState('');
   const currentUser = useSelector((state: IStore) => state.user);
   const currentPost = useSelector((state: IStore) => state.post.currentPost);
   const comments = useSelector((state: IStore) => state.comment.comments);
-  const dispatch = useDispatch();
 
   const handleCommentSubmit = async () => {
     if (commentInput.trim() === '') {
-      Alert.alert('Erro', 'O comentário não pode estar vazio.');
+      Toast.show('O comentário não pode estar vazio.', {
+        duration: Toast.durations.SHORT,
+        position: Toast.positions.BOTTOM,
+      });
       return;
     }
 
@@ -66,6 +69,7 @@ export const CommentSection = () => {
         <CustomInput
           multiline
           id="comentario"
+          placeholder="Adicione um comentário..."
           style={styles.BoxInputComment}
           value={commentInput}
           onChangeText={setCommentInput}

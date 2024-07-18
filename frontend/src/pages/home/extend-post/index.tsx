@@ -14,13 +14,18 @@ import {
   Text,
   View,
 } from 'react-native';
-import { useSelector } from 'react-redux';
-import { CommentSection } from '../../../components/Comments/comment-section';
+import { useDispatch, useSelector } from 'react-redux';
+import { CommentInput } from '../../../components/Comments/comment-input';
 import { HashtagInPost } from '../../../components/hashtags';
 import PopupMenu from '../../../components/popup-menu';
-import { getEventById, savePost } from '../../../services/api';
+import {
+  getCommentsByPost,
+  getEventById,
+  savePost,
+} from '../../../services/api';
 import { ISavePostRequest } from '../../../services/types';
 import { IStore } from '../../../store';
+import { setComments } from '../../../store/comment/actions';
 import { setEventData } from '../../../store/event/actions';
 import { ClearEventData } from '../../../store/event/state';
 import { updateUserSaved } from '../../../store/post/actions';
@@ -29,6 +34,7 @@ import { styles } from './style';
 
 export const PostScreenExtend = () => {
   const navigation = useNavigation();
+  const dispatch = useDispatch();
   const currentPost = useSelector((state: IStore) => state.post.currentPost);
   const saved = useSelector(
     (state: IStore) => currentPost && state.post.userSaved[currentPost.id]
@@ -36,6 +42,7 @@ export const PostScreenExtend = () => {
   const event = useSelector((state: IStore) => state.event.evento);
   const { id } = useSelector((state: IStore) => state.user.user);
   const [loadingEvent, setLoadingEvent] = useState(true);
+  const [loadingComments, setLoadingComments] = useState(true);
 
   useFocusEffect(
     useCallback(() => {
@@ -57,13 +64,29 @@ export const PostScreenExtend = () => {
       }
     };
 
-    if (currentPost?.eventoId) {
-      setLoadingEvent(true);
-      fetchEventById(currentPost.eventoId);
-    } else {
-      setLoadingEvent(false);
+    const fetchCommentsByPost = async (postId: string) => {
+      try {
+        const response = await getCommentsByPost(postId);
+        setComments(response.data);
+      } catch (error) {
+        console.error('Erro ao buscar comentários por ID da postagem:', error);
+      } finally {
+        setLoadingComments(false);
+      }
+    };
+
+    if (currentPost) {
+      if (currentPost.eventoId) {
+        setLoadingEvent(true);
+        fetchEventById(currentPost.eventoId);
+      } else {
+        setLoadingEvent(false);
+      }
+
+      setLoadingComments(true);
+      fetchCommentsByPost(currentPost.id);
     }
-  }, [currentPost]);
+  }, [currentPost, dispatch]);
 
   useEffect(() => {
     const unsubscribe = navigation.addListener('beforeRemove', (e) => {
@@ -78,7 +101,7 @@ export const PostScreenExtend = () => {
     });
 
     return unsubscribe;
-  }, [navigation]);
+  }, [navigation, dispatch]);
 
   if (!currentPost) {
     return (
@@ -249,7 +272,11 @@ export const PostScreenExtend = () => {
               </View>
             )
           )}
-        <CommentSection />
+          {loadingComments ? (
+            <ActivityIndicator size="large" color="#0000ff" />
+          ) : (
+            <CommentInput />
+          )}
         </View>
       </View>
     </ScrollView>
