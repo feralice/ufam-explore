@@ -50,7 +50,7 @@ export const CommentInput = () => {
         {comments.map((comment: IComment) => (
           <Comments
             key={comment.id}
-            name={currentUser.user.username}
+            username={currentUser.user.username}
             photo={currentUser.user.fotoPerfil ?? ''}
             text={comment.conteudo}
             action={function (): void {

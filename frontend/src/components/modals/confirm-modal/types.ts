@@ -6,4 +6,5 @@ export interface ConfirmationModalProps {
   text: string;
   children?: React.ReactNode;
   showButtons?: boolean;
+  confirmDisabled?: boolean;
 }

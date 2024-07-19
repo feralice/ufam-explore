@@ -1,5 +1,5 @@
 export interface CommentProp {
-  name: string;
+  username: string;
   text: string;
   photo: string;
   action: () => void;

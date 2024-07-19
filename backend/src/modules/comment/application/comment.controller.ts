@@ -1,6 +1,7 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { CreateCommentUseCase } from '../domain/create/create-comment.service';
+import { DeleteCommentUseCase } from '../domain/delete/delete-comment.service';
 import { GetCommentsByPost } from '../domain/get-by-post/get.service';
 import { CreateCommentDto } from './dto/create-comment.dto';
 
@@ -10,6 +11,7 @@ export class CommentsController {
   constructor(
     private readonly createCommentUseCase: CreateCommentUseCase,
     private readonly getCommentsByPostUseCase: GetCommentsByPost,
+    private readonly deleteCommentUseCase: DeleteCommentUseCase,
   ) {}
 
   @Post('/create')
@@ -32,5 +34,16 @@ export class CommentsController {
   @ApiResponse({ status: 400, description: 'Invalid input data' })
   async getCommentsByPost(@Param('postId') postId: string) {
     return this.getCommentsByPostUseCase.execute(postId);
+  }
+
+  @Delete('/delete/:commentId')
+  @ApiOperation({ summary: 'Delete a comment' })
+  @ApiResponse({
+    status: 200,
+    description: 'The comment has been successfully deleted.',
+  })
+  @ApiResponse({ status: 400, description: 'Invalid input data' })
+  async deleteComment(@Param('commentId') commentId: string) {
+    return this.deleteCommentUseCase.execute(commentId);
   }
 }

@@ -19,6 +19,9 @@ export const styles = StyleSheet.create({
     shadowRadius: 4,
     elevation: 5,
   },
+  modalButtonDisabled: {
+    backgroundColor: '#888',
+  },
   modalText: {
     fontSize: 16,
     fontWeight: 'bold',

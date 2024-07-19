@@ -26,17 +26,20 @@ export class CommentsRepository {
         postagemId: postId,
       },
       include: {
-        postagem: {
-          select: {
-            id: true,
-          },
-        },
         usuario: {
           select: {
             username: true,
             fotoPerfil: true,
           },
         },
+      },
+    });
+  }
+
+  async delete(commentId: string) {
+    return this.prisma.comentario.delete({
+      where: {
+        id: commentId,
       },
     });
   }

@@ -1,14 +1,19 @@
-import { MaterialCommunityIcons } from "@expo/vector-icons";
-import { useNavigation } from "@react-navigation/native";
-import { useState } from "react";
-import { Modal, Pressable, SafeAreaView, Text, View } from "react-native";
-import { FeedScreenNavigationProp } from "../../routes/types";
-import DeleteModal from "../modals/delete-modal";
-import { styles } from "./styles";
-import { Option } from "./types";
+import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { useNavigation } from '@react-navigation/native';
+import { useState } from 'react';
+import { Modal, Pressable, SafeAreaView, Text, View } from 'react-native';
+import { useSelector } from 'react-redux';
+import { FeedScreenNavigationProp } from '../../routes/types';
+import { deleteUser } from '../../services/api';
+import { IStore } from '../../store';
+import { handleLogout } from '../../utils/logout';
+import { ConfirmDeleteModal } from '../modals/delete-confirm-modal';
+import { styles } from './styles';
+import { Option } from './types';
 
 const PopupEdit = () => {
   const navigation = useNavigation<FeedScreenNavigationProp>();
+  const { id } = useSelector((state: IStore) => state.user.user);
 
   const [visible, setVisible] = useState(false);
   const [deleteModalVisible, setDeleteModalVisible] = useState(false);
@@ -27,19 +32,24 @@ const PopupEdit = () => {
   };
 
   const handleEditAccount = () => {
-    navigation.navigate("EditProfileInformation");
+    navigation.navigate('EditProfileInformation');
     hideModal();
+  };
+
+  const removeUser = async () => {
+    await deleteUser(id);
+    handleLogout();
   };
 
   const options: Option[] = [
     {
-      title: "Editar conta",
-      icon: "pencil",
+      title: 'Editar conta',
+      icon: 'pencil',
       action: handleEditAccount,
     },
     {
-      title: "Excluir conta",
-      icon: "delete",
+      title: 'Excluir conta',
+      icon: 'delete',
       action: handleDeleteAccount,
     },
   ];
@@ -80,9 +90,13 @@ const PopupEdit = () => {
         </Pressable>
       </Modal>
 
-      <DeleteModal
+      <ConfirmDeleteModal
         visible={deleteModalVisible}
         onClose={() => setDeleteModalVisible(false)}
+        onConfirmAction={removeUser}
+        confirmationText="Conta excluída com sucesso"
+        checkboxLabel="Sim, desejo desativar minha conta."
+        additionalText="Essa ação não pode ser desfeita."
       />
     </View>
   );
