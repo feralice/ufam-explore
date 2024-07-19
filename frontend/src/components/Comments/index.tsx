@@ -3,11 +3,11 @@ import { useRef, useState } from 'react';
 import { Image, Pressable, Text, View } from 'react-native';
 import { useSelector } from 'react-redux';
 import { IStore } from '../../store';
-import PopupComment from '../popup-comment';
+import PopupComment from '../popup-delete-comment';
 import { styles } from './styles';
 import { CommentProp } from './type';
 
-export const Comments = ({ username, photo, text }: CommentProp) => {
+export const Comments = ({ id, username, photo, text }: CommentProp) => {
   const { user } = useSelector((state: IStore) => state.user);
   const isCommentOwner = user.username === username;
   const [modalPosition, setModalPosition] = useState<{ x: number; y: number }>({
@@ -52,6 +52,7 @@ export const Comments = ({ username, photo, text }: CommentProp) => {
       </View>
       {showModal && (
         <PopupComment
+          id={id}
           position={modalPosition}
           visible={showModal}
           onClose={handleCloseModal}

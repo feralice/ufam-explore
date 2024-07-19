@@ -1,12 +1,35 @@
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { Modal, Pressable, SafeAreaView, Text, View } from 'react-native';
+import {
+  Alert,
+  Modal,
+  Pressable,
+  SafeAreaView,
+  Text,
+  View,
+} from 'react-native';
+import Toast from 'react-native-root-toast';
+import { deleteComment } from '../../services/api';
 import { styles } from './styles';
 import { PopupCommentProps } from './types';
 
-const PopupComment = ({ position, visible, onClose }: PopupCommentProps) => {
-  const handleDeleteComment = () => {
-    console.log('Deletando comentário');
-    onClose();
+const PopupComment = ({
+  id,
+  position,
+  visible,
+  onClose,
+}: PopupCommentProps) => {
+  const handleDeleteComment = async () => {
+    try {
+      await deleteComment(id);
+    } catch (error) {
+      Alert.alert('Erro', 'Não foi possível excluir o comentário');
+    } finally {
+      Toast.show('Comentário excluído com sucesso!', {
+        duration: Toast.durations.SHORT,
+        position: Toast.positions.BOTTOM,
+      });
+      onClose();
+    }
   };
 
   return (

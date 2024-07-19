@@ -56,6 +56,7 @@ export const CommentInput = () => {
             action={function (): void {
               throw new Error('Function not implemented.');
             }}
+            id={comment.id ?? ''}
           />
         ))}
       </ScrollView>
