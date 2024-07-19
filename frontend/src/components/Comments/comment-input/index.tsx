@@ -1,6 +1,13 @@
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useState } from 'react';
-import { Alert, Image, Pressable, ScrollView, View } from 'react-native';
+import {
+  ActivityIndicator,
+  Alert,
+  Image,
+  Pressable,
+  ScrollView,
+  View,
+} from 'react-native';
 import Toast from 'react-native-root-toast';
 import { useSelector } from 'react-redux';
 import { Comments } from '..';
@@ -13,6 +20,7 @@ import { styles } from './styles';
 
 export const CommentInput = () => {
   const [commentInput, setCommentInput] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
   const currentUser = useSelector((state: IStore) => state.user);
   const currentPost = useSelector((state: IStore) => state.post.currentPost);
   const comments = useSelector((state: IStore) => state.comment.comments);
@@ -32,6 +40,7 @@ export const CommentInput = () => {
       postagemId: currentPost?.id ?? '',
     };
 
+    setIsLoading(true);
     try {
       const createdComment = await createComment(newComment);
       addComment(createdComment.data);
@@ -41,6 +50,8 @@ export const CommentInput = () => {
         'Erro',
         'Ocorreu um erro ao criar o comentário. Por favor, tente novamente.'
       );
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -50,12 +61,9 @@ export const CommentInput = () => {
         {comments.map((comment: IComment) => (
           <Comments
             key={comment.id}
-            username={currentUser.user.username}
-            photo={currentUser.user.fotoPerfil ?? ''}
+            username={comment.usuario?.username || currentUser.user.username}
+            photo={comment.usuario?.fotoPerfil ?? ''}
             text={comment.conteudo}
-            action={function (): void {
-              throw new Error('Function not implemented.');
-            }}
             id={comment.id ?? ''}
           />
         ))}
@@ -77,12 +85,12 @@ export const CommentInput = () => {
           value={commentInput}
           onChangeText={setCommentInput}
         />
-        <Pressable onPress={handleCommentSubmit}>
-          <MaterialCommunityIcons
-            name="arrow-right-drop-circle-outline"
-            size={30}
-            color="#000"
-          />
+        <Pressable onPress={handleCommentSubmit} disabled={isLoading}>
+          {isLoading ? (
+            <ActivityIndicator size="small" color="#000" />
+          ) : (
+            <MaterialCommunityIcons name="send" size={24} color="#000" />
+          )}
         </Pressable>
       </View>
     </View>

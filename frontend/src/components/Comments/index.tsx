@@ -42,7 +42,7 @@ export const Comments = ({ id, username, photo, text }: CommentProp) => {
             <Pressable ref={dotsRef} onPress={handleDotsPress}>
               <MaterialCommunityIcons
                 name="dots-horizontal"
-                size={16}
+                size={20}
                 color="#000"
               />
             </Pressable>

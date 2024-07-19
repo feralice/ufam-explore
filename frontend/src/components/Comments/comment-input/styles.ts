@@ -3,7 +3,7 @@ import { StyleSheet } from 'react-native';
 export const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 10,
+    padding: 5,
     backgroundColor: '#FFF',
   },
   inputContainer: {
@@ -13,18 +13,17 @@ export const styles = StyleSheet.create({
   },
   imagePerfil: {
     borderRadius: 50,
-    marginLeft: 5,
     width: 25,
     height: 25,
   },
   BoxInputComment: {
     flex: 1,
     height: 40,
-    marginRight: 5,
     backgroundColor: '#EFEFEF',
     borderColor: 'gray',
     borderWidth: 1,
     borderRadius: 5,
+    marginHorizontal: 10,
   },
   commentList: {
     flex: 1,
