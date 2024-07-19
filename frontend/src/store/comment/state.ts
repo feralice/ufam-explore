@@ -1,4 +1,4 @@
-import { ICommentState } from "./types";
+import { ICommentState } from './types';
 
 export const CommentInitialState: ICommentState = {
   comments: [],

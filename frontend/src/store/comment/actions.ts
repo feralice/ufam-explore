@@ -13,3 +13,7 @@ export const setComments = (comments: IComment[]) => {
 export const clearComments = () => {
   store.dispatch(commentSlice.actions.clearComments());
 };
+
+export const removeComment = (commentId: string) => {
+  store.dispatch(commentSlice.actions.removeComment(commentId));
+};

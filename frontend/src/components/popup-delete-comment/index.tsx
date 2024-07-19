@@ -9,6 +9,7 @@ import {
 } from 'react-native';
 import Toast from 'react-native-root-toast';
 import { deleteComment } from '../../services/api';
+import { removeComment } from '../../store/comment/actions';
 import { styles } from './styles';
 import { PopupCommentProps } from './types';
 
@@ -21,6 +22,7 @@ const PopupComment = ({
   const handleDeleteComment = async () => {
     try {
       await deleteComment(id);
+      removeComment(id);
     } catch (error) {
       Alert.alert('Erro', 'Não foi possível excluir o comentário');
     } finally {

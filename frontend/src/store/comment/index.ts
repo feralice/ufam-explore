@@ -15,5 +15,8 @@ export const commentSlice = createSlice({
     clearComments: (state) => {
       state.comments = [];
     },
+    removeComment: (state, action: PayloadAction<string>) => {
+      state.comments = state.comments.filter(comment => comment.id !== action.payload);
+    },
   },
 });
