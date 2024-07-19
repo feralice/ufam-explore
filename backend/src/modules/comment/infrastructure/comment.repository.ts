@@ -26,6 +26,11 @@ export class CommentsRepository {
         postagemId: postId,
       },
       include: {
+        postagem: {
+          select: {
+            id: true,
+          },
+        },
         usuario: {
           select: {
             username: true,
