@@ -16,13 +16,15 @@ import { FeedScreenNavigationProp } from '../../routes/types';
 import { deletePost } from '../../services/api';
 import { IStore } from '../../store';
 import ConfirmationModal from '../modals/confirm-modal';
+import { SaveToCalendarModal } from '../modals/save-to-calendar-modal';
 import { styles } from './styles';
 import { Option } from './types';
 
-const PopupMenu = () => {
+const PopupMenu: React.FC = () => {
   const [visible, setVisible] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [calendarModalVisible, setCalendarModalVisible] = useState(false); // Estado para o novo modal
   const navigation = useNavigation<FeedScreenNavigationProp>();
   const post = useSelector((state: IStore) => state.post.currentPost);
   const currentUser = useSelector((state: IStore) => state.user.user);
@@ -95,7 +97,7 @@ const PopupMenu = () => {
 
       try {
         await Calendar.createEventAsync(calendarId, newEvent);
-        Alert.alert('Sucesso', 'Evento adicionado ao calendário!');
+        setCalendarModalVisible(true); // Exibe o modal de sucesso
       } catch (error) {
         console.error('Erro ao criar evento no calendário:', error);
         Alert.alert(
@@ -144,6 +146,10 @@ const PopupMenu = () => {
         onConfirm={handleDeletePost}
         text="Você tem certeza que deseja apagar o post?"
         loading={loading}
+      />
+      <SaveToCalendarModal
+        visible={calendarModalVisible}
+        onClose={() => setCalendarModalVisible(false)}
       />
       <Pressable onPress={() => setVisible(!visible)}>
         <MaterialCommunityIcons

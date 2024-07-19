@@ -1,15 +1,15 @@
-import React, {useState} from 'react';
-import { View, StyleSheet } from 'react-native';
+import { useState } from 'react';
+import { View } from 'react-native';
+import { Checkbox } from 'react-native-paper';
 import ConfirmationModal from '../confirm-modal';
-import { Checkbox, Text } from 'react-native-paper';
 import styles from './styles';
 
 const ChangeModal = () => {
-    const [isSelected, setSelection] = useState(false);
+  const [isSelected, setSelection] = useState(false);
 
-    const toggleCheckbox = () => {
-        setSelection(!isSelected);
-      };
+  const toggleCheckbox = () => {
+    setSelection(!isSelected);
+  };
 
   return (
     <View style={styles.container}>
@@ -33,6 +33,3 @@ const ChangeModal = () => {
 };
 
 export default ChangeModal;
-
-
-

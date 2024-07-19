@@ -1,8 +1,8 @@
-import { Ionicons } from "@expo/vector-icons";
-import React from "react";
-import { Modal, Pressable, ScrollView, Text, View } from "react-native";
-import { styles } from "./styles";
-import { TermsModalProps } from "./types";
+import { Ionicons } from '@expo/vector-icons';
+import React from 'react';
+import { Modal, Pressable, ScrollView, Text, View } from 'react-native';
+import { styles } from './styles';
+import { TermsModalProps } from './types';
 
 const TermsModal: React.FC<TermsModalProps> = ({
   modalVisible,
@@ -23,7 +23,7 @@ const TermsModal: React.FC<TermsModalProps> = ({
                 <Ionicons name="close-outline" style={styles.closeIcon} />
               </Pressable>
             </View>
-            <View style={{ alignItems: "center", marginBottom: 20 }}>
+            <View style={{ alignItems: 'center', marginBottom: 20 }}>
               <Text style={styles.bigTitle}>
                 TERMOS E CONDIÇÕES GERAIS DE USO
               </Text>
