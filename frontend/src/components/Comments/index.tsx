@@ -1,9 +1,29 @@
 import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { useRef, useState } from 'react';
 import { Image, Pressable, Text, View } from 'react-native';
 import { styles } from './styles';
 import { CommentProp } from './type';
+import PopupComment from '../popup-comment';
 
-export const Comments = ({ name, photo, text, action }: CommentProp) => {
+export const Comments = ({ name, photo, text }: CommentProp) => {
+  const [modalPosition, setModalPosition] = useState<{ x: number; y: number }>({
+    x: 0,
+    y: 0,
+  });
+  const [showModal, setShowModal] = useState(false);
+  const dotsRef = useRef<View>(null);
+
+  const handleDotsPress = () => {
+    dotsRef.current?.measure((fx, fy, width, height, px, py) => {
+      setModalPosition({ x: px - 9 * width, y: py - 0.5 * height });
+      setShowModal(true);
+    });
+  };
+
+  const handleCloseModal = () => {
+    setShowModal(false);
+  };
+
   return (
     <View style={styles.container}>
       {photo ? (
@@ -14,7 +34,7 @@ export const Comments = ({ name, photo, text, action }: CommentProp) => {
       <View style={styles.content}>
         <View style={styles.header}>
           <Text style={styles.username}>@{name}</Text>
-          <Pressable onPress={action}>
+          <Pressable ref={dotsRef} onPress={handleDotsPress}>
             <MaterialCommunityIcons
               name="dots-horizontal"
               size={16}
@@ -24,6 +44,13 @@ export const Comments = ({ name, photo, text, action }: CommentProp) => {
         </View>
         <Text style={styles.message}>{text}</Text>
       </View>
+      {showModal && (
+        <PopupComment
+          position={modalPosition}
+          visible={showModal}
+          onClose={handleCloseModal}
+        />
+      )}
     </View>
   );
 };

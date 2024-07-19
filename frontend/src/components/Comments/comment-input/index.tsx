@@ -53,7 +53,9 @@ export const CommentInput = () => {
             name={currentUser.user.username}
             photo={currentUser.user.fotoPerfil ?? ''}
             text={comment.conteudo}
-            action={() => Alert.alert('Ação', 'Ação do comentário')}
+            action={function (): void {
+              throw new Error('Function not implemented.');
+            }}
           />
         ))}
       </ScrollView>

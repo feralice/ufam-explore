@@ -1,18 +1,13 @@
-import { Dimensions, StyleSheet } from "react-native";
+import { Dimensions, StyleSheet } from 'react-native';
 
-const { width, height } = Dimensions.get("window");
+const { height } = Dimensions.get('window');
 
 export const styles = StyleSheet.create({
-  popupContainer: {
-    position: "absolute",
-    top: 30,
-    right: 20,
-    zIndex: 5,
-  },
   modalOverlay: {
     flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
+    backgroundColor: 'rgba(0, 0, 0, 0.2)',
+    justifyContent: 'center',
+    alignItems: 'center',
     zIndex: 4,
   },
   safeAreaView: {
@@ -21,32 +16,25 @@ export const styles = StyleSheet.create({
   },
   popup: {
     borderRadius: 8,
-    borderColor: "darkblue",
+    borderColor: 'darkblue',
     borderWidth: 1,
-    backgroundColor: "rgba(255, 255, 255, 0.8)",
+    backgroundColor: 'rgba(255, 255, 255, 0.8)',
     paddingHorizontal: 10,
     paddingVertical: 10,
-    position: "absolute",
-    top: 40,
-    right: 20,
-    width: 200,
+    position: 'absolute',
     zIndex: 4,
   },
   option: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
     paddingVertical: height * 0.01,
-    borderBottomColor: "#ccc",
+    borderBottomColor: '#ccc',
     borderBottomWidth: 1,
     zIndex: 4,
   },
   optionText: {
     zIndex: 4,
-    color: "darkblue",
-  },
-  cogIcon: {
-    padding: 10,
-    zIndex: 5,
+    color: 'darkblue',
   },
 });

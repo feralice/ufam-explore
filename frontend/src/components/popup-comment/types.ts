@@ -1,11 +1,5 @@
-export type IconName =
-  | "pencil"
-  | "delete"
-  | "cog";
-
-export interface Option {
-  title: string;
-  icon: IconName;
-  action: () => void;
+export interface PopupCommentProps {
+  position: { x: number; y: number };
+  visible: boolean;
+  onClose: () => void;
 }
-
