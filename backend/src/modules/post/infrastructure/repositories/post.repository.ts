@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { Postagem } from '@prisma/client';
+import { Postagem, Prisma } from '@prisma/client';
 import { PrismaService } from '../../../../prisma/prisma.service';
 import { CreatePostDto } from '../../application/dto/create/create-post.-request.dto';
 import { EditPostDto } from '../../application/dto/edit/edit-post.dto';
@@ -8,7 +8,9 @@ import { EditPostDto } from '../../application/dto/edit/edit-post.dto';
 export class PostRepository {
   constructor(private readonly prisma: PrismaService) {}
 
-  async findPostsByFilter(where: any): Promise<Postagem[]> {
+  async findPostsByFilter(
+    where: Prisma.PostagemWhereInput,
+  ): Promise<Postagem[]> {
     return this.prisma.postagem.findMany({
       where,
       include: {

@@ -1,8 +1,9 @@
-import { MaterialCommunityIcons } from "@expo/vector-icons";
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { HomeStackNavigator } from "./stack/stack-home.routes";
-import { ProfileStackNavigator } from "./stack/stack-profile.routes";
-import FilteredFeed from "../pages/filtered-posts/filtered-feed";
+import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import FilteredFeed from '../pages/filtered-posts/filtered-feed';
+import { HomeStackNavigator } from './stack/stack-home.routes';
+import { ProfileStackNavigator } from './stack/stack-profile.routes';
+import { FilteredPostsStackNavigator } from './stack/stack-filtered-posts.routes';
 
 const Tab = createBottomTabNavigator();
 
@@ -17,15 +18,15 @@ export const TabNavigator = () => {
         name="Home"
         component={HomeStackNavigator}
         options={{
-          tabBarLabel: "Home",
+          tabBarLabel: 'Home',
           tabBarIcon: () => <MaterialCommunityIcons name="home" size={26} />,
         }}
       />
       <Tab.Screen
         name="Settings"
-        component={FilteredFeed}
+        component={FilteredPostsStackNavigator}
         options={{
-          tabBarLabel: "Pesquisa",
+          tabBarLabel: 'Pesquisa',
           tabBarIcon: () => (
             <MaterialCommunityIcons name="text-search" size={26} />
           ),
@@ -35,7 +36,7 @@ export const TabNavigator = () => {
         name="Profile"
         component={ProfileStackNavigator}
         options={{
-          tabBarLabel: "Perfil",
+          tabBarLabel: 'Perfil',
           tabBarIcon: () => <MaterialCommunityIcons name="account" size={26} />,
         }}
       />

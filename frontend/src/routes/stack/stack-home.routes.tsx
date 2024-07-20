@@ -3,10 +3,11 @@ import { CreatePostScreen } from '../../pages/home/create-post';
 import AddTagScreen from '../../pages/home/create-post/add-tags';
 import CreateEventScreen from '../../pages/home/create-post/create-event';
 import { EditPostScreen } from '../../pages/home/edit-post';
-import EditEventScreen from '../../pages/home/edit-post/edit-event';
 import { PostScreenExtend } from '../../pages/home/extend-post';
 import { FeedScreen } from '../../pages/home/feed';
 import { RootStackParamList } from '../types';
+import EditEventScreen from '../../pages/home/edit-post/edit-event';
+
 const HomeStack = createStackNavigator<RootStackParamList>();
 
 export const HomeStackNavigator = () => {

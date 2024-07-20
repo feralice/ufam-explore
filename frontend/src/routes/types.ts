@@ -18,8 +18,10 @@ export type RootStackParamList = {
   UserPosts: undefined;
   EditProfileInformation: undefined;
   ExtendPostProfile: undefined;
+  ExtendPostFiltered: undefined;
   CreateEventScreen: undefined;
   EditEventScreen: undefined;
+  FilteredFeed: undefined;
 };
 
 export type LoginScreenNavigationProp = StackNavigationProp<

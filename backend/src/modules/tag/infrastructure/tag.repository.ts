@@ -23,6 +23,7 @@ export class TagRepository {
       },
     });
   }
+  
   async findCoursesByAreaId(areaId: string): Promise<Tag[]> {
     return this.prisma.tag.findMany({
       where: { areaId },
