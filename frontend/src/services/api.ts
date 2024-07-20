@@ -274,3 +274,17 @@ export const getCommentsByPost = async (postId: string) => {
 export const deleteComment = async (commentId: string) => {
   return await api.delete(`/comments/delete/${commentId}`);
 };
+
+export const getFilteredPosts = async (
+  area?: string,
+  curso?: string,
+  tempo?: string
+) => {
+  return await api.get('/filtered-posts', {
+    params: {
+      area,
+      curso,
+      tempo,
+    },
+  });
+};

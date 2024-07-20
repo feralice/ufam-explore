@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { Postagem, Prisma } from '@prisma/client';
-import { TagRepository } from 'src/modules/tag/infrastructure/tag.repository';
+import { TagRepository } from '../../../../modules/tag/infrastructure/tag.repository';
 import { PostRepository } from '../../infrastructure/repositories/post.repository';
 
 @Injectable()
