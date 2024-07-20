@@ -107,7 +107,12 @@ export const PostCard = ({ post }: PostCardProps) => {
           )}
 
           <View style={styles.interaction}>
-            <Pressable style={styles.icon}>
+            <Pressable
+              style={styles.icon}
+              onPress={() => {
+                navigation.navigate("ExtendPost");
+              }}
+            >
               <Ionicons name="chatbubbles-outline" size={25} />
             </Pressable>
 
