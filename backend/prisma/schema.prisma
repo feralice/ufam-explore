@@ -1,6 +1,6 @@
 datasource db {
   provider = "postgresql"
-  url      = "postgresql://ufam-explore:ufam-explore@localhost:5432/ufam-explore"
+  url      = env("DATABASE_URL")
 }
 
 generator client {
