@@ -1,4 +1,5 @@
 import { createStackNavigator } from '@react-navigation/stack';
+import React from 'react';
 import { useSelector } from 'react-redux';
 import Login from '../../pages/auth/login';
 import { UserOption } from '../../pages/auth/user-option';
@@ -9,7 +10,7 @@ import { TabNavigator } from '../tab.routes';
 
 const Stack = createStackNavigator();
 
-const AuthStackNavigator = () => {
+const AuthStackNavigator: React.FC = () => {
   const isAuth = useSelector(
     (state: IStore) => state.user.user.isAuthenticated
   );

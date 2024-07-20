@@ -1,4 +1,5 @@
 import { createStackNavigator } from '@react-navigation/stack';
+import React from 'react';
 import { PostScreenExtend } from '../../pages/home/extend-post';
 import { EditProfileInformation } from '../../pages/profile/edit-profile-informations';
 import { ProfileInformationScreen } from '../../pages/profile/profile-informations';
@@ -9,10 +10,10 @@ import { RootStackParamList } from '../types';
 
 const ProfileStack = createStackNavigator<RootStackParamList>();
 
-export const ProfileStackNavigator = () => {
+const ProfileStackNavigator: React.FC = () => {
   return (
     <ProfileStack.Navigator screenOptions={{ headerShown: false }}>
-      <ProfileStack.Screen name="InformationUser" component={ProfileScreen} />
+      <ProfileStack.Screen name="Profile" component={ProfileScreen} />
       <ProfileStack.Screen
         name="DataUser"
         component={ProfileInformationScreen}
@@ -26,7 +27,6 @@ export const ProfileStackNavigator = () => {
         name="EditProfileInformation"
         component={EditProfileInformation}
       />
-
       <ProfileStack.Screen
         name="ExtendPostProfile"
         component={PostScreenExtend}
@@ -34,3 +34,5 @@ export const ProfileStackNavigator = () => {
     </ProfileStack.Navigator>
   );
 };
+
+export default ProfileStackNavigator;

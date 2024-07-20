@@ -1,15 +1,21 @@
 import { createStackNavigator } from '@react-navigation/stack';
+import React from 'react';
 import FilteredFeed from '../../pages/filtered-posts/filtered-feed';
 import { PostScreenExtend } from '../../pages/home/extend-post';
 import { RootStackParamList } from '../types';
 
-const FilteredPosts = createStackNavigator<RootStackParamList>();
+const FilteredPostsStack = createStackNavigator<RootStackParamList>();
 
-export const FilteredPostsStackNavigator = () => {
+const FilteredPostsStackNavigator: React.FC = () => {
   return (
-    <FilteredPosts.Navigator screenOptions={{ headerShown: false }}>
-      <FilteredPosts.Screen name="FilteredFeed" component={FilteredFeed} />
-      <FilteredPosts.Screen name="FilteredFeed" component={PostScreenExtend} />
-    </FilteredPosts.Navigator>
+    <FilteredPostsStack.Navigator screenOptions={{ headerShown: false }}>
+      <FilteredPostsStack.Screen name="FilteredFeed" component={FilteredFeed} />
+      <FilteredPostsStack.Screen
+        name="ExtendPostFiltered"
+        component={PostScreenExtend}
+      />
+    </FilteredPostsStack.Navigator>
   );
 };
+
+export default FilteredPostsStackNavigator;

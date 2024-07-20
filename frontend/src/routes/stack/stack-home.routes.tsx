@@ -1,16 +1,17 @@
+import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
+import { FeedScreen } from '../../pages/home/feed';
 import { CreatePostScreen } from '../../pages/home/create-post';
+import { PostScreenExtend } from '../../pages/home/extend-post';
+import { EditPostScreen } from '../../pages/home/edit-post';
 import AddTagScreen from '../../pages/home/create-post/add-tags';
 import CreateEventScreen from '../../pages/home/create-post/create-event';
-import { EditPostScreen } from '../../pages/home/edit-post';
-import { PostScreenExtend } from '../../pages/home/extend-post';
-import { FeedScreen } from '../../pages/home/feed';
-import { RootStackParamList } from '../types';
 import EditEventScreen from '../../pages/home/edit-post/edit-event';
+import { RootStackParamList } from '../types';
 
 const HomeStack = createStackNavigator<RootStackParamList>();
 
-export const HomeStackNavigator = () => {
+const HomeStackNavigator: React.FC = () => {
   return (
     <HomeStack.Navigator screenOptions={{ headerShown: false }}>
       <HomeStack.Screen name="Home" component={FeedScreen} />
@@ -23,3 +24,5 @@ export const HomeStackNavigator = () => {
     </HomeStack.Navigator>
   );
 };
+
+export default HomeStackNavigator;
