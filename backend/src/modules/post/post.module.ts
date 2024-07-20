@@ -10,6 +10,7 @@ import { PostController } from './application/post.controller';
 import { CreatePostUseCase } from './domain/use-cases/create-post.service';
 import { DeletePostUseCase } from './domain/use-cases/delete-post.service';
 import { EditPostUseCase } from './domain/use-cases/edit-post.service';
+import { FilteredPostsService } from './domain/use-cases/filtered-posts.service';
 import { GetAllPostsUseCase } from './domain/use-cases/get-all-posts.service';
 import { GetPostByIdService } from './domain/use-cases/get-post-by-id.service';
 import { GetPostByTagService } from './domain/use-cases/get-post-by-tag.service';
@@ -30,6 +31,7 @@ import { PostRepository } from './infrastructure/repositories/post.repository';
     DeletePostUseCase,
     GetPostByIdService,
     GetPostByTagService,
+    FilteredPostsService,
   ],
 })
 export class PostModule {}

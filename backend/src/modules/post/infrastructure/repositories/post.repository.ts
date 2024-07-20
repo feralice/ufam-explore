@@ -8,6 +8,17 @@ import { EditPostDto } from '../../application/dto/edit/edit-post.dto';
 export class PostRepository {
   constructor(private readonly prisma: PrismaService) {}
 
+  async findPostsByFilter(where: any): Promise<Postagem[]> {
+    return this.prisma.postagem.findMany({
+      where,
+      include: {
+        usuario: true,
+        evento: true,
+        tags: true,
+      },
+    });
+  }
+
   async create(
     usuarioId: string,
     data: CreatePostDto,

@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../../../prisma/prisma.service';
+import { Tag } from '@prisma/client';
 
 @Injectable()
 export class TagRepository {
@@ -20,6 +21,11 @@ export class TagRepository {
       where: {
         nome,
       },
+    });
+  }
+  async findCoursesByAreaId(areaId: string): Promise<Tag[]> {
+    return this.prisma.tag.findMany({
+      where: { areaId },
     });
   }
 

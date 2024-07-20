@@ -143,7 +143,7 @@ export const AddTagScreen = () => {
         >
           <AntDesign name="arrowleft" size={24} color="black" />
         </Pressable>
-        <Text style={styles.header}>Editar tags</Text>
+        <Text style={styles.header}>Adicionar tags</Text>
         <View style={styles.infoContainer}>
           <Pressable onPress={toggleModal} style={styles.infoButton}>
             <AntDesign name="infocirlceo" size={24} color="black" />

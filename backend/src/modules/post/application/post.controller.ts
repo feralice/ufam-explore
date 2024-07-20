@@ -7,6 +7,7 @@ import {
   Param,
   Patch,
   Post,
+  Query,
   UploadedFile,
   UseInterceptors,
 } from '@nestjs/common';
@@ -14,6 +15,7 @@ import { FileInterceptor } from '@nestjs/platform-express';
 import {
   ApiBearerAuth,
   ApiOperation,
+  ApiQuery,
   ApiResponse,
   ApiTags,
 } from '@nestjs/swagger';
@@ -21,6 +23,7 @@ import { Postagem } from '@prisma/client';
 import { CreatePostUseCase } from '../domain/use-cases/create-post.service';
 import { DeletePostUseCase } from '../domain/use-cases/delete-post.service';
 import { EditPostUseCase } from '../domain/use-cases/edit-post.service';
+import { FilteredPostsService } from '../domain/use-cases/filtered-posts.service';
 import { GetAllPostsUseCase } from '../domain/use-cases/get-all-posts.service';
 import { GetPostByIdService } from '../domain/use-cases/get-post-by-id.service';
 import { GetPostByTagService } from '../domain/use-cases/get-post-by-tag.service';
@@ -42,6 +45,7 @@ export class PostController {
     private readonly deletePostUseCase: DeletePostUseCase,
     private readonly getPostByIdUseCase: GetPostByIdService,
     private readonly getPostByTagUseCase: GetPostByTagService,
+    private readonly filteredPostsService: FilteredPostsService,
   ) {}
 
   @Post('/create-post')
@@ -153,5 +157,33 @@ export class PostController {
     @Param('tagName') tagName: string,
   ): Promise<Postagem[]> {
     return this.getPostByTagUseCase.execute(tagName);
+  }
+
+  @Get('/filtered-posts')
+  @ApiQuery({
+    name: 'area',
+    required: false,
+    description: 'Área do conhecimento para filtrar as postagens',
+  })
+  @ApiQuery({
+    name: 'curso',
+    required: false,
+    description: 'Curso específico para filtrar as postagens',
+  })
+  @ApiQuery({
+    name: 'tempo',
+    required: false,
+    description: 'Período de tempo para filtrar as postagens',
+  })
+  @ApiResponse({
+    status: 200,
+    description: 'Lista de postagens filtradas',
+  })
+  async getFilteredPostagens(
+    @Query('area') area?: string,
+    @Query('curso') curso?: string,
+    @Query('tempo') tempo?: string,
+  ): Promise<Postagem[]> {
+    return this.filteredPostsService.getFilteredPostagens(area, curso, tempo);
   }
 }

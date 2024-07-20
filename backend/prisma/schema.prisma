@@ -1,6 +1,6 @@
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URL")
+  url      = "postgresql://ufam-explore:ufam-explore@localhost:5432/ufam-explore"
 }
 
 generator client {
@@ -29,14 +29,13 @@ model Usuario {
 }
 
 model Tag {
-  id   String  @id @default(uuid())
-  nome String
-  tipo String?
+  id     String  @id @default(uuid())
+  nome   String  @unique
+  tipo   String?
+  areaId String?
 
   postagens      Postagem[]
   tagsEmPostagem TagsEmPostagem[]
-
-  @@unique([nome])
 }
 
 model Evento {
@@ -88,7 +87,7 @@ model Upvote {
   usuarioId  String
   postagemId String
   createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
+  updatedAt  DateTime @default(now())
 
   usuario  Usuario  @relation(fields: [usuarioId], references: [id], onDelete: Cascade)
   postagem Postagem @relation(fields: [postagemId], references: [id], onDelete: Cascade)

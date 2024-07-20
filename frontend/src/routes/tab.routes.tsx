@@ -2,6 +2,7 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { HomeStackNavigator } from "./stack/stack-home.routes";
 import { ProfileStackNavigator } from "./stack/stack-profile.routes";
+import FilteredFeed from "../pages/filtered-posts/filtered-feed";
 
 const Tab = createBottomTabNavigator();
 
@@ -22,7 +23,7 @@ export const TabNavigator = () => {
       />
       <Tab.Screen
         name="Settings"
-        component={HomeStackNavigator}
+        component={FilteredFeed}
         options={{
           tabBarLabel: "Pesquisa",
           tabBarIcon: () => (
