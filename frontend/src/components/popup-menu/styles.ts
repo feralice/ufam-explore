@@ -1,41 +1,41 @@
-import { Dimensions, StyleSheet } from "react-native";
-
-const { width, height } = Dimensions.get("window");
+import { Dimensions, StyleSheet } from 'react-native';
+const { width, height } = Dimensions.get('window');
 
 export const styles = StyleSheet.create({
   popupContainer: {
-    position: "absolute",
+    position: 'absolute',
     top: 0,
     right: 0,
   },
   modalOverlay: {
     flex: 1,
+    backgroundColor: 'rgba(0, 0, 0, 0.2)',
   },
   safeAreaView: {
     flex: 1,
   },
   popup: {
     borderRadius: 8,
-    borderColor: "darkblue",
+    borderColor: 'darkblue',
     borderWidth: 1,
-    backgroundColor: "rgba(255, 255, 255, 0.8)",
+    backgroundColor: 'rgba(255, 255, 255, 0.8)',
     paddingHorizontal: 10,
     paddingVertical: 10,
-    position: "absolute",
-    top: height * 0.12,
+    position: 'absolute',
+    top: height * 0.15,
     right: width * 0.08,
     width: 200,
   },
   option: {
-    flexDirection: "row",
-    justifyContent: "flex-start",
-    alignItems: "center",
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
+    alignItems: 'center',
     paddingVertical: height * 0.01,
-    borderBottomColor: "#ccc",
+    borderBottomColor: '#ccc',
     borderBottomWidth: 1,
   },
   optionText: {
     marginLeft: 10,
-    color: "darkblue",
+    color: 'darkblue',
   },
 });

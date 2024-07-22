@@ -9,15 +9,16 @@ import {
   ActivityIndicator,
   Alert,
   Image,
+  Modal,
   Pressable,
   ScrollView,
   Text,
   View,
 } from 'react-native';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { CommentInput } from '../../../components/Comments/comment-input';
 import { HashtagInPost } from '../../../components/hashtags';
-import { SaveToCalendarModal } from '../../../components/modals/save-to-calendar-modal'; // Certifique-se de importar o modal corretamente
+import { SaveToCalendarModal } from '../../../components/modals/save-to-calendar-modal';
 import PopupMenu from '../../../components/popup-menu';
 import {
   getCommentsByPost,
@@ -36,7 +37,6 @@ import { styles } from './style';
 
 export const PostScreenExtend = () => {
   const navigation = useNavigation();
-  const dispatch = useDispatch();
   const currentPost = useSelector((state: IStore) => state.post.currentPost);
   const saved = useSelector(
     (state: IStore) => currentPost && state.post.userSaved[currentPost.id]
@@ -47,6 +47,16 @@ export const PostScreenExtend = () => {
   const [loadingComments, setLoadingComments] = useState(true);
   const [calendarModalVisible, setCalendarModalVisible] = useState(false);
   const [addedEvents, setAddedEvents] = useState<string[]>([]);
+  const [fullImageVisible, setFullImageVisible] = useState(false);
+
+  const {
+    handleUpvote,
+    handleDownvote,
+    upvoted,
+    downvoted,
+    currentUpvote,
+    currentDownvote,
+  } = useVoteHandlers(currentPost?.id || '');
 
   useFocusEffect(
     useCallback(() => {
@@ -90,7 +100,7 @@ export const PostScreenExtend = () => {
       setLoadingComments(true);
       fetchCommentsByPost(currentPost.id);
     }
-  }, [currentPost, dispatch]);
+  }, [currentPost]);
 
   useEffect(() => {
     const unsubscribe = navigation.addListener('beforeRemove', (e) => {
@@ -105,7 +115,7 @@ export const PostScreenExtend = () => {
     });
 
     return unsubscribe;
-  }, [navigation, dispatch]);
+  }, [navigation]);
 
   if (!currentPost) {
     return (
@@ -114,15 +124,6 @@ export const PostScreenExtend = () => {
       </View>
     );
   }
-
-  const {
-    handleUpvote,
-    handleDownvote,
-    upvoted,
-    downvoted,
-    currentUpvote,
-    currentDownvote,
-  } = useVoteHandlers(currentPost.id);
 
   const handleSave = async () => {
     try {
@@ -187,15 +188,19 @@ export const PostScreenExtend = () => {
             ) : (
               <MaterialCommunityIcons name="account" size={40} color="#000" />
             )}
-            <Text>@{currentPost.usuario.username}</Text>
+            <Text style={styles.usernameText}>
+              @{currentPost.usuario.username}
+            </Text>
             <PopupMenu />
           </View>
           <View style={styles.postContent}>
             {currentPost.imagemUrl && (
-              <Image
-                style={styles.imageStyle}
-                source={{ uri: currentPost.imagemUrl }}
-              />
+              <Pressable onPress={() => setFullImageVisible(true)}>
+                <Image
+                  style={styles.imageStyle}
+                  source={{ uri: currentPost.imagemUrl }}
+                />
+              </Pressable>
             )}
             <Text style={styles.title}>{currentPost.titulo}</Text>
             <Text style={styles.text}>{currentPost.texto}</Text>
@@ -217,7 +222,7 @@ export const PostScreenExtend = () => {
                 size={upvoted ? 26 : 24}
                 color={upvoted ? 'green' : 'black'}
               />
-              <Text>{currentUpvote}</Text>
+              <Text style={styles.voteText}>{currentUpvote}</Text>
             </Pressable>
             <Pressable style={styles.icon} onPress={handleDownvote}>
               <MaterialCommunityIcons
@@ -225,7 +230,7 @@ export const PostScreenExtend = () => {
                 size={downvoted ? 26 : 24}
                 color={downvoted ? 'red' : 'black'}
               />
-              <Text>{currentDownvote}</Text>
+              <Text style={styles.voteText}>{currentDownvote}</Text>
             </Pressable>
             <Pressable style={styles.icon} onPress={handleSave}>
               <MaterialCommunityIcons
@@ -246,9 +251,13 @@ export const PostScreenExtend = () => {
               <View style={styles.eventInfoContainer}>
                 <Text style={styles.eventTitle}>Evento Associado</Text>
                 <Text style={styles.eventSubTitle}>{event.titulo}</Text>
-                {event.descricao && <Text>{event.descricao}</Text>}
-                <Text>Localização: {event.localizacao}</Text>
-                <Text>
+                {event.descricao && (
+                  <Text style={styles.eventText}>{event.descricao}</Text>
+                )}
+                <Text style={styles.eventText}>
+                  Localização: {event.localizacao}
+                </Text>
+                <Text style={styles.eventText}>
                   Data e Hora de Início:{' '}
                   {`${new Date(
                     event.dataInicio
@@ -259,7 +268,7 @@ export const PostScreenExtend = () => {
                     minute: '2-digit',
                   })}`}
                 </Text>
-                <Text>
+                <Text style={styles.eventText}>
                   Data de Término:{' '}
                   {`${new Date(
                     event.dataFinal
@@ -301,6 +310,25 @@ export const PostScreenExtend = () => {
           onClose={() => setCalendarModalVisible(false)}
         />
       </View>
+      <Modal
+        visible={fullImageVisible}
+        transparent={true}
+        onRequestClose={() => setFullImageVisible(false)}
+      >
+        <View style={styles.fullImageContainer}>
+          <Pressable
+            onPress={() => setFullImageVisible(false)}
+            style={styles.closeButton}
+          >
+            <AntDesign name="close" size={30} color="#fff" />
+          </Pressable>
+          <Image
+            source={{ uri: currentPost.imagemUrl }}
+            style={styles.fullImage}
+            resizeMode="contain"
+          />
+        </View>
+      </Modal>
     </ScrollView>
   );
 };

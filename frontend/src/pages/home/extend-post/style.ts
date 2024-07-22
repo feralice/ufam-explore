@@ -46,6 +46,11 @@ export const styles = StyleSheet.create({
     height: 40,
     marginRight: 10,
   },
+  usernameText: {
+    fontSize: 14,
+    fontWeight: '600',
+    color: '#333',
+  },
   postContent: {
     marginBottom: 15,
   },
@@ -59,11 +64,13 @@ export const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: 'bold',
     marginBottom: 10,
+    color: '#333',
   },
   text: {
     fontSize: 16,
     lineHeight: 24,
     marginBottom: 10,
+    color: '#333',
   },
   tagsContainer: {
     flexDirection: 'row',
@@ -82,6 +89,11 @@ export const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
   },
+  voteText: {
+    marginLeft: 5,
+    fontSize: 14,
+    color: '#333',
+  },
   loadingIndicator: {
     alignSelf: 'center',
     marginVertical: 20,
@@ -95,13 +107,20 @@ export const styles = StyleSheet.create({
     marginBottom: 20,
   },
   eventTitle: {
-    fontSize: 20,
+    fontSize: 18,
     fontWeight: 'bold',
     marginBottom: 10,
+    color: '#333',
   },
   eventSubTitle: {
-    fontSize: 18,
+    fontSize: 16,
     fontWeight: '600',
+    marginBottom: 5,
+    color: '#555',
+  },
+  eventText: {
+    fontSize: 14,
+    color: '#555',
     marginBottom: 5,
   },
   addToCalendarButton: {
@@ -111,6 +130,23 @@ export const styles = StyleSheet.create({
   },
   addToCalendarText: {
     marginLeft: 5,
+    fontSize: 14,
     color: 'blue',
+  },
+  fullImageContainer: {
+    flex: 1,
+    backgroundColor: 'rgba(0,0,0,0.9)',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  closeButton: {
+    position: 'absolute',
+    top: 40,
+    right: 20,
+    zIndex: 1,
+  },
+  fullImage: {
+    width: '100%',
+    height: '100%',
   },
 });

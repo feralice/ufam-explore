@@ -32,6 +32,10 @@ const PopupMenu: React.FC = () => {
   const event = useSelector((state: IStore) => state.event.evento);
   const isPostOwner = post?.usuario.id === currentUser.id;
 
+  if (!isPostOwner && !event) {
+    return null;
+  }
+
   const handleDeletePost = async () => {
     setLoading(true);
     try {
@@ -54,8 +58,10 @@ const PopupMenu: React.FC = () => {
     alert('Salvando post');
   };
 
-  const options: Option[] = [
-    {
+  const options: Option[] = [];
+
+  if (event.id) {
+    options.push({
       title: 'Adicionar ao calendário',
       icon: 'calendar',
       action: () =>
@@ -67,8 +73,8 @@ const PopupMenu: React.FC = () => {
           addedEvents,
           setAddedEvents
         ),
-    },
-  ];
+    });
+  }
 
   if (isPostOwner) {
     options.unshift(

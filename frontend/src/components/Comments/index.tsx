@@ -19,7 +19,7 @@ export const Comments = ({ id, username, photo, text }: CommentProp) => {
 
   const handleDotsPress = () => {
     dotsRef.current?.measure((fx, fy, width, height, px, py) => {
-      setModalPosition({ x: px - 9 * width, y: py - 0.5 * height });
+      setModalPosition({ x: px - 7 * width, y: py - 0.5 * height });
       setShowModal(true);
     });
   };

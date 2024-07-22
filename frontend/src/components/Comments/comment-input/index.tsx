@@ -62,7 +62,9 @@ export const CommentInput = () => {
           <Comments
             key={comment.id}
             username={comment.usuario?.username || currentUser.user.username}
-            photo={comment.usuario?.fotoPerfil ?? ''}
+            photo={
+              comment.usuario?.fotoPerfil || currentUser.user.fotoPerfil || ''
+            }
             text={comment.conteudo}
             id={comment.id ?? ''}
           />
