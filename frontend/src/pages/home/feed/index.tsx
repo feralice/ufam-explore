@@ -20,6 +20,7 @@ import { getAllPosts, getPostByTag } from '../../../services/api';
 import { IStore } from '../../../store';
 import { setEventData } from '../../../store/event/actions';
 import { ClearEventData } from '../../../store/event/state';
+import { setAllPosts } from '../../../store/post/actions';
 import { IPost } from '../../../store/post/types';
 import { feedStyles } from './styles';
 
@@ -45,6 +46,7 @@ export const FeedScreen = () => {
     try {
       const response = await getAllPosts(id);
       setPosts(response.data);
+      setAllPosts(response.data);
 
       if (
         !loading &&
@@ -71,6 +73,7 @@ export const FeedScreen = () => {
       setSelectedTab(1);
       const response = await getPostByTag(curso ?? '');
       setPosts(response.data);
+      setAllPosts(response.data);
 
       if (
         !loading &&
