@@ -1,7 +1,7 @@
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import AntDesign from '@expo/vector-icons/AntDesign';
 import { useNavigation } from '@react-navigation/native';
-import { Image, Pressable, Text, View } from 'react-native';
+import { Alert, Image, Pressable, Text, View } from 'react-native';
 import { useSelector } from 'react-redux';
 import PopupEdit from '../../../components/popup-edit';
 import { FeedScreenNavigationProp } from '../../../routes/types';
@@ -12,8 +12,10 @@ export const ProfileInformationScreen = () => {
   const user = useSelector((state: IStore) => state.user.user);
   const navigation = useNavigation<FeedScreenNavigationProp>();
   const handleProfilePicturePress = () => {
-    // Implementar a lógica para alterar a foto de perfil aqui
-    console.log('Alterar foto de perfil');
+    Alert.alert(
+      'Alterar foto de perfil',
+      'Você pode  alterar sua foto de perfil clicando na engrenagem e indo para editar seu perfil'
+    );
   };
 
   return (

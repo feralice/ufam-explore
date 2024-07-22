@@ -97,7 +97,9 @@ const EditEventScreen: React.FC = () => {
       });
 
       setEventData(eventData.data);
-      navigation.goBack();
+      setTimeout(() => {
+        navigation.goBack();
+      }, 1000); // Navega de volta após 1 segundo
     } catch (error) {
       console.error(error);
       Toast.show('Ocorreu um erro ao processar o evento.', {

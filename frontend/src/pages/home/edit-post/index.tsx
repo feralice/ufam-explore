@@ -163,7 +163,7 @@ export const EditPostScreen = () => {
             onChangeText={(text) => setText(text)}
             value={text}
           />
-          {event && (
+          {event.id && (
             <Pressable
               onPress={navigateToCreateEventScreen}
               style={styles.eventInfoContainer}

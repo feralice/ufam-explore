@@ -3,15 +3,13 @@ import { StyleSheet } from 'react-native';
 export const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 16,
-    backgroundColor: '#FFF',
+    marginTop: 30,
   },
   logo: {
     width: 200,
     height: 50,
     resizeMode: 'contain',
     alignSelf: 'center',
-    marginVertical: 20,
   },
   filterContainer: {
     flexDirection: 'row',
@@ -46,6 +44,7 @@ export const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
+    marginBottom: 10,
   },
   clearButton: {
     backgroundColor: 'rgba(0, 0, 0, 0.5)',
