@@ -17,6 +17,7 @@ import {
 import { useDispatch, useSelector } from 'react-redux';
 import { CommentInput } from '../../../components/Comments/comment-input';
 import { HashtagInPost } from '../../../components/hashtags';
+import { SaveToCalendarModal } from '../../../components/modals/save-to-calendar-modal'; // Certifique-se de importar o modal corretamente
 import PopupMenu from '../../../components/popup-menu';
 import {
   getCommentsByPost,
@@ -29,6 +30,7 @@ import { setComments } from '../../../store/comment/actions';
 import { setEventData } from '../../../store/event/actions';
 import { ClearEventData } from '../../../store/event/state';
 import { updateUserSaved } from '../../../store/post/actions';
+import { handleAddToCalendar } from '../../../utils/calendar-utils';
 import { useVoteHandlers } from '../../../utils/votes/useVoteHandlers';
 import { styles } from './style';
 
@@ -43,6 +45,8 @@ export const PostScreenExtend = () => {
   const { id } = useSelector((state: IStore) => state.user.user);
   const [loadingEvent, setLoadingEvent] = useState(true);
   const [loadingComments, setLoadingComments] = useState(true);
+  const [calendarModalVisible, setCalendarModalVisible] = useState(false);
+  const [addedEvents, setAddedEvents] = useState<string[]>([]);
 
   useFocusEffect(
     useCallback(() => {
@@ -181,25 +185,32 @@ export const PostScreenExtend = () => {
                 source={{ uri: currentPost.usuario.fotoPerfil }}
               />
             ) : (
-              <MaterialCommunityIcons name="account" size={30} color="#000" />
+              <MaterialCommunityIcons name="account" size={40} color="#000" />
             )}
             <Text>@{currentPost.usuario.username}</Text>
             <PopupMenu />
           </View>
-          <View style={styles.alignItems}>
-            {currentPost.imagemUrl ? (
+          <View style={styles.postContent}>
+            {currentPost.imagemUrl && (
               <Image
                 style={styles.imageStyle}
                 source={{ uri: currentPost.imagemUrl }}
               />
-            ) : null}
+            )}
             <Text style={styles.title}>{currentPost.titulo}</Text>
+            <Text style={styles.text}>{currentPost.texto}</Text>
           </View>
+          {currentPost.tags && currentPost.tags.length > 0 && (
+            <View style={styles.tagsContainer}>
+              {currentPost.tags.map((tag) => (
+                <HashtagInPost key={tag.id} name={tag.nome} />
+              ))}
+            </View>
+          )}
           <View style={styles.interaction}>
             <Pressable style={styles.icon}>
               <Ionicons name="chatbubbles-outline" size={25} />
             </Pressable>
-
             <Pressable style={styles.icon} onPress={handleUpvote}>
               <MaterialCommunityIcons
                 name={upvoted ? 'arrow-up-bold' : 'arrow-up-bold-outline'}
@@ -208,7 +219,6 @@ export const PostScreenExtend = () => {
               />
               <Text>{currentUpvote}</Text>
             </Pressable>
-
             <Pressable style={styles.icon} onPress={handleDownvote}>
               <MaterialCommunityIcons
                 name={downvoted ? 'arrow-down-bold' : 'arrow-down-bold-outline'}
@@ -217,7 +227,6 @@ export const PostScreenExtend = () => {
               />
               <Text>{currentDownvote}</Text>
             </Pressable>
-
             <Pressable style={styles.icon} onPress={handleSave}>
               <MaterialCommunityIcons
                 name={saved ? 'bookmark' : 'bookmark-outline'}
@@ -226,15 +235,6 @@ export const PostScreenExtend = () => {
               />
             </Pressable>
           </View>
-          <Text style={styles.text}>{currentPost.texto}</Text>
-          {currentPost.tags && currentPost.tags.length > 0 && (
-            <View style={styles.tagsContainer}>
-              {currentPost.tags.map((tag) => (
-                <HashtagInPost key={tag.id} name={tag.nome} />
-              ))}
-            </View>
-          )}
-
           {loadingEvent && currentPost.eventoId ? (
             <ActivityIndicator
               style={styles.loadingIndicator}
@@ -244,11 +244,12 @@ export const PostScreenExtend = () => {
           ) : (
             event.titulo && (
               <View style={styles.eventInfoContainer}>
-                <Text style={styles.eventTitle}>{event.titulo}</Text>
+                <Text style={styles.eventTitle}>Evento Associado</Text>
+                <Text style={styles.eventSubTitle}>{event.titulo}</Text>
                 {event.descricao && <Text>{event.descricao}</Text>}
                 <Text>Localização: {event.localizacao}</Text>
                 <Text>
-                  Data e Hora de Início:
+                  Data e Hora de Início:{' '}
                   {`${new Date(
                     event.dataInicio
                   ).toLocaleDateString()} ${new Date(
@@ -259,7 +260,7 @@ export const PostScreenExtend = () => {
                   })}`}
                 </Text>
                 <Text>
-                  Data de Término:
+                  Data de Término:{' '}
                   {`${new Date(
                     event.dataFinal
                   ).toLocaleDateString()} ${new Date(
@@ -269,6 +270,23 @@ export const PostScreenExtend = () => {
                     minute: '2-digit',
                   })}`}
                 </Text>
+                <Pressable
+                  style={styles.addToCalendarButton}
+                  onPress={() =>
+                    handleAddToCalendar(
+                      currentPost,
+                      event,
+                      setCalendarModalVisible,
+                      addedEvents,
+                      setAddedEvents
+                    )
+                  }
+                >
+                  <Ionicons name="calendar-outline" size={20} color="blue" />
+                  <Text style={styles.addToCalendarText}>
+                    Adicionar ao Calendário
+                  </Text>
+                </Pressable>
               </View>
             )
           )}
@@ -278,6 +296,10 @@ export const PostScreenExtend = () => {
             <CommentInput />
           )}
         </View>
+        <SaveToCalendarModal
+          visible={calendarModalVisible}
+          onClose={() => setCalendarModalVisible(false)}
+        />
       </View>
     </ScrollView>
   );

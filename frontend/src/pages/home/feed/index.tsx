@@ -42,16 +42,27 @@ export const FeedScreen = () => {
   );
   const previousPosts = useRef<IPost[]>([]);
 
+  const sortPostsByVotes = (posts: IPost[]) => {
+    return posts.sort((a, b) => {
+      if (b.upvotes !== a.upvotes) {
+        return b.upvotes - a.upvotes;
+      } else {
+        return b.downvotes - a.downvotes;
+      }
+    });
+  };
+
   const fetchAllPosts = useCallback(async () => {
     try {
       const response = await getAllPosts(id);
-      setPosts(response.data);
-      setAllPosts(response.data);
+      const sortedPosts = sortPostsByVotes(response.data);
+      setPosts(sortedPosts);
+      setAllPosts(sortedPosts);
 
       if (
         !loading &&
         !refreshing &&
-        !arePostsEqual(response.data, previousPosts.current)
+        !arePostsEqual(sortedPosts, previousPosts.current)
       ) {
         Toast.show('Novas postagens disponíveis', {
           duration: Toast.durations.LONG,
@@ -59,7 +70,7 @@ export const FeedScreen = () => {
         });
       }
 
-      previousPosts.current = response.data;
+      previousPosts.current = sortedPosts;
     } catch (error) {
       console.error(error);
     } finally {
@@ -72,13 +83,14 @@ export const FeedScreen = () => {
     try {
       setSelectedTab(1);
       const response = await getPostByTag(curso ?? '');
-      setPosts(response.data);
-      setAllPosts(response.data);
+      const sortedPosts = sortPostsByVotes(response.data);
+      setPosts(sortedPosts);
+      setAllPosts(sortedPosts);
 
       if (
         !loading &&
         !refreshing &&
-        !arePostsEqual(response.data, previousPosts.current)
+        !arePostsEqual(sortedPosts, previousPosts.current)
       ) {
         Toast.show('Novas postagens disponíveis', {
           duration: Toast.durations.LONG,
@@ -86,7 +98,7 @@ export const FeedScreen = () => {
         });
       }
 
-      previousPosts.current = response.data;
+      previousPosts.current = sortedPosts;
     } catch (error) {
       console.error(error);
     } finally {

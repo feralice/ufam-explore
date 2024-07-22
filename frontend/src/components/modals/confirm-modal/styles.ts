@@ -23,7 +23,7 @@ export const styles = StyleSheet.create({
     backgroundColor: '#888',
   },
   modalText: {
-    fontSize: 16,
+    fontSize: 18,
     fontWeight: 'bold',
     color: 'black',
     marginBottom: 20,

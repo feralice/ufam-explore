@@ -49,7 +49,14 @@ export class GetAllPostsUseCase {
         }),
       );
 
-      return postsWithVotesAndSaves.sort((a, b) => b.upvotes - a.upvotes);
+      // Ordenar por upvotes em ordem decrescente e depois por downvotes em ordem decrescente
+      return postsWithVotesAndSaves.sort((a, b) => {
+        if (b.upvotes !== a.upvotes) {
+          return b.upvotes - a.upvotes;
+        } else {
+          return b.downvotes - a.downvotes;
+        }
+      });
     } catch (error) {
       throw new Error('Error getting posts');
     }

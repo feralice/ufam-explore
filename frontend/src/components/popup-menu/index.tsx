@@ -1,11 +1,9 @@
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import { useNavigation } from '@react-navigation/native';
-import * as Calendar from 'expo-calendar';
 import { useState } from 'react';
 import {
   Alert,
   Modal,
-  Platform,
   Pressable,
   SafeAreaView,
   Text,
@@ -15,6 +13,7 @@ import { useSelector } from 'react-redux';
 import { FeedScreenNavigationProp } from '../../routes/types';
 import { deletePost } from '../../services/api';
 import { IStore } from '../../store';
+import { handleAddToCalendar } from '../../utils/calendar-utils';
 import ConfirmationModal from '../modals/confirm-modal';
 import { SaveToCalendarModal } from '../modals/save-to-calendar-modal';
 import { styles } from './styles';
@@ -24,7 +23,9 @@ const PopupMenu: React.FC = () => {
   const [visible, setVisible] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [calendarModalVisible, setCalendarModalVisible] = useState(false); // Estado para o novo modal
+  const [calendarModalVisible, setCalendarModalVisible] = useState(false);
+  const [addedEvents, setAddedEvents] = useState<string[]>([]);
+
   const navigation = useNavigation<FeedScreenNavigationProp>();
   const post = useSelector((state: IStore) => state.post.currentPost);
   const currentUser = useSelector((state: IStore) => state.user.user);
@@ -53,68 +54,19 @@ const PopupMenu: React.FC = () => {
     alert('Salvando post');
   };
 
-  const handleAddToCalendar = async () => {
-    setVisible(false);
-    if (!post?.eventoId) {
-      Alert.alert('Erro', 'Nenhum evento associado ao post.');
-      return;
-    }
-
-    const { status } = await Calendar.requestCalendarPermissionsAsync();
-    if (status === 'granted') {
-      let defaultCalendarSource: Calendar.Source;
-      let calendarId: string;
-
-      if (Platform.OS === 'ios') {
-        const defaultCalendar = await Calendar.getDefaultCalendarAsync();
-        defaultCalendarSource = defaultCalendar.source;
-        calendarId = defaultCalendar.id;
-      } else {
-        defaultCalendarSource = {
-          isLocalAccount: true,
-          name: 'Ufam Explore Calendar',
-          type: Calendar.SourceType.LOCAL,
-        };
-        calendarId = await Calendar.createCalendarAsync({
-          title: 'Ufam Explore Calendar',
-          color: 'blue',
-          entityType: Calendar.EntityTypes.EVENT,
-          source: defaultCalendarSource,
-          name: 'internalCalendarName',
-          ownerAccount: 'personal',
-          accessLevel: Calendar.CalendarAccessLevel.OWNER,
-        });
-      }
-
-      const newEvent = {
-        title: event.titulo,
-        startDate: new Date(event.dataInicio),
-        endDate: new Date(event.dataFinal),
-        timeZone: 'GMT-4',
-        location: event.localizacao,
-        notes: event.descricao,
-      };
-
-      try {
-        await Calendar.createEventAsync(calendarId, newEvent);
-        setCalendarModalVisible(true); // Exibe o modal de sucesso
-      } catch (error) {
-        console.error('Erro ao criar evento no calendário:', error);
-        Alert.alert(
-          'Erro',
-          'Não foi possível adicionar o evento ao calendário.'
-        );
-      }
-    } else {
-      Alert.alert('Permissão negada', 'Não foi possível acessar o calendário.');
-    }
-  };
-
   const options: Option[] = [
     {
       title: 'Adicionar ao calendário',
       icon: 'calendar',
-      action: handleAddToCalendar,
+      action: () =>
+        post &&
+        handleAddToCalendar(
+          post,
+          event,
+          setCalendarModalVisible,
+          addedEvents,
+          setAddedEvents
+        ),
     },
   ];
 
