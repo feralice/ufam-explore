@@ -1,28 +1,33 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet } from "react-native";
 
 export const feedStyles = StyleSheet.create({
-  container: { alignItems: 'center', paddingTop: 70, paddingBottom: 20 },
+  container: { alignItems: "center", paddingTop: 70, paddingBottom: 20 },
 
   bottomSelectionContainer: {
     paddingHorizontal: 60,
     paddingBottom: 20,
   },
   fabContainer: {
-    position: 'absolute',
+    position: "absolute",
     bottom: 16,
     right: 16,
   },
 
   fab: {
-    position: 'absolute',
+    position: "absolute",
     right: 0,
     bottom: 0,
     borderRadius: 50,
-    backgroundColor: 'darkblue',
+    backgroundColor: "darkblue",
   },
   loadingContainer: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  bell: {
+    position: "static",
+    left: "90%",
+    top: "8%",
   },
 });
