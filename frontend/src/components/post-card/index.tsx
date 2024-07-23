@@ -1,16 +1,16 @@
-import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
-import { useNavigation } from '@react-navigation/native';
-import { Alert, Image, Pressable, Text, View } from 'react-native';
-import { useSelector } from 'react-redux';
-import { FeedScreenNavigationProp } from '../../routes/types';
-import { savePost } from '../../services/api';
-import { ISavePostRequest } from '../../services/types';
-import { IStore } from '../../store';
-import { updateCurrentPost, updateUserSaved } from '../../store/post/actions';
-import { useVoteHandlers } from '../../utils/votes/useVoteHandlers';
-import { HashtagInPost } from '../hashtags';
-import { styles } from './styles';
-import { PostCardProps } from './types';
+import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
+import { useNavigation } from "@react-navigation/native";
+import { Alert, Image, Pressable, Text, View } from "react-native";
+import { useSelector } from "react-redux";
+import { FeedScreenNavigationProp } from "../../routes/types";
+import { savePost } from "../../services/api";
+import { ISavePostRequest } from "../../services/types";
+import { IStore } from "../../store";
+import { updateCurrentPost, updateUserSaved } from "../../store/post/actions";
+import { useVoteHandlers } from "../../utils/votes/useVoteHandlers";
+import { HashtagInPost } from "../hashtags";
+import { styles } from "./styles";
+import { PostCardProps } from "./types";
 
 export const PostCard = ({ post }: PostCardProps) => {
   const navigation = useNavigation<FeedScreenNavigationProp>();
@@ -28,7 +28,7 @@ export const PostCard = ({ post }: PostCardProps) => {
 
   const handleClick = () => {
     updateCurrentPost(post);
-    navigation.navigate('ExtendPost');
+    navigation.navigate("ExtendPost");
   };
 
   // Função para salvar o post
@@ -41,10 +41,10 @@ export const PostCard = ({ post }: PostCardProps) => {
       }
       updateUserSaved(post.id, !saved);
     } catch (error) {
-      console.error('Erro ao salvar post:', error);
+      console.error("Erro ao salvar post:", error);
       Alert.alert(
-        'Erro',
-        'Ocorreu um erro ao salvar o post. Por favor, tente novamente.'
+        "Erro",
+        "Ocorreu um erro ao salvar o post. Por favor, tente novamente."
       );
     }
   };
@@ -65,10 +65,10 @@ export const PostCard = ({ post }: PostCardProps) => {
     try {
       await savePost(data);
     } catch (error) {
-      console.error('Erro ao desfazer salvar post:', error);
+      console.error("Erro ao desfazer salvar post:", error);
       Alert.alert(
-        'Erro',
-        'Ocorreu um erro ao desfazer a ação de salvar o post. Por favor, tente novamente.'
+        "Erro",
+        "Ocorreu um erro ao desfazer a ação de salvar o post. Por favor, tente novamente."
       );
     }
   };
@@ -110,38 +110,33 @@ export const PostCard = ({ post }: PostCardProps) => {
       )}
 
       <View style={styles.interaction}>
-        <Pressable
-          style={styles.icon}
-          onPress={() => {
-            navigation.navigate('ExtendPost');
-          }}
-        >
+        <Pressable style={styles.icon} onPress={handleClick}>
           <Ionicons name="chatbubbles-outline" size={25} />
         </Pressable>
 
         <Pressable style={styles.icon} onPress={handleUpvote}>
           <MaterialCommunityIcons
-            name={upvoted ? 'arrow-up-bold' : 'arrow-up-bold-outline'}
+            name={upvoted ? "arrow-up-bold" : "arrow-up-bold-outline"}
             size={upvoted ? 26 : 24}
-            color={upvoted ? 'green' : 'black'}
+            color={upvoted ? "green" : "black"}
           />
           <Text>{currentUpvote}</Text>
         </Pressable>
 
         <Pressable style={styles.icon} onPress={handleDownvote}>
           <MaterialCommunityIcons
-            name={downvoted ? 'arrow-down-bold' : 'arrow-down-bold-outline'}
+            name={downvoted ? "arrow-down-bold" : "arrow-down-bold-outline"}
             size={downvoted ? 26 : 24}
-            color={downvoted ? 'red' : 'black'}
+            color={downvoted ? "red" : "black"}
           />
           <Text>{currentDownvote}</Text>
         </Pressable>
 
         <Pressable style={styles.icon} onPress={handleSave}>
           <MaterialCommunityIcons
-            name={saved ? 'bookmark' : 'bookmark-outline'}
+            name={saved ? "bookmark" : "bookmark-outline"}
             size={25}
-            color={saved ? 'darkblue' : 'black'}
+            color={saved ? "darkblue" : "black"}
           />
         </Pressable>
       </View>
