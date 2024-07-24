@@ -1,11 +1,11 @@
-import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { useNavigation } from '@react-navigation/native';
-import { FlatList, Pressable, SafeAreaView, Text } from 'react-native';
-import { useSelector } from 'react-redux';
-import { PostCardNoInteraction } from '../../../components/post-card/no-interaction';
-import { getSavedPosts } from '../../../components/post-card/no-interaction/selectors';
-import { FeedScreenNavigationProp } from '../../../routes/types';
-import { styles } from './styles';
+import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { useNavigation } from "@react-navigation/native";
+import { FlatList, Pressable, SafeAreaView, Text } from "react-native";
+import { useSelector } from "react-redux";
+import { PostCardNoInteraction } from "../../../components/post-card/no-interaction";
+import { getSavedPosts } from "../../../components/post-card/no-interaction/selectors";
+import { FeedScreenNavigationProp } from "../../../routes/types";
+import { styles } from "./styles";
 
 const SavedPostsScreen = () => {
   const savedPosts = useSelector(getSavedPosts);

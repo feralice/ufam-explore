@@ -159,7 +159,12 @@ export const FeedScreen = () => {
       <FlatList
         ListHeaderComponent={
           <>
-            <Pressable style={feedStyles.bell}>
+            <Pressable
+              style={feedStyles.bell}
+              onPress={() => {
+                navigation.navigate("Notification");
+              }}
+            >
               <MaterialCommunityIcons name={"bell"} size={30} color={"black"} />
             </Pressable>
             <View style={[feedStyles.container]}>

@@ -1,13 +1,14 @@
-import React from 'react';
-import { createStackNavigator } from '@react-navigation/stack';
-import { FeedScreen } from '../../pages/home/feed';
-import { CreatePostScreen } from '../../pages/home/create-post';
-import { PostScreenExtend } from '../../pages/home/extend-post';
-import { EditPostScreen } from '../../pages/home/edit-post';
-import AddTagScreen from '../../pages/home/create-post/add-tags';
-import CreateEventScreen from '../../pages/home/create-post/create-event';
-import EditEventScreen from '../../pages/home/edit-post/edit-event';
-import { RootStackParamList } from '../types';
+import React from "react";
+import { createStackNavigator } from "@react-navigation/stack";
+import { FeedScreen } from "../../pages/home/feed";
+import { CreatePostScreen } from "../../pages/home/create-post";
+import { PostScreenExtend } from "../../pages/home/extend-post";
+import { EditPostScreen } from "../../pages/home/edit-post";
+import AddTagScreen from "../../pages/home/create-post/add-tags";
+import CreateEventScreen from "../../pages/home/create-post/create-event";
+import EditEventScreen from "../../pages/home/edit-post/edit-event";
+import { RootStackParamList } from "../types";
+import Notification from "../../pages/home/notification";
 
 const HomeStack = createStackNavigator<RootStackParamList>();
 
@@ -21,6 +22,7 @@ const HomeStackNavigator: React.FC = () => {
       <HomeStack.Screen name="AddTag" component={AddTagScreen} />
       <HomeStack.Screen name="CreateEvent" component={CreateEventScreen} />
       <HomeStack.Screen name="EditEventScreen" component={EditEventScreen} />
+      <HomeStack.Screen name="Notification" component={Notification} />
     </HomeStack.Navigator>
   );
 };
