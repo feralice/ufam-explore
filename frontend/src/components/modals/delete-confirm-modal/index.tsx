@@ -33,7 +33,7 @@ export const ConfirmDeleteModal: React.FC<ConfirmDeleteModalProps> = ({
     try {
       await onConfirmAction();
       setError('');
-      Toast.show(confirmationText, {
+      Toast.show('Exclusão realizada com sucesso!', {
         duration: Toast.durations.SHORT,
         position: Toast.positions.BOTTOM,
       });
