@@ -58,6 +58,20 @@ export class UserRepository {
     });
   }
 
+  async updateUserToken(id: string, data: Partial<Usuario>): Promise<Usuario> {
+    return this.prisma.usuario.update({
+      where: { id },
+      data,
+    });
+  }
+
+  async findUserByResetToken(resetToken: string): Promise<Usuario> {
+    return this.prisma.usuario.findFirst({
+      where: {
+        resetToken,
+      },
+    });
+  }
   async getUserByEmail(email: string): Promise<Usuario> {
     return this.prisma.usuario.findUnique({
       where: {
@@ -74,6 +88,13 @@ export class UserRepository {
   async deleteUser(id: string): Promise<Usuario> {
     return this.prisma.usuario.delete({
       where: { id },
+    });
+  }
+  
+  async updatePassword(userId: string, newPassword: string): Promise<void> {
+    await this.prisma.usuario.update({
+      where: { id: userId },
+      data: { senha: newPassword },
     });
   }
 }

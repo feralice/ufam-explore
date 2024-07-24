@@ -1,6 +1,6 @@
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URL")
+  url      = "postgresql://ufam-explore:ufam-explore@localhost:5432/ufam-explore"
 }
 
 generator client {
@@ -8,17 +8,19 @@ generator client {
 }
 
 model Usuario {
-  id         String   @id @default(uuid())
-  perfilId   Int
-  nome       String
-  username   String   @unique
-  email      String   @unique
-  senha      String
-  curso      String?
-  fotoPerfil String?
-  biografia  String?
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
+  id               String    @id @default(uuid())
+  perfilId         Int
+  nome             String
+  username         String    @unique
+  email            String    @unique
+  senha            String
+  curso            String?
+  fotoPerfil       String?
+  biografia        String?
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
+  resetToken       String?
+  resetTokenExpiry DateTime?
 
   perfil      Perfil       @relation(fields: [perfilId], references: [id])
   postagens   Postagem[]

@@ -288,3 +288,26 @@ export const getFilteredPosts = async (
     },
   });
 };
+
+export const forgotPassword = async (email: string): Promise<void> => {
+  try {
+    await api.post('/forgot-password', { email });
+  } catch (error: any) {
+    if (error.response && error.response.status === 404) {
+      throw new Error('Usuário não encontrado.');
+    } else {
+      throw new Error('Erro ao enviar email de redefinição de senha.');
+    }
+  }
+};
+
+export const resetPassword = async (
+  token: string,
+  newPassword: string
+): Promise<void> => {
+  try {
+    await api.post('/reset-password', { token, newPassword });
+  } catch (error: any) {
+    throw new Error('Erro ao redefinir a senha.');
+  }
+};

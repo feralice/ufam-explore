@@ -1,4 +1,4 @@
-import { StackNavigationProp } from "@react-navigation/stack";
+import { StackNavigationProp } from '@react-navigation/stack';
 
 export type RootStackParamList = {
   Home: undefined;
@@ -27,15 +27,15 @@ export type RootStackParamList = {
 
 export type LoginScreenNavigationProp = StackNavigationProp<
   RootStackParamList,
-  "Login"
+  'Login'
 >;
 
 export type ProfileScreenNavigationProp = StackNavigationProp<
   RootStackParamList,
-  "Profile"
+  'Profile'
 >;
 
 export type FeedScreenNavigationProp = StackNavigationProp<
   RootStackParamList,
-  "Home"
+  'Home'
 >;
