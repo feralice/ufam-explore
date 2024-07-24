@@ -1,6 +1,6 @@
 datasource db {
   provider = "postgresql"
-  url      = "postgresql://ufam-explore:ufam-explore@localhost:5432/ufam-explore"
+  url      = env("DATABASE_URL")
 }
 
 generator client {
@@ -77,6 +77,7 @@ model Comentario {
   conteudo   String
   usuarioId  String
   postagemId String
+  tipo       String?   @default("comentario")
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
 
@@ -88,6 +89,7 @@ model Upvote {
   id         String   @id @default(uuid())
   usuarioId  String
   postagemId String
+  tipo       String?   @default("upvote")
   createdAt  DateTime @default(now())
   updatedAt  DateTime @default(now())
 
@@ -99,6 +101,7 @@ model Downvote {
   id         String   @id @default(uuid())
   usuarioId  String
   postagemId String
+  tipo       String?   @default("downvote")
   createdAt  DateTime @default(now())
   updatedAt  DateTime @default(now())
 
@@ -110,6 +113,7 @@ model Salvar {
   id         String   @id @default(uuid())
   usuarioId  String
   postagemId String
+  tipo       String?   @default("salvar")
   data       DateTime
 
   usuario  Usuario  @relation(fields: [usuarioId], references: [id], onDelete: Cascade)

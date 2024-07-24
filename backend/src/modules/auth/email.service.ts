@@ -27,7 +27,7 @@ export class EmailService {
         <style>
           body {
             font-family: Arial, sans-serif;
-            background-color: #002b7f; /* Dark blue background */
+            background-color: #002b7f;
             margin: 0;
             padding: 0;
           }
@@ -36,7 +36,7 @@ export class EmailService {
             margin: 0 auto;
             padding: 20px;
             background-color: #ffffff;
-            border: 1px solid #002b7f; /* Dark blue border */
+            border: 1px solid #002b7f;
             border-radius: 10px;
           }
           .email-header {
@@ -45,17 +45,21 @@ export class EmailService {
           }
           .email-body {
             text-align: center;
-            color: #002b7f; /* Dark blue text color */
+            color: #ffffff;
           }
           .email-body h2 {
-            color: #002b7f; /* Dark blue text color */
+            color: #002b7f;
           }
           .email-body p {
-            color: #002b7f; /* Dark blue text color */
+            color: #ffffff;
+            margin: 10px 0;
           }
-          .email-body strong {
+          .email-body .token {
             font-size: 24px;
-            color: #002b7f; /* Dark blue text color */
+            color: #002b7f;
+          }
+          .email-body .header {
+            color: #002b7f;
           }
         </style>
       </head>
@@ -65,10 +69,10 @@ export class EmailService {
             <h1>Ufam Explore</h1>
           </div>
           <div class="email-body">
-            <h2>Redefinição de Senha</h2>
+            <h2 class="header">Redefinição de Senha</h2>
             <p>Olá,</p>
             <p>Você solicitou a redefinição de sua senha. Aqui está o seu token de redefinição de senha:</p>
-            <p><strong>${token}</strong></p>
+            <p class="token">${token}</p>
             <p>Insira este token no aplicativo para redefinir sua senha.</p>
             <p>Se você não solicitou esta redefinição, por favor ignore este email.</p>
             <p>Atenciosamente,<br>Equipe Ufam Explore</p>

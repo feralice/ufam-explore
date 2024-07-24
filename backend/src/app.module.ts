@@ -4,6 +4,7 @@ import { CloudinaryModule } from './adapters/cloudinary/cloudinary.module';
 import { AuthModule } from './modules/auth/auth.module';
 import { CommentsModule } from './modules/comment/comment.module';
 import { EventModule } from './modules/event/event.module';
+import { NotificationsModule } from './modules/notifications/notifications.module';
 import { PostModule } from './modules/post/post.module';
 import { ProfileModule } from './modules/profile/profile.module';
 import { SaveModule } from './modules/save/save.module';
@@ -27,6 +28,7 @@ import { PrismaModule } from './prisma/prisma.module';
     VotesModule,
     SaveModule,
     CommentsModule,
+    NotificationsModule,
   ],
   //providers: [
   //{ provide: APP_GUARD, useClass: RolesGuard },
