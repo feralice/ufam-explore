@@ -15,9 +15,13 @@ export class NotificationsRepository {
           usuarioId,
         },
       },
-      include: {
-        usuario: true,
-        postagem: true,
+      select: {
+        postagemId: true,
+        usuario: {
+          select: {
+            username: true,
+          },
+        },
       },
     });
   }
@@ -32,9 +36,13 @@ export class NotificationsRepository {
           usuarioId,
         },
       },
-      include: {
-        usuario: true,
-        postagem: true,
+      select: {
+        postagemId: true,
+        usuario: {
+          select: {
+            username: true,
+          },
+        },
       },
     });
   }
@@ -49,9 +57,14 @@ export class NotificationsRepository {
           usuarioId,
         },
       },
-      include: {
-        usuario: true,
-        postagem: true,
+      select: {
+        conteudo: true,
+        postagemId: true,
+        usuario: {
+          select: {
+            username: true,
+          },
+        },
       },
     });
   }
@@ -66,9 +79,13 @@ export class NotificationsRepository {
           usuarioId,
         },
       },
-      include: {
-        usuario: true,
-        postagem: true,
+      select: {
+        postagemId: true,
+        usuario: {
+          select: {
+            username: true,
+          },
+        },
       },
     });
   }
