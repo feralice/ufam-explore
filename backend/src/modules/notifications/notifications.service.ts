@@ -1,4 +1,5 @@
 import { Injectable, Logger } from '@nestjs/common';
+import { v4 as uuidv4 } from 'uuid';
 import { NotificationsRepository } from './notifications.repository';
 
 @Injectable()
@@ -17,30 +18,28 @@ export class NotificationsService {
       this.notificationsRepository.findSavedPostsByUser(usuarioId),
     ]);
 
-    this.logger.log(`Upvotes: ${JSON.stringify(upvotes)}`);
-    this.logger.log(`Downvotes: ${JSON.stringify(downvotes)}`);
-    this.logger.log(`Comentarios: ${JSON.stringify(comentarios)}`);
-    this.logger.log(`Salvos: ${JSON.stringify(salvos)}`);
-
     const formatNotification = (notification, type) => {
       let message = '';
       switch (type) {
         case 'upvote':
-          message = `@${notification.usuario.username} deu upvote na sua publicação`;
+          message = `deu upvote na sua publicação`;
           break;
         case 'downvote':
-          message = `@${notification.usuario.username} deu downvote na sua publicação`;
+          message = `deu downvote na sua publicação`;
           break;
         case 'comentario':
-          message = `@${notification.usuario.username} comentou: "${notification.conteudo}" na sua publicação`;
+          message = `comentou: "${notification.conteudo}" na sua publicação`;
           break;
         case 'salvar':
-          message = `@${notification.usuario.username} salvou a sua publicação`;
+          message = `salvou a sua publicação`;
           break;
       }
       return {
+        id: uuidv4(),
         message,
         postagemId: notification.postagemId,
+        usuario: notification.usuario,
+        createdAt: notification.createdAt,
       };
     };
 
@@ -59,9 +58,7 @@ export class NotificationsService {
       ),
     ];
 
-    this.logger.log(
-      `Formatted Notifications: ${JSON.stringify(notifications)}`,
-    );
+    notifications.sort((a, b) => b.createdAt - a.createdAt);
 
     return notifications;
   }

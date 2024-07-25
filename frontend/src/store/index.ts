@@ -4,16 +4,17 @@ import {
   FLUSH,
   PAUSE,
   PERSIST,
+  persistReducer,
+  persistStore,
   PURGE,
   REGISTER,
   REHYDRATE,
-  persistReducer,
-  persistStore,
 } from 'redux-persist';
 import { commentSlice } from './comment';
 import { ICommentState } from './comment/types';
 import { eventSlice } from './event';
 import { IEventState } from './event/types';
+import { notificationsReducer, NotificationState } from './notifications/slice';
 import { postSlice } from './post';
 import { PostInitialStateType } from './post/types';
 import { userSlice } from './user';
@@ -24,6 +25,7 @@ const rootReducer = combineReducers({
   event: eventSlice.reducer,
   user: userSlice.reducer,
   comment: commentSlice.reducer,
+  notifications: notificationsReducer,
 });
 
 const persistConfig = {
@@ -38,6 +40,7 @@ export interface IStore {
   event: IEventState;
   user: UserInitialStateType;
   comment: ICommentState;
+  notifications: NotificationState;
 }
 
 export const store = configureStore({

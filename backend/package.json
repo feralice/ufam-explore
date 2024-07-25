@@ -46,7 +46,8 @@
     "start": "^5.1.0",
     "streamifier": "^0.1.1",
     "swagger-ui-express": "^5.0.0",
-    "tsup": "^8.0.2"
+    "tsup": "^8.0.2",
+    "uuid": "^10.0.0"
   },
   "devDependencies": {
     "@nestjs/cli": "^10.0.0",

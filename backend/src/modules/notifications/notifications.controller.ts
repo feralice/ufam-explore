@@ -2,12 +2,12 @@ import { Controller, Get, HttpStatus, Param } from '@nestjs/common';
 import { ApiOperation, ApiParam, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { NotificationsService } from './notifications.service';
 
-@ApiTags('notifications')
+@ApiTags('Notifications')
 @Controller('notifications')
 export class NotificationsController {
   constructor(private readonly notificationsService: NotificationsService) {}
 
-  @Get(':usuarioId')
+  @Get('/:usuarioId')
   @ApiOperation({ summary: 'Get notifications for a user' })
   @ApiParam({ name: 'usuarioId', type: String, description: 'ID do usuário' })
   @ApiResponse({

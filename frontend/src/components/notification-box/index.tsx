@@ -1,6 +1,6 @@
-import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
-import { styles } from "./style";
-import { NotificationProp } from "./type";
+import { Text, TouchableOpacity } from 'react-native';
+import { styles } from './style';
+import { NotificationProp } from './type';
 
 export const NotificationItem = (props: NotificationProp) => {
   return (
