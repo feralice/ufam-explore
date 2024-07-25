@@ -1,19 +1,26 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { NotificationsRepository } from './notifications.repository';
 
 @Injectable()
 export class NotificationsService {
+  private readonly logger = new Logger(NotificationsService.name);
+
   constructor(private notificationsRepository: NotificationsRepository) {}
 
   async getNotificationsByUser(usuarioId: string) {
-    const upvotes =
-      await this.notificationsRepository.findUpvotesByUser(usuarioId);
-    const downvotes =
-      await this.notificationsRepository.findDownvotesByUser(usuarioId);
-    const comentarios =
-      await this.notificationsRepository.findCommentsByUser(usuarioId);
-    const salvos =
-      await this.notificationsRepository.findSavedPostsByUser(usuarioId);
+    this.logger.log(`Fetching notifications for user: ${usuarioId}`);
+
+    const [upvotes, downvotes, comentarios, salvos] = await Promise.all([
+      this.notificationsRepository.findUpvotesByUser(usuarioId),
+      this.notificationsRepository.findDownvotesByUser(usuarioId),
+      this.notificationsRepository.findCommentsByUser(usuarioId),
+      this.notificationsRepository.findSavedPostsByUser(usuarioId),
+    ]);
+
+    this.logger.log(`Upvotes: ${JSON.stringify(upvotes)}`);
+    this.logger.log(`Downvotes: ${JSON.stringify(downvotes)}`);
+    this.logger.log(`Comentarios: ${JSON.stringify(comentarios)}`);
+    this.logger.log(`Salvos: ${JSON.stringify(salvos)}`);
 
     const formatNotification = (notification, type) => {
       let message = '';
@@ -25,7 +32,7 @@ export class NotificationsService {
           message = `@${notification.usuario.username} deu downvote na sua publicação`;
           break;
         case 'comentario':
-          message = `@${notification.usuario.username} comentou na sua publicação`;
+          message = `@${notification.usuario.username} comentou: "${notification.conteudo}" na sua publicação`;
           break;
         case 'salvar':
           message = `@${notification.usuario.username} salvou a sua publicação`;
@@ -51,6 +58,10 @@ export class NotificationsService {
         formatNotification(notification, 'salvar'),
       ),
     ];
+
+    this.logger.log(
+      `Formatted Notifications: ${JSON.stringify(notifications)}`,
+    );
 
     return notifications;
   }

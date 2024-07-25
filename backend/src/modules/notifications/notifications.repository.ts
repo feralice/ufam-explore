@@ -7,7 +7,14 @@ export class NotificationsRepository {
 
   async findUpvotesByUser(usuarioId: string) {
     return this.prisma.upvote.findMany({
-      where: { usuarioId },
+      where: {
+        postagem: {
+          usuarioId,
+        },
+        NOT: {
+          usuarioId,
+        },
+      },
       include: {
         usuario: true,
         postagem: true,
@@ -17,7 +24,14 @@ export class NotificationsRepository {
 
   async findDownvotesByUser(usuarioId: string) {
     return this.prisma.downvote.findMany({
-      where: { usuarioId },
+      where: {
+        postagem: {
+          usuarioId,
+        },
+        NOT: {
+          usuarioId,
+        },
+      },
       include: {
         usuario: true,
         postagem: true,
@@ -27,7 +41,14 @@ export class NotificationsRepository {
 
   async findCommentsByUser(usuarioId: string) {
     return this.prisma.comentario.findMany({
-      where: { usuarioId },
+      where: {
+        postagem: {
+          usuarioId,
+        },
+        NOT: {
+          usuarioId,
+        },
+      },
       include: {
         usuario: true,
         postagem: true,
@@ -37,7 +58,14 @@ export class NotificationsRepository {
 
   async findSavedPostsByUser(usuarioId: string) {
     return this.prisma.salvar.findMany({
-      where: { usuarioId },
+      where: {
+        postagem: {
+          usuarioId,
+        },
+        NOT: {
+          usuarioId,
+        },
+      },
       include: {
         usuario: true,
         postagem: true,

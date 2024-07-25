@@ -70,6 +70,8 @@ model Postagem {
   salvos         Salvar[]
   tags           Tag[]
   tagsEmPostagem TagsEmPostagem[]
+
+  @@index([usuarioId])
 }
 
 model Comentario {
@@ -77,47 +79,59 @@ model Comentario {
   conteudo   String
   usuarioId  String
   postagemId String
-  tipo       String?   @default("comentario")
+  tipo       String?  @default("comentario")
   createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
+  updatedAt  DateTime @default(now())
 
   usuario  Usuario  @relation(fields: [usuarioId], references: [id], onDelete: Cascade)
   postagem Postagem @relation(fields: [postagemId], references: [id], onDelete: Cascade)
+
+  @@index([usuarioId])
+  @@index([postagemId])
 }
 
 model Upvote {
   id         String   @id @default(uuid())
   usuarioId  String
   postagemId String
-  tipo       String?   @default("upvote")
+  tipo       String?  @default("upvote")
   createdAt  DateTime @default(now())
   updatedAt  DateTime @default(now())
 
   usuario  Usuario  @relation(fields: [usuarioId], references: [id], onDelete: Cascade)
   postagem Postagem @relation(fields: [postagemId], references: [id], onDelete: Cascade)
+
+  @@index([usuarioId])
+  @@index([postagemId])
 }
 
 model Downvote {
   id         String   @id @default(uuid())
   usuarioId  String
   postagemId String
-  tipo       String?   @default("downvote")
+  tipo       String?  @default("downvote")
   createdAt  DateTime @default(now())
   updatedAt  DateTime @default(now())
 
   usuario  Usuario  @relation(fields: [usuarioId], references: [id], onDelete: Cascade)
   postagem Postagem @relation(fields: [postagemId], references: [id], onDelete: Cascade)
+
+  @@index([usuarioId])
+  @@index([postagemId])
 }
 
 model Salvar {
   id         String   @id @default(uuid())
   usuarioId  String
   postagemId String
-  tipo       String?   @default("salvar")
+  tipo       String?  @default("salvar")
   data       DateTime
 
   usuario  Usuario  @relation(fields: [usuarioId], references: [id], onDelete: Cascade)
   postagem Postagem @relation(fields: [postagemId], references: [id], onDelete: Cascade)
+
+  @@index([usuarioId])
+  @@index([postagemId])
 }
 
 model TagsEmPostagem {
