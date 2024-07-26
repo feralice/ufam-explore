@@ -1,7 +1,8 @@
 name: Deploy Expo App
 
 on:
-  workflow_dispatch:
+  push:
+    branches: [development]
 
 jobs:
   build:
