@@ -21,6 +21,10 @@ export const styles = StyleSheet.create({
     shadowRadius: 2,
     elevation: 5,
   },
+  eventIcon: {
+    paddingBottom: 5,
+    marginRight: 10,
+  },
 
   imageStyle: {
     width: '100%',
@@ -47,6 +51,13 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
     gap: 10,
     padding: 15,
+  },
+
+  tagsEventContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingLeft: 10,
+    marginTop: 5,
   },
 
   interaction: {
@@ -98,7 +109,6 @@ export const styles = StyleSheet.create({
     flexWrap: 'wrap',
     maxHeight: 65,
     overflow: 'hidden',
-    paddingLeft: 10,
   },
 
   moreTags: {

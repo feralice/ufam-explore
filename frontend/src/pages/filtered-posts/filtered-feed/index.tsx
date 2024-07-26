@@ -131,7 +131,7 @@ const FilteredFeed = () => {
     []
   );
 
-  const keyExtractor = useCallback((item: { id: any; }) => item.id, []);
+  const keyExtractor = useCallback((item: { id: any }) => item.id, []);
 
   return (
     <View style={styles.container}>

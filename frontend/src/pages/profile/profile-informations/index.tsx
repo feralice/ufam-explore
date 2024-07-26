@@ -14,7 +14,7 @@ export const ProfileInformationScreen = () => {
   const handleProfilePicturePress = () => {
     Alert.alert(
       'Alterar foto de perfil',
-      'Você pode  alterar sua foto de perfil clicando na engrenagem e indo para editar seu perfil'
+      'Você pode alterar sua foto de perfil clicando na engrenagem e indo para editar seu perfil'
     );
   };
 
