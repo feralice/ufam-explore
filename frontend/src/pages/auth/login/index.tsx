@@ -142,7 +142,9 @@ const Login = () => {
             <Pressable onPress={() => navigation.navigate('UserOption')}>
               <Text style={styles.textAbaixo}>Criar conta</Text>
             </Pressable>
+          <Pressable onPress={() => navigation.navigate('ResetEmail')}>
             <Text style={styles.textAbaixo}>Esqueci minha senha</Text>
+          </Pressable>
           </View>
         </View>
       </SafeAreaView>

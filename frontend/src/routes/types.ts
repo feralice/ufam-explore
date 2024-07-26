@@ -23,6 +23,8 @@ export type RootStackParamList = {
   EditEventScreen: undefined;
   FilteredFeed: undefined;
   Notification: undefined;
+  ResetEmail: undefined;
+
 };
 
 export type LoginScreenNavigationProp = StackNavigationProp<

@@ -7,6 +7,7 @@ import ExternalSignUpScreen from '../../pages/auth/user-registration/external-si
 import InternalSignUpScreen from '../../pages/auth/user-registration/internal-sign-up';
 import { IStore } from '../../store';
 import { TabNavigator } from '../tab.routes';
+import { ResetPasswordEmailScreen } from '../../pages/auth/reset-email';
 
 const Stack = createStackNavigator();
 
@@ -31,6 +32,7 @@ const AuthStackNavigator: React.FC = () => {
             name="ExternalSignUp"
             component={ExternalSignUpScreen}
           />
+          <Stack.Screen name="ResetEmail" component={ResetPasswordEmailScreen} />
         </>
       )}
     </Stack.Navigator>
