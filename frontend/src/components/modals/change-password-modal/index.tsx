@@ -1,14 +1,11 @@
-import { useState } from 'react';
-import { View, Text} from 'react-native';
-import { Checkbox } from 'react-native-paper';
+import { View } from 'react-native';
+import { BlueButton } from '../../blue-button';
 import ConfirmationModal from '../confirm-modal';
 import styles from './styles';
-import { BlueButton } from '../../blue-button';
 
 const ChangePasswordModal = () => {
-  
   return (
-    <View style={styles.container}>  
+    <View style={styles.container}>
       <ConfirmationModal
         visible={true}
         onClose={() => {}}
@@ -18,13 +15,11 @@ const ChangePasswordModal = () => {
         showButtons={false}
       >
         <View>
-            <BlueButton 
-                onPress={() => {}}
-                loading={false}
-                text={'ENTRAR'}
-            >
-            </BlueButton>
-          
+          <BlueButton
+            onPress={() => {}}
+            loading={false}
+            text={'ENTRAR'}
+          ></BlueButton>
         </View>
       </ConfirmationModal>
     </View>

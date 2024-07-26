@@ -83,7 +83,9 @@ const Notification: React.FC = () => {
 
       {notifications.length === 0 ? (
         <View style={styles.noNotificationsContainer}>
-          <Text style={styles.noNotificationsText}>Você ainda não tem nenhuma notificação.</Text>
+          <Text style={styles.noNotificationsText}>
+            Você ainda não tem nenhuma notificação.
+          </Text>
         </View>
       ) : (
         <FlatList

@@ -24,7 +24,7 @@ export type RootStackParamList = {
   FilteredFeed: undefined;
   Notification: undefined;
   ResetEmail: undefined;
-
+  ResetPasswordScreen: undefined;
 };
 
 export type LoginScreenNavigationProp = StackNavigationProp<
