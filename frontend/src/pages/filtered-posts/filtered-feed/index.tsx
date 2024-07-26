@@ -1,5 +1,5 @@
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import {
   ActivityIndicator,
   Alert,
@@ -12,10 +12,10 @@ import {
 import AreaModal from '../../../components/modals/filters/area';
 import CursoModal from '../../../components/modals/filters/course';
 import TempoModal from '../../../components/modals/filters/time';
+import { PostCard } from '../../../components/post-card';
 import { getFilteredPosts } from '../../../services/api';
 import { cursos } from '../../../utils/courses';
 import { styles } from './styles';
-import { PostCard } from '../../../components/post-card';
 
 const areas = ['Biológicas', 'Exatas', 'Humanas'];
 const tempos = ['Hoje', 'Esta semana', 'Este mês'];
@@ -32,58 +32,64 @@ const FilteredFeed = () => {
   const [loading, setLoading] = useState(false);
   const [firstLoad, setFirstLoad] = useState(true);
 
-  const filters = [
-    { label: selectedArea, type: 'area' },
-    { label: selectedCourse, type: 'curso' },
-    { label: selectedTempo, type: 'tempo' },
-  ];
+  const filters = useMemo(
+    () => [
+      { label: selectedArea, type: 'area' },
+      { label: selectedCourse, type: 'curso' },
+      { label: selectedTempo, type: 'tempo' },
+    ],
+    [selectedArea, selectedCourse, selectedTempo]
+  );
 
-  const toggleFilter = (filterType: string) => {
+  const toggleFilter = useCallback((filterType: string) => {
     setModalType(filterType);
     setModalVisible(true);
-  };
+  }, []);
 
-  const selectCourse = (course: string) => {
+  const selectCourse = useCallback((course: string) => {
     setSelectedCourse(course);
     updateFilters(course);
-  };
+  }, []);
 
-  const selectArea = (area: string) => {
+  const selectArea = useCallback((area: string) => {
     setSelectedArea(area);
     updateFilters(area);
-  };
+  }, []);
 
-  const selectTempo = (tempo: string) => {
+  const selectTempo = useCallback((tempo: string) => {
     setSelectedTempo(tempo);
     updateFilters(tempo);
-  };
+  }, []);
 
-  const updateFilters = (filter: string) => {
+  const updateFilters = useCallback((filter: string) => {
     setSelectedFilters((prevSelectedFilters: string[]) =>
       prevSelectedFilters.includes(filter)
         ? prevSelectedFilters.filter((item: string) => item !== filter)
         : [...prevSelectedFilters, filter]
     );
     setModalVisible(false);
-  };
+  }, []);
 
-  const removeSelectedFilter = (filter: string) => {
-    if (filter === selectedCourse) setSelectedCourse('Curso');
-    if (filter === selectedArea) setSelectedArea('Área');
-    if (filter === selectedTempo) setSelectedTempo('Tempo');
-    setSelectedFilters((prevSelectedFilters) =>
-      prevSelectedFilters.filter((item) => item !== filter)
-    );
-  };
+  const removeSelectedFilter = useCallback(
+    (filter: string) => {
+      if (filter === selectedCourse) setSelectedCourse('Curso');
+      if (filter === selectedArea) setSelectedArea('Área');
+      if (filter === selectedTempo) setSelectedTempo('Tempo');
+      setSelectedFilters((prevSelectedFilters) =>
+        prevSelectedFilters.filter((item) => item !== filter)
+      );
+    },
+    [selectedCourse, selectedArea, selectedTempo]
+  );
 
-  const clearFilters = () => {
+  const clearFilters = useCallback(() => {
     setSelectedFilters([]);
     setSelectedArea('Área');
     setSelectedCourse('Curso');
     setSelectedTempo('Tempo');
-  };
+  }, []);
 
-  const fetchFilteredPosts = async () => {
+  const fetchFilteredPosts = useCallback(async () => {
     setFirstLoad(false);
     if (
       selectedArea === 'Área' &&
@@ -110,11 +116,22 @@ const FilteredFeed = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [selectedArea, selectedCourse, selectedTempo]);
 
-  const filteredCourses = cursos.filter((course) =>
-    course.toLowerCase().includes(searchText.toLowerCase())
+  const filteredCourses = useMemo(
+    () =>
+      cursos.filter((course) =>
+        course.toLowerCase().includes(searchText.toLowerCase())
+      ),
+    [searchText]
   );
+
+  const renderPost = useCallback(
+    ({ item }: { item: any }) => <PostCard key={item.id} post={item} />,
+    []
+  );
+
+  const keyExtractor = useCallback((item: { id: any; }) => item.id, []);
 
   return (
     <View style={styles.container}>
@@ -190,8 +207,8 @@ const FilteredFeed = () => {
       ) : (
         <FlatList
           data={posts}
-          keyExtractor={(item) => item.id}
-          renderItem={({ item }) => <PostCard post={item} />}
+          keyExtractor={keyExtractor}
+          renderItem={renderPost}
         />
       )}
       {modalType === 'curso' && (

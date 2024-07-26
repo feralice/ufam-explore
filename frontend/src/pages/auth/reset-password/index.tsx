@@ -1,59 +1,108 @@
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import { useState } from 'react';
-import {
-  KeyboardAvoidingView,
-  Platform,
-  Pressable,
-  ScrollView,
-  Text,
-  TextInput,
-  View,
-} from 'react-native';
+import { Alert, Pressable, Text, TextInput, View } from 'react-native';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import Toast from 'react-native-root-toast';
 import { BlueButton } from '../../../components/blue-button';
 import PasswordRequirements from '../../../components/password-validations';
+import { resetPassword } from '../../../services/api';
 import { isPasswordValid } from '../../../utils/validations-utils';
 import { styles } from './styles';
 
 export const ResetPasswordScreen = () => {
   const navigation = useNavigation();
+  const [token, setToken] = useState('');
   const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
   const [isPasswordFocused, setIsPasswordFocused] = useState(false);
   const [showPasswordRules, setShowPasswordRules] = useState(false);
   const [passwordError, setPasswordError] = useState('');
-  const [hidePassword, setHidePassword] = useState(true);
-  const [confirmPassword, setConfirmPassword] = useState('');
-  const [hideConfirmPassword, setHideConfirmPassword] = useState(true);
   const [confirmPasswordError, setConfirmPasswordError] = useState('');
+  const [hidePassword, setHidePassword] = useState(true);
+  const [hideConfirmPassword, setHideConfirmPassword] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
 
   const togglePasswordVisibility = () => {
     setHidePassword(!hidePassword);
   };
+
   const toggleConfirmPasswordVisibility = () => {
     setHideConfirmPassword(!hideConfirmPassword);
   };
 
-  return (
-    <KeyboardAvoidingView
-      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-      style={styles.container}
-    >
-      <ScrollView contentContainerStyle={styles.scrollContainer}>
-        <Pressable
-          onPress={() => {
-            navigation.goBack();
-          }}
-          style={styles.backButton}
-        >
-          <MaterialCommunityIcons
-            name="arrow-left"
-            size={24}
-            color="darkblue"
-          />
-        </Pressable>
+  const handleResetPassword = async () => {
+    if (!/^\d{6}$/.test(token)) {
+      Alert.alert('Erro', 'O token deve ser um número de 6 dígitos.');
+      return;
+    }
+    if (!isPasswordValid(password)) {
+      setPasswordError(
+        'A senha deve ter pelo menos 8 caracteres, incluindo maiúsculas, minúsculas, números e caracteres especiais.'
+      );
+      return;
+    }
+    if (password !== confirmPassword) {
+      setConfirmPasswordError('As senhas não coincidem.');
+      return;
+    }
 
+    setIsLoading(true);
+    try {
+      await resetPassword({ token, newPassword: password });
+      Toast.show('Senha redefinida com sucesso!', {
+        duration: Toast.durations.SHORT,
+        position: Toast.positions.BOTTOM,
+      });
+      setIsLoading(false);
+      navigation.goBack();
+    } catch (error: any) {
+      setIsLoading(false);
+      Alert.alert(
+        'Erro',
+        error.message === 'Token de redefinição de senha inválido ou expirado.'
+          ? 'Token de redefinição de senha inválido ou expirado.'
+          : 'Erro ao redefinir a senha.'
+      );
+    }
+  };
+
+  return (
+    <KeyboardAwareScrollView
+      contentContainerStyle={styles.scrollContainer}
+      resetScrollToCoords={{ x: 0, y: 0 }}
+      scrollEnabled
+    >
+      <Pressable
+        onPress={() => {
+          navigation.goBack();
+        }}
+        style={styles.backButton}
+      >
+        <MaterialCommunityIcons name="arrow-left" size={24} color="darkblue" />
+      </Pressable>
+
+      <View style={styles.content}>
         <Text style={styles.header}>REDEFINIR SUA SENHA</Text>
-        <Text style={styles.subHeader}>Preencha os campos abaixo:</Text>
+        <Text style={styles.subHeader}>
+          Preencha os campos abaixo para redefinir sua senha.
+        </Text>
+        <Text style={styles.instructions}>
+          Insira o token que você recebeu por e-mail junto com sua nova senha.
+        </Text>
+
+        <Text style={styles.textStyle}>Token</Text>
+        <View style={styles.boxInput}>
+          <TextInput
+            placeholder="Digite o token"
+            value={token}
+            onChangeText={(text) => setToken(text)}
+            style={styles.inputField}
+            keyboardType="numeric"
+            maxLength={6}
+          />
+        </View>
+
         <Text style={styles.textStyle}>Senha</Text>
         <View style={styles.boxInput}>
           <TextInput
@@ -91,7 +140,6 @@ export const ResetPasswordScreen = () => {
           <Text style={styles.errorMessage}>{passwordError}</Text>
         ) : null}
 
-        {/* Confirmar a Senha */}
         <Text style={styles.textStyle}>Confirmar a Senha</Text>
         <View
           style={[
@@ -124,8 +172,12 @@ export const ResetPasswordScreen = () => {
           <Text style={styles.passwordMismatch}>As senhas não coincidem.</Text>
         )}
 
-        <BlueButton onPress={() => {}} loading={false} text={'ENTRAR'} />
-      </ScrollView>
-    </KeyboardAvoidingView>
+        <BlueButton
+          onPress={handleResetPassword}
+          loading={isLoading}
+          text={'REDEFINIR'}
+        />
+      </View>
+    </KeyboardAwareScrollView>
   );
 };

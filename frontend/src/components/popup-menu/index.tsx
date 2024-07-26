@@ -32,7 +32,7 @@ const PopupMenu: React.FC = () => {
   const event = useSelector((state: IStore) => state.event.evento);
   const isPostOwner = post?.usuario.id === currentUser.id;
 
-  if (!isPostOwner && !event) {
+  if (!isPostOwner && !event.id) {
     return null;
   }
 

@@ -60,6 +60,7 @@ export class AuthService {
       fotoPerfil: user.fotoPerfil,
     };
   }
+
   async createPasswordResetToken(email: string): Promise<void> {
     this.logger.log(
       `Criação de token de redefinição de senha para o email: ${email}`,

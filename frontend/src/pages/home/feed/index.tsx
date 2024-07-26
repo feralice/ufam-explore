@@ -1,7 +1,7 @@
-import { MaterialCommunityIcons } from "@expo/vector-icons";
-import { useFocusEffect, useNavigation } from "@react-navigation/native";
-import { StackNavigationProp } from "@react-navigation/stack";
-import React, { useCallback, useRef, useState } from "react";
+import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { useFocusEffect, useNavigation } from '@react-navigation/native';
+import { StackNavigationProp } from '@react-navigation/stack';
+import React, { useCallback, useMemo, useRef, useState } from 'react';
 import {
   ActivityIndicator,
   FlatList,
@@ -10,25 +10,24 @@ import {
   Pressable,
   RefreshControl,
   View,
-} from "react-native";
-import { FAB } from "react-native-paper";
-import Toast from "react-native-root-toast";
-import { useSelector } from "react-redux";
-import { BottomSelection } from "../../../components/botton-selection";
-import { PostCard } from "../../../components/post-card";
-import { RootStackParamList } from "../../../routes/types";
-import { getAllPosts, getPostByTag } from "../../../services/api";
-import { IStore } from "../../../store";
-import { setEventData } from "../../../store/event/actions";
-import { ClearEventData } from "../../../store/event/state";
-import { setAllPosts } from "../../../store/post/actions";
-import { IPost } from "../../../store/post/types";
-import { feedStyles } from "./styles";
-import { styles } from "../extend-post/style";
+} from 'react-native';
+import { FAB } from 'react-native-paper';
+import Toast from 'react-native-root-toast';
+import { useSelector } from 'react-redux';
+import { BottomSelection } from '../../../components/botton-selection';
+import { PostCard } from '../../../components/post-card';
+import { RootStackParamList } from '../../../routes/types';
+import { getAllPosts, getPostByTag } from '../../../services/api';
+import { IStore } from '../../../store';
+import { setEventData } from '../../../store/event/actions';
+import { ClearEventData } from '../../../store/event/state';
+import { setAllPosts } from '../../../store/post/actions';
+import { IPost } from '../../../store/post/types';
+import { feedStyles } from './styles';
 
-const logoPhoto = require("../../../assets/UfamExplore.png");
+const logoPhoto = require('../../../assets/UfamExplore.png');
 
-type FeedScreenNavigationProp = StackNavigationProp<RootStackParamList, "Home">;
+type FeedScreenNavigationProp = StackNavigationProp<RootStackParamList, 'Home'>;
 
 const MemoizedPostCard = React.memo(PostCard);
 
@@ -44,7 +43,7 @@ export const FeedScreen = () => {
   );
   const previousPosts = useRef<IPost[]>([]);
 
-  const sortPostsByVotes = (posts: IPost[]) => {
+  const sortPostsByVotes = useCallback((posts: IPost[]) => {
     return posts.sort((a, b) => {
       if (b.upvotes !== a.upvotes) {
         return b.upvotes - a.upvotes;
@@ -52,7 +51,7 @@ export const FeedScreen = () => {
         return b.downvotes - a.downvotes;
       }
     });
-  };
+  }, []);
 
   const fetchAllPosts = useCallback(async () => {
     try {
@@ -66,7 +65,7 @@ export const FeedScreen = () => {
         !refreshing &&
         !arePostsEqual(sortedPosts, previousPosts.current)
       ) {
-        Toast.show("Novas postagens disponíveis", {
+        Toast.show('Novas postagens disponíveis', {
           duration: Toast.durations.LONG,
           position: Toast.positions.TOP,
         });
@@ -79,12 +78,12 @@ export const FeedScreen = () => {
       setLoading(false);
       setRefreshing(false);
     }
-  }, [id, loading, refreshing]);
+  }, [id, loading, refreshing, sortPostsByVotes]);
 
   const fetchPostsByCourse = useCallback(async () => {
     try {
       setSelectedTab(1);
-      const response = await getPostByTag(curso ?? "");
+      const response = await getPostByTag(curso ?? '');
       const sortedPosts = sortPostsByVotes(response.data);
       setPosts(sortedPosts);
       setAllPosts(sortedPosts);
@@ -94,7 +93,7 @@ export const FeedScreen = () => {
         !refreshing &&
         !arePostsEqual(sortedPosts, previousPosts.current)
       ) {
-        Toast.show("Novas postagens disponíveis", {
+        Toast.show('Novas postagens disponíveis', {
           duration: Toast.durations.LONG,
           position: Toast.positions.TOP,
         });
@@ -107,7 +106,7 @@ export const FeedScreen = () => {
       setLoading(false);
       setRefreshing(false);
     }
-  }, [curso, loading, refreshing]);
+  }, [curso, loading, refreshing, sortPostsByVotes]);
 
   const onRefresh = useCallback(() => {
     setRefreshing(true);
@@ -141,8 +140,10 @@ export const FeedScreen = () => {
     }, [fetchAllPosts, fetchPostsByCourse, selectedTab])
   );
 
-  const renderPost: ListRenderItem<IPost> = useCallback(
-    ({ item }) => <MemoizedPostCard key={item.id} post={item} />,
+  const renderPost: ListRenderItem<IPost> = useMemo(
+    () =>
+      ({ item }) =>
+        <MemoizedPostCard key={item.id} post={item} />,
     []
   );
 
@@ -162,10 +163,10 @@ export const FeedScreen = () => {
             <Pressable
               style={feedStyles.bell}
               onPress={() => {
-                navigation.navigate("Notification");
+                navigation.navigate('Notification');
               }}
             >
-              <MaterialCommunityIcons name={"bell"} size={30} color={"black"} />
+              <MaterialCommunityIcons name={'bell'} size={30} color={'black'} />
             </Pressable>
             <View style={[feedStyles.container]}>
               <Image source={logoPhoto} />
@@ -195,7 +196,7 @@ export const FeedScreen = () => {
           icon={() => (
             <MaterialCommunityIcons name="pencil" size={24} color="white" />
           )}
-          onPress={() => navigation.navigate("Post")}
+          onPress={() => navigation.navigate('Post')}
         />
       </View>
     </View>
@@ -208,7 +209,10 @@ const arePostsEqual = (newPosts: IPost[], oldPosts: IPost[]) => {
   }
 
   for (let i = 0; i < newPosts.length; i++) {
-    if (newPosts[i].id !== oldPosts[i].id) {
+    if (
+      newPosts[i].id !== oldPosts[i].id ||
+      newPosts[i].titulo !== oldPosts[i].titulo
+    ) {
       return false;
     }
   }

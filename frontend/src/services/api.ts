@@ -301,12 +301,12 @@ export const forgotPassword = async (email: string): Promise<void> => {
   }
 };
 
-export const resetPassword = async (
-  token: string,
-  newPassword: string
-): Promise<void> => {
+export const resetPassword = async (data: {
+  token: string;
+  newPassword: string;
+}): Promise<void> => {
   try {
-    await api.post('/reset-password', { token, newPassword });
+    await api.post('/reset-password', data);
   } catch (error: any) {
     throw new Error('Erro ao redefinir a senha.');
   }

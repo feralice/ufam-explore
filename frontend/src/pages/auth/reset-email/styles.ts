@@ -22,6 +22,12 @@ export const styles = StyleSheet.create({
     textAlign: 'center',
     marginBottom: 24,
   },
+  instructions: {
+    fontSize: 14,
+    textAlign: 'center',
+    marginBottom: 24,
+    color: 'gray',
+  },
   boxInput: {
     backgroundColor: 'rgba(0, 0, 139, 0.1)',
     borderRadius: 20,

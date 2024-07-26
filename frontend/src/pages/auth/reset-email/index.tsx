@@ -32,10 +32,13 @@ export const ResetPasswordEmailScreen = () => {
     setIsLoading(true);
     try {
       await forgotPassword(email);
-      Toast.show('Email enviado com sucesso!', {
-        duration: Toast.durations.SHORT,
-        position: Toast.positions.BOTTOM,
-      });
+      Toast.show(
+        'Email enviado com sucesso! Verifique sua caixa de entrada para o token de redefinição.',
+        {
+          duration: Toast.durations.LONG,
+          position: Toast.positions.BOTTOM,
+        }
+      );
       setIsLoading(false);
       navigation.navigate('ResetPasswordScreen');
     } catch (error: any) {
@@ -70,8 +73,11 @@ export const ResetPasswordEmailScreen = () => {
 
         <Text style={styles.header}>RECUPERAÇÃO DE SENHA</Text>
         <Text style={styles.subHeader}>
-          Para redefinir sua senha, informe o e-mail cadastrado na sua conta, e
-          aguarde o recebimento do e-mail com instruções
+          Para redefinir sua senha, informe o e-mail cadastrado na sua conta.
+        </Text>
+        <Text style={styles.instructions}>
+          Você receberá um token de redefinição de senha no seu e-mail. Use esse
+          token na próxima tela para redefinir sua senha.
         </Text>
 
         <View style={styles.boxInput}>
