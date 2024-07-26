@@ -9,13 +9,12 @@ const ChangePasswordModal = () => {
   
   return (
     <View style={styles.container}>  
-        <Text>teste</Text>
       <ConfirmationModal
         visible={true}
         onClose={() => {}}
         onConfirm={() => {}}
         loading={false}
-        text="Sua senha foi criada com sucesso"
+        text="Sua senha foi criada com sucesso!"
         showButtons={false}
       >
         <View>
