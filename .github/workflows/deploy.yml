@@ -1,11 +1,12 @@
 name: Deploy Expo App
 
 on:
-  push:
-    branches: [development]
+  schedule:
+    - cron: "0 22 * * *"
 
 jobs:
   build:
+    if: github.ref == 'refs/heads/development'
     runs-on: ubuntu-latest
 
     steps:
