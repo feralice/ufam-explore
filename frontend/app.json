@@ -40,16 +40,17 @@
         "WRITE_EXTERNAL_STORAGE",
         "READ_EXTERNAL_STORAGE",
         "READ_CALENDAR",
-        "WRITE_CALENDAR"
+        "WRITE_CALENDAR",
+        "android.permission.READ_CALENDAR",
+        "android.permission.WRITE_CALENDAR"
       ],
       "package": "com.feralice.frontend"
     },
     "web": {},
     "extra": {
       "eas": {
-        "projectId": "59074194-b83a-4e53-9995-34eaa96e057e"
+        "projectId": "00b1dec8-400f-467e-8c06-6ca3df88db32"
       }
-    },
-    "owner": "feralicee"
+    }
   }
 }
