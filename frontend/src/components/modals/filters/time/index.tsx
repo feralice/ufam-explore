@@ -22,7 +22,11 @@ const TempoModal: React.FC<TempoModalProps> = ({
       transparent={true}
       onRequestClose={onClose}
     >
-      <View style={styles.modalContainer}>
+      <TouchableOpacity
+        style={styles.modalContainer}
+        activeOpacity={1}
+        onPressOut={onClose}
+      >
         <View style={styles.modalContent}>
           <Text style={styles.modalTitle}>Selecione um período</Text>
           <FlatList
@@ -41,7 +45,7 @@ const TempoModal: React.FC<TempoModalProps> = ({
             <Text style={styles.closeButtonText}>Fechar</Text>
           </TouchableOpacity>
         </View>
-      </View>
+      </TouchableOpacity>
     </Modal>
   );
 };

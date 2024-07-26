@@ -14,11 +14,8 @@ import CursoModal from '../../../components/modals/filters/course';
 import TempoModal from '../../../components/modals/filters/time';
 import { PostCard } from '../../../components/post-card';
 import { getFilteredPosts } from '../../../services/api';
-import { cursos } from '../../../utils/courses';
+import { areas, cursos, cursosPorArea, tempos } from '../../../utils/courses';
 import { styles } from './styles';
-
-const areas = ['Biológicas', 'Exatas', 'Humanas'];
-const tempos = ['Hoje', 'Esta semana', 'Este mês'];
 
 const FilteredFeed = () => {
   const [selectedFilters, setSelectedFilters] = useState<string[]>([]);
@@ -41,6 +38,14 @@ const FilteredFeed = () => {
     [selectedArea, selectedCourse, selectedTempo]
   );
 
+  const filteredCourses = useMemo(() => {
+    const cursosFiltrados =
+      selectedArea === 'Área' ? cursos : cursosPorArea[selectedArea] || [];
+    return cursosFiltrados.filter((course) =>
+      course.toLowerCase().includes(searchText.toLowerCase())
+    );
+  }, [searchText, selectedArea]);
+
   const toggleFilter = useCallback((filterType: string) => {
     setModalType(filterType);
     setModalVisible(true);
@@ -53,6 +58,7 @@ const FilteredFeed = () => {
 
   const selectArea = useCallback((area: string) => {
     setSelectedArea(area);
+    setSelectedCourse('Curso');
     updateFilters(area);
   }, []);
 
@@ -117,14 +123,6 @@ const FilteredFeed = () => {
       setLoading(false);
     }
   }, [selectedArea, selectedCourse, selectedTempo]);
-
-  const filteredCourses = useMemo(
-    () =>
-      cursos.filter((course) =>
-        course.toLowerCase().includes(searchText.toLowerCase())
-      ),
-    [searchText]
-  );
 
   const renderPost = useCallback(
     ({ item }: { item: any }) => <PostCard key={item.id} post={item} />,

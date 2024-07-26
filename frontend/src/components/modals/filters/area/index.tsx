@@ -22,7 +22,11 @@ const AreaModal: React.FC<AreaModalProps> = ({
       transparent={true}
       onRequestClose={onClose}
     >
-      <View style={styles.modalContainer}>
+      <TouchableOpacity
+        style={styles.modalContainer}
+        activeOpacity={1}
+        onPressOut={onClose}
+      >
         <View style={styles.modalContent}>
           <Text style={styles.modalTitle}>Selecione uma área</Text>
           <FlatList
@@ -41,7 +45,7 @@ const AreaModal: React.FC<AreaModalProps> = ({
             <Text style={styles.closeButtonText}>Fechar</Text>
           </TouchableOpacity>
         </View>
-      </View>
+      </TouchableOpacity>
     </Modal>
   );
 };

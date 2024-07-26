@@ -33,7 +33,11 @@ const CursoModal: React.FC<CursoModalProps> = ({
       transparent={true}
       onRequestClose={onClose}
     >
-      <View style={styles.modalContainer}>
+      <TouchableOpacity
+        style={styles.modalContainer}
+        activeOpacity={1}
+        onPressOut={onClose}
+      >
         <View style={styles.modalContent}>
           <Text style={styles.modalTitle}>Selecione um curso</Text>
           <TextInput
@@ -58,7 +62,7 @@ const CursoModal: React.FC<CursoModalProps> = ({
             <Text style={styles.closeButtonText}>Fechar</Text>
           </TouchableOpacity>
         </View>
-      </View>
+      </TouchableOpacity>
     </Modal>
   );
 };
