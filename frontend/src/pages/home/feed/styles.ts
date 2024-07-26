@@ -1,8 +1,11 @@
 import { StyleSheet } from 'react-native';
 
 export const feedStyles = StyleSheet.create({
-  container: { alignItems: 'center', paddingTop: 70, paddingBottom: 5 },
-
+  container: {
+    alignItems: 'center',
+    paddingTop: 50,
+    paddingBottom: 5,
+  },
   bottomSelectionContainer: {
     paddingHorizontal: 60,
     paddingBottom: 20,
@@ -12,11 +15,7 @@ export const feedStyles = StyleSheet.create({
     bottom: 16,
     right: 16,
   },
-
   fab: {
-    position: 'absolute',
-    right: 0,
-    bottom: 0,
     borderRadius: 50,
     backgroundColor: 'darkblue',
   },
@@ -31,14 +30,18 @@ export const feedStyles = StyleSheet.create({
     top: 20,
     padding: 10,
     borderRadius: 50,
-    backgroundColor: '#fff',
-    shadowColor: '#000',
+    backgroundColor: '#f0f0f0',
+    shadowColor: 'darkblue',
     shadowOffset: {
       width: 0,
       height: 2,
     },
-    shadowOpacity: 0.25,
+    shadowOpacity: 0.15,
     shadowRadius: 3.84,
     elevation: 5,
+  },
+  logo: {
+    height: 50,
+    resizeMode: 'contain',
   },
 });

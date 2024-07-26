@@ -166,10 +166,14 @@ export const FeedScreen = () => {
                 navigation.navigate('Notification');
               }}
             >
-              <MaterialCommunityIcons name={'bell'} size={30} color={'black'} />
+              <MaterialCommunityIcons
+                name={'bell-outline'}
+                size={26}
+                color={'black'}
+              />
             </Pressable>
             <View style={[feedStyles.container]}>
-              <Image source={logoPhoto} />
+              <Image source={logoPhoto} style={feedStyles.logo} />
             </View>
             {perfilId !== 2 && (
               <View style={feedStyles.bottomSelectionContainer}>
@@ -208,14 +212,9 @@ const arePostsEqual = (newPosts: IPost[], oldPosts: IPost[]) => {
     return false;
   }
 
-  for (let i = 0; i < newPosts.length; i++) {
-    if (
-      newPosts[i].id !== oldPosts[i].id ||
-      newPosts[i].titulo !== oldPosts[i].titulo
-    ) {
-      return false;
-    }
-  }
-
-  return true;
+  return !newPosts.some(
+    (newPost, index) =>
+      newPost.id !== oldPosts[index].id ||
+      newPost.titulo !== oldPosts[index].titulo
+  );
 };
