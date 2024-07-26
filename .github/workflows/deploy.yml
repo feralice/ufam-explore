@@ -1,0 +1,36 @@
+name: Deploy Expo App
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out the repository
+        uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: "14"
+
+      - name: Install dependencies
+        run: npm install
+        working-directory: frontend
+
+      - name: Install Expo CLI
+        run: npm install -g expo-cli
+        working-directory: frontend
+
+      - name: Log in to Expo
+        env:
+          EXPO_CLI_USERNAME: ${{ secrets.EXPO_CLI_USERNAME }}
+          EXPO_CLI_PASSWORD: ${{ secrets.EXPO_CLI_PASSWORD }}
+        run: expo login -u $EXPO_CLI_USERNAME -p $EXPO_CLI_PASSWORD --non-interactive
+        working-directory: frontend
+
+      - name: Publish to Expo
+        run: eas build -p android --profile preview
+        working-directory: frontend
