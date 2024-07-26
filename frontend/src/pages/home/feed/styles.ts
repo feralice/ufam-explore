@@ -1,7 +1,7 @@
 import { StyleSheet } from 'react-native';
 
 export const feedStyles = StyleSheet.create({
-  container: { alignItems: 'center', paddingTop: 70, paddingBottom: 20 },
+  container: { alignItems: 'center', paddingTop: 70, paddingBottom: 5 },
 
   bottomSelectionContainer: {
     paddingHorizontal: 60,
