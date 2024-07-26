@@ -4,7 +4,7 @@ export const styles = StyleSheet.create({
     
     container: {
         flex: 1,
-        padding: 16,
+        padding: 18,
         justifyContent: 'center',
         backgroundColor: 'white',
       },
@@ -12,7 +12,8 @@ export const styles = StyleSheet.create({
         fontSize: 24,
         fontWeight: 'bold',
         textAlign: 'center',
-        marginBottom: 16,
+        marginBottom: 20,
+        color: 'darkblue',
       },
       subHeader: {
         fontSize: 16,

@@ -5,6 +5,7 @@ import { BlueButton } from '../../../components/blue-button';
 import { isEmailValid } from '../../../utils/validations-utils';
 import { FeedScreenNavigationProp } from '../../../routes/types';
 import { useNavigation } from '@react-navigation/native';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 export const ResetPasswordEmailScreen = () => {
   const [email, setEmail] = useState('');
@@ -15,12 +16,14 @@ export const ResetPasswordEmailScreen = () => {
     
     <View style={styles.container}>
 
-      <Pressable
+    <Pressable
         onPress={() => {
           navigation.goBack();
         }}
         style={styles.backButton}
-      />
+      >
+        <MaterialCommunityIcons name="arrow-left" size={24} color="darkblue" />
+      </Pressable>
 
       <Text style={styles.header}>RECUPERAÇÃO DE SENHA</Text>
       <Text style={styles.subHeader}>Para redefinir sua senha, informe o e-mail cadastrado na sua conta, e aguarde o recebimento do e-mail com instruções</Text>
