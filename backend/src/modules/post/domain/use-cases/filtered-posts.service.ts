@@ -2,7 +2,6 @@ import { Injectable, Logger } from '@nestjs/common';
 import { Postagem, Prisma } from '@prisma/client';
 import { TagRepository } from '../../../../modules/tag/infrastructure/tag.repository';
 import { PostRepository } from '../../infrastructure/repositories/post.repository';
-
 @Injectable()
 export class FilteredPostsService {
   private readonly logger = new Logger(FilteredPostsService.name);
@@ -16,14 +15,15 @@ export class FilteredPostsService {
     area?: string,
     curso?: string,
     tempo?: string,
+    searchText?: string,
   ): Promise<Postagem[]> {
     let where: Prisma.PostagemWhereInput = {};
 
     this.logger.log(
-      `Received filters - Area: ${area}, Curso: ${curso}, Tempo: ${tempo}`,
+      `Received filters - Area: ${area}, Curso: ${curso}, Tempo: ${tempo}, SearchText: ${searchText}`,
     );
 
-    const orConditions: Prisma.PostagemWhereInput[] = [];
+    const andConditions: Prisma.PostagemWhereInput[] = [];
 
     if (area) {
       this.logger.log(`Fetching area tag for: ${area}`);
@@ -38,10 +38,12 @@ export class FilteredPostsService {
         const cursoIds = cursos.map((curso) => curso.id);
         this.logger.log(`Courses in area: ${JSON.stringify(cursoIds)}`);
 
-        orConditions.push(
-          { tags: { some: { id: areaTag.id } } },
-          { tags: { some: { id: { in: cursoIds } } } },
-        );
+        andConditions.push({
+          OR: [
+            { tags: { some: { id: areaTag.id } } },
+            { tags: { some: { id: { in: cursoIds } } } },
+          ],
+        });
       } else {
         this.logger.warn(`No area tag found for: ${area}`);
       }
@@ -53,7 +55,7 @@ export class FilteredPostsService {
 
       if (cursoTag) {
         this.logger.log(`Found course tag: ${JSON.stringify(cursoTag)}`);
-        orConditions.push({ tags: { some: { id: cursoTag.id } } });
+        andConditions.push({ tags: { some: { id: cursoTag.id } } });
       } else {
         this.logger.warn(`No course tag found for: ${curso}`);
       }
@@ -65,7 +67,7 @@ export class FilteredPostsService {
       const currentDate = new Date();
       switch (tempo) {
         case 'Hoje':
-          dateCondition = new Date(currentDate);
+          dateCondition = new Date(currentDate.setHours(0, 0, 0, 0));
           break;
         case 'Esta semana':
           dateCondition = new Date();
@@ -84,15 +86,26 @@ export class FilteredPostsService {
 
       this.logger.log(`Time filter condition: ${dateCondition}`);
 
-      orConditions.push({
+      andConditions.push({
         createdAt: {
           gte: dateCondition,
         },
       });
     }
 
-    if (orConditions.length > 0) {
-      where = { ...where, OR: orConditions };
+    if (searchText) {
+      this.logger.log(`Applying text search for: ${searchText}`);
+      andConditions.push({
+        OR: [
+          { titulo: { contains: searchText, mode: 'insensitive' } },
+          { texto: { contains: searchText, mode: 'insensitive' } },
+          { evento: { titulo: { contains: searchText, mode: 'insensitive' } } },
+        ],
+      });
+    }
+
+    if (andConditions.length > 0) {
+      where = { ...where, AND: andConditions };
     }
 
     this.logger.log(`Final query condition: ${JSON.stringify(where)}`);

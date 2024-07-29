@@ -175,6 +175,11 @@ export class PostController {
     required: false,
     description: 'Período de tempo para filtrar as postagens',
   })
+  @ApiQuery({
+    name: 'searchText',
+    required: false,
+    description: 'Texto de busca para filtrar as postagens',
+  })
   @ApiResponse({
     status: 200,
     description: 'Lista de postagens filtradas',
@@ -183,7 +188,13 @@ export class PostController {
     @Query('area') area?: string,
     @Query('curso') curso?: string,
     @Query('tempo') tempo?: string,
+    @Query('searchText') searchText?: string,
   ): Promise<Postagem[]> {
-    return this.filteredPostsService.getFilteredPostagens(area, curso, tempo);
+    return this.filteredPostsService.getFilteredPostagens(
+      area,
+      curso,
+      tempo,
+      searchText,
+    );
   }
 }
