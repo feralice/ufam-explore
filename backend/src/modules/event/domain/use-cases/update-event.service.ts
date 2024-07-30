@@ -1,5 +1,6 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { Evento } from '@prisma/client';
+import { CreateEventDto } from '../../application/dto/create-event.dto';
 import { UpdateEventDto } from '../../application/dto/update-event.dto';
 import { EventRepository } from '../../infrastructure/event-repository';
 
@@ -10,8 +11,8 @@ export class UpdateEventService {
   constructor(private readonly eventRepository: EventRepository) {}
 
   async upsertEvent(
-    eventId: string,
-    updateEventDto: UpdateEventDto,
+    eventId: string | null,
+    updateEventDto: UpdateEventDto | CreateEventDto,
   ): Promise<Evento> {
     this.logger.log(`Starting upsert for eventId: ${eventId}`);
     this.logger.debug(`UpdateEventDto: ${JSON.stringify(updateEventDto)}`);

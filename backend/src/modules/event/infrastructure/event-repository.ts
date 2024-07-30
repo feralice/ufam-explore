@@ -31,15 +31,15 @@ export class EventRepository {
   }
 
   async upsertEvent(
-    eventId: string,
-    updateEventDto: UpdateEventDto,
+    eventId: string | null,
+    updateEventDto: UpdateEventDto | CreateEventDto,
   ): Promise<Evento> {
-    const event = await this.getEventById(eventId);
-    if (event) {
-      return this.updateEvent(eventId, updateEventDto);
-    } else {
-      console.error('Event not found');
-      return this.createEvent(updateEventDto as CreateEventDto);
+    if (eventId) {
+      const event = await this.getEventById(eventId);
+      if (event) {
+        return this.updateEvent(eventId, updateEventDto as UpdateEventDto);
+      }
     }
+    return this.createEvent(updateEventDto as CreateEventDto);
   }
 }
