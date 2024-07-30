@@ -89,4 +89,31 @@ export const styles = StyleSheet.create({
   confirmPasswordInput: {
     backgroundColor: 'rgba(255, 0, 0, 0.1)',
   },
+  codeFieldRoot: {
+    marginTop: 20,
+    width: 280,
+    marginLeft: 'auto',
+    marginRight: 'auto',
+  },
+  cell: {
+    width: 40,
+    height: 40,
+    lineHeight: 38,
+    fontSize: 24,
+    borderWidth: 2,
+    borderColor: 'gray',
+    marginBottom: 10,
+    textAlign: 'center',
+    marginRight: 5,
+    borderRadius: 5,
+    backgroundColor: '#fff',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.1,
+    shadowRadius: 3,
+    elevation: 3,
+  },
+  focusCell: {
+    borderColor: '#1f3c88',
+  },
 });

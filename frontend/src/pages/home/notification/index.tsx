@@ -1,6 +1,7 @@
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
-import React, { useEffect, useState } from 'react';
+import { debounce } from 'lodash';
+import React, { useCallback, useEffect, useState } from 'react';
 import {
   ActivityIndicator,
   FlatList,
@@ -17,6 +18,15 @@ import { AppDispatch, IStore } from '../../../store';
 import { fetchNotifications } from '../../../store/notifications/actions';
 import { setCurrentPost } from '../../../store/post/actions';
 import { styles } from './style';
+
+interface INotification {
+  id: string;
+  message: string;
+  postagemId: string;
+  usuario: {
+    username: string;
+  };
+}
 
 const Notification: React.FC = () => {
   const navigation = useNavigation<FeedScreenNavigationProp>();
@@ -38,18 +48,35 @@ const Notification: React.FC = () => {
     }
   }, [user?.id, dispatch]);
 
-  const handleNotificationPress = async (postId: string) => {
-    setLoadingPost(true);
-    try {
-      const post = await getPostById(postId);
-      setCurrentPost(post.data);
-      navigation.navigate('ExtendPost');
-    } catch (error) {
-      console.error(error);
-    } finally {
-      setLoadingPost(false);
-    }
-  };
+  const handleNotificationPress = useCallback(
+    debounce(async (postId: string) => {
+      setLoadingPost(true);
+      try {
+        const post = await getPostById(postId);
+        setCurrentPost(post.data);
+        navigation.navigate('ExtendPost');
+      } catch (error) {
+        console.error(error);
+      } finally {
+        setLoadingPost(false);
+      }
+    }, 300),
+    [dispatch, navigation]
+  );
+
+  const renderItem = useCallback(
+    ({ item }: { item: INotification }) =>
+      item.usuario && (
+        <NotificationItem
+          username={item.usuario.username}
+          notificationType={item.message}
+          onPress={() => handleNotificationPress(item.postagemId)}
+        />
+      ),
+    [handleNotificationPress]
+  );
+
+  const keyExtractor = useCallback((item: INotification) => item.id, []);
 
   if (loadingNotifications || loadingPost) {
     return (
@@ -60,7 +87,7 @@ const Notification: React.FC = () => {
   }
 
   if (error) {
-    return <Text>Error: {error}</Text>;
+    return <Text>Erro: {error}</Text>;
   }
 
   return (
@@ -90,18 +117,16 @@ const Notification: React.FC = () => {
       ) : (
         <FlatList
           data={notifications}
-          renderItem={({ item }) =>
-            item.usuario && (
-              <NotificationItem
-                username={item.usuario.username}
-                notificationType={item.message}
-                onPress={() => handleNotificationPress(item.postagemId)}
-              />
-            )
-          }
-          keyExtractor={(item) => item.id}
+          renderItem={renderItem}
+          keyExtractor={keyExtractor}
           ItemSeparatorComponent={() => <View style={styles.separator} />}
           contentContainerStyle={styles.listContent}
+          initialNumToRender={10}
+          getItemLayout={(data, index) => ({
+            length: 50,
+            offset: 50 * index,
+            index,
+          })}
         />
       )}
     </SafeAreaView>

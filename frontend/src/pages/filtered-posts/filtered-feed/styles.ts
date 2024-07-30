@@ -61,7 +61,7 @@ export const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-    marginBottom: 10,
+    marginBottom: 5,
   },
   clearButton: {
     backgroundColor: 'rgba(0, 0, 0, 0.5)',
@@ -85,6 +85,14 @@ export const styles = StyleSheet.create({
     color: '#FFF',
     fontSize: 16,
   },
+  helpText: {
+    width: '80%',
+    alignSelf: 'center',
+    textAlign: 'center',
+    color: '#002E7D',
+    fontSize: 14,
+    marginVertical: 15,
+  },
   postContainer: {
     marginVertical: 10,
     padding: 15,
@@ -103,6 +111,7 @@ export const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+    marginTop: 100,
   },
   emptyStateText: {
     marginTop: 20,

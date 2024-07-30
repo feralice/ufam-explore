@@ -1,6 +1,6 @@
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URL")
+  url      = "postgres://postgres:ufam-explore@ufam-explore.cfs24cskm7l8.us-east-2.rds.amazonaws.com:8000/ufam_explore"
 }
 
 generator client {
@@ -28,6 +28,8 @@ model Usuario {
   upvotes     Upvote[]
   downvotes   Downvote[]
   salvos      Salvar[]
+
+  @@index([email])
 }
 
 model Tag {
@@ -38,6 +40,8 @@ model Tag {
 
   postagens      Postagem[]
   tagsEmPostagem TagsEmPostagem[]
+
+  @@index([nome])
 }
 
 model Evento {
@@ -49,6 +53,8 @@ model Evento {
   descricao   String?
 
   postagens Postagem[]
+
+  @@index([dataInicio])
 }
 
 model Postagem {
@@ -72,6 +78,7 @@ model Postagem {
   tagsEmPostagem TagsEmPostagem[]
 
   @@index([usuarioId])
+  @@index([eventoId])
 }
 
 model Comentario {
@@ -141,6 +148,9 @@ model TagsEmPostagem {
 
   tag      Tag      @relation(fields: [tagId], references: [id], onDelete: Cascade)
   postagem Postagem @relation(fields: [postagemId], references: [id], onDelete: Cascade)
+
+  @@index([tagId])
+  @@index([postagemId])
 }
 
 model Perfil {

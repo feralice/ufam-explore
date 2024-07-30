@@ -2,6 +2,7 @@ import { Injectable, Logger } from '@nestjs/common';
 import { Postagem, Prisma } from '@prisma/client';
 import { TagRepository } from '../../../../modules/tag/infrastructure/tag.repository';
 import { PostRepository } from '../../infrastructure/repositories/post.repository';
+
 @Injectable()
 export class FilteredPostsService {
   private readonly logger = new Logger(FilteredPostsService.name);
@@ -100,6 +101,11 @@ export class FilteredPostsService {
           { titulo: { contains: searchText, mode: 'insensitive' } },
           { texto: { contains: searchText, mode: 'insensitive' } },
           { evento: { titulo: { contains: searchText, mode: 'insensitive' } } },
+          {
+            tags: {
+              some: { nome: { contains: searchText, mode: 'insensitive' } },
+            },
+          },
         ],
       });
     }

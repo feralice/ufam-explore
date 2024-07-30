@@ -1,6 +1,5 @@
 import { Injectable, Logger } from '@nestjs/common';
 import * as nodemailer from 'nodemailer';
-
 @Injectable()
 export class EmailService {
   private readonly logger = new Logger(EmailService.name);
@@ -74,6 +73,7 @@ export class EmailService {
             <p>Você solicitou a redefinição de sua senha. Aqui está o seu token de redefinição de senha:</p>
             <p class="token">${token}</p>
             <p>Insira este token no aplicativo para redefinir sua senha.</p>
+            <p>Este token expira em 1 hora.</p>
             <p>Se você não solicitou esta redefinição, por favor ignore este email.</p>
             <p>Atenciosamente,<br>Equipe Ufam Explore</p>
           </div>

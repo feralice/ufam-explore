@@ -1,7 +1,7 @@
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
-import React, { useCallback, useMemo, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import {
   ActivityIndicator,
   FlatList,
@@ -9,15 +9,15 @@ import {
   ListRenderItem,
   Pressable,
   RefreshControl,
+  Text,
   View,
 } from 'react-native';
 import { FAB } from 'react-native-paper';
-import Toast from 'react-native-root-toast';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { BottomSelection } from '../../../components/botton-selection';
 import { PostCard } from '../../../components/post-card';
 import { RootStackParamList } from '../../../routes/types';
-import { getAllPosts, getPostByTag } from '../../../services/api';
+import { getAllPosts } from '../../../services/api';
 import { IStore } from '../../../store';
 import { setEventData } from '../../../store/event/actions';
 import { ClearEventData } from '../../../store/event/state';
@@ -32,112 +32,68 @@ type FeedScreenNavigationProp = StackNavigationProp<RootStackParamList, 'Home'>;
 const MemoizedPostCard = React.memo(PostCard);
 
 export const FeedScreen = () => {
-  const [posts, setPosts] = useState<IPost[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [refreshing, setRefreshing] = useState<boolean>(false);
   const [selectedTab, setSelectedTab] = useState<number>(0);
   const navigation = useNavigation<FeedScreenNavigationProp>();
-  const [intervalId, setIntervalId] = useState<NodeJS.Timeout | null>(null);
   const { id, curso, perfilId } = useSelector(
     (state: IStore) => state.user.user
   );
-  const previousPosts = useRef<IPost[]>([]);
+  const allPosts = useSelector((state: IStore) => state.post.posts);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (allPosts.length === 0) {
+      fetchAllPosts();
+    } else {
+      setLoading(false);
+    }
+  }, [allPosts]);
 
   const sortPostsByVotes = useCallback((posts: IPost[]) => {
-    return posts.sort((a, b) => {
-      if (b.upvotes !== a.upvotes) {
-        return b.upvotes - a.upvotes;
-      } else {
-        return b.downvotes - a.downvotes;
-      }
-    });
+    return posts.sort(
+      (a, b) => b.upvotes - a.upvotes || b.downvotes - a.downvotes
+    );
   }, []);
 
   const fetchAllPosts = useCallback(async () => {
     try {
       const response = await getAllPosts(id);
       const sortedPosts = sortPostsByVotes(response.data);
-      setPosts(sortedPosts);
       setAllPosts(sortedPosts);
-
-      if (
-        !loading &&
-        !refreshing &&
-        !arePostsEqual(sortedPosts, previousPosts.current)
-      ) {
-        Toast.show('Novas postagens disponíveis', {
-          duration: Toast.durations.LONG,
-          position: Toast.positions.TOP,
-        });
-      }
-
-      previousPosts.current = sortedPosts;
+      setLoading(false);
+      setRefreshing(false);
     } catch (error) {
       console.error(error);
-    } finally {
       setLoading(false);
       setRefreshing(false);
     }
-  }, [id, loading, refreshing, sortPostsByVotes]);
+  }, [id, dispatch, sortPostsByVotes]);
 
-  const fetchPostsByCourse = useCallback(async () => {
-    try {
-      setSelectedTab(1);
-      const response = await getPostByTag(curso ?? '');
-      const sortedPosts = sortPostsByVotes(response.data);
-      setPosts(sortedPosts);
-      setAllPosts(sortedPosts);
-
-      if (
-        !loading &&
-        !refreshing &&
-        !arePostsEqual(sortedPosts, previousPosts.current)
-      ) {
-        Toast.show('Novas postagens disponíveis', {
-          duration: Toast.durations.LONG,
-          position: Toast.positions.TOP,
-        });
-      }
-
-      previousPosts.current = sortedPosts;
-    } catch (error) {
-      console.error(error);
-    } finally {
-      setLoading(false);
-      setRefreshing(false);
+  const filteredPosts = useMemo(() => {
+    if (selectedTab === 0) {
+      return allPosts;
     }
-  }, [curso, loading, refreshing, sortPostsByVotes]);
+    return allPosts.filter((post: IPost) =>
+      post.tags?.some((tag) => tag.nome === curso)
+    );
+  }, [allPosts, selectedTab, curso]);
 
   const onRefresh = useCallback(() => {
     setRefreshing(true);
-    if (selectedTab === 0) {
-      fetchAllPosts();
-    } else {
-      fetchPostsByCourse();
-    }
-  }, [fetchAllPosts, fetchPostsByCourse, selectedTab]);
+    fetchAllPosts();
+  }, [fetchAllPosts]);
 
   useFocusEffect(
     useCallback(() => {
       setEventData(ClearEventData.evento);
-      if (selectedTab === 0) {
+      setLoading(true);
+      fetchAllPosts();
+      const interval = setInterval(() => {
         fetchAllPosts();
-      } else {
-        fetchPostsByCourse();
-      }
-      const id = setInterval(() => {
-        if (selectedTab === 0) {
-          fetchAllPosts();
-        } else {
-          fetchPostsByCourse();
-        }
       }, 20000);
-      setIntervalId(id);
-
-      return () => {
-        if (id) clearInterval(id);
-      };
-    }, [fetchAllPosts, fetchPostsByCourse, selectedTab])
+      return () => clearInterval(interval);
+    }, [fetchAllPosts])
   );
 
   const renderPost: ListRenderItem<IPost> = useMemo(
@@ -172,7 +128,7 @@ export const FeedScreen = () => {
                 color={'black'}
               />
             </Pressable>
-            <View style={[feedStyles.container]}>
+            <View style={feedStyles.container}>
               <Image source={logoPhoto} style={feedStyles.logo} />
             </View>
             {perfilId !== 2 && (
@@ -182,13 +138,20 @@ export const FeedScreen = () => {
             )}
           </>
         }
-        data={posts}
+        data={filteredPosts}
         renderItem={renderPost}
         keyExtractor={(item) => item.id}
         initialNumToRender={10}
         maxToRenderPerBatch={10}
         windowSize={5}
         removeClippedSubviews={true}
+        ListEmptyComponent={
+          <View style={feedStyles.emptyContainer}>
+            <Text style={feedStyles.emptyText}>
+              Não há postagens no seu curso.
+            </Text>
+          </View>
+        }
         refreshControl={
           <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
         }

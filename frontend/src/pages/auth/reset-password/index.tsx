@@ -2,6 +2,12 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import { useState } from 'react';
 import { Alert, Pressable, Text, TextInput, View } from 'react-native';
+import {
+  CodeField,
+  Cursor,
+  useBlurOnFulfill,
+  useClearByFocusCell,
+} from 'react-native-confirmation-code-field';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import Toast from 'react-native-root-toast';
 import { BlueButton } from '../../../components/blue-button';
@@ -9,6 +15,8 @@ import PasswordRequirements from '../../../components/password-validations';
 import { resetPassword } from '../../../services/api';
 import { isPasswordValid } from '../../../utils/validations-utils';
 import { styles } from './styles';
+
+const CELL_COUNT = 6;
 
 export const ResetPasswordScreen = () => {
   const navigation = useNavigation();
@@ -22,6 +30,12 @@ export const ResetPasswordScreen = () => {
   const [hidePassword, setHidePassword] = useState(true);
   const [hideConfirmPassword, setHideConfirmPassword] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
+
+  const ref = useBlurOnFulfill({ value: token, cellCount: CELL_COUNT });
+  const [props, getCellOnLayoutHandler] = useClearByFocusCell({
+    value: token,
+    setValue: setToken,
+  });
 
   const togglePasswordVisibility = () => {
     setHidePassword(!hidePassword);
@@ -92,16 +106,25 @@ export const ResetPasswordScreen = () => {
         </Text>
 
         <Text style={styles.textStyle}>Token</Text>
-        <View style={styles.boxInput}>
-          <TextInput
-            placeholder="Digite o token"
-            value={token}
-            onChangeText={(text) => setToken(text)}
-            style={styles.inputField}
-            keyboardType="numeric"
-            maxLength={6}
-          />
-        </View>
+        <CodeField
+          ref={ref}
+          {...props}
+          value={token}
+          onChangeText={setToken}
+          cellCount={CELL_COUNT}
+          rootStyle={styles.codeFieldRoot}
+          keyboardType="numeric"
+          textContentType="oneTimeCode"
+          renderCell={({ index, symbol, isFocused }) => (
+            <Text
+              key={index}
+              style={[styles.cell, isFocused && styles.focusCell]}
+              onLayout={getCellOnLayoutHandler(index)}
+            >
+              {symbol || (isFocused ? <Cursor /> : null)}
+            </Text>
+          )}
+        />
 
         <Text style={styles.textStyle}>Senha</Text>
         <View style={styles.boxInput}>

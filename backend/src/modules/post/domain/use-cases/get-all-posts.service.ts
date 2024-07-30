@@ -16,27 +16,24 @@ export class GetAllPostsUseCase {
   async execute(userId: string) {
     try {
       const posts = await this.postRepository.getAllPosts();
+
+      // Use Promise.all to run queries in parallel
       const postsWithVotesAndSaves = await Promise.all(
         posts.map(async (post) => {
-          const upvotes = await this.upvoteRepository.getUpvotesCount(post.id);
-          const downvotes = await this.downvoteRepository.getDownvotesCount(
-            post.id,
-          );
-          const userUpvoted =
-            await this.upvoteRepository.verifyIfUserAlreadyUpvotedPost(
-              post.id,
-              userId,
-            );
-          const userDownvoted =
-            await this.downvoteRepository.verifyIfUserAlreadyDownvotedPost(
-              userId,
-              post.id,
-            );
-          const isSaved =
-            await this.saveRepository.verifyIfUserAlreadySavedPost(
-              userId,
-              post.id,
-            );
+          const [upvotes, downvotes, userUpvoted, userDownvoted, isSaved] =
+            await Promise.all([
+              this.upvoteRepository.getUpvotesCount(post.id),
+              this.downvoteRepository.getDownvotesCount(post.id),
+              this.upvoteRepository.verifyIfUserAlreadyUpvotedPost(
+                post.id,
+                userId,
+              ),
+              this.downvoteRepository.verifyIfUserAlreadyDownvotedPost(
+                userId,
+                post.id,
+              ),
+              this.saveRepository.verifyIfUserAlreadySavedPost(userId, post.id),
+            ]);
 
           return {
             ...post,
@@ -45,6 +42,7 @@ export class GetAllPostsUseCase {
             userUpvoted,
             userDownvoted,
             isSaved,
+            createdAt: post.createdAt, // Certifique-se de incluir o campo createdAt
           };
         }),
       );

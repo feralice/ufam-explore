@@ -21,6 +21,7 @@ export interface IPost {
     fotoPerfil?: string;
   };
   isSaved: boolean;
+  createdAt?: string;
 }
 
 export interface IPostRequest {

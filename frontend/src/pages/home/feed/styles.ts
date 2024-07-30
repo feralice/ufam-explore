@@ -44,4 +44,15 @@ export const feedStyles = StyleSheet.create({
     height: 50,
     resizeMode: 'contain',
   },
+  emptyContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 20,
+  },
+  emptyText: {
+    fontSize: 16,
+    color: 'gray',
+    textAlign: 'center',
+  },
 });
