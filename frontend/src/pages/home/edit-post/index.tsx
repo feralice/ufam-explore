@@ -109,7 +109,14 @@ export const EditPostScreen = () => {
   };
 
   const navigateToCreateEventScreen = () => {
-    navigation.navigate('EditEventScreen');
+    if (post.eventoId) {
+      navigation.navigate('EditEventScreen');
+    } else {
+      Alert.alert(
+        'Edição de Evento',
+        'A edição de evento só está disponível quando já existe um evento na postagem. Não é possível criar novos eventos até então'
+      );
+    }
   };
 
   const handleBackPress = () => {
@@ -163,7 +170,7 @@ export const EditPostScreen = () => {
             onChangeText={(text) => setText(text)}
             value={text}
           />
-          {event.id && (
+          {event?.id && (
             <Pressable
               onPress={navigateToCreateEventScreen}
               style={styles.eventInfoContainer}

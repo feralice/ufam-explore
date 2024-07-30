@@ -1,19 +1,19 @@
-import { MaterialCommunityIcons } from "@expo/vector-icons";
-import { useNavigation } from "@react-navigation/native";
-import { Image, Pressable, Text, View } from "react-native";
-import { FeedScreenNavigationProp } from "../../../routes/types";
-import { updateCurrentPost } from "../../../store/post/actions";
-import { HashtagInPost } from "../../hashtags";
-import { styles } from "../styles";
-import { PostCardProps } from "../types";
+import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { useNavigation } from '@react-navigation/native';
+import { Image, Pressable, Text, View } from 'react-native';
+import { FeedScreenNavigationProp } from '../../../routes/types';
+import { updateCurrentPost } from '../../../store/post/actions';
+import { HashtagInPost } from '../../hashtags';
+import { styles } from '../styles';
+import { PostCardProps } from '../types';
 
 export const PostCardNoInteraction = ({ post }: PostCardProps) => {
-  const handleClick = () => {
-    navigation.navigate("ExtendPostProfile");
-    updateCurrentPost(post);
-  };
-
   const navigation = useNavigation<FeedScreenNavigationProp>();
+
+  const handleClick = () => {
+    updateCurrentPost(post);
+    navigation.navigate('ExtendPostProfile');
+  };
 
   return (
     <View style={styles.container}>
@@ -39,7 +39,14 @@ export const PostCardNoInteraction = ({ post }: PostCardProps) => {
           <Text style={styles.text} numberOfLines={5}>
             {post.texto}
           </Text>
-
+          {post.eventoId && (
+            <MaterialCommunityIcons
+              name="calendar-check"
+              size={20}
+              color="darkblue"
+              style={styles.eventIconNoInteraction}
+            />
+          )}
           {post.tags && post.tags.length > 0 && (
             <View style={styles.tagsContainer}>
               {post.tags.map((tag) => (

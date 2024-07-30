@@ -25,7 +25,10 @@ export const styles = StyleSheet.create({
     paddingBottom: 5,
     marginRight: 10,
   },
-
+  eventIconNoInteraction: {
+    paddingBottom: 5,
+    marginLeft: 6,
+  },
   imageStyle: {
     width: '100%',
     height: 200,

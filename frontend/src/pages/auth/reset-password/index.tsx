@@ -12,6 +12,7 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
 import Toast from 'react-native-root-toast';
 import { BlueButton } from '../../../components/blue-button';
 import PasswordRequirements from '../../../components/password-validations';
+import { FeedScreenNavigationProp } from '../../../routes/types';
 import { resetPassword } from '../../../services/api';
 import { isPasswordValid } from '../../../utils/validations-utils';
 import { styles } from './styles';
@@ -19,7 +20,7 @@ import { styles } from './styles';
 const CELL_COUNT = 6;
 
 export const ResetPasswordScreen = () => {
-  const navigation = useNavigation();
+  const navigation = useNavigation<FeedScreenNavigationProp>();
   const [token, setToken] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
@@ -69,7 +70,7 @@ export const ResetPasswordScreen = () => {
         position: Toast.positions.BOTTOM,
       });
       setIsLoading(false);
-      navigation.goBack();
+      navigation.navigate('Login');
     } catch (error: any) {
       setIsLoading(false);
       Alert.alert(

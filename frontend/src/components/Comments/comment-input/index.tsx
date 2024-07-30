@@ -63,7 +63,11 @@ export const CommentInput = () => {
             key={comment.id}
             username={comment.usuario?.username || currentUser.user.username}
             photo={
-              comment.usuario?.fotoPerfil || currentUser.user.fotoPerfil || ''
+              comment.usuario?.fotoPerfil ||
+              (comment.usuarioId === currentUser.user.id
+                ? currentUser.user.fotoPerfil
+                : '') ||
+              ''
             }
             text={comment.conteudo}
             id={comment.id ?? ''}
