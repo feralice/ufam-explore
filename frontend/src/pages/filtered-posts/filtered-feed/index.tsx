@@ -6,6 +6,7 @@ import {
   FlatList,
   Image,
   Text,
+  TextInput,
   TouchableOpacity,
   View,
 } from 'react-native';
@@ -93,6 +94,7 @@ const FilteredFeed = () => {
     setSelectedArea('Área');
     setSelectedCourse('Curso');
     setSelectedTempo('Tempo');
+    setSearchText('');
   }, []);
 
   const fetchFilteredPosts = useCallback(async () => {
@@ -100,7 +102,8 @@ const FilteredFeed = () => {
     if (
       selectedArea === 'Área' &&
       selectedCourse === 'Curso' &&
-      selectedTempo === 'Tempo'
+      selectedTempo === 'Tempo' &&
+      searchText === ''
     ) {
       Alert.alert('Erro', 'Por favor, selecione ao menos um filtro.');
       return;
@@ -110,7 +113,8 @@ const FilteredFeed = () => {
       const fetchedPosts = await getFilteredPosts(
         selectedArea !== 'Área' ? selectedArea : undefined,
         selectedCourse !== 'Curso' ? selectedCourse : undefined,
-        selectedTempo !== 'Tempo' ? selectedTempo : undefined
+        selectedTempo !== 'Tempo' ? selectedTempo : undefined,
+        searchText !== '' ? searchText : undefined
       );
       setPosts(fetchedPosts.data);
     } catch (error) {
@@ -122,7 +126,7 @@ const FilteredFeed = () => {
     } finally {
       setLoading(false);
     }
-  }, [selectedArea, selectedCourse, selectedTempo]);
+  }, [selectedArea, selectedCourse, selectedTempo, searchText]);
 
   const renderPost = useCallback(
     ({ item }: { item: any }) => <PostCard key={item.id} post={item} />,
@@ -136,6 +140,12 @@ const FilteredFeed = () => {
       <Image
         style={styles.logo}
         source={require('../../../assets/UfamExplore.png')}
+      />
+      <TextInput
+        style={styles.searchInput}
+        placeholder="Buscar por título, texto ou evento"
+        value={searchText}
+        onChangeText={setSearchText}
       />
       <View style={styles.filterContainer}>
         {filters.map((filter) => (
@@ -182,7 +192,7 @@ const FilteredFeed = () => {
       </View>
       {loading ? (
         <ActivityIndicator size="large" color="#002E7D" />
-      ) : selectedFilters.length === 0 ? (
+      ) : selectedFilters.length === 0 && searchText === '' ? (
         <View style={styles.emptyStateContainer}>
           <MaterialCommunityIcons
             name="file-search-outline"

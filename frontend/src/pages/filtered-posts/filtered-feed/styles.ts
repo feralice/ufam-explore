@@ -3,13 +3,26 @@ import { StyleSheet } from 'react-native';
 export const styles = StyleSheet.create({
   container: {
     flex: 1,
-    marginTop: 30,
+    marginTop: 40,
   },
   logo: {
     width: 200,
     height: 50,
+    marginBottom: 10,
     resizeMode: 'contain',
     alignSelf: 'center',
+  },
+  searchInput: {
+    width: '78%',
+    alignSelf: 'center',
+    height: 40,
+    borderColor: '#4A6EA8',
+    borderWidth: 1,
+    borderRadius: 20,
+    paddingHorizontal: 10,
+    marginHorizontal: 20,
+    marginBottom: 10,
+    fontSize: 16,
   },
   filterContainer: {
     flexDirection: 'row',
@@ -17,6 +30,7 @@ export const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     marginBottom: 10,
+    paddingHorizontal: 20,
   },
   filterButton: {
     flexDirection: 'row',
@@ -26,8 +40,9 @@ export const styles = StyleSheet.create({
     borderRadius: 20,
     paddingVertical: 8,
     paddingHorizontal: 12,
-    marginHorizontal: 5,
+    marginHorizontal: 8,
     marginBottom: 10,
+    flexShrink: 1,
   },
   filterButtonSelected: {
     backgroundColor: '#4A6EA8',
@@ -35,10 +50,12 @@ export const styles = StyleSheet.create({
   filterText: {
     color: '#4A6EA8',
     marginRight: 5,
+    textAlign: 'center',
   },
   filterTextSelected: {
     color: '#FFF',
     marginRight: 5,
+    textAlign: 'center',
   },
   buttonContainer: {
     flexDirection: 'row',

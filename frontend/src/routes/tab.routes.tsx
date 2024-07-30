@@ -4,7 +4,6 @@ import {
   getFocusedRouteNameFromRoute,
   RouteProp,
 } from '@react-navigation/native';
-import React from 'react';
 import FilteredPostsStackNavigator from './stack/stack-filtered-posts.routes';
 import HomeStackNavigator from './stack/stack-home.routes';
 import ProfileStackNavigator from './stack/stack-profile.routes';
@@ -40,6 +39,7 @@ export const TabNavigator: React.FC = () => {
     <Tab.Navigator
       screenOptions={({ route }) => ({
         headerShown: false,
+        tabBarHideOnKeyboard: true,
         tabBarStyle: {
           display: getTabBarVisibility(route),
         },
