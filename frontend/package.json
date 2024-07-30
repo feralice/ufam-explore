@@ -11,8 +11,8 @@
   "dependencies": {
     "@expo/vector-icons": "^14.0.2",
     "@hookform/resolvers": "^3.6.0",
-    "@react-native-async-storage/async-storage": "^1.23.1",
-    "@react-native-community/datetimepicker": "^8.0.1",
+    "@react-native-async-storage/async-storage": "1.23.1",
+    "@react-native-community/datetimepicker": "8.0.1",
     "@react-navigation/bottom-tabs": "^6.5.20",
     "@react-navigation/native": "^6.1.18",
     "@react-navigation/stack": "^6.4.1",
@@ -28,13 +28,13 @@
     "react-hook-form": "^7.51.5",
     "react-native": "^0.74.3",
     "react-native-confirmation-code-field": "^7.4.0",
-    "react-native-gesture-handler": "^2.16.1",
+    "react-native-gesture-handler": "~2.16.1",
     "react-native-keyboard-aware-scroll-view": "^0.9.5",
     "react-native-paper": "^5.12.5",
     "react-native-root-siblings": "^5.0.1",
     "react-native-root-toast": "^3.6.0",
-    "react-native-safe-area-context": "^4.10.5",
-    "react-native-screens": "^3.31.1",
+    "react-native-safe-area-context": "4.10.5",
+    "react-native-screens": "3.31.1",
     "react-native-select-dropdown": "^4.0.1",
     "react-native-vector-icons": "^10.1.0",
     "react-redux": "^9.1.2",
@@ -45,9 +45,9 @@
   },
   "devDependencies": {
     "@types/lodash.debounce": "^4.0.9",
-    "@types/react": "^18.2.79",
-    "@types/react-dom": "^18.3.0",
-    "typescript": "^5.3.3"
+    "@types/react": "~18.2.79",
+    "@types/react-dom": "~18.2.25",
+    "typescript": "~5.3.3"
   },
   "private": true
 }
